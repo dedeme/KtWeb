@@ -1,4 +1,4 @@
-import * as iter from '../_js/iter.js';import * as str from '../_js/str.js';import * as bytes from '../_js/bytes.js';import * as cryp from '../_js/cryp.js';import * as dic from '../_js/dic.js';import * as timer from '../_js/timer.js';import * as js from '../_js/js.js';import * as storage from '../_js/storage.js';import * as sys from '../_js/sys.js';import * as math from '../_js/math.js';import * as domo from '../_js/domo.js';import * as ui from '../_js/ui.js';import * as arr from '../_js/arr.js';import * as time from '../_js/time.js';import * as client from '../_js/client.js';import * as b64 from '../_js/b64.js';
+import * as math from '../_js/math.js';import * as js from '../_js/js.js';import * as arr from '../_js/arr.js';import * as client from '../_js/client.js';import * as bytes from '../_js/bytes.js';import * as str from '../_js/str.js';import * as ui from '../_js/ui.js';import * as dic from '../_js/dic.js';import * as timer from '../_js/timer.js';import * as time from '../_js/time.js';import * as storage from '../_js/storage.js';import * as b64 from '../_js/b64.js';import * as sys from '../_js/sys.js';import * as iter from '../_js/iter.js';import * as domo from '../_js/domo.js';import * as cryp from '../_js/cryp.js';
 
 
 
@@ -268,35 +268,35 @@ export  function mkWg(Dp)  {sys.$params(arguments.length, 1);
         function()  {sys.$params(arguments.length, 0); nextYear(Dp);}
       )))
     .add(Q("tr")
-      .adds(arr.fromIter(iter.map(iter.$range(0,7), function(i)  {sys.$params(arguments.length, 1);
+      .adds(iter.map(iter.$range(0,7), function(i)  {sys.$params(arguments.length, 1);
         const ix0 =sys.$checkNull( i + i18n(Dp).firstWeekDay);
         const ix =sys.$checkNull(sys.asBool( ix0 > 6) ? ix0 - 7 : ix0);
          return Q("td")
           .html(weekDays(Dp)[ix])
         ;
-      }))))
+      })))
     .adds((function()  {sys.$params(arguments.length, 0);
         const Rows =sys.$checkNull( arr.fromIter(iter.map(iter.$range(0,5), function(i)  {sys.$params(arguments.length, 1);
           const Tds =sys.$checkNull( []);
           const tr =sys.$checkNull( Q("tr")
-            .adds(arr.fromIter(iter.map(iter.$range(0,7), function(j)  {sys.$params(arguments.length, 1);
+            .adds(iter.map(iter.$range(0,7), function(j)  {sys.$params(arguments.length, 1);
               const td =sys.$checkNull( Q("td"));
               td.on("click", function(e)  {sys.$params(arguments.length, 1); clickDay(Dp, math.fromStr(td.getAtt("id"))[0]);});
               arr.push(Tds, td);
                return td;
-            }))))
+            })))
           ;
           Dp[elDays].push(Tds);
            return tr;
         })));
         const Tds =sys.$checkNull( []);
         Dp[exTr] =sys.$checkExists(Dp[exTr],sys.$checkNull( Q("tr")
-          .adds(arr.fromIter(iter.map(iter.$range(0,7), function(i)  {sys.$params(arguments.length, 1);
+          .adds(iter.map(iter.$range(0,7), function(i)  {sys.$params(arguments.length, 1);
             const td =sys.$checkNull( Q("td"));
             td.on("click", function(e)  {sys.$params(arguments.length, 1); clickDay(Dp, math.fromStr(td.getAtt("id"))[0]);});
             arr.push(Tds, td);
              return td;
-          })))))
+          }))))
         ;
         Dp[elDays].push(Tds);
          return Rows;

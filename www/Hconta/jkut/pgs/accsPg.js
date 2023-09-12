@@ -1,4 +1,4 @@
-import * as iter from '../_js/iter.js';import * as str from '../_js/str.js';import * as bytes from '../_js/bytes.js';import * as cryp from '../_js/cryp.js';import * as dic from '../_js/dic.js';import * as timer from '../_js/timer.js';import * as js from '../_js/js.js';import * as storage from '../_js/storage.js';import * as sys from '../_js/sys.js';import * as math from '../_js/math.js';import * as domo from '../_js/domo.js';import * as ui from '../_js/ui.js';import * as arr from '../_js/arr.js';import * as time from '../_js/time.js';import * as client from '../_js/client.js';import * as b64 from '../_js/b64.js';
+import * as math from '../_js/math.js';import * as js from '../_js/js.js';import * as arr from '../_js/arr.js';import * as client from '../_js/client.js';import * as bytes from '../_js/bytes.js';import * as str from '../_js/str.js';import * as ui from '../_js/ui.js';import * as dic from '../_js/dic.js';import * as timer from '../_js/timer.js';import * as time from '../_js/time.js';import * as storage from '../_js/storage.js';import * as b64 from '../_js/b64.js';import * as sys from '../_js/sys.js';import * as iter from '../_js/iter.js';import * as domo from '../_js/domo.js';import * as cryp from '../_js/cryp.js';
 
 
 
@@ -123,7 +123,9 @@ export  function mk(wg, account, ix)  {sys.$params(arguments.length, 3);
   };
 
   
-   function goToDiary(diaryIx)  {sys.$params(arguments.length, 1); window.location.assign('?diary&${acc}&${diaryIx}');};
+   function goToDiary(diaryIx)  {sys.$params(arguments.length, 1); window.location.assign(
+      "?diary&" + account + "&" + diaryIx
+    );};
 
 
   
@@ -134,8 +136,8 @@ export  function mk(wg, account, ix)  {sys.$params(arguments.length, 3);
     const Entries =sys.$checkNull( arr.map(CashEntryIxs, function(i)  {sys.$params(arguments.length, 1);
       const E =sys.$checkNull( acc.diary()[i]);
       const amV =sys.$checkNull( [0]);
-      for (let a  of sys.$forObject( E.debits)) if (sys.asBool(str.starts(a, ac))) amV[0] +=sys.$checkExists(amV[0],sys.$checkNull( E.debits[a]));
-      for (let a  of sys.$forObject( E.credits)) if (sys.asBool(str.starts(a, ac))) amV[0] -=sys.$checkExists(amV[0],sys.$checkNull( E.credits[a]));
+      for (const [a, v]  of sys.$forObject2( E.debits)) if (sys.asBool(str.starts(a, ac))) amV[0] +=sys.$checkExists(amV[0],sys.$checkNull( v));
+      for (const [a, v]  of sys.$forObject2( E.credits)) if (sys.asBool(str.starts(a, ac))) amV[0] -=sys.$checkExists(amV[0],sys.$checkNull( v));
       sumV[0] +=sys.$checkExists(sumV[0],sys.$checkNull( amV[0]));
        return {
           ix: i,
@@ -192,7 +194,7 @@ export  function mk(wg, account, ix)  {sys.$params(arguments.length, 3);
       .style("width:250px;vertical-align:top;white-space:nowrap")
       .add(Q("ul")
         .style("list-style:none;padding-left:0px;")
-        .adds(arr.fromIter(iter.map(iter.$range(1,str.len(ac) + 1), function(lg)  {sys.$params(arguments.length, 1);  return Q("li")
+        .adds(iter.map(iter.$range(1,str.len(ac) + 1), function(lg)  {sys.$params(arguments.length, 1);  return Q("li")
           .html("<a href='#' onclick='return false;'>" +
             fns.cutRight(acc.descriptionOf(sys.$slice(ac,null,lg)), cts.helpLen) + "</a>")
           .add(Q("ul")
@@ -207,7 +209,7 @@ export  function mk(wg, account, ix)  {sys.$params(arguments.length, 3);
                     .att("title", Kv[0])
                     .html(fns.cutRight(Kv[1].description, cts.helpLen)))
                 ;});
-              }()));})))
+              }()));}))
         .add(Q("li")
           .add(Q("hr")))
         .adds(sys.asBool(sys.$eq(str.len(ac) , 5))
@@ -287,11 +289,11 @@ export  function mk(wg, account, ix)  {sys.$params(arguments.length, 3);
             .setStyle("font-family", "monospace").html("&nbsp;\u2913&nbsp;")))
           .add(Q("td").att("colspan", 3)))
         .add(Q("tr")
-          .adds(arr.fromIter(iter.map(iter.$range(1,13), function(i)  {sys.$params(arguments.length, 1);  return Q("td")
+          .adds(iter.map(iter.$range(1,13), function(i)  {sys.$params(arguments.length, 1);  return Q("td")
               .klass("diary")
               .add(ui.link(function(e)  {sys.$params(arguments.length, 1); monthClick(i);})
                 .html("&nbsp;" + i + "&nbsp;"))
-            ;})))))
+            ;}))))
       .add(Q("hr"))
       .add(listDiv))
     ;

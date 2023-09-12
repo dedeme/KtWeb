@@ -1,4 +1,4 @@
-import * as iter from '../../../_js/iter.js';import * as str from '../../../_js/str.js';import * as bytes from '../../../_js/bytes.js';import * as cryp from '../../../_js/cryp.js';import * as dic from '../../../_js/dic.js';import * as timer from '../../../_js/timer.js';import * as js from '../../../_js/js.js';import * as storage from '../../../_js/storage.js';import * as sys from '../../../_js/sys.js';import * as math from '../../../_js/math.js';import * as domo from '../../../_js/domo.js';import * as ui from '../../../_js/ui.js';import * as arr from '../../../_js/arr.js';import * as time from '../../../_js/time.js';import * as client from '../../../_js/client.js';import * as b64 from '../../../_js/b64.js';
+import * as math from '../../../_js/math.js';import * as js from '../../../_js/js.js';import * as arr from '../../../_js/arr.js';import * as client from '../../../_js/client.js';import * as bytes from '../../../_js/bytes.js';import * as str from '../../../_js/str.js';import * as ui from '../../../_js/ui.js';import * as dic from '../../../_js/dic.js';import * as timer from '../../../_js/timer.js';import * as time from '../../../_js/time.js';import * as storage from '../../../_js/storage.js';import * as b64 from '../../../_js/b64.js';import * as sys from '../../../_js/sys.js';import * as iter from '../../../_js/iter.js';import * as domo from '../../../_js/domo.js';import * as cryp from '../../../_js/cryp.js';
 
 
 
@@ -96,7 +96,7 @@ export  async  function mk(wg, investorIx)  {sys.$params(arguments.length, 2);
    function paramsView(nick, modelId, Params)  {sys.$params(arguments.length, 3);
     const Md =sys.$checkNull( arr.find(Models, function(md)  {sys.$params(arguments.length, 1);  return sys.$eq(md.id , modelId);})[0]);
     const sel =sys.$checkNull( Q("select"));
-    for (let M  of sys.$forObject( Models)) {
+    for (const M  of sys.$forObject( Models)) {
       const op =sys.$checkNull( Q("option").text(M.id));
       if (sys.asBool(sys.$eq(M.id , Md.id))) op.att("selected", true);
       sel.e.add(op.e);
@@ -111,7 +111,7 @@ export  async  function mk(wg, investorIx)  {sys.$params(arguments.length, 2);
 
     const paramsWg =sys.$checkNull( Q("table").klass("frame")
       .add(Q("tr")
-        .adds(arr.fromIter(iter.map(
+        .adds(iter.map(
           iter.$range(0,arr.size(Md.paramNames)),
           function(i)  {sys.$params(arguments.length, 1);  return Q("td")
             .add(Q("div")
@@ -154,7 +154,7 @@ export  async  function mk(wg, investorIx)  {sys.$params(arguments.length, 2);
               .add(Q("div")
                 .style("text-align:center;color:#c9c9c9;font-style:italic")
                 .text(math.toIso(model.maxs(Md)[i], 6))))
-          ;})))))
+          ;}))))
     ;
 
     paramsDiv
@@ -261,7 +261,7 @@ export  async  function mk(wg, investorIx)  {sys.$params(arguments.length, 2);
             .add(ui.link(function(e)  {sys.$params(arguments.length, 1); edit("");})
               .klass("link")
               .html(Md.id)))
-          .adds(arr.fromIter(iter.map(
+          .adds(iter.map(
             iter.$range(0,arr.size(Base.params)),
             function(ix)  {sys.$params(arguments.length, 1);  return Q("td")
               .klass("number")
@@ -269,7 +269,7 @@ export  async  function mk(wg, investorIx)  {sys.$params(arguments.length, 2);
                   Md.paramTypes[ix],
                   Base.params[ix]
                 ))
-            ;})))))
+            ;}))))
       .add(Q("div")
         .klass("head")
         .html(II("Nick models")))
@@ -283,12 +283,12 @@ export  async  function mk(wg, investorIx)  {sys.$params(arguments.length, 2);
           .add(Q("td")
             .klass("header")
             .html(II("Model")))
-          .adds(arr.fromIter(iter.map(
+          .adds(iter.map(
             iter.$range(0,maxNParams),
             function(n)  {sys.$params(arguments.length, 1);  return Q("td")
               .klass("header")
               .html("P. " + (n + 1))
-            ;})))
+            ;}))
           .add(Q("td")
             .klass("header")
             .text("·")))
@@ -305,7 +305,7 @@ export  async  function mk(wg, investorIx)  {sys.$params(arguments.length, 2);
               .add(ui.link(function(e)  {sys.$params(arguments.length, 1); edit(nk);})
                 .klass("link")
                 .text(Md.id)))
-            .adds(arr.fromIter(iter.map(
+            .adds(iter.map(
               iter.$range(0,maxNParams),
               function(ix)  {sys.$params(arguments.length, 1); return sys.asBool(
                 ix >= arr.size(Str.params))
@@ -314,7 +314,7 @@ export  async  function mk(wg, investorIx)  {sys.$params(arguments.length, 2);
                   : Q("td")
                     .klass("number")
                     .text(fns.paramFmt(Md.paramTypes[ix], Str.params[ix]))
-              ;})))
+              ;}))
             .add(Q("td")
               .klass("border")
               .add(ui.img(sys.asBool(istrategy.eq(Base, Str)) ? "blank" : "warning")))

@@ -1,4 +1,4 @@
-import * as iter from '../_js/iter.js';import * as str from '../_js/str.js';import * as bytes from '../_js/bytes.js';import * as cryp from '../_js/cryp.js';import * as dic from '../_js/dic.js';import * as timer from '../_js/timer.js';import * as js from '../_js/js.js';import * as storage from '../_js/storage.js';import * as sys from '../_js/sys.js';import * as math from '../_js/math.js';import * as domo from '../_js/domo.js';import * as ui from '../_js/ui.js';import * as arr from '../_js/arr.js';import * as time from '../_js/time.js';import * as client from '../_js/client.js';import * as b64 from '../_js/b64.js';
+import * as math from '../_js/math.js';import * as js from '../_js/js.js';import * as arr from '../_js/arr.js';import * as client from '../_js/client.js';import * as bytes from '../_js/bytes.js';import * as str from '../_js/str.js';import * as ui from '../_js/ui.js';import * as dic from '../_js/dic.js';import * as timer from '../_js/timer.js';import * as time from '../_js/time.js';import * as storage from '../_js/storage.js';import * as b64 from '../_js/b64.js';import * as sys from '../_js/sys.js';import * as iter from '../_js/iter.js';import * as domo from '../_js/domo.js';import * as cryp from '../_js/cryp.js';
 
 
 
@@ -128,7 +128,7 @@ export  function subgroupAdd(id, description)  {sys.$params(arguments.length, 2)
 
 
 export  function subgroupDeletable(id)  {sys.$params(arguments.length, 1);
-  for (let k  of sys.$forObject( sub(id))) {
+  for (const k  of sys.$forObject( dic.keys(sub(id)))) {
     const error =sys.$checkNull( accountDeletable(k));
     if (sys.asBool(error))  return error;
   }
@@ -139,7 +139,7 @@ export  function subgroupDeletable(id)  {sys.$params(arguments.length, 1);
 
 
 export  function subgroupDel(id)  {sys.$params(arguments.length, 1);
-  for (let k  of sys.$forObject( sub(id))) accountDel(k);
+  for (const k  of sys.$forObject( dic.keys(sub(id)))) accountDel(k);
   dic.remove(SubgroupsV[0], id);
 };
 
@@ -159,10 +159,8 @@ export  function subgroupMod(oldId, newId, description)  {sys.$params(arguments.
 
   const lg =sys.$checkNull( str.len(newId));
   const Accs =sys.$checkNull( sub(oldId));
-  for (let k  of sys.$forObject( Accs)) {
-    const A =sys.$checkNull( Accs[k]);
-    accountMod(k, newId + sys.$slice(k,lg,null), A.desscription, A.summary);
-  }
+  for (const [k, A]  of sys.$forObject2( Accs)) accountMod(k, newId + sys.$slice(k,lg,null), A.desscription, A.summary);
+
   dic.remove(Subs, oldId);
   dic.put(Subs, newId, description);
    return "";
@@ -187,7 +185,7 @@ export  function accountAdd(id, description, summary)  {sys.$params(arguments.le
 
 
 export  function accountDeletable(id)  {sys.$params(arguments.length, 1);
-  for (let k  of sys.$forObject( sub(id))) {
+  for (const k  of sys.$forObject( dic.keys(sub(id)))) {
     const error =sys.$checkNull( subaccountDeletable(k));
     if (sys.asBool(error))  return error;
   }
@@ -197,7 +195,7 @@ export  function accountDeletable(id)  {sys.$params(arguments.length, 1);
 
 
 export  function accountDel(id)  {sys.$params(arguments.length, 1);
-  for (let k  of sys.$forObject( sub(id))) subaccountDel(k);
+  for (const k  of sys.$forObject( dic.keys(sub(id)))) subaccountDel(k);
   dic.remove(AccountsV[0], id);
 };
 
@@ -219,10 +217,8 @@ export  function accountMod(oldId, newId, description, summary)  {sys.$params(ar
 
   const lg =sys.$checkNull( str.len(newId));
   const Accs =sys.$checkNull( sub(oldId));
-  for (let k  of sys.$forObject( Accs)) {
-    const A =sys.$checkNull( Accs[k]);
-    subaccountMod(k, newId + sys.$slice(k,lg,null), A.description);
-  }
+  for (const [k, A]  of sys.$forObject2( Accs)) subaccountMod(k, newId + sys.$slice(k,lg,null), A.description);
+
   dic.remove(As, oldId);
   dic.put(As, newId, accValue(description, summary));
    return "";
@@ -272,7 +268,7 @@ export  function subaccountMod(oldId, newId, description)  {sys.$params(argument
      return i18n.fmt(II("Subaccount '%0' is duplicated"), [newId]);
 
   const Diary =sys.$checkNull( DiaryV[0]);
-  for (let i  of sys.$forObject( usedSubaccounts(oldId))) {
+  for (const i  of sys.$forObject( usedSubaccounts(oldId))) {
     const E =sys.$checkNull( Diary[i]);
     if (sys.asBool(dic.hasKey(E.debits, oldId))) {
       const v =sys.$checkNull( E.debits[oldId]);
@@ -328,24 +324,24 @@ export  function usedSubaccounts(subacc)  {sys.$params(arguments.length, 1);
 export  function mostUsedSubaccounts(forCash)  {sys.$params(arguments.length, 1);
   const Diary =sys.$checkNull( DiaryV[0]);
   const Subs =sys.$checkNull( {}); 
-  if (sys.asBool(forCash)) for (let i  of sys.$forObject( usedSubaccounts(cts.cash))) {
+  if (sys.asBool(forCash)) for (const i  of sys.$forObject( usedSubaccounts(cts.cash))) {
     const E =sys.$checkNull( Diary[i]);
-    for (let k  of sys.$forObject( E.debits)) {
+    for (const k  of sys.$forObject( dic.keys(E.debits))) {
       if (sys.asBool(sys.$eq(k , cts.cash))) continue;
       if (sys.asBool(dic.hasKey(Subs, k))) Subs[k] +=sys.$checkExists(Subs[k],sys.$checkNull( 1));
       else dic.put(Subs, k, 1);
     }
-    for (let k  of sys.$forObject( E.credits)) {
+    for (const k  of sys.$forObject( dic.keys(E.credits))) {
       if (sys.asBool(sys.$eq(k , cts.cash))) continue;
       if (sys.asBool(dic.hasKey(Subs, k))) Subs[k] +=sys.$checkExists(Subs[k],sys.$checkNull( 1));
       else dic.put(Subs, k, 1);
     }
-  } else for (let E  of sys.$forObject( Diary)) {
-    for (let k  of sys.$forObject( E.debits)) {
+  } else for (const E  of sys.$forObject( Diary)) {
+    for (const k  of sys.$forObject( dic.keys(E.debits))) {
       if (sys.asBool(dic.hasKey(Subs, k))) Subs[k] +=sys.$checkExists(Subs[k],sys.$checkNull( 1));
       else dic.put(Subs, k, 1);
     }
-    for (let k  of sys.$forObject( E.credits)) {
+    for (const k  of sys.$forObject( dic.keys(E.credits))) {
       if (sys.asBool(dic.hasKey(Subs, k))) Subs[k] +=sys.$checkExists(Subs[k],sys.$checkNull( 1));
       else dic.put(Subs, k, 1);
     }
@@ -415,7 +411,7 @@ export  function addDiary(Entry)  {sys.$params(arguments.length, 1);
   const R =sys.$checkNull( []); 
   const ixV =sys.$checkNull( [0]);
   const rIxV =sys.$checkNull( [ -1]);
-  for (let E  of sys.$forObject( DiaryV[0])) {
+  for (const E  of sys.$forObject( DiaryV[0])) {
     if (sys.asBool(sys.asBool(sys.$eq(rIxV[0] ,  -1)) && sys.asBool(E.date > date))) {
       arr.push(R, Entry);
       rIxV[0] =sys.$checkExists(rIxV[0],sys.$checkNull( ixV[0]));
@@ -444,7 +440,7 @@ export  function close(newYear)  {sys.$params(arguments.length, 1);
 
   const Accounts =sys.$checkNull( AccountsV[0]);
   const sumV =sys.$checkNull( [0]);
-  for (let E  of sys.$forObject( DiaryV[0])) {
+  for (const E  of sys.$forObject( DiaryV[0])) {
     arr.each(
       arr.filter(
         dic.toArr(E.debits),

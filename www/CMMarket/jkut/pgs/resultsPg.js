@@ -1,4 +1,4 @@
-import * as iter from '../_js/iter.js';import * as str from '../_js/str.js';import * as bytes from '../_js/bytes.js';import * as cryp from '../_js/cryp.js';import * as dic from '../_js/dic.js';import * as timer from '../_js/timer.js';import * as js from '../_js/js.js';import * as storage from '../_js/storage.js';import * as sys from '../_js/sys.js';import * as math from '../_js/math.js';import * as domo from '../_js/domo.js';import * as ui from '../_js/ui.js';import * as arr from '../_js/arr.js';import * as time from '../_js/time.js';import * as client from '../_js/client.js';import * as b64 from '../_js/b64.js';
+import * as math from '../_js/math.js';import * as js from '../_js/js.js';import * as arr from '../_js/arr.js';import * as client from '../_js/client.js';import * as bytes from '../_js/bytes.js';import * as str from '../_js/str.js';import * as ui from '../_js/ui.js';import * as dic from '../_js/dic.js';import * as timer from '../_js/timer.js';import * as time from '../_js/time.js';import * as storage from '../_js/storage.js';import * as b64 from '../_js/b64.js';import * as sys from '../_js/sys.js';import * as iter from '../_js/iter.js';import * as domo from '../_js/domo.js';import * as cryp from '../_js/cryp.js';
 
 
 
@@ -38,10 +38,10 @@ const II =sys.$checkNull( i18n.tlt);
       .att("align", "center")
       .klass("flat")
       .add(Q("tr")
-        .adds(arr.fromIter(iter.map(
+        .adds(iter.map(
             iter.$range(0,1+arr.size(Evals[0].params)),
             function(i)  {sys.$params(arguments.length, 1);  return Q("td");}
-          )))
+          ))
         .add(Q("td")
           .klass("chead"))
         .add(Q("td")
@@ -99,10 +99,10 @@ const II =sys.$checkNull( i18n.tlt);
                 js.w(Ev.params)
               )
             .add(ui.img("see"))))
-        .adds(arr.fromIter(iter.map(iter.$range(0,arr.size(Ev.params)), function(i)  {sys.$params(arguments.length, 1);  return Q("td")
+        .adds(iter.map(iter.$range(0,arr.size(Ev.params)), function(i)  {sys.$params(arguments.length, 1);  return Q("td")
             .klass("rframe")
             .text(fns.paramFmt(Md.paramTypes[i], Ev.params[i]))
-          ;})))
+          ;}))
         .add(Q("td").klass("rhead"))
         .add(Q("td")
           .klass("rframe")

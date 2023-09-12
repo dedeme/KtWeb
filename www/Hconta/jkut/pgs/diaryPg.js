@@ -1,4 +1,4 @@
-import * as iter from '../_js/iter.js';import * as str from '../_js/str.js';import * as bytes from '../_js/bytes.js';import * as cryp from '../_js/cryp.js';import * as dic from '../_js/dic.js';import * as timer from '../_js/timer.js';import * as js from '../_js/js.js';import * as storage from '../_js/storage.js';import * as sys from '../_js/sys.js';import * as math from '../_js/math.js';import * as domo from '../_js/domo.js';import * as ui from '../_js/ui.js';import * as arr from '../_js/arr.js';import * as time from '../_js/time.js';import * as client from '../_js/client.js';import * as b64 from '../_js/b64.js';
+import * as math from '../_js/math.js';import * as js from '../_js/js.js';import * as arr from '../_js/arr.js';import * as client from '../_js/client.js';import * as bytes from '../_js/bytes.js';import * as str from '../_js/str.js';import * as ui from '../_js/ui.js';import * as dic from '../_js/dic.js';import * as timer from '../_js/timer.js';import * as time from '../_js/time.js';import * as storage from '../_js/storage.js';import * as b64 from '../_js/b64.js';import * as sys from '../_js/sys.js';import * as iter from '../_js/iter.js';import * as domo from '../_js/domo.js';import * as cryp from '../_js/cryp.js';
 
 
 
@@ -177,7 +177,7 @@ export  function mk(wg, account, ix)  {sys.$params(arguments.length, 3);
     const Credits =sys.$checkNull( {}); 
     const dsumV =sys.$checkNull( [0]);
     const csumV =sys.$checkNull( [0]);
-    for (let E  of sys.$forObject( EntryRows)) {
+    for (const E  of sys.$forObject( EntryRows)) {
       const ac =sys.$checkNull( str.replace(E[0].getText(), ".", ""));
       if (sys.asBool(sys.asBool(dic.hasKey(Debits, ac)) || sys.asBool(dic.hasKey(Credits, ac)))) {
         ui.alert(i18n.fmt(II("Account %0 is repeated"), [acc.accFormat(ac)]));
@@ -304,7 +304,7 @@ export  function mk(wg, account, ix)  {sys.$params(arguments.length, 3);
      function autoSum(ev)  {sys.$params(arguments.length, 1);
       const dsumV =sys.$checkNull( [0]);
       const csumV =sys.$checkNull( [0]);
-      for (let E  of sys.$forObject( EntryRows)) {
+      for (const E  of sys.$forObject( EntryRows)) {
         for (let i = 1;i < 3; ++i) {
           const vOp =sys.$checkNull( fns.float(E[i].getValue()));
           if (sys.asBool(vOp)) {
@@ -328,7 +328,7 @@ export  function mk(wg, account, ix)  {sys.$params(arguments.length, 3);
       }
       const am =sys.$checkNull( math.toIso(vV[0], 2));
 
-      for (let E  of sys.$forObject( EntryRows)) {
+      for (const E  of sys.$forObject( EntryRows)) {
         if (sys.asBool(sys.$eq(str.trim(E[iV[0]].getValue()) , ""))) {
           E[iV[0]].value(am);
           return;
@@ -472,7 +472,7 @@ export  function mk(wg, account, ix)  {sys.$params(arguments.length, 3);
             const n =sys.$checkNull(sys.asBool( dlen > clen) ? dlen : clen);
             const descDentry =sys.$checkNull( Q("table")
               .att("align", "center")
-              .adds(arr.fromIter(iter.map(iter.$range(0,n), function(i)  {sys.$params(arguments.length, 1);  return Q("tr")
+              .adds(iter.map(iter.$range(0,n), function(i)  {sys.$params(arguments.length, 1);  return Q("tr")
                   .add(td().add(sys.asBool(i < dlen)
                     ? Q("a")
                       .att("href", "?accs&" + Dkeys[i] + "&" + lix)
@@ -492,7 +492,7 @@ export  function mk(wg, account, ix)  {sys.$params(arguments.length, 3);
                       .att("title", acc.subaccounts[Ckeys[i]])
                       .html(acc.accFormat(Ckeys[i]))
                     : Q("span")))
-                ;}))))
+                ;})))
             ;
             descDentry.e.style.display =sys.$checkExists(descDentry.e.style.display,sys.$checkNull( "none"));
             const desc =sys.$checkNull( Q("div")
@@ -573,11 +573,11 @@ export  function mk(wg, account, ix)  {sys.$params(arguments.length, 3);
             .setStyle("font-family", "monospace").html("&nbsp;\u2913&nbsp;")))
           .add(Q("td").att("colspan", 2)))
         .add(Q("tr")
-          .adds(arr.fromIter(iter.map(iter.$range(1,13), function(i)  {sys.$params(arguments.length, 1);  return Q("td")
+          .adds(iter.map(iter.$range(1,13), function(i)  {sys.$params(arguments.length, 1);  return Q("td")
               .klass("diary")
               .add(ui.link(function(e)  {sys.$params(arguments.length, 1); monthClick(i);})
                 .html("&nbsp;" + i + "&nbsp;"))
-            ;})))))
+            ;}))))
       .add(Q("hr"))
       .add(listDiv))
     ;

@@ -95,13 +95,9 @@ KutFT_01_CM=kut -c kut/main; jkut jkut/main www
 KutFT_01_WD=%p
 
 [files]
-current_page=2
-FILE_NAME_0=2286;JKut;0;EUTF-8;0;1;0;%2Fdm%2FKtWeb%2Fprgs%2FStocks%2Fjkut%2Fpgs%2FhelpPg.jkut;0;2
-FILE_NAME_1=141;JKut;0;EUTF-8;0;1;0;%2Fdm%2FKtWeb%2Fprgs%2FStocks%2Fjkut%2Fpgs%2FformPg.jkut;0;2
-FILE_NAME_2=1465;JKut;0;EUTF-8;0;1;0;%2Fdm%2FKtWeb%2Fprgs%2FStocks%2Fjkut%2Fdata%2Fall.jkut;0;2
-FILE_NAME_3=1564;JKut;0;EUTF-8;0;1;0;%2Fdm%2FKtWeb%2Fprgs%2FStocks%2Fjkut%2Fdata%2Fann.jkut;0;2
-FILE_NAME_4=1144;JKut;0;EUTF-8;0;1;0;%2Fdm%2FKtWeb%2Fprgs%2FStocks%2Fjkut%2Fpgs%2FannotationsPg.jkut;0;2
-FILE_NAME_5=31;Kut;0;EUTF-8;0;1;0;%2Fdm%2FKtWeb%2Fprgs%2FStocks%2Fkut%2Fpgs%2FmainPg.kut;0;2
+current_page=1
+FILE_NAME_0=622;JKut;0;EUTF-8;0;1;0;%2Fdm%2FdmJkut%2Fapp%2FStocks%2Fdata%2Fyear.jkut;0;2
+FILE_NAME_1=0;JKut;0;EUTF-8;0;1;0;%2Fdm%2FdmJkut%2Fapp%2FStocks%2Fdata%2Fall.jkut;0;2
 
 [editor]
 line_wrapping=false

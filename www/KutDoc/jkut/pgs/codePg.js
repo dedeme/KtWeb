@@ -1,4 +1,4 @@
-import * as iter from '../_js/iter.js';import * as str from '../_js/str.js';import * as bytes from '../_js/bytes.js';import * as cryp from '../_js/cryp.js';import * as dic from '../_js/dic.js';import * as timer from '../_js/timer.js';import * as js from '../_js/js.js';import * as storage from '../_js/storage.js';import * as sys from '../_js/sys.js';import * as math from '../_js/math.js';import * as domo from '../_js/domo.js';import * as ui from '../_js/ui.js';import * as arr from '../_js/arr.js';import * as time from '../_js/time.js';import * as client from '../_js/client.js';import * as b64 from '../_js/b64.js';
+import * as math from '../_js/math.js';import * as js from '../_js/js.js';import * as arr from '../_js/arr.js';import * as client from '../_js/client.js';import * as bytes from '../_js/bytes.js';import * as str from '../_js/str.js';import * as ui from '../_js/ui.js';import * as dic from '../_js/dic.js';import * as timer from '../_js/timer.js';import * as time from '../_js/time.js';import * as storage from '../_js/storage.js';import * as b64 from '../_js/b64.js';import * as sys from '../_js/sys.js';import * as iter from '../_js/iter.js';import * as domo from '../_js/domo.js';import * as cryp from '../_js/cryp.js';
 
 
 
@@ -74,7 +74,7 @@ export  async  function mk(wg, pack, path, anchor)   {sys.$params(arguments.leng
 
     const R =sys.$checkNull( [toHtml(l)]);
 
-    for (let w  of sys.$forObject( reserved.split(" "))) {
+    for (const w  of sys.$forObject( reserved.split(" "))) {
       const Ix =sys.$checkNull( [str.index(R[0], w)]);
       while (sys.asBool(sys.$neq(Ix[0] ,  -1))) {
         const ix1 =sys.$checkNull( Ix[0]);
@@ -90,7 +90,7 @@ export  async  function mk(wg, pack, path, anchor)   {sys.$params(arguments.leng
     }
     R[0] =sys.$checkExists(R[0],sys.$checkNull( str.replace(R[0], "<span==>", "<span class='reserved'>")));
 
-    for (let w  of sys.$forObject( lib.split(" "))) {
+    for (const w  of sys.$forObject( lib.split(" "))) {
       const Ix =sys.$checkNull( [str.index(R[0], w)]);
       while (sys.asBool(sys.$neq(Ix[0] ,  -1))) {
         const ix1 =sys.$checkNull( Ix[0]);
@@ -281,7 +281,7 @@ export  async  function mk(wg, pack, path, anchor)   {sys.$params(arguments.leng
 
   
    function process(code)  {sys.$params(arguments.length, 1);
-    for (let l  of sys.$forObject( code.split("\n"))) processLine(l);
+    for (const l  of sys.$forObject( code.split("\n"))) processLine(l);
   };
 
   
@@ -328,7 +328,7 @@ export  async  function mk(wg, pack, path, anchor)   {sys.$params(arguments.leng
         .add(Q("td")
           .klass("prer")
           .html(Right[0]))))
-    .adds(arr.fromIter(iter.map(iter.$range(0,30), function(i)  {sys.$params(arguments.length, 1);  return Q("p").html("&nbsp;");})))
+    .adds(iter.map(iter.$range(0,30), function(i)  {sys.$params(arguments.length, 1);  return Q("p").html("&nbsp;");}))
   ;
 
   const Tg =sys.$checkNull( sys.$null((Q("#" + anchor).e)));

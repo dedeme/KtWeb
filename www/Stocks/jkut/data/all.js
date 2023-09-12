@@ -1,4 +1,4 @@
-import * as iter from '../_js/iter.js';import * as str from '../_js/str.js';import * as bytes from '../_js/bytes.js';import * as cryp from '../_js/cryp.js';import * as dic from '../_js/dic.js';import * as timer from '../_js/timer.js';import * as js from '../_js/js.js';import * as storage from '../_js/storage.js';import * as sys from '../_js/sys.js';import * as math from '../_js/math.js';import * as domo from '../_js/domo.js';import * as ui from '../_js/ui.js';import * as arr from '../_js/arr.js';import * as time from '../_js/time.js';import * as client from '../_js/client.js';import * as b64 from '../_js/b64.js';
+import * as math from '../_js/math.js';import * as js from '../_js/js.js';import * as arr from '../_js/arr.js';import * as client from '../_js/client.js';import * as bytes from '../_js/bytes.js';import * as str from '../_js/str.js';import * as ui from '../_js/ui.js';import * as dic from '../_js/dic.js';import * as timer from '../_js/timer.js';import * as time from '../_js/time.js';import * as storage from '../_js/storage.js';import * as b64 from '../_js/b64.js';import * as sys from '../_js/sys.js';import * as iter from '../_js/iter.js';import * as domo from '../_js/domo.js';import * as cryp from '../_js/cryp.js';
 
 
 
@@ -70,7 +70,7 @@ export  function yearIds(Data)  {sys.$params(arguments.length, 1);
 
 
 export  function duplicateNick(Data, nick)  {sys.$params(arguments.length, 2);
-  for (let V  of sys.$forObject( dic.values(Data))) for (let A  of sys.$forObject( V.anns)) if (sys.asBool(sys.$eq(A.nick , nick)))  return true;
+  for (const V  of sys.$forObject( Data)) for (const A  of sys.$forObject( V.anns)) if (sys.asBool(sys.$eq(A.nick , nick)))  return true;
    return false;
 };
 
@@ -81,9 +81,9 @@ export  function duplicateNick(Data, nick)  {sys.$params(arguments.length, 2);
 
 export  function nicks(Data, type, Year)  {sys.$params(arguments.length, 3);
   const R =sys.$checkNull( []); 
-  for (let k  of sys.$forObject( Data)) {
+  for (const [k, V]  of sys.$forObject2( Data)) {
     if (sys.asBool(sys.asBool(Year) && sys.asBool(sys.$neq(Year[0] , k)))) continue;
-    for (let A  of sys.$forObject( Data[k].anns)) {
+    for (const A  of sys.$forObject( V.anns)) {
       if (sys.asBool(sys.asBool(type >= 0) && sys.asBool(sys.$neq(A.inv , type)))) continue;
       if (sys.asBool(!sys.asBool(arr.any(R, function(n)  {sys.$params(arguments.length, 1);  return sys.$eq(n , A.nick);}))))
         arr.push(R, A.nick);
@@ -102,10 +102,10 @@ export  function nicks(Data, type, Year)  {sys.$params(arguments.length, 3);
 export  function form(Data, type, nick, Year)  {sys.$params(arguments.length, 4);
   const R =sys.$checkNull( []); 
 
-  for (let k  of sys.$forObject( Data)) {
+  for (const [k, V]  of sys.$forObject2( Data)) {
     if (sys.asBool(sys.asBool(Year) && sys.asBool(sys.$neq(Year[0] , k)))) continue;
 
-    for (let A  of sys.$forObject( Data[k].anns)) {
+    for (const A  of sys.$forObject( V.anns)) {
       if (sys.asBool(sys.asBool((sys.asBool(type >= 0) && sys.asBool(sys.$neq(A.inv , type)))) || sys.asBool(sys.$neq(A.nick , nick)))) continue;
 
       if (sys.asBool(!sys.asBool(R))) { 
@@ -222,7 +222,7 @@ export  function set0101(Data, selYear)  {sys.$params(arguments.length, 2);
   
   const Invs =sys.$checkNull( arr.fromIter(iter.map(iter.$range(0,cts.investors), function(i)  {sys.$params(arguments.length, 1);  return {};})));
 
-  for (let A  of sys.$forObject( Pyear.anns)) {
+  for (const A  of sys.$forObject( Pyear.anns)) {
     const DOp =sys.$checkNull( dic.get(Invs[A.inv], A.nick));
 
     if (sys.asBool(A.isSell)) {
@@ -260,14 +260,14 @@ export  function set0101(Data, selYear)  {sys.$params(arguments.length, 2);
   }
 
   const Cyear =sys.$checkNull( Data[lastYear]);
-  for (let A  of sys.$forObject( arr.copy(Cyear.anns)))
+  for (const A  of sys.$forObject( arr.copy(Cyear.anns)))
     if (sys.asBool(sys.asBool(sys.$eq(time.day(A.date) , 1)) && sys.asBool(sys.$eq(time.month(A.date) , 1))))
       year.remove(Cyear, A.id);
 
   for (let i = 0;i < cts.investors; ++i) {
     const NkDs =sys.$checkNull( arr.filter(dic.toArr(Invs[i]), function(NkD)  {sys.$params(arguments.length, 1);  return NkD[1].stocks > 0;}));
     arr.sort(NkDs, function(NkD1, NkD2)  {sys.$params(arguments.length, 2);  return NkD1[0] < NkD2[0];});
-    for (let NkD  of sys.$forObject( NkDs)) {
+    for (const NkD  of sys.$forObject( NkDs)) {
       const D =sys.$checkNull( NkD[1]);
       year.add(Cyear, [], ann.mk( 
         -1, false, time.fromStr(lastYear + "0101")[0], i, NkD[0],

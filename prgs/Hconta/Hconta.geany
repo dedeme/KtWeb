@@ -95,8 +95,10 @@ KutFT_01_CM=kut -c kut/main; jkut jkut/main www
 KutFT_01_WD=%p
 
 [files]
-current_page=0
-FILE_NAME_0=13279;JKut;0;EUTF-8;0;1;0;%2Fdm%2FKtWeb%2Fprgs%2FHconta%2Fjkut%2Fpgs%2FdiaryPg.jkut;0;2
+current_page=2
+FILE_NAME_0=13609;JKut;0;EUTF-8;0;1;0;%2Fdm%2FKtWeb%2Fprgs%2FHconta%2Fjkut%2Fpgs%2FdiaryPg.jkut;0;2
+FILE_NAME_1=5274;JKut;0;EUTF-8;0;1;0;%2Fdm%2FKtWeb%2Fprgs%2FHconta%2Fjkut%2Fpgs%2FaccsPg.jkut;0;2
+FILE_NAME_2=10629;JKut;0;EUTF-8;0;1;0;%2Fdm%2FKtWeb%2Fprgs%2FHconta%2Fjkut%2Fpgs%2FsummaryPg.jkut;0;2
 
 [editor]
 line_wrapping=false

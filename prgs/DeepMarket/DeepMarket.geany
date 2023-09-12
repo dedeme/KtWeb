@@ -53,8 +53,13 @@ KutFT_01_CM=kutmkt -c kut/main; jkut jkut/main www
 KutFT_01_WD=%p
 
 [files]
-current_page=0
-FILE_NAME_0=879;Kut;0;EUTF-8;0;1;0;%2Fdm%2FKtWeb%2Fprgs%2FDeepMarket%2Fkut%2Fdb.kut;0;2
+current_page=5
+FILE_NAME_0=4366;Kut;0;EUTF-8;0;1;0;%2Fdm%2FKtWeb%2Fprgs%2FDeepMarket%2Fkut%2Fdb.kut;0;2
+FILE_NAME_1=2515;JKut;0;EUTF-8;0;1;0;%2Fdm%2FKtWeb%2Fprgs%2FDeepMarket%2Fjkut%2Fpgs%2FhotMapPg.jkut;0;2
+FILE_NAME_2=2071;JKut;0;EUTF-8;0;1;0;%2Fdm%2FKtWeb%2Fprgs%2FDeepMarket%2Fjkut%2Fpgs%2Fcharts%2FoperationsPg.jkut;0;2
+FILE_NAME_3=1479;Kut;0;EUTF-8;0;1;0;%2Fdm%2FKtWeb%2Fprgs%2FDeepMarket%2Fkut%2Fdata%2Fcts.kut;0;2
+FILE_NAME_4=1537;Kut;0;EUTF-8;0;1;0;%2Fhome%2Fdeme%2Fdm%2FdmKut%2Fapp%2FKtWebPrgs%2FdeepMarket%2Fupdate.kut;0;2
+FILE_NAME_5=2128;Kut;0;EUTF-8;0;1;0;%2Fhome%2Fdeme%2Fdm%2FdmKut%2Fapp%2FKtWebPrgs%2FdeepMarket%2Fpgs%2FmainPg.kut;0;2
 
 [editor]
 line_wrapping=false

@@ -131,6 +131,12 @@ export function index (a, fn) {
   return a.findIndex(e => fn(e));
 }
 
+// \a, n -> ()
+export function insert (a, ix, e) {
+  sys.$params(arguments.length, 3);
+  a.splice(ix, 0, e);
+}
+
 // \[s...], s -> s
 export function join (a, sp) {
   sys.$params(arguments.length, 2);

@@ -98,7 +98,8 @@ KutFT_01_WD=%p
 current_page=0
 FILE_NAME_0=1174;JKut;0;EUTF-8;0;1;0;%2Fdm%2FKtWeb%2Fprgs%2FMMagazine%2Fjkut%2Fdata%2FibexSundays.jkut;0;2
 FILE_NAME_1=1213;JKut;0;EUTF-8;0;1;0;%2Fdm%2FKtWeb%2Fprgs%2FMMagazine%2Fjkut%2Fpgs%2Fmmarket%2FmodelsPg.jkut;0;2
-FILE_NAME_2=3300;JKut;0;EUTF-8;0;1;0;%2Fdm%2FKtWeb%2Fprgs%2FMMagazine%2Fjkut%2Fpgs%2Fmmarket%2FhotMapsPg.jkut;0;2
+FILE_NAME_2=773;Kut;0;EUTF-8;0;1;0;%2Fdm%2FKtWeb%2Fprgs%2FMMagazine%2Fkut%2Fex%2Fnet%2FibexNet.kut;0;2
+FILE_NAME_3=423;Kut;0;EUTF-8;0;1;0;%2Fhome%2Fdeme%2Fdm%2FdmKut%2Fapp%2FKtWebPrgs%2FMMagazine%2Fupdate%2FibexUpdate.kut;0;2
 
 [editor]
 line_wrapping=false

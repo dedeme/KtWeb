@@ -105,16 +105,8 @@ export function fmt (template, t) {
   return r.join("");
 }
 
-// \n, s -> n
-export function fromClock (t1, s) {
-  sys.$params(arguments.length, 2);
-  const r = fromClockOp(t1, s);
-  if (r.length === 0) throw new Error("Bad clock '" + s + "'");
-  return r[0];
-}
-
 // \n, s -> [n] | []
-export function fromClockOp (t1, s) {
+export function fromClock (t1, s) {
   sys.$params(arguments.length, 2);
   if (s.charAt(2) !== ":" || s.charAt(5) !== ":") return [];
   s = s.substring(0, 2) + s.substring(3,5) + s.substring(6);

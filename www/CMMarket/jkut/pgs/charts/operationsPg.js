@@ -1,4 +1,4 @@
-import * as iter from '../../_js/iter.js';import * as str from '../../_js/str.js';import * as bytes from '../../_js/bytes.js';import * as cryp from '../../_js/cryp.js';import * as dic from '../../_js/dic.js';import * as timer from '../../_js/timer.js';import * as js from '../../_js/js.js';import * as storage from '../../_js/storage.js';import * as sys from '../../_js/sys.js';import * as math from '../../_js/math.js';import * as domo from '../../_js/domo.js';import * as ui from '../../_js/ui.js';import * as arr from '../../_js/arr.js';import * as time from '../../_js/time.js';import * as client from '../../_js/client.js';import * as b64 from '../../_js/b64.js';
+import * as math from '../../_js/math.js';import * as js from '../../_js/js.js';import * as arr from '../../_js/arr.js';import * as client from '../../_js/client.js';import * as bytes from '../../_js/bytes.js';import * as str from '../../_js/str.js';import * as ui from '../../_js/ui.js';import * as dic from '../../_js/dic.js';import * as timer from '../../_js/timer.js';import * as time from '../../_js/time.js';import * as storage from '../../_js/storage.js';import * as b64 from '../../_js/b64.js';import * as sys from '../../_js/sys.js';import * as iter from '../../_js/iter.js';import * as domo from '../../_js/domo.js';import * as cryp from '../../_js/cryp.js';
 
 
 
@@ -92,12 +92,13 @@ export  async  function mk(wg, modelId)  {sys.$params(arguments.length, 2);
     const Quarantine =sys.$checkNull( {}); 
     const Portfolio =sys.$checkNull( {}); 
 
-    for (let O  of sys.$forObject( Orders)) {
+    for (const O  of sys.$forObject( Orders)) {
       const date =sys.$checkNull( O.date);
       const QRemoves =sys.$checkNull( []); 
-      for (let nk  of sys.$forObject( dic.keys(Quarantine)))
-        if (sys.asBool(Quarantine[nk] <= date)) arr.push(QRemoves, nk);
-      for (let nk  of sys.$forObject( QRemoves)) dic.remove(Quarantine, nk);
+      for (const [nk, d]  of sys.$forObject2( Quarantine))
+        if (sys.asBool(d <= date)) arr.push(QRemoves, nk);
+
+      for (const nk  of sys.$forObject( QRemoves)) dic.remove(Quarantine, nk);
 
       if (sys.asBool(!sys.asBool(LastDate[0]))) {
         LastDate[0] =sys.$checkExists(LastDate[0],sys.$checkNull( date));
@@ -178,12 +179,12 @@ export  async  function mk(wg, modelId)  {sys.$params(arguments.length, 2);
         .add(Q("td")
           .klass("cframe")
           .text(Model.name))
-        .adds(arr.fromIter(iter.map(
+        .adds(iter.map(
           iter.$range(0,arr.size(MdEval.params)),
           function(i)  {sys.$params(arguments.length, 1);  return Q("td")
             .klass("rframe")
             .text(fns.paramFmt(Model.paramTypes[i], MdEval.params[i]))
-          ;})))))
+          ;}))))
     .add(Q("div").klass("separator2"))
     .add(Q("table")
       .att("align", "center")

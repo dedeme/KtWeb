@@ -140,7 +140,7 @@ export function lightImg (name) {
   return img(name).att("style", "opacity:0.4");
 }
 
-// \(\->() | \<event>->()) -> ()
+// \(\<event>->()) -> <domo>
 export function link (fn) {
   sys.$params(arguments.length, 1);
   return q("span").att("style", "cursor:pointer").on("click", fn);
@@ -216,7 +216,7 @@ export function qOp (el) {
   }
 }
 
-/// \s -> <iter>[domo...]
+/// \s -> <iter>[<domo>.]
 export function qq (s) {
   sys.$params(arguments.length, 1);
   function toIt (lst) {

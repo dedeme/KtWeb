@@ -18,18 +18,24 @@ export function any (a, fn) {
   return a.some(e => fn(e));
 }
 
-// \[a...] -> a
-export function cat (a) {
-  sys.$params(arguments.length, 1);
-  let r = [];
-  for (const e of a) r = r.concat(e);
-  return r;
+// \a, a -> ()
+export function cat (a1, a2) {
+  sys.$params(arguments.length, 2);
+  a1.push(...a2);
 }
 
 // \a -> ()
 export function clear (a) {
   sys.$params(arguments.length, 1);
   a.length = 0;
+}
+
+// \[a...] -> a
+export function concat (a) {
+  sys.$params(arguments.length, 1);
+  let r = [];
+  for (const e of a) r = r.concat(e);
+  return r;
 }
 
 // \a -> a
@@ -123,6 +129,12 @@ export function index (a, fn) {
   sys.$params(arguments.length, 2);
   sys.$fparams(fn, 1);
   return a.findIndex(e => fn(e));
+}
+
+// \a, n -> ()
+export function insert (a, ix, e) {
+  sys.$params(arguments.length, 3);
+  a.splice(ix, 0, e);
 }
 
 // \[s...], s -> s

@@ -1,4 +1,4 @@
-import * as iter from '../_js/iter.js';import * as str from '../_js/str.js';import * as bytes from '../_js/bytes.js';import * as cryp from '../_js/cryp.js';import * as dic from '../_js/dic.js';import * as timer from '../_js/timer.js';import * as js from '../_js/js.js';import * as storage from '../_js/storage.js';import * as sys from '../_js/sys.js';import * as math from '../_js/math.js';import * as domo from '../_js/domo.js';import * as ui from '../_js/ui.js';import * as arr from '../_js/arr.js';import * as time from '../_js/time.js';import * as client from '../_js/client.js';import * as b64 from '../_js/b64.js';
+import * as math from '../_js/math.js';import * as js from '../_js/js.js';import * as arr from '../_js/arr.js';import * as client from '../_js/client.js';import * as bytes from '../_js/bytes.js';import * as str from '../_js/str.js';import * as ui from '../_js/ui.js';import * as dic from '../_js/dic.js';import * as timer from '../_js/timer.js';import * as time from '../_js/time.js';import * as storage from '../_js/storage.js';import * as b64 from '../_js/b64.js';import * as sys from '../_js/sys.js';import * as iter from '../_js/iter.js';import * as domo from '../_js/domo.js';import * as cryp from '../_js/cryp.js';
 
 
 
@@ -37,7 +37,7 @@ const II =sys.$checkNull( i18n.tlt);
     : [fns.evaluate(Evals[0].assets, Evals[0].profits)])
   ;
   const Min =sys.$checkNull( [Max[0]]);
-  for (let Eval  of sys.$forObject( Evals)) {
+  for (const Eval  of sys.$forObject( Evals)) {
     const ev =sys.$checkNull(sys.asBool( isHistoric)
       ? fns.evaluate(Eval.hassets, Eval.hprofits)
       : fns.evaluate(Eval.assets, Eval.profits))
@@ -114,24 +114,24 @@ const II =sys.$checkNull( i18n.tlt);
         .add(Q("td")
           .klass("rhead")
           .text(Md.paramNames[0]))
-        .adds(arr.fromIter(iter.map(iter.$range(0,ncols), function(i)  {sys.$params(arguments.length, 1);  return Q("td");}))))
+        .adds(iter.map(iter.$range(0,ncols), function(i)  {sys.$params(arguments.length, 1);  return Q("td");})))
       .add(Q("tr")
         .add(Q("td")
           .klass("rhead")
           .text(Md.paramNames[1]))
         .add(Q("td"))
-        .adds(arr.fromIter(iter.map(iter.$range(1,ncols), function(i)  {sys.$params(arguments.length, 1);  return Q("td")
+        .adds(iter.map(iter.$range(1,ncols), function(i)  {sys.$params(arguments.length, 1);  return Q("td")
             .klass("rframe")
             .style("font-size:small")
             .text(fns.paramFmt(Md.paramTypes[1], Rows[0][i]))
-          ;}))))
-      .adds(arr.fromIter(iter.map(iter.$range(1, arr.size(Rows)), function(i)  {sys.$params(arguments.length, 1);  return Q("tr")
+          ;})))
+      .adds(iter.map(iter.$range(1, arr.size(Rows)), function(i)  {sys.$params(arguments.length, 1);  return Q("tr")
           .add(Q("td"))
           .add(Q("td")
             .klass("rframe")
             .style("font-size:small")
             .text(fns.paramFmt(Md.paramTypes[0], Rows[i][0])))
-          .adds(arr.fromIter(iter.map(iter.$range(1,ncols), function(j)  {sys.$params(arguments.length, 1);  return Q("td")
+          .adds(iter.map(iter.$range(1,ncols), function(j)  {sys.$params(arguments.length, 1);  return Q("td")
               .klass("border")
               .att("title", math.toIso(Rows[i][j], 0))
               .style(
@@ -141,8 +141,8 @@ const II =sys.$checkNull( i18n.tlt);
               .on("click", function(e)  {sys.$params(arguments.length, 1); window.location.assign(
                   "?" + Md.id + "&charts&" + js.w([Rows[i][0], Rows[0][j]])
                 );})
-            ;})))
-          ;})))
+            ;}))
+          ;}))
     ;
   };
 

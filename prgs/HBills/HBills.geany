@@ -95,7 +95,7 @@ KutFT_01_CM=kut -c kut/main; jkut jkut/main www
 KutFT_01_WD=%p
 
 [files]
-current_page=1
+current_page=0
 FILE_NAME_0=0;Kut;0;EUTF-8;0;1;0;%2Fdm%2FKtWeb%2Fprgs%2FHBills%2Fkut%2Fmain.kut;0;2
 FILE_NAME_1=218;Kut;0;EUTF-8;0;1;0;%2Fdm%2FKtWeb%2Fprgs%2FHBills%2Fkut%2Fdata%2Fcts.kut;0;2
 

@@ -59,8 +59,14 @@ export function $neq (e1, e2) {
 
 export function $forObject (o) {
   if (Object.prototype.toString.call(o) === '[object Object]')
-    return Object.keys(o);
+    return Object.values(o);
   return o;
+}
+
+export function $forObject2 (o) {
+  if (Object.prototype.toString.call(o) === '[object Object]')
+    return Object.entries(o);
+  return o.entries();
 }
 
 export function $forCmp (v) {

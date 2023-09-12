@@ -1,4 +1,4 @@
-import * as iter from '../../_js/iter.js';import * as str from '../../_js/str.js';import * as bytes from '../../_js/bytes.js';import * as cryp from '../../_js/cryp.js';import * as dic from '../../_js/dic.js';import * as timer from '../../_js/timer.js';import * as js from '../../_js/js.js';import * as storage from '../../_js/storage.js';import * as sys from '../../_js/sys.js';import * as math from '../../_js/math.js';import * as domo from '../../_js/domo.js';import * as ui from '../../_js/ui.js';import * as arr from '../../_js/arr.js';import * as time from '../../_js/time.js';import * as client from '../../_js/client.js';import * as b64 from '../../_js/b64.js';
+import * as math from '../../_js/math.js';import * as js from '../../_js/js.js';import * as arr from '../../_js/arr.js';import * as client from '../../_js/client.js';import * as bytes from '../../_js/bytes.js';import * as str from '../../_js/str.js';import * as ui from '../../_js/ui.js';import * as dic from '../../_js/dic.js';import * as timer from '../../_js/timer.js';import * as time from '../../_js/time.js';import * as storage from '../../_js/storage.js';import * as b64 from '../../_js/b64.js';import * as sys from '../../_js/sys.js';import * as iter from '../../_js/iter.js';import * as domo from '../../_js/domo.js';import * as cryp from '../../_js/cryp.js';
 
 
 
@@ -209,7 +209,7 @@ export  async  function mk2(wg, dbmenu, mSel, order, isReverse)  {sys.$params(ar
     const Labels =sys.$checkNull( CosData[0].hours);
     const size =sys.$checkNull( arr.size(Labels));
     const Values =sys.$checkNull( arr.mk(size, 0));
-    for (let CD  of sys.$forObject( CosData)) {
+    for (const CD  of sys.$forObject( CosData)) {
       const cl =sys.$checkNull( CD.close);
       const Quotes =sys.$checkNull( CD.quotes);
       const quote =sys.$checkNull( arr.peek(Quotes));
@@ -450,7 +450,7 @@ export  async  function mk2(wg, dbmenu, mSel, order, isReverse)  {sys.$params(ar
           iter.$range(0,math.toInt((size - 1) / 3) + 1),
           function(row)  {sys.$params(arguments.length, 1);
              return Q("tr")
-              .adds(arr.fromIter(iter.map(
+              .adds(iter.map(
                 iter.$range(0,3),
                 function(col)  {sys.$params(arguments.length, 1);
                   const ix =sys.$checkNull( row * 3 + col);
@@ -483,7 +483,7 @@ export  async  function mk2(wg, dbmenu, mSel, order, isReverse)  {sys.$params(ar
                               ))))))
                   ;
                 }
-              )));}
+              ));}
         ))))
     ;
     wg

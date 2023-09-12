@@ -1,4 +1,4 @@
-import * as iter from '../../_js/iter.js';import * as str from '../../_js/str.js';import * as bytes from '../../_js/bytes.js';import * as cryp from '../../_js/cryp.js';import * as dic from '../../_js/dic.js';import * as timer from '../../_js/timer.js';import * as js from '../../_js/js.js';import * as storage from '../../_js/storage.js';import * as sys from '../../_js/sys.js';import * as math from '../../_js/math.js';import * as domo from '../../_js/domo.js';import * as ui from '../../_js/ui.js';import * as arr from '../../_js/arr.js';import * as time from '../../_js/time.js';import * as client from '../../_js/client.js';import * as b64 from '../../_js/b64.js';
+import * as math from '../../_js/math.js';import * as js from '../../_js/js.js';import * as arr from '../../_js/arr.js';import * as client from '../../_js/client.js';import * as bytes from '../../_js/bytes.js';import * as str from '../../_js/str.js';import * as ui from '../../_js/ui.js';import * as dic from '../../_js/dic.js';import * as timer from '../../_js/timer.js';import * as time from '../../_js/time.js';import * as storage from '../../_js/storage.js';import * as b64 from '../../_js/b64.js';import * as sys from '../../_js/sys.js';import * as iter from '../../_js/iter.js';import * as domo from '../../_js/domo.js';import * as cryp from '../../_js/cryp.js';
 
 
 
@@ -70,7 +70,7 @@ export  function mk2(wg, allEs, invEs, mSel)  {sys.$params(arguments.length, 4);
   const Corrects =sys.$checkNull( []); 
   const CorrectsSum =sys.$checkNull( [0]);
   const I =sys.$checkNull( [0]);
-  for (let E  of sys.$forObject( Es)) {
+  for (const E  of sys.$forObject( Es)) {
     const i =sys.$checkNull( I[0]);
     I[0] +=sys.$checkExists(I[0],sys.$checkNull( 1));
     if (sys.asBool(sys.$eq(i , 0))) {
@@ -176,7 +176,7 @@ export  function mk2(wg, allEs, invEs, mSel)  {sys.$params(arguments.length, 4);
 
   const Lb0s =sys.$checkNull( []);
   const Val0s =sys.$checkNull( [[], [], []]);
-  for (let E  of sys.$forObject( E0s)) {
+  for (const E  of sys.$forObject( E0s)) {
     arr.push(Lb0s, time.toIso(time.fromStr(E.date)[0]));
     arr.push(Val0s[0], [E.total]);
     arr.push(Val0s[1], [E.acc]);
@@ -234,7 +234,7 @@ export  function mk2(wg, allEs, invEs, mSel)  {sys.$params(arguments.length, 4);
 
   const Lb1s =sys.$checkNull( []);
   const Val1s =sys.$checkNull( [[], [], []]);
-  for (let E  of sys.$forObject( E1s)) {
+  for (const E  of sys.$forObject( E1s)) {
     arr.push(Lb1s, time.toIso(time.fromStr(E.date)[0]));
     arr.push(Val1s[0], [E.total]);
     arr.push(Val1s[1], [E.acc]);
@@ -289,7 +289,7 @@ export  function mk2(wg, allEs, invEs, mSel)  {sys.$params(arguments.length, 4);
 
   const Lb2s =sys.$checkNull( []);
   const Val2s =sys.$checkNull( [[], [], []]);
-  for (let E  of sys.$forObject( E2s)) {
+  for (const E  of sys.$forObject( E2s)) {
     arr.push(Lb2s, time.toIso(time.fromStr(E.date)[0]));
     arr.push(Val2s[0], [E.total]);
     arr.push(Val2s[1], [E.acc]);
@@ -351,7 +351,7 @@ export  function mk2(wg, allEs, invEs, mSel)  {sys.$params(arguments.length, 4);
 
   const Lb3s =sys.$checkNull( []);
   const Val3s =sys.$checkNull( [[], [], []]);
-  for (let E  of sys.$forObject( E3s)) {
+  for (const E  of sys.$forObject( E3s)) {
     arr.push(Lb3s, sys.$slice(time.toIso(time.fromStr(E.date)[0]),3,null));
     arr.push(Val3s[0], [E.total]);
     arr.push(Val3s[1], [E.acc]);

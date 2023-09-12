@@ -1,4 +1,4 @@
-import * as iter from '../_js/iter.js';import * as str from '../_js/str.js';import * as bytes from '../_js/bytes.js';import * as cryp from '../_js/cryp.js';import * as dic from '../_js/dic.js';import * as timer from '../_js/timer.js';import * as js from '../_js/js.js';import * as storage from '../_js/storage.js';import * as sys from '../_js/sys.js';import * as math from '../_js/math.js';import * as domo from '../_js/domo.js';import * as ui from '../_js/ui.js';import * as arr from '../_js/arr.js';import * as time from '../_js/time.js';import * as client from '../_js/client.js';import * as b64 from '../_js/b64.js';
+import * as math from '../_js/math.js';import * as js from '../_js/js.js';import * as arr from '../_js/arr.js';import * as client from '../_js/client.js';import * as bytes from '../_js/bytes.js';import * as str from '../_js/str.js';import * as ui from '../_js/ui.js';import * as dic from '../_js/dic.js';import * as timer from '../_js/timer.js';import * as time from '../_js/time.js';import * as storage from '../_js/storage.js';import * as b64 from '../_js/b64.js';import * as sys from '../_js/sys.js';import * as iter from '../_js/iter.js';import * as domo from '../_js/domo.js';import * as cryp from '../_js/cryp.js';
 
 
 
@@ -18,9 +18,9 @@ export  function mk(wg, isNear, ParNearStart, ParFarStart, ParStep, Results)  {s
   const ParStart =sys.$checkNull(sys.asBool( isNear) ? ParNearStart : ParFarStart);
   const Rows =sys.$checkNull( []); 
   const sV =sys.$checkNull( [ParStart[0]]); 
-  for (let RR  of sys.$forObject( Results)) {
+  for (const RR  of sys.$forObject( Results)) {
     const aV =sys.$checkNull( [ParStart[1]]); 
-    for (let R  of sys.$forObject( RR)) {
+    for (const R  of sys.$forObject( RR)) {
       arr.push(
         Rows,
         [math.round(sV[0], 4), math.round(aV[0], 4), R[0], R[1], R[2], R[3]]

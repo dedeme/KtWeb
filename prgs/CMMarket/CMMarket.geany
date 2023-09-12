@@ -53,10 +53,9 @@ KutFT_01_CM=kutmkt -c kut/main; jkut jkut/main www
 KutFT_01_WD=%p
 
 [files]
-current_page=2
-FILE_NAME_0=5692;JKut;0;EUTF-8;0;1;0;%2Fdm%2FKtWeb%2Fprgs%2FCMMarket%2Fjkut%2Fpgs%2Fcharts%2FhistoricPg.jkut;0;2
-FILE_NAME_1=1408;Kut;0;EUTF-8;0;1;0;%2Fdm%2FKtWeb%2Fprgs%2FCMMarket%2Fkut%2Fpgs%2Fcharts%2FhistoricPg.kut;0;2
-FILE_NAME_2=2453;Kut;0;EUTF-8;0;1;0;%2Fdm%2FKtWeb%2Fprgs%2FCMMarket%2Fkut%2Fdb.kut;0;2
+current_page=1
+FILE_NAME_0=7087;Kut;0;EUTF-8;0;1;0;%2Fdm%2FKtWeb%2Fprgs%2FCMMarket%2Fkut%2Flibmkt%2Fffi.kut;0;2
+FILE_NAME_1=536;Kut;0;EUTF-8;0;1;0;%2Fdm%2FKtWeb%2Fprgs%2FCMMarket%2Fkut%2Flibmkt%2Fmodels.kut;0;2
 
 [editor]
 line_wrapping=false

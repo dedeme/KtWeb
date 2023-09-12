@@ -1,4 +1,4 @@
-import * as iter from '../_js/iter.js';import * as str from '../_js/str.js';import * as bytes from '../_js/bytes.js';import * as cryp from '../_js/cryp.js';import * as dic from '../_js/dic.js';import * as timer from '../_js/timer.js';import * as js from '../_js/js.js';import * as storage from '../_js/storage.js';import * as sys from '../_js/sys.js';import * as math from '../_js/math.js';import * as domo from '../_js/domo.js';import * as ui from '../_js/ui.js';import * as arr from '../_js/arr.js';import * as time from '../_js/time.js';import * as client from '../_js/client.js';import * as b64 from '../_js/b64.js';
+import * as math from '../_js/math.js';import * as js from '../_js/js.js';import * as arr from '../_js/arr.js';import * as client from '../_js/client.js';import * as bytes from '../_js/bytes.js';import * as str from '../_js/str.js';import * as ui from '../_js/ui.js';import * as dic from '../_js/dic.js';import * as timer from '../_js/timer.js';import * as time from '../_js/time.js';import * as storage from '../_js/storage.js';import * as b64 from '../_js/b64.js';import * as sys from '../_js/sys.js';import * as iter from '../_js/iter.js';import * as domo from '../_js/domo.js';import * as cryp from '../_js/cryp.js';
 
 
 
@@ -22,7 +22,7 @@ export  function mk(nextId, Anns)  {sys.$params(arguments.length, 2);
       ?sys.asBool( sys.$eq(A1.inv , A2.inv))
         ? A1.nick > A2.nick
         : A1.inv > A2.inv
-      : A1.isSell
+      : !sys.asBool(A1.isSell)
     : A1.date < A2.date
   ;});
 
@@ -32,7 +32,7 @@ export  function mk(nextId, Anns)  {sys.$params(arguments.length, 2);
   
 
   const Pf =sys.$checkNull( {}); 
-  for (let A  of sys.$forObject( Anns)) {
+  for (const A  of sys.$forObject( Anns)) {
       const id =sys.$checkNull( A.inv + "|" + A.nick);
       if (sys.asBool(A.isSell)) {
         const sOp =sys.$checkNull( dic.get(Pf, id));
@@ -66,7 +66,7 @@ export  function mk(nextId, Anns)  {sys.$params(arguments.length, 2);
 
   if (sys.asBool(Anns)) {
     const Summs =sys.$checkNull( arr.fromIter(iter.map(iter.$range(0,nRps), function(i)  {sys.$params(arguments.length, 1);  return {};}))); 
-    for (let A  of sys.$forObject( Anns)) {
+    for (const A  of sys.$forObject( Anns)) {
       const nick =sys.$checkNull( A.nick);
       Profitss[nRps - 1] =sys.$checkExists(Profitss[nRps-1],sys.$checkNull( 0)); 
       for (let iRp = 0;iRp < nRps; ++iRp) {
@@ -163,8 +163,7 @@ export  function mk(nextId, Anns)  {sys.$params(arguments.length, 2);
     const allProfitsV =sys.$checkNull( [0]);
     for (let i = 1;i < nRps - 1; ++i) {
       const Summ =sys.$checkNull( Summs[i]);
-      for (let k  of sys.$forObject( Summ)) {
-        const V =sys.$checkNull( Summ[k]);
+      for (const [k, V]  of sys.$forObject2( Summ)) {
         const allVOp =sys.$checkNull( dic.get(AllSumm, k));
         if (sys.asBool(allVOp)) {
           const allV =sys.$checkNull( allVOp[0]);
@@ -183,7 +182,7 @@ export  function mk(nextId, Anns)  {sys.$params(arguments.length, 2);
 
     for (let i = 0;i < nRps; ++i) {
       const Sm =sys.$checkNull( []); 
-      for (let V  of sys.$forObject( dic.values(Summs[i]))) Sm.push(V);
+      for (const V  of sys.$forObject( Summs[i])) Sm.push(V);
       Summaries[i] =sys.$checkExists(Summaries[i],sys.$checkNull( Sm));
     }
   }
@@ -191,7 +190,7 @@ export  function mk(nextId, Anns)  {sys.$params(arguments.length, 2);
   const Reports =sys.$checkNull( []); 
   for (let i = 0;i < nRps; ++i) {
     const costV =sys.$checkNull( [0]);
-    for (let E  of sys.$forObject( Summaries[i])) costV[0] +=sys.$checkExists(costV[0],sys.$checkNull( E.total));
+    for (const E  of sys.$forObject( Summaries[i])) costV[0] +=sys.$checkExists(costV[0],sys.$checkNull( E.total));
 
     Summaries[i].sort(function(E1, E2)  {sys.$params(arguments.length, 2);  return E1.nick < E2.nick;});
     Reports.push(report.mk(
@@ -253,7 +252,7 @@ export  function treasury(Year)  {sys.$params(arguments.length, 1);
     const ReportsRs =sys.$checkNull( Year.reports);
     if (sys.asBool(ReportsRs[1])) {
       const Reports =sys.$checkNull( ReportsRs[0]);
-      for (let A  of sys.$forObject( Reports[0].anns)) {
+      for (const A  of sys.$forObject( Reports[0].anns)) {
         if (sys.asBool(!sys.asBool(A.profits))) continue;
 
         const nick =sys.$checkNull( A.nick);
@@ -277,7 +276,7 @@ export  function treasury(Year)  {sys.$params(arguments.length, 1);
     }
     const summaryV =sys.$checkNull( [0]);
     const Entries =sys.$checkNull( []); 
-    for (let V  of sys.$forObject( dic.values(Map))) {
+    for (const V  of sys.$forObject( Map)) {
       summaryV[0] +=sys.$checkExists(summaryV[0],sys.$checkNull( V.profits[0]));
       arr.push(Entries, V);
     }

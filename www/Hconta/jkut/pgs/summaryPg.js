@@ -1,4 +1,4 @@
-import * as iter from '../_js/iter.js';import * as str from '../_js/str.js';import * as bytes from '../_js/bytes.js';import * as cryp from '../_js/cryp.js';import * as dic from '../_js/dic.js';import * as timer from '../_js/timer.js';import * as js from '../_js/js.js';import * as storage from '../_js/storage.js';import * as sys from '../_js/sys.js';import * as math from '../_js/math.js';import * as domo from '../_js/domo.js';import * as ui from '../_js/ui.js';import * as arr from '../_js/arr.js';import * as time from '../_js/time.js';import * as client from '../_js/client.js';import * as b64 from '../_js/b64.js';
+import * as math from '../_js/math.js';import * as js from '../_js/js.js';import * as arr from '../_js/arr.js';import * as client from '../_js/client.js';import * as bytes from '../_js/bytes.js';import * as str from '../_js/str.js';import * as ui from '../_js/ui.js';import * as dic from '../_js/dic.js';import * as timer from '../_js/timer.js';import * as time from '../_js/time.js';import * as storage from '../_js/storage.js';import * as b64 from '../_js/b64.js';import * as sys from '../_js/sys.js';import * as iter from '../_js/iter.js';import * as domo from '../_js/domo.js';import * as cryp from '../_js/cryp.js';
 
 
 
@@ -71,11 +71,11 @@ export  function mk(wg, stype, sdeep)  {sys.$params(arguments.length, 3);
   
    function calcSubStats(Accs, ac, sac, am)  {sys.$params(arguments.length, 4);
     const missingV =sys.$checkNull( [true]);
-    for (let A  of sys.$forObject( Accs)) {
+    for (const A  of sys.$forObject( Accs)) {
       if (sys.asBool(sys.$eq(A[0].id , ac))) {
         const missing3V =sys.$checkNull( [true]);
         const Saccs =sys.$checkNull( A[1]);
-        for (let Sa  of sys.$forObject( Saccs)) {
+        for (const Sa  of sys.$forObject( Saccs)) {
           if (sys.asBool(sys.$eq(Sa.id , sac))) {
             Sa.am +=sys.$checkExists(Sa.am,sys.$checkNull( am));
             missing3V[0] =sys.$checkExists(missing3V[0],sys.$checkNull( false));
@@ -102,13 +102,13 @@ export  function mk(wg, stype, sdeep)  {sys.$params(arguments.length, 3);
     const Diary =sys.$checkNull( acc.diary());
     const Stats=sys.$checkNull( []); 
 
-    for (let E  of sys.$forObject( Diary)) {
+    for (const E  of sys.$forObject( Diary)) {
       
        function process(sac, am)  {sys.$params(arguments.length, 2);
         const gr =sys.$checkNull( sac[0]);
         const ac =sys.$checkNull( sys.$slice(sac,null,3));
         const missingV =sys.$checkNull( [true]);
-        for (let G  of sys.$forObject( Stats)) {
+        for (const G  of sys.$forObject( Stats)) {
           if (sys.asBool(sys.$eq(G[0].id , gr))) {
             const missing2V =sys.$checkNull( [calcSubStats(G[1], ac, sac, am)]);
             if (sys.asBool(missing2V[0])) {
@@ -139,8 +139,8 @@ export  function mk(wg, stype, sdeep)  {sys.$params(arguments.length, 3);
       iter.each(dic.toIter(E.debits), function(Kv)  {sys.$params(arguments.length, 1); process(Kv[0], Kv[1]);});
       iter.each(dic.toIter(E.credits), function(Kv)  {sys.$params(arguments.length, 1); process(Kv[0],  -Kv[1]);});
     }
-    for (let G  of sys.$forObject( Stats)) {
-      for (let A  of sys.$forObject( G[1])) arr.sort(A[1], function(E1, E2)  {sys.$params(arguments.length, 2);  return E1.id < E2.id;});
+    for (const G  of sys.$forObject( Stats)) {
+      for (const A  of sys.$forObject( G[1])) arr.sort(A[1], function(E1, E2)  {sys.$params(arguments.length, 2);  return E1.id < E2.id;});
       arr.sort(G[1], function(E1, E2)  {sys.$params(arguments.length, 2);  return E1[0].id < E2[0].id;});
     }
     arr.sort(Stats, function(E1, E2)  {sys.$params(arguments.length, 2);  return E1[0].id < E2[0].id;});
@@ -174,7 +174,7 @@ export  function mk(wg, stype, sdeep)  {sys.$params(arguments.length, 3);
 
     const sumTV =sys.$checkNull( [0]);
     const Letters =sys.$checkNull( ["A", "B", "C"]);
-    for (let l  of sys.$forObject( Letters)) {
+    for (const l  of sys.$forObject( Letters)) {
       const Es =sys.$checkNull( arr.filter(
         dic.toArr(profits.entries()),
         function(Kv)  {sys.$params(arguments.length, 1);  return sys.$eq(profits.groupOf(Kv[0]) , l);}
@@ -186,7 +186,7 @@ export  function mk(wg, stype, sdeep)  {sys.$params(arguments.length, 3);
           const sumV =sys.$checkNull( [0]);
           const Accs =sys.$checkNull( []); 
                      
-          for (let E  of sys.$forObject( diary(Kv[0]))) {
+          for (const E  of sys.$forObject( diary(Kv[0]))) {
             
              function process(sac, am)  {sys.$params(arguments.length, 2);
               const ac =sys.$checkNull( sys.$slice(sac,null,3));
@@ -207,8 +207,8 @@ export  function mk(wg, stype, sdeep)  {sys.$params(arguments.length, 3);
         }
       ));
 
-      for (let G  of sys.$forObject( Stats)) {
-        for (let A  of sys.$forObject( G[1])) arr.sort(A[1], function(E1, E2)  {sys.$params(arguments.length, 2);  return E1.id < E2.id;});
+      for (const G  of sys.$forObject( Stats)) {
+        for (const A  of sys.$forObject( G[1])) arr.sort(A[1], function(E1, E2)  {sys.$params(arguments.length, 2);  return E1.id < E2.id;});
         arr.sort(G[1], function(E1, E2)  {sys.$params(arguments.length, 2);  return E1[0].id < E2[0].id;});
       }
       const sum =sys.$checkNull( arr.reduce(
@@ -259,7 +259,7 @@ export  function mk(wg, stype, sdeep)  {sys.$params(arguments.length, 3);
 
     const sumTV =sys.$checkNull( [0]);
     const Letters =sys.$checkNull( ["AA", "AB", "PA", "PB", "PC"]);
-    for (let l  of sys.$forObject( Letters)) {
+    for (const l  of sys.$forObject( Letters)) {
       const Es =sys.$checkNull( arr.filter(
         dic.toArr(balance.entries()),
         function(Kv)  {sys.$params(arguments.length, 1);  return sys.$eq(balance.groupOf(Kv[0]) , l);}
@@ -271,7 +271,7 @@ export  function mk(wg, stype, sdeep)  {sys.$params(arguments.length, 3);
           const sumV =sys.$checkNull( [0]);
           const Accs =sys.$checkNull( []); 
                      
-          for (let E  of sys.$forObject( diary(Kv[0]))) {
+          for (const E  of sys.$forObject( diary(Kv[0]))) {
             
              function process(sac, am)  {sys.$params(arguments.length, 2);
               const ac =sys.$checkNull( sys.$slice(sac,null,3));
@@ -292,8 +292,8 @@ export  function mk(wg, stype, sdeep)  {sys.$params(arguments.length, 3);
         }
       ));
 
-      for (let G  of sys.$forObject( Stats)) {
-        for (let A  of sys.$forObject( G[1])) arr.sort(A[1], function(E1, E2)  {sys.$params(arguments.length, 2);  return E1.id < E2.id;});
+      for (const G  of sys.$forObject( Stats)) {
+        for (const A  of sys.$forObject( G[1])) arr.sort(A[1], function(E1, E2)  {sys.$params(arguments.length, 2);  return E1.id < E2.id;});
         arr.sort(G[1], function(E1, E2)  {sys.$params(arguments.length, 2);  return E1[0].id < E2[0].id;});
       }
       const sum =sys.$checkNull( arr.reduce(
@@ -316,7 +316,7 @@ export  function mk(wg, stype, sdeep)  {sys.$params(arguments.length, 3);
       .klass("summary")
       .att("align", "center"))
     ;
-    for (let G  of sys.$forObject( Stats)) {
+    for (const G  of sys.$forObject( Stats)) {
       const V =sys.$checkNull( G[0]);
       const desc =sys.$checkNull( V.desc);
       const am =sys.$checkNull( V.am);
@@ -324,7 +324,7 @@ export  function mk(wg, stype, sdeep)  {sys.$params(arguments.length, 3);
       table.add(Q("tr")
         .add(Q("td").klass("summary0cp")
           .att("colspan", 3)
-          .add(ui.link(function(e)  {sys.$params(arguments.length, 1); window.location.assign('?accs&${v.id}');})
+          .add(ui.link(function(e)  {sys.$params(arguments.length, 1); window.location.assign("?accs&" + V.id);})
             .klass("link")
             .html(fmt(V.id + ". " + desc))))
         .add(Q("td").klass("summary0d")
@@ -333,7 +333,7 @@ export  function mk(wg, stype, sdeep)  {sys.$params(arguments.length, 3);
           .html(sys.asBool(am < 0) ? fmt(fnm( -am)) : "")));
       if (sys.asBool(sys.$eq(level , 0))) continue;
 
-      for (let A  of sys.$forObject( G[1])) {
+      for (const A  of sys.$forObject( G[1])) {
         const V =sys.$checkNull( A[0]);
         const desc =sys.$checkNull( V.desc);
         const am =sys.$checkNull( V.am);
@@ -342,7 +342,7 @@ export  function mk(wg, stype, sdeep)  {sys.$params(arguments.length, 3);
           .add(Q("td").style("width:40px"))
           .add(Q("td").klass("summary0cp")
             .att("colspan", 2)
-            .add(ui.link(function(e)  {sys.$params(arguments.length, 1); window.location.assign('?accs&${v.id}');})
+            .add(ui.link(function(e)  {sys.$params(arguments.length, 1); window.location.assign("?accs&" + V.id);})
               .klass("link")
               .html(fmt(V.id + ". " + desc))))
           .add(Q("td").klass("summary0d")
@@ -351,14 +351,14 @@ export  function mk(wg, stype, sdeep)  {sys.$params(arguments.length, 3);
             .html(sys.asBool(am < 0) ? fmt(fnm( -am)) : "")));
 
         if (sys.asBool(sys.$eq(level , 1))) continue;
-        for (let V  of sys.$forObject( A[1])) {
+        for (const V  of sys.$forObject( A[1])) {
           const desc =sys.$checkNull( V.desc);
           const am =sys.$checkNull( V.am);
           table.add(Q("tr")
             .add(Q("td").style("width:40px"))
             .add(Q("td").style("width:40px"))
             .add(Q("td").klass("summary0cp")
-              .add(ui.link(function(e)  {sys.$params(arguments.length, 1); window.location.assign('?accs&${v.id}');})
+              .add(ui.link(function(e)  {sys.$params(arguments.length, 1); window.location.assign("?accs&" + V.id);})
                 .klass("link")
                 .html(V.id + ". " + desc)))
             .add(Q("td").klass("summary0d")
@@ -392,7 +392,7 @@ export  function mk(wg, stype, sdeep)  {sys.$params(arguments.length, 3);
       .klass("summary")
       .att("align", "center"))
     ;
-    for (let L  of sys.$forObject( Entries)) {
+    for (const L  of sys.$forObject( Entries)) {
       const V =sys.$checkNull( L[0]);
       const desc =sys.$checkNull( V.desc);
       const am =sys.$checkNull( V.am);
@@ -406,7 +406,7 @@ export  function mk(wg, stype, sdeep)  {sys.$params(arguments.length, 3);
         .add(Q("td").klass("summary0c")
           .html(sys.asBool(am < 0) ? fmt(fnm( -am)) : "")));
 
-      for (let G  of sys.$forObject( L[1])) {
+      for (const G  of sys.$forObject( L[1])) {
         const V =sys.$checkNull( G[0]);
         const desc =sys.$checkNull( V.desc);
         const am =sys.$checkNull( V.am);
@@ -422,7 +422,7 @@ export  function mk(wg, stype, sdeep)  {sys.$params(arguments.length, 3);
             .html(sys.asBool(am < 0) ? fmt(fnm( -am)) : "")));
         if (sys.asBool(sys.$eq(level , 0))) continue;
 
-        for (let A  of sys.$forObject( G[1])) {
+        for (const A  of sys.$forObject( G[1])) {
           const V =sys.$checkNull( A[0]);
           const desc =sys.$checkNull( V.desc);
           const am =sys.$checkNull( V.am);
@@ -432,7 +432,7 @@ export  function mk(wg, stype, sdeep)  {sys.$params(arguments.length, 3);
             .add(Q("td").style("width:40px"))
             .add(Q("td").klass("summary0cp")
               .att("colspan", 2)
-              .add(ui.link(function(e)  {sys.$params(arguments.length, 1); window.location.assign('?accs&${v.id}');})
+              .add(ui.link(function(e)  {sys.$params(arguments.length, 1); window.location.assign("?accs&" + V.id);})
                 .klass("link")
                 .html(fmt(V.id + ". " + desc))))
             .add(Q("td").klass("summary0d")
@@ -441,7 +441,7 @@ export  function mk(wg, stype, sdeep)  {sys.$params(arguments.length, 3);
               .html(sys.asBool(am < 0) ? fmt(fnm( -am)) : "")));
 
           if (sys.asBool(sys.$eq(level , 1))) continue;
-          for (let V  of sys.$forObject( A[1])) {
+          for (const V  of sys.$forObject( A[1])) {
             const desc =sys.$checkNull( V.desc);
             const am =sys.$checkNull( V.am);
             table.add(Q("tr")
@@ -449,7 +449,7 @@ export  function mk(wg, stype, sdeep)  {sys.$params(arguments.length, 3);
               .add(Q("td").style("width:40px"))
               .add(Q("td").style("width:40px"))
               .add(Q("td").klass("summary0cp")
-                .add(ui.link(function(e)  {sys.$params(arguments.length, 1); window.location.assign('?accs&${v.id}');})
+                .add(ui.link(function(e)  {sys.$params(arguments.length, 1); window.location.assign("?accs&" + V.id);})
                   .klass("link")
                   .html(V.id + ". " + desc)))
               .add(Q("td").klass("summary0d")

@@ -95,10 +95,15 @@ KutFT_01_CM=kut -c kut/main; jkut jkut/main www
 KutFT_01_WD=%p
 
 [files]
-current_page=1
-FILE_NAME_0=570;Kut;0;EUTF-8;0;1;0;%2Fdm%2FKtWeb%2Fprgs%2FCashFlow%2Fkut%2Fdb.kut;0;2
-FILE_NAME_1=168;Kut;0;EUTF-8;0;1;0;%2Fdm%2FKtWeb%2Fprgs%2FCashFlow%2Fkut%2Fdb%2FbudgetTb.kut;0;2
-FILE_NAME_2=0;Go;0;EUTF-8;0;1;0;%2Fdm%2FdmWeb%2Fapp%2FCashFlow%2Fgo%2Fdb%2Fyears%2Fyear%2Fbudget%2Fbudget.go;0;2
+current_page=4
+FILE_NAME_0=5042;JKut;0;EUTF-8;0;1;0;%2Fdm%2FKtWeb%2Fprgs%2FCashFlow%2Fjkut%2Fpgs%2Fbudget%2FfixProblem%2FannsEditor.jkut;0;2
+FILE_NAME_1=2332;JKut;0;EUTF-8;0;1;0;%2Fdm%2FKtWeb%2Fprgs%2FCashFlow%2Fjkut%2Fpgs%2Fbudget%2FfixProblem.jkut;0;2
+FILE_NAME_2=390;JKut;0;EUTF-8;0;1;0;%2Fdm%2FKtWeb%2Fprgs%2FCashFlow%2Fjkut%2Fpgs%2Fbudget%2Fmanagement%2FbudgetEdit.jkut;0;2
+FILE_NAME_3=263;JKut;0;EUTF-8;0;1;0;%2Fdm%2FKtWeb%2Fprgs%2FCashFlow%2Fjkut%2Fdata%2FbudgetEntry.jkut;0;2
+FILE_NAME_4=389;JKut;0;EUTF-8;0;1;0;%2Fhome%2Fdeme%2Fdm%2FdmJkut%2Fapp%2FCashFlow%2Fpgs%2Fbudget%2Fmanagement%2FbudgetView.jkut;0;2
+FILE_NAME_5=959;JKut;0;EUTF-8;0;1;0;%2Fhome%2Fdeme%2Fdm%2FdmJkut%2Fapp%2FCashFlow%2Fi18n.jkut;0;2
+FILE_NAME_6=0;None;0;EUTF-8;0;1;0;%2Fdm%2FKtWeb%2Fprgs%2FCashFlow%2Fjkut%2Fi18n%2Fen.txt;0;2
+FILE_NAME_7=2054;None;0;EUTF-8;0;1;0;%2Fdm%2FKtWeb%2Fprgs%2FCashFlow%2Fjkut%2Fi18n%2Fes.txt;0;2
 
 [editor]
 line_wrapping=false

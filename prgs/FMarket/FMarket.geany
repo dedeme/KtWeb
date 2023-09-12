@@ -98,8 +98,8 @@ KutFT_01_WD=%p
 current_page=2
 FILE_NAME_0=2084;JKut;0;EUTF-8;0;1;0;%2Fdm%2FKtWeb%2Fprgs%2FFMarket%2Fjkut%2Fpgs%2FsummaryPg.jkut;0;2
 FILE_NAME_1=2749;JKut;0;EUTF-8;0;1;0;%2Fdm%2FKtWeb%2Fprgs%2FFMarket%2Fjkut%2Fpgs%2FrksPg.jkut;0;2
-FILE_NAME_2=1357;Kut;0;EUTF-8;0;1;0;%2Fdm%2FKtWeb%2Fprgs%2FFMarket%2Fkut%2Fdb.kut;0;2
-FILE_NAME_3=834;Kut;0;EUTF-8;0;1;0;%2Fdm%2FKtWeb%2Fprgs%2FDeepMarket%2Fkut%2Fdb.kut;0;2
+FILE_NAME_2=1239;Kut;0;EUTF-8;0;1;0;%2Fdm%2FKtWeb%2Fprgs%2FFMarket%2Fkut%2Fdb.kut;0;2
+FILE_NAME_3=884;Kut;0;EUTF-8;0;1;0;%2Fdm%2FKtWeb%2Fprgs%2FFMarket%2Fkut%2Fdata%2Fcts.kut;0;2
 
 [editor]
 line_wrapping=false

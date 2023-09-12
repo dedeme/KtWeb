@@ -83,7 +83,7 @@ KutFT_00_CM=kut -c KtWeb
 KutFT_00_WD=%p
 
 [files]
-current_page=0
+current_page=1
 FILE_NAME_0=162;Kut;0;EUTF-8;0;1;0;%2Fdm%2FKtWeb%2Fglobal.kut;0;2
 FILE_NAME_1=531;Kut;0;EUTF-8;0;1;0;%2Fdm%2FKtWeb%2FKtWeb.kut;0;2
 

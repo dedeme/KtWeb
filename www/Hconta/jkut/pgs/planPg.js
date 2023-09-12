@@ -1,4 +1,4 @@
-import * as iter from '../_js/iter.js';import * as str from '../_js/str.js';import * as bytes from '../_js/bytes.js';import * as cryp from '../_js/cryp.js';import * as dic from '../_js/dic.js';import * as timer from '../_js/timer.js';import * as js from '../_js/js.js';import * as storage from '../_js/storage.js';import * as sys from '../_js/sys.js';import * as math from '../_js/math.js';import * as domo from '../_js/domo.js';import * as ui from '../_js/ui.js';import * as arr from '../_js/arr.js';import * as time from '../_js/time.js';import * as client from '../_js/client.js';import * as b64 from '../_js/b64.js';
+import * as math from '../_js/math.js';import * as js from '../_js/js.js';import * as arr from '../_js/arr.js';import * as client from '../_js/client.js';import * as bytes from '../_js/bytes.js';import * as str from '../_js/str.js';import * as ui from '../_js/ui.js';import * as dic from '../_js/dic.js';import * as timer from '../_js/timer.js';import * as time from '../_js/time.js';import * as storage from '../_js/storage.js';import * as b64 from '../_js/b64.js';import * as sys from '../_js/sys.js';import * as iter from '../_js/iter.js';import * as domo from '../_js/domo.js';import * as cryp from '../_js/cryp.js';
 
 
 
@@ -138,12 +138,10 @@ export  function mk(wg, account)  {sys.$params(arguments.length, 2);
      function mkBalance()  {sys.$params(arguments.length, 0);
       const R =sys.$checkNull( []); 
       const Groups =sys.$checkNull( balance.groups());
-      for (let gkey  of sys.$forObject( Groups)) {
-        const gname =sys.$checkNull( Groups[gkey]);
+      for (const [gkey, gname]  of sys.$forObject2( Groups)) {
         const Sub =sys.$checkNull( []); 
         const Entries =sys.$checkNull( balance.entries());
-        for (let ekey  of sys.$forObject( Entries)) {
-          const ename =sys.$checkNull( Entries[ekey]);
+        for (const [ekey, ename]  of sys.$forObject2( Entries)) {
           if (sys.asBool(sys.$eq(balance.groupOf(ekey) , gkey))) {
             arr.push(Sub, Q("li")
               .add(ui.link(function(e)  {sys.$params(arguments.length, 1); groupField.value("B" + ekey);})
@@ -167,12 +165,10 @@ export  function mk(wg, account)  {sys.$params(arguments.length, 2);
      function mkProfits()  {sys.$params(arguments.length, 0);
       const R =sys.$checkNull( []); 
       const Groups =sys.$checkNull( profits.groups());
-      for (let gkey  of sys.$forObject( Groups)) {
-        const gname =sys.$checkNull( Groups[gkey]);
+      for (const [gkey, gname]  of sys.$forObject2( Groups)) {
         const Sub =sys.$checkNull( []); 
         const Entries =sys.$checkNull( profits.entries());
-        for (let ekey  of sys.$forObject( Entries)) {
-          const ename =sys.$checkNull( Entries[ekey]);
+        for (const [ekey, ename]  of sys.$forObject2( Entries)) {
           if (sys.asBool(sys.$eq(profits.groupOf(ekey) , gkey))) {
             arr.push(Sub, Q("li")
               .add(ui.link(function(e)  {sys.$params(arguments.length, 1); groupField.value("P" + ekey);})
@@ -308,8 +304,7 @@ export  function mk(wg, account)  {sys.$params(arguments.length, 2);
 
     
     const Sub =sys.$checkNull( acc.sub(ac));
-    for (let k  of sys.$forObject( Sub)) {
-      const V =sys.$checkNull( Sub[k]);
+    for (const [k, V]  of sys.$forObject2( Sub)) {
       const Tds =sys.$checkNull( []); 
       if (sys.asBool(sys.$neq(ac , ""))) {
         if (sys.asBool(

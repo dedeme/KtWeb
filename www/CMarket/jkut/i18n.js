@@ -1,4 +1,4 @@
-import * as iter from './_js/iter.js';import * as str from './_js/str.js';import * as bytes from './_js/bytes.js';import * as cryp from './_js/cryp.js';import * as dic from './_js/dic.js';import * as timer from './_js/timer.js';import * as js from './_js/js.js';import * as storage from './_js/storage.js';import * as sys from './_js/sys.js';import * as math from './_js/math.js';import * as domo from './_js/domo.js';import * as ui from './_js/ui.js';import * as arr from './_js/arr.js';import * as time from './_js/time.js';import * as client from './_js/client.js';import * as b64 from './_js/b64.js';
+import * as math from './_js/math.js';import * as js from './_js/js.js';import * as arr from './_js/arr.js';import * as client from './_js/client.js';import * as bytes from './_js/bytes.js';import * as str from './_js/str.js';import * as ui from './_js/ui.js';import * as dic from './_js/dic.js';import * as timer from './_js/timer.js';import * as time from './_js/time.js';import * as storage from './_js/storage.js';import * as b64 from './_js/b64.js';import * as sys from './_js/sys.js';import * as iter from './_js/iter.js';import * as domo from './_js/domo.js';import * as cryp from './_js/cryp.js';
 
 
 
@@ -32,6 +32,7 @@ const esDic =sys.$checkNull( {
   "Cash": "Caja",
   "Cash:": "Caja:",
   "Change": "Cambiar",
+  "Charts": "Gráficos",
   "Click %0 to continue.": "Hacer click %0 para continuar.",
   "Close": "Cerrar",
   "Close Year Help": "Ayuda para cerrar el ejercicio",
@@ -44,6 +45,7 @@ const esDic =sys.$checkNull( {
   "Currently this functions is deactivated": "Esta función está actualmente desactivada",
   "Daily Quotes": "Cotizaciones del día",
   "Daily Test": "Prueba diario",
+  "Data": "Datos",
   "Date": "Fecha",
   "Date '%0' is duplicated": "La fecha '%0' está repetida",
   "Date '%0' out of year %1": "La fecha '%0' no corresponde la año %1",
@@ -87,7 +89,9 @@ const esDic =sys.$checkNull( {
   "Log": "Registro",
   "Main": "Principal",
   "Max": "Max",
+  "Max.": "Max.",
   "Min": "Min",
+  "Min.": "Min.",
   "Model": "Modelo",
   "Modify": "Modificar",
   "Nick": "Nick",
@@ -143,6 +147,7 @@ const esDic =sys.$checkNull( {
   "Value": "Valor",
   "Verification": "Comprobación",
   "Vol": "Vol",
+  "Vol.": "Vol.",
   "Volume": "Volumen",
   "Warnings found.<br>See log.": "Se han producido avisos.<br>Ver log.",
   "Withdrawal": "Reintegro",
@@ -187,6 +192,7 @@ const enDic =sys.$checkNull( {
   "Cash": "Cash",
   "Cash:": "Cash:",
   "Change": "Change",
+  "Charts": "Charts",
   "Click %0 to continue.": "Click %0 to continue.",
   "Close": "Close",
   "Close Year Help": "Close Year Help",
@@ -199,6 +205,7 @@ const enDic =sys.$checkNull( {
   "Currently this functions is deactivated": "Currently this functions is deactivated",
   "Daily Quotes": "Daily Quotes",
   "Daily Test": "Daily Test",
+  "Data": "Data",
   "Date": "Date",
   "Date '%0' is duplicated": "Date '%0' is duplicated",
   "Date '%0' out of year %1": "Date '%0' out of year %1",
@@ -242,6 +249,7 @@ const enDic =sys.$checkNull( {
   "Log": "Log",
   "Main": "Main",
   "Max": "Max",
+  "Max.": "Max.",
   "Min": "Min",
   "Model": "Model",
   "Modify": "Modify",
@@ -298,6 +306,7 @@ const enDic =sys.$checkNull( {
   "Value": "Value",
   "Verification": "Verification",
   "Vol": "Vol",
+  "Vol.": "Vol.",
   "Volume": "Volume",
   "Warnings found.<br>See log.": "Warnings found.<br>See log.",
   "Withdrawal": "Withdrawal",
