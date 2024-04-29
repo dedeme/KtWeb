@@ -14,13 +14,13 @@ const Q =sys.$checkNull( ui.q);
 
 
 export  function mk(value, wgRatio, borderOp, backOp)  {sys.$params(arguments.length, 4);
-  const ratio =sys.$checkNull(sys.asBool( wgRatio < 0) ? 0 : wgRatio);
+  const ratio =sys.$checkNull( wgRatio < 0 ? 0 : wgRatio);
   const w =sys.$checkNull( math.toInt(300 * ratio));
   const h =sys.$checkNull( math.toInt(170 * ratio));
 
   const styleV =sys.$checkNull( [""]);
-  styleV[0] +=sys.$checkExists(styleV[0],sys.$checkNull(sys.asBool( borderOp) ? "border:1px solid " + borderOp[0] + ";" : ""));
-  styleV[0] +=sys.$checkExists(styleV[0],sys.$checkNull(sys.asBool( backOp) ? "background:" + backOp[0] + ";" : ""));
+  styleV[0] +=sys.$checkExists(styleV[0],sys.$checkNull( !sys.asBool(borderOp) ? "" : "border:1px solid " + borderOp[0] + ";"));
+  styleV[0] +=sys.$checkExists(styleV[0],sys.$checkNull( !sys.asBool(backOp) ? "" :  "background:" + backOp[0] + ";"));
 
   const wg =sys.$checkNull( Q("canvas")
     .att("width", w)
@@ -120,7 +120,7 @@ export  function mk(value, wgRatio, borderOp, backOp)  {sys.$params(arguments.le
 
     ctx.lineJoin =sys.$checkExists(ctx.lineJoin,sys.$checkNull( "round"));
     ctx.lineWidth =sys.$checkExists(ctx.lineWidth,sys.$checkNull( 4 * ratio));
-    ctx.strokeStyle =sys.$checkExists(ctx.strokeStyle,sys.$checkNull(sys.asBool( backOp) ? backOp[0] : "black"));
+    ctx.strokeStyle =sys.$checkExists(ctx.strokeStyle,sys.$checkNull( !sys.asBool(backOp) ? "black" : backOp[0]));
     ctx.fillStyle =sys.$checkExists(ctx.fillStyle,sys.$checkNull( "black"));
 
     ctx.beginPath();

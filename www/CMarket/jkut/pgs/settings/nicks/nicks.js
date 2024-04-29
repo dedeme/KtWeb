@@ -33,7 +33,7 @@ export  async  function mk(wg)  {sys.$params(arguments.length, 1);
   const Option =sys.$checkNull(["*v"]);
   const cosSize =sys.$checkNull( arr.size(Cos));
 
-  const selectedsSize =sys.$checkNull( arr.reduce(Cos, 0, function(r, c)  {sys.$params(arguments.length, 2); return sys.asBool( c.isSelected) ? r + 1 : r;}));
+  const selectedsSize =sys.$checkNull( arr.reduce(Cos, 0, function(r, c)  {sys.$params(arguments.length, 2);  return c.isSelected ? r + 1 : r;}));
   const stats =sys.$checkNull( Q("span")
     .text(i18n.fmt(
         II("Total: %0. Selected: %1."),
@@ -68,7 +68,7 @@ export  async  function mk(wg)  {sys.$params(arguments.length, 1);
 
    async  function select(nk)  {sys.$params(arguments.length, 1);
     const C =sys.$checkNull( arr.find(Cos, function(C)  {sys.$params(arguments.length, 1);  return sys.$eq(C.nick , nk);}));
-    if (sys.asBool(C)) {
+    if (!sys.asBool(!sys.asBool(C))) {
       await client.send({
         prg: cts.appName,
         module: "Settings",
@@ -80,7 +80,7 @@ export  async  function mk(wg)  {sys.$params(arguments.length, 1);
 
       C[0].isSelected =sys.$checkExists(C[0].isSelected,sys.$checkNull( !sys.asBool(C[0].isSelected)));
       const selectedsSize =sys.$checkNull(
-        arr.reduce(Cos, 0, function(r, c)  {sys.$params(arguments.length, 2); return sys.asBool( c.isSelected) ? r + 1 : r;}));
+        arr.reduce(Cos, 0, function(r, c)  {sys.$params(arguments.length, 2);  return c.isSelected ? r + 1 : r;}));
       stats
         .removeAll()
         .text(i18n.fmt(
@@ -100,13 +100,13 @@ export  async  function mk(wg)  {sys.$params(arguments.length, 1);
     const WithErrors =sys.$checkNull( [false]);
     const WithWarnings =sys.$checkNull( [false]);
      async  function download2(Nks)  {sys.$params(arguments.length, 1);
-      if (sys.asBool(!sys.asBool(Nks))) {
+      if (!sys.asBool(Nks)) {
         SetWait[0]("");
-        if (sys.asBool(sys.asBool(WithErrors[0]) && sys.asBool(WithWarnings[0])))
+        if (WithErrors[0] && WithWarnings[0])
           msg.error(II("Errors and warnings found.<br>See log."), function(){sys.$params(arguments.length, 0);});
-        else if (sys.asBool(WithErrors[0]))
+        else if (WithErrors[0])
           msg.error(II("Errors found.<br>See log."), function(){sys.$params(arguments.length, 0);});
-        else if (sys.asBool(WithWarnings[0]))
+        else if (WithWarnings[0])
           msg.error(II("Warnings found.<br>See log."), function(){sys.$params(arguments.length, 0);});
         else
           msg.ok(II("Download ok."), function(){sys.$params(arguments.length, 0);});
@@ -122,8 +122,8 @@ export  async  function mk(wg)  {sys.$params(arguments.length, 1);
         mainNick: Main[0],
         nick: nk
       }));
-      if (sys.asBool(sys.$eq(Rp.result , "error"))) WithErrors[0] =sys.$checkExists(WithErrors[0],sys.$checkNull( true));
-      else if (sys.asBool(sys.$eq(Rp.result , "warnings"))) WithWarnings[0] =sys.$checkExists(WithWarnings[0],sys.$checkNull( true));
+      if (sys.$eq(Rp.result , "error")) WithErrors[0] =sys.$checkExists(WithErrors[0],sys.$checkNull( true));
+      else if (sys.$eq(Rp.result , "warnings")) WithWarnings[0] =sys.$checkExists(WithWarnings[0],sys.$checkNull( true));
       download2(Nks);
     };
     const Nicks =sys.$checkNull( arr.filter(
@@ -138,13 +138,13 @@ export  async  function mk(wg)  {sys.$params(arguments.length, 1);
     const WithErrors =sys.$checkNull( [false]);
     const WithWarnings =sys.$checkNull( [false]);
      async  function test2(Cs)  {sys.$params(arguments.length, 1);
-      if (sys.asBool(!sys.asBool(Cs))) {
+      if (!sys.asBool(Cs)) {
         SetWait[0]("");
-        if (sys.asBool(sys.asBool(WithErrors[0]) && sys.asBool(WithWarnings[0])))
+        if (WithErrors[0] && WithWarnings[0])
           msg.error(II("Errors and warnings found.<br>See log."), function(){sys.$params(arguments.length, 0);});
-        else if (sys.asBool(WithErrors[0]))
+        else if (WithErrors[0])
           msg.error(II("Errors found.<br>See log."), function(){sys.$params(arguments.length, 0);});
-        else if (sys.asBool(WithWarnings[0]))
+        else if (WithWarnings[0])
           msg.error(II("Warnings found.<br>See log."), function(){sys.$params(arguments.length, 0);});
         else
           msg.ok(II("Test ok."), function(){sys.$params(arguments.length, 0);});
@@ -180,18 +180,18 @@ export  async  function mk(wg)  {sys.$params(arguments.length, 1);
           .add(Q("td")
             .att("title", II("Main"))
             .add(ui.link(function(ev)  {sys.$params(arguments.length, 1); setMain(co.nick);})
-              .add(ui.img(sys.asBool(sys.$eq(Main[0] , co.nick)) ? "star" : "star2"))))
+              .add(ui.img(sys.$eq(Main[0] , co.nick) ? "star" : "star2"))))
           .add(Q("td")
             .att("title", II("Selection"))
             .add(ui.link(function(ev)  {sys.$params(arguments.length, 1); select(co.nick);})
-              .add(sys.asBool(co.isSelected)
-                  ? ui.img(sys.asBool(volumes[co.nick] < cts.trading) ? "flag2" : "flag1")
+              .add(co.isSelected
+                  ? ui.img(volumes[co.nick] < cts.trading ? "flag2" : "flag1")
                   : ui.led("#d0ddde", 6).setStyle("padding", "5px")
                 )))
           .add(Q("td")
             .att(
-                "title",sys.asBool(
-                sys.$eq(i18n.getLang() , "es"))
+                "title",
+                sys.$eq(i18n.getLang() , "es")
                   ? math.toIso(volumes[co.nick], 0)
                   : math.toEn(volumes[co.nick], 0)
               )
@@ -201,7 +201,7 @@ export  async  function mk(wg)  {sys.$params(arguments.length, 1);
     ;};
 
    function list()  {sys.$params(arguments.length, 0);
-    if (sys.asBool(sys.$eq(Option[0] , "*l"))) arr.sort(Cos, function(C1, C2)  {sys.$params(arguments.length, 2);  return C1.nick < C2.nick;});
+    if (sys.$eq(Option[0] , "*l")) arr.sort(Cos, function(C1, C2)  {sys.$params(arguments.length, 2);  return C1.nick < C2.nick;});
     else arr.sort(Cos, function(C1, C2)  {sys.$params(arguments.length, 2);  return volumes[C1.nick] > volumes[C2.nick];});
 
     const Rows =sys.$checkNull( []);
@@ -212,8 +212,8 @@ export  async  function mk(wg)  {sys.$params(arguments.length, 1);
       for (let j = 0;j < ncols; ++j) {
         const ico =sys.$checkNull( j * nrows + i);
         arr.push(
-          Tds,sys.asBool(
-          ico >= cosSize)
+          Tds,
+          ico >= cosSize
             ? Q("td")
             : coTd(Cos[ico])
         );
@@ -250,7 +250,7 @@ export  async  function mk(wg)  {sys.$params(arguments.length, 1);
   };
 
   Show[0] =sys.$checkExists(Show[0], function()  {sys.$params(arguments.length, 0);
-    if (sys.asBool(sys.$eq(Main[0] , ""))) {
+    if (sys.$eq(Main[0] , "")) {
       wg
         .removeAll()
         .add(Q("table")
@@ -263,7 +263,7 @@ export  async  function mk(wg)  {sys.$params(arguments.length, 1);
       return;
     }
 
-    if (sys.asBool(sys.asBool(!sys.asBool(arr.any(Cos, function(C)  {sys.$params(arguments.length, 1);  return sys.$eq(C.nick , Option[0]);}))) && sys.asBool(sys.$neq(Option[0] , "*l"))))
+    if (!sys.asBool(arr.any(Cos, function(C)  {sys.$params(arguments.length, 1);  return sys.$eq(C.nick , Option[0]);})) && sys.$neq(Option[0] , "*l"))
       Option[0] =sys.$checkExists(Option[0],sys.$checkNull( "*v"));
 
     const menuWg =sys.$checkNull( menu.mk(
@@ -278,7 +278,7 @@ export  async  function mk(wg)  {sys.$params(arguments.length, 1);
 
     const body =sys.$checkNull( Q("div"));
 
-    if (sys.asBool(sys.$eq(Option[0][0] , "*"))) body.add(list());
+    if (sys.$eq(Option[0][0] , "*")) body.add(list());
     else editor.mk(body, arr.map(Cos, function(C)  {sys.$params(arguments.length, 1);  return C.nick;}), Main[0], Option[0]);
 
     wg
@@ -293,7 +293,7 @@ export  async  function mk(wg)  {sys.$params(arguments.length, 1);
   SetWait[0] =sys.$checkExists(SetWait[0], function(nick)  {sys.$params(arguments.length, 1);
     msgWait.removeAll();
 
-    if (sys.asBool(sys.$neq(nick , ""))) {
+    if (sys.$neq(nick , "")) {
       const box =sys.$checkNull( modalBox.mk(
         Q("div")
           .add(Q("div")

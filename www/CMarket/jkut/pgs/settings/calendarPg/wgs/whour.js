@@ -14,11 +14,11 @@ const Q =sys.$checkNull( ui.q);
 
 export  function mk(hour, minute, fn)  {sys.$params(arguments.length, 3);
   const Hlist =sys.$checkNull( arr.fromIter(iter.map(iter.$range(0,24), function(n)  {sys.$params(arguments.length, 1);
-     return (sys.asBool(sys.$eq(n , hour)) ? "+" : "") + fns.format00(n);}
+     return (sys.$eq(n , hour) ? "+" : "") + fns.format00(n);}
   )));
 
   const Mlist =sys.$checkNull( arr.fromIter(iter.map(iter.$range(0,12), function(n)  {sys.$params(arguments.length, 1);
-     return (sys.asBool(sys.$eq(n * 5 , minute)) ? "+" : "") + fns.format00(n * 5);}
+     return (sys.$eq(n * 5 , minute) ? "+" : "") + fns.format00(n * 5);}
   )));
 
   const h =sys.$checkNull( ui.select("wh", Hlist).on("change", function(e)  {sys.$params(arguments.length, 1); fn();}));

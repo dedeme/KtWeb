@@ -78,15 +78,15 @@ export  function mk(wg, Anns, DelFn)  {sys.$params(arguments.length, 3);
     .removeAll()
     .add(Q("table")
       .att("align", "center")
-      .adds(sys.asBool(sys.$eq(arr.size(Anns) , 0))
+      .adds(sys.$eq(arr.size(Anns) , 0)
         ? [ Q("tr")
             .add(Q("td")
               .klass("frame")
               .text(II("Without Data")))
           ]
         : arr.map(Anns, function(Ann)  {sys.$params(arguments.length, 1);
-            if (sys.asBool(DelFn)) {
-              if (sys.asBool(sys.asBool(sys.$slice(Ann.date, -4,null) > "0101") && sys.asBool(sys.$neq(opr.type(Ann.op) , opr.stT))))
+            if (!sys.asBool(!sys.asBool(DelFn))) {
+              if (sys.$slice(Ann.date, -4,null) > "0101" && sys.$neq(opr.type(Ann.op) , opr.stT))
                  return Q("tr")
                   .add(ui.link(function(e)  {sys.$params(arguments.length, 1); DelFn[0](Ann.id);})
                     .add(ui.img("delete")))

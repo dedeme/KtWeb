@@ -11,9 +11,9 @@ export  function mk(Params, ev)  {sys.$params(arguments.length, 2);  return {Par
 
 
 export  function eqParams(P1, P2)  {sys.$params(arguments.length, 2);
-  if (sys.asBool(sys.$neq(arr.size(P1) , arr.size(P2))))  return false;
+  if (sys.$neq(arr.size(P1) , arr.size(P2)))  return false;
   for (let i = 0;i < arr.size(P1); ++i)
-    if (sys.asBool(!sys.asBool(math.eq(P1[i], P2[i], 0.0000001))))  return false;
+    if (!sys.asBool(math.eq(P1[i], P2[i], 0.0000001)))  return false;
    return true;
 };
 

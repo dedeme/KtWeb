@@ -2,7 +2,6 @@ import * as math from '../_js/math.js';import * as js from '../_js/js.js';import
 
 
 
-
 import * as docEntry from  "../data/docEntry.js";
 
 
@@ -16,29 +15,4 @@ import * as docEntry from  "../data/docEntry.js";
 
 
 
-export  function mk(doc, defines, enums, structs, typedefs, unions, functions, vars)  {sys.$params(arguments.length, 8);
-   return {doc:doc, defines:defines, enums:enums, structs:structs, typedefs:typedefs, unions:unions, functions:functions, vars:vars};};
-
-
-export  function toJs(D)  {sys.$params(arguments.length, 1);  return [
-    D.doc,
-    arr.map(D.defines, docEntry.toJs),
-    arr.map(D.enums, docEntry.toJs),
-    arr.map(D.structs, docEntry.toJs),
-    arr.map(D.typedefs, docEntry.toJs),
-    arr.map(D.unions, docEntry.toJs),
-    arr.map(D.functions, docEntry.toJs),
-    arr.map(D.vars, docEntry.toJs)
-  ];};
-
-
-export  function fromJs(A)  {sys.$params(arguments.length, 1);  return mk(
-    A[0],
-    arr.map(A[1], docEntry.fromJs),
-    arr.map(A[2], docEntry.fromJs),
-    arr.map(A[3], docEntry.fromJs),
-    arr.map(A[4], docEntry.fromJs),
-    arr.map(A[5], docEntry.fromJs),
-    arr.map(A[6], docEntry.fromJs),
-    arr.map(A[7], docEntry.fromJs)
-  );};
+export function mk (docTx,Defines,Enums,Structs,Typedefs,Unions,Functions,Vars) { sys.$params(arguments.length, 8); return [ docTx, Defines, Enums, Structs, Typedefs, Unions, Functions, Vars];}export const docTx = 0;export const Defines = 1;export const Enums = 2;export const Structs = 3;export const Typedefs = 4;export const Unions = 5;export const Functions = 6;export const Vars = 7;

@@ -17,6 +17,7 @@ const esDic =sys.$checkNull( {
   "Cancel": "Cancelar",
   "Change of Year": "Cambio de año",
   "Click %0 to continue.": "Hacer click %0 para continuar.",
+  "Data base is out of date.": "La base de datos está obsoleta.",
   "Delete %0?": "¿Eliminar %0?",
   "Delete '%0'?": "¿Eliminar '%0'?",
   "Description": "Descripción",
@@ -82,6 +83,7 @@ const enDic =sys.$checkNull( {
   "Cancel": "Cancel",
   "Change of Year": "Change of Year",
   "Click %0 to continue.": "Click %0 to continue.",
+  "Data base is out of date.": "Data base is out of date.",
   "Delete %0?": "Delete %0?",
   "Delete '%0'?": "Delete '%0'?",
   "Description": "Description",
@@ -133,11 +135,11 @@ const enDic =sys.$checkNull( {
 export  function en() {sys.$params(arguments.length, 0); Lang[0] =sys.$checkExists(Lang[0],sys.$checkNull( "en"));};
 
 
- function dicByKey(s)  {sys.$params(arguments.length, 1);    
-  return sys.$eq(s,"es")? esDic:
+ function dicByKey(s)  {sys.$params(arguments.length, 1); return (   
+  sys.$eq(s,"es")? esDic:
   sys.$eq(s,"en")? enDic:
    "Unreachable"
-;};
+);};
 
 const Lang =sys.$checkNull( ["es"]);
 
@@ -146,7 +148,7 @@ export  function getLang() {sys.$params(arguments.length, 0);  return Lang[0];};
 
 export  function tlt(s)  {sys.$params(arguments.length, 1);
   const T =sys.$checkNull( dic.get(dicByKey(Lang[0]), s));
-  return sys.asBool( T) ? T[0] : s;
+   return !sys.asBool(T) ? s : T[0];
 };
 
 

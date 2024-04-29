@@ -19,7 +19,7 @@ const II =sys.$checkNull( i18n.tlt);
 
  async  function mk(wg)  {sys.$params(arguments.length, 1);
   const ok =sys.$checkNull( await  client.connect());
-  if (sys.asBool(!sys.asBool(ok))) {
+  if (!sys.asBool(ok)) {
     ui.alert(II("KtWeb session is closed.\nAuthenticating from KtWeb:Main."));
     window.location.assign("http://" + window.location.host + "/Main");
     return;
@@ -30,7 +30,7 @@ const II =sys.$checkNull( i18n.tlt);
     source: "Main",
     rq: "lang"
   }));
-  if (sys.asBool(sys.$eq(Rp0.lang , "en"))) i18n.en();
+  if (sys.$eq(Rp0.lang , "en")) i18n.en();
 
   const Rp =sys.$checkNull( await  client.send({
     prg: "CMMarket",
@@ -41,19 +41,28 @@ const II =sys.$checkNull( i18n.tlt);
   const ModelIds =sys.$checkNull( Rp.modelIds);
 
   const Url =sys.$checkNull( ui.url());
-  const Pg =sys.$checkNull( dic.get(Url, "1"));
-  const pg =sys.$checkNull(sys.asBool( Pg)
-    ?   
-        sys.$eq(Pg[0],"description")|| sys.$eq(Pg[0],"results")|| sys.$eq(Pg[0],"hot")|| sys.$eq(Pg[0],"charts") ? Pg[0]:
+  const modelOp =sys.$checkNull( !sys.asBool(Url) ? [] : [Url[0]]);
+  const pgOp =sys.$checkNull( arr.size(Url) > 1 ? [Url[1]] : []);
+
+  const pg =sys.$checkNull( !sys.asBool(pgOp)
+    ? "description"
+    :(   
+        sys.$eq(pgOp[0],"description")|| sys.$eq(pgOp[0],"results")|| sys.$eq(pgOp[0],"hot")|| sys.$eq(pgOp[0],"charts") ? pgOp[0]:
          "description"
-      
-    : "description");
-  const SelectedModel =sys.$checkNull( dic.get(Url, "0"));
-  const model =sys.$checkNull(sys.asBool(
-    sys.asBool(SelectedModel) && sys.asBool(arr.any(ModelIds, function(id)  {sys.$params(arguments.length, 1);  return sys.$eq(id , SelectedModel[0]);})))
-    ? SelectedModel[0]
-    : ModelIds[0])
+      ))
   ;
+
+  const modelV =sys.$checkNull( [ModelIds[0]]);
+  const ymarkV =sys.$checkNull( [""]);
+  if (!sys.asBool(!sys.asBool(modelOp))) {
+    const mV =sys.$checkNull( [modelOp[0]]);
+    if (sys.$eq(mV[0][0] , "-")) {
+      ymarkV[0] =sys.$checkExists(ymarkV[0],sys.$checkNull( "-"));
+      mV[0] =sys.$checkExists(mV[0],sys.$checkNull( sys.$slice(mV[0],1,null)));
+    }
+    if (arr.any(ModelIds, function(id)  {sys.$params(arguments.length, 1);  return sys.$eq(id , mV[0]);})) modelV[0] =sys.$checkExists(modelV[0],sys.$checkNull( mV[0]));
+  }
+  const model =sys.$checkNull( modelV[0]);
 
   const Lopts =sys.$checkNull( [
     menu.tlink("description", II("Description"), [model]),
@@ -64,7 +73,8 @@ const II =sys.$checkNull( i18n.tlt);
     menu.separator(),
     menu.tlink("charts", II("Charts"), [model])
   ]);
-  const menuWg =sys.$checkNull( menu.mk(Lopts, [], pg, false));
+  const Ropts =sys.$checkNull( []);
+  const menuWg =sys.$checkNull( menu.mk(Lopts, Ropts, pg, false));
 
   const body =sys.$checkNull( Q("div"));
 

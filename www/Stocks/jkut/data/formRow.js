@@ -18,5 +18,4 @@ import * as math from '../_js/math.js';import * as js from '../_js/js.js';import
 
 
 
-export  function mk(date, bs, bp, bt, ss, sp, st, ts, tp, tt, profits, ttProfits, fees, ttFees)  {sys.$params(arguments.length, 14);
-   return {date:date, bs:bs, bp:bp, bt:bt, ss:ss, sp:sp, st:st, ts:ts, tp:tp, tt:tt, profits:profits, ttProfits:ttProfits, fees:fees, ttFees:ttFees};};
+export function mk (date,bs,bp,bt,ss,sp,st,ts,tp,tt,profits,ttProfits,fees,ttFees) { sys.$params(arguments.length, 14); return [ date, bs, bp, bt, ss, sp, st, ts, tp, tt, profits, ttProfits, fees, ttFees];}export const date = 0;export const bs = 1;export const bp = 2;export const bt = 3;export const ss = 4;export const sp = 5;export const st = 6;export const ts = 7;export const tp = 8;export const tt = 9;export const profits = 10;export const ttProfits = 11;export const fees = 12;export const ttFees = 13;

@@ -10,6 +10,7 @@ const esDic =sys.$checkNull( {
   "Click %0 to continue.": "Click %0 para continuar.",
   "Command": "Instrucción",
   "Command value is missing": "No se ha indicado la instrucción a ejecutar",
+  "Data base is out of date.": "La base de datos está obsoleta.",
   "Day": "Día",
   "Day value is missing": "Falta indicar el día",
   "Delete": "Borrar",
@@ -19,17 +20,15 @@ const esDic =sys.$checkNull( {
   "Fixed days": "Días fijos",
   "Home": "Inicio",
   "Hour - Minute": "Hora - Minuto",
-  "KtWeb session is closed.\nAuthenticating from KtWeb:Main.": "La sesión de KtWeb ha sido cerrada.\nHay que autenticarse en KtWeb:Main.",
   "Log": "Registro",
   "MTWRFSU": "LMXJVSD",
   "Manual": "Manual",
   "Periodic": "Periódico",
   "Periodic days": "Dias periódicos",
-  "Reactivate": "Reactivar",
   "Reload": "Recargar",
   "Server": "Servidor",
+  "Session is closed.\nAuthenticating from Main.": "La sesión ha sido cerrada.\nHay que autenticarse en Main.",
   "Session is expired.": "Las sesión ha expirado.",
-  "Stop": "Detener",
   "Time is equals or previous to the current one": "El tiempo es igual o anterior al actual.",
   "Week days is missing": "No se ha indicado ningún dia de la semana",
   "Without entries": "Sin entradas",
@@ -46,6 +45,7 @@ const enDic =sys.$checkNull( {
   "Click %0 to continue.": "Click %0 to continue.",
   "Command": "Command",
   "Command value is missing": "Command value is missing",
+  "Data base is out of date.": "Data base is out of date.",
   "Day": "Day",
   "Day value is missing": "Day value is missing",
   "Delete": "Delete",
@@ -55,17 +55,15 @@ const enDic =sys.$checkNull( {
   "Fixed days": "Fixed days",
   "Home": "Home",
   "Hour - Minute": "Hour - Minute",
-  "KtWeb session is closed.\nAuthenticating from KtWeb:Main.": "KtWeb session is closed.\nAuthenticating from KtWeb:Main.",
   "Log": "Log",
   "MTWRFSU": "MTWRFSU",
   "Manual": "Manual",
   "Periodic": "Periodic",
   "Periodic days": "Periodic days",
-  "Reactivate": "Reactivate",
   "Reload": "Reload",
   "Server": "Server",
+  "Session is closed.\nAuthenticating from Main.": "Session is closed.\nAuthenticating from Main.",
   "Session is expired.": "Session is expired.",
-  "Stop": "Stop",
   "Time is equals or previous to the current one": "Time is equals or previous to the current one",
   "Week days is missing": "Week days is missing",
   "Without entries": "Without entries",
@@ -75,11 +73,11 @@ const enDic =sys.$checkNull( {
 export  function en() {sys.$params(arguments.length, 0); Lang[0] =sys.$checkExists(Lang[0],sys.$checkNull( "en"));};
 
 
- function dicByKey(s)  {sys.$params(arguments.length, 1);    
-  return sys.$eq(s,"es")? esDic:
+ function dicByKey(s)  {sys.$params(arguments.length, 1); return (   
+  sys.$eq(s,"es")? esDic:
   sys.$eq(s,"en")? enDic:
    "Unreachable"
-;};
+);};
 
 const Lang =sys.$checkNull( ["es"]);
 
@@ -88,7 +86,7 @@ export  function getLang() {sys.$params(arguments.length, 0);  return Lang[0];};
 
 export  function tlt(s)  {sys.$params(arguments.length, 1);
   const T =sys.$checkNull( dic.get(dicByKey(Lang[0]), s));
-  return sys.asBool( T) ? T[0] : s;
+   return !sys.asBool(T) ? s : T[0];
 };
 
 

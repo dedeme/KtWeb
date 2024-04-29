@@ -31,8 +31,6 @@ export const ibexNick =sys.$checkNull( "<IBEX>");
 
 export const euroNick =sys.$checkNull( "<EURO>");
 
-export const usaNick =sys.$checkNull( "<USA>");
-
 
 export const trading =sys.$checkNull( 1500000);
 

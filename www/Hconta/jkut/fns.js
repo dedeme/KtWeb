@@ -5,7 +5,7 @@ import * as math from './_js/math.js';import * as js from './_js/js.js';import *
 
 
 
-export  function cutRight(s, len)  {sys.$params(arguments.length, 2); return sys.asBool( str.len(s) <= len)
+export  function cutRight(s, len)  {sys.$params(arguments.length, 2);  return str.len(s) <= len
     ? s
     : sys.$slice(s,null,len-3) + "..."
   ;};
@@ -20,8 +20,8 @@ export  function float(n)  {sys.$params(arguments.length, 1);
     ),
     ",", "."
   ));
-  if (sys.asBool(sys.$eq(n2 , "")))  return [0];
+  if (sys.$eq(n2 , ""))  return [0];
   const rOp =sys.$checkNull( math.fromStr(n2));
-  if (sys.asBool(rOp))  return [math.round(rOp[0], 2)];
-   return rOp;
+  if (!sys.asBool(rOp))  return rOp;
+   return [math.round(rOp[0], 2)];
 };

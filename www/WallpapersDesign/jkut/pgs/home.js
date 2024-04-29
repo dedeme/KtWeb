@@ -28,7 +28,7 @@ export  async  function mk(wg)  {sys.$params(arguments.length, 1);
 
   
    async  function save(ev)  {sys.$params(arguments.length, 1);
-    if (sys.asBool(ui.confirm(i18n.fmt(II("Save pictures in group %0?"), [Group[0]])))) {
+    if (ui.confirm(i18n.fmt(II("Save pictures in group %0?"), [Group[0]]))) {
       cts.BoxContent
         .removeAll()
         .add(ui.img("wait.gif"))
@@ -57,7 +57,7 @@ export  async  function mk(wg)  {sys.$params(arguments.length, 1);
     const Duplicates =sys.$checkNull( Rp.duplicates);
     Group[0] =sys.$checkExists(Group[0],sys.$checkNull( Rp.group));
 
-    if (sys.asBool(!sys.asBool(Duplicates))) {
+    if (!sys.asBool(Duplicates)) {
       td
         .removeAll()
         .add(ui.link(save)
@@ -115,7 +115,7 @@ export  async  function mk(wg)  {sys.$params(arguments.length, 1);
 
   
 
-  if (sys.asBool(!sys.asBool(Images))) {
+  if (!sys.asBool(Images)) {
     wg
       .removeAll()
       .add(Q("table")

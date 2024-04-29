@@ -6,6 +6,7 @@ import * as math from './_js/math.js';import * as js from './_js/js.js';import *
 import * as cts from  "./cts.js";
 import * as menu from  "./libdm/menu.js";
 import * as dpath from  "./data/dpath.js";
+import * as conf from  "./data/conf.js";
 import * as msgPg from  "./pgs/msgPg.js";
 import * as pathsPg from  "./pgs/pathsPg.js";
 import * as indexPg from  "./pgs/indexPg.js";
@@ -19,7 +20,7 @@ const II =sys.$checkNull( i18n.tlt);
 
  async  function mk(wg)  {sys.$params(arguments.length, 1);
   const ok =sys.$checkNull( await  client.connect());
-  if (sys.asBool(!sys.asBool(ok))) {
+  if (!sys.asBool(ok)) {
     ui.alert(II("KtWeb session is closed.\nAuthenticating from KtWeb:Main."));
     window.location.assign("http://" + window.location.host + "/Main");
   } else {
@@ -28,37 +29,37 @@ const II =sys.$checkNull( i18n.tlt);
       source: "Main",
       rq: "lang"
     }));
-    if (sys.asBool(sys.$eq(rp.lang , "en"))) i18n.en();
+    if (sys.$eq(rp.lang , "en")) i18n.en();
 
     const rp2 =sys.$checkNull( await  client.send({
       prg: "KutDoc",
       source: "Main",
       rq: "idata"
     }));
-    const Cf =sys.$checkNull( rp2.conf);
+    const Cf =sys.$checkNull( conf.fromJs(rp2.conf));
     const Paths =sys.$checkNull( arr.map(rp2.paths, dpath.fromJs));
     arr.sort(Paths, function(p1, p2)  {sys.$params(arguments.length, 2);  return str.less(p1.id, p2.id);});
 
-    const url =sys.$checkNull( ui.url());
-    const page =sys.$checkNull(sys.asBool( dic.hasKey(url, "0")) ? url["0"] : Cf.path);
+    const Url =sys.$checkNull( ui.url());
+    const page =sys.$checkNull( arr.size(Url) > 0 ? Url["0"] : Cf.path);
 
-    const parts =sys.$checkNull( page.split("@"));
-    const pack =sys.$checkNull(sys.asBool( sys.$eq(page , "@")) ? page : parts[0]);
-    const PkPath =sys.$checkNull(sys.asBool( sys.asBool(parts.length > 1) && sys.asBool(sys.$neq(pack , "@"))) ? [parts[1]] : []);
+    const Parts =sys.$checkNull( page.split("@"));
+    const pack =sys.$checkNull( sys.$eq(page , "@") ? page : Parts[0]);
+    const PkPath =sys.$checkNull( Parts.length > 1 && sys.$neq(pack , "@") ? [Parts[1]] : []);
 
-    const Anchor =sys.$checkNull(sys.asBool( dic.hasKey(url, "1")) ? [url["1"]] : []);
+    const anchorOp =sys.$checkNull( arr.size(Url) > 1 ? [Url[1]] : []);
 
     client.send({
       prg: "KutDoc",
       source: "Main",
       rq: "savePath",
-      path:sys.asBool( PkPath) ? pack + "@" + PkPath[0] : pack
+      path: !sys.asBool(PkPath) ? pack : pack + "@" + PkPath[0]
     });
 
     const Lopts =sys.$checkNull( [menu.ilink("@", "asterisk", [])]);
 
     for (const p  of sys.$forObject( Paths)) {
-      if (sys.asBool(sys.asBool(p.isValid) && sys.asBool(p.isShown))) {
+      if (p.isValid && p.isShown) {
         arr.push(Lopts, menu.separator());
         arr.push(Lopts, menu.tlink(p.id, p.id, []));
       }
@@ -66,9 +67,9 @@ const II =sys.$checkNull( i18n.tlt);
     const menuWg =sys.$checkNull( menu.mk(Lopts, [], pack, false));
 
     const body =sys.$checkNull( Q("div"));
-    if (sys.asBool(sys.$eq(pack , "@"))) pathsPg.mk(body, Cf, Paths);
-    else if (sys.asBool(!sys.asBool(PkPath))) indexPg.mk(body, pack);
-    else if (sys.asBool(Anchor)) codePg.mk(body, pack, PkPath[0], Anchor[0]);
+    if (sys.$eq(pack , "@")) pathsPg.mk(body, Cf, Paths);
+    else if (!sys.asBool(PkPath)) indexPg.mk(body, pack);
+    else if (!sys.asBool(!sys.asBool(anchorOp))) codePg.mk(body, pack, PkPath[0], anchorOp[0]);
     else modulePg.mk(body, pack, PkPath[0]);
 
     wg
@@ -86,7 +87,7 @@ export  async  function load()  {sys.$params(arguments.length, 0);
   await mk(wg);
 
   const Fc =sys.$checkNull( ui.qOp("#autofocus"));
-  if (sys.asBool(Fc)) Fc[0].e.focus();
+  if (!sys.asBool(!sys.asBool(Fc))) Fc[0].e.focus();
 };
 
 

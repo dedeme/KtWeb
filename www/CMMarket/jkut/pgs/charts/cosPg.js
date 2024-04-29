@@ -5,7 +5,7 @@ import * as math from '../../_js/math.js';import * as js from '../../_js/js.js';
 
 import * as menu from  "../../libdm/menu.js";
 import * as modalBox from  "../../libdm/modalBox.js";
-import * as lineChart from  "../../libdm/lineChart.js";
+import * as oldChart from  "../../libdm/oldChart.js";
 import * as model from  "../../data/model.js";
 import * as result from  "../../data/result.js";
 import * as modelEval from  "../../data/modelEval.js";
@@ -20,14 +20,14 @@ export  async  function mk(wg, modelId)  {sys.$params(arguments.length, 2);
   
   const Params =sys.$checkNull( []);
   const Url =sys.$checkNull( ui.url());
-  const Uparams =sys.$checkNull( dic.get(Url, "2"));
-  if (sys.asBool(Uparams)) {
+  const uparamsOp =sys.$checkNull( arr.size(Url) > 2 ? [Url[2]] : []);
+  if (!sys.asBool(!sys.asBool(uparamsOp))) {
     try{ {
-      const A =sys.$checkNull( js.r(Uparams[0]));
+      const A =sys.$checkNull( js.r(uparamsOp[0]));
       const ok =sys.$checkNull( arr.reduce(
-        A, true, function(r, e)  {sys.$params(arguments.length, 2);  return sys.asBool(sys.asBool(r) && sys.asBool(sys.$eq(sys.type(e) , "number"))) && sys.asBool(e >= 0);}
+        A, true, function(r, e)  {sys.$params(arguments.length, 2);  return r && sys.$eq(sys.type(e) , "number") && e >= 0;}
       ));
-      if (sys.asBool(ok)) arr.push(Params, A);
+      if (ok) arr.push(Params, A);
     }} catch (e){ {}}
   }
 
@@ -38,7 +38,7 @@ export  async  function mk(wg, modelId)  {sys.$params(arguments.length, 2);
     modelId:modelId,
     params: Params 
   }));
-  if (sys.asBool(!sys.asBool(Rp.ok))) {
+  if (!sys.asBool(Rp.ok)) {
     ui.alert(i18n.fmt(II("%0%1 not found."), [modelId, sys.toStr(Params)]));
     window.location.assign("?");
     return;
@@ -63,7 +63,7 @@ export  async  function mk(wg, modelId)  {sys.$params(arguments.length, 2);
     for (let j = 0;j < 3; ++j) {
       const dv =sys.$checkNull( Q("div"));
       const ico =sys.$checkNull( i * 3 + j);
-      if (sys.asBool(ico < arr.size(Cos))) {
+      if (ico < arr.size(Cos)) {
         wait(dv, Cos[ico]);
       }
       arr.push(Row, dv);
@@ -73,7 +73,7 @@ export  async  function mk(wg, modelId)  {sys.$params(arguments.length, 2);
 
   
    function showBigChart(co, Data)  {sys.$params(arguments.length, 2);
-    const Ch =sys.$checkNull( lineChart.mkExample());
+    const Ch =sys.$checkNull( oldChart.mkExample());
     Ch.ExArea.width =sys.$checkExists(Ch.ExArea.width,sys.$checkNull( 800));
     Ch.ExArea.height =sys.$checkExists(Ch.ExArea.height,sys.$checkNull( 400));
     Ch.ExArea.Atts.background =sys.$checkExists(Ch.ExArea.Atts.background,sys.$checkNull( "#ffffff"));
@@ -85,7 +85,7 @@ export  async  function mk(wg, modelId)  {sys.$params(arguments.length, 2);
       .add(Q("div")
         .klass("head")
         .text(co))
-      .add(lineChart.mkWg(Ch, Data))
+      .add(oldChart.mkWg(Ch, Data))
       .add(Q("button")
         .text(II("Close"))
         .on("click", function(e)  {sys.$params(arguments.length, 1); modalBox.show(ModalBox, false);}))
@@ -121,7 +121,7 @@ export  async  function mk(wg, modelId)  {sys.$params(arguments.length, 2);
         function(i)  {sys.$params(arguments.length, 1);
           const q =sys.$checkNull( Qs[i]);
           const r =sys.$checkNull( Refs[i]);
-          return sys.asBool( r > q) ? [r] : [];
+           return r > q ? [r] : [];
         }
       )));
       const RefsDown =sys.$checkNull( arr.fromIter(iter.map(
@@ -129,34 +129,34 @@ export  async  function mk(wg, modelId)  {sys.$params(arguments.length, 2);
         function(i)  {sys.$params(arguments.length, 1);
           const q =sys.$checkNull( Qs[i]);
           const r =sys.$checkNull( Refs[i]);
-          return sys.asBool( r < q) ? [r] : [];
+           return r < q ? [r] : [];
         }
       )));
-      if (sys.asBool(Result.profits < 0)) Nlosses[0] +=sys.$checkExists(Nlosses[0],sys.$checkNull( 1));
+      if (Result.profits < 0) Nlosses[0] +=sys.$checkExists(Nlosses[0],sys.$checkNull( 1));
       RatiosSum[0] +=sys.$checkExists(RatiosSum[0],sys.$checkNull( Result.profits));
 
-      const Ch =sys.$checkNull( lineChart.mkExample());
+      const Ch =sys.$checkNull( oldChart.mkExample());
       Ch.ExArea.width =sys.$checkExists(Ch.ExArea.width,sys.$checkNull( 300));
       Ch.ExArea.height =sys.$checkExists(Ch.ExArea.height,sys.$checkNull( 150));
       Ch.ExArea.Atts.background =sys.$checkExists(Ch.ExArea.Atts.background,sys.$checkNull( "#ffffff"));
       Ch.InAtts.background =sys.$checkExists(Ch.InAtts.background,sys.$checkNull( "#e9e9e9"));
 
-      const Data =sys.$checkNull( lineChart.mkData(
+      const Data =sys.$checkNull( oldChart.mkData(
         Labels,
         [ RefsUp,
           RefsDown,
           arr.map(Qs, function(q)  {sys.$params(arguments.length, 1);  return [q];})],
-        [ lineChart.mkLine(1, "#4060a0", false),
-          lineChart.mkLine(1, "#a06040", false),
-          lineChart.mkLine(1, "#000000", false)
+        [ oldChart.mkLine(1, "#4060a0", false),
+          oldChart.mkLine(1, "#a06040", false),
+          oldChart.mkLine(1, "#000000", false)
         ]
       ));
 
-      Data.maxMinRound =sys.$checkExists(Data.maxMinRound, function(mx, mn)  {sys.$params(arguments.length, 2); return sys.asBool( mx > 10) ? 0 :  -1;});
+      Data.maxMinRound =sys.$checkExists(Data.maxMinRound, function(mx, mn)  {sys.$params(arguments.length, 2);  return mx > 10 ? 0 :  -1;});
       const PrevLabel =sys.$checkNull( [Labels[0]]);
       Data.drawLabel =sys.$checkExists(Data.drawLabel, function(l, i)  {sys.$params(arguments.length, 2);
-        if (sys.asBool(sys.$eq(i , 0)))  return false;
-        if (sys.asBool(sys.asBool(sys.$neq(l , PrevLabel[0])) && sys.asBool((sys.asBool(sys.asBool(sys.$eq(l , "01")) || sys.asBool(sys.$eq(l , "05"))) || sys.asBool(sys.$eq(l , "09")))))) {
+        if (sys.$eq(i , 0))  return false;
+        if (sys.$neq(l , PrevLabel[0]) && (sys.$eq(l , "01") || sys.$eq(l , "05") || sys.$eq(l , "09"))) {
           PrevLabel[0] =sys.$checkExists(PrevLabel[0],sys.$checkNull( l));
            return true;
         }
@@ -178,12 +178,12 @@ export  async  function mk(wg, modelId)  {sys.$params(arguments.length, 2);
                     math.toIso(Result.profits * 100, 2) + "% [" +
                     math.toIso(Result.sales, 0) + "] "
                   ))
-              .add(ui.img(sys.asBool(Result.profits < 0) ? "losses" : "profits")
+              .add(ui.img(Result.profits < 0 ? "losses" : "profits")
                 .style("vertical-align:middle"))))
           .add(Q("tr")
             .add(Q("td")
               .att("colspan", 2)
-              .add(lineChart.mkWg(Ch, Data)
+              .add(oldChart.mkWg(Ch, Data)
                 .on("click", function(e)  {sys.$params(arguments.length, 1); showBigChart(co, Data);})))))
       ;
     };
@@ -266,7 +266,9 @@ export  async  function mk(wg, modelId)  {sys.$params(arguments.length, 2);
           .text(math.toIso(Result.profits * 100, 2)))
         .add(Q("td")
           .klass("rframe")
-          .text(math.toIso(fns.evaluate(Result.assets, Result.profits), 0)))
+          .text(math.toIso(fns.evaluate(
+              Result.assets, Result.profits), 0
+            )))
         .add(Q("td")
           .klass("rframe")
           .text(math.toIso(Result.sales, 0)))))
@@ -290,13 +292,17 @@ export  async  function mk(wg, modelId)  {sys.$params(arguments.length, 2);
       .add(Q("tr")
         .add(Q("td")
           .klass("rframe")
-          .text(math.toIso(fns.evaluate(MdEval.hassets, MdEval.hprofits), 0)))
+          .text(math.toIso(fns.evaluate(
+              MdEval.hassets, MdEval.hprofits), 0
+            )))
         .add(Q("td")
           .klass("rframe")
           .text(math.toIso(MdEval.hsales, 0)))
         .add(Q("td")
           .klass("rframe")
-          .text(math.toIso(fns.evaluate(MdEval.assets, MdEval.profits), 0)))
+          .text(math.toIso(fns.evaluate(
+              MdEval.assets, MdEval.profits), 0
+            )))
         .add(Q("td")
           .klass("rframe")
           .text(math.toIso(MdEval.sales, 0)))))

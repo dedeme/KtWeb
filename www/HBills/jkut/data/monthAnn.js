@@ -5,4 +5,7 @@ import * as math from '../_js/math.js';import * as js from '../_js/js.js';import
 
 
 
-export  function mk(month, description, amount)  {sys.$params(arguments.length, 3);  return [month, description, amount];};
+
+
+
+export function mk (month,placeOp,amount) { sys.$params(arguments.length, 3); return [ month, placeOp, amount];}export const month = 0;export const placeOp = 1;export const amount = 2;

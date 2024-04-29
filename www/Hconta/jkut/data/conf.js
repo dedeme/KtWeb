@@ -7,8 +7,8 @@ import * as math from '../_js/math.js';import * as js from '../_js/js.js';import
 
 
 
-export  function mk(years, currentYear)  {sys.$params(arguments.length, 2);  return {years:years, currentYear:currentYear};};
+export function mk (Years,currentYear) { sys.$params(arguments.length, 2); return [ Years, currentYear];}export const Years = 0;export const currentYear = 1;
 
 
 
-export  function isLastYear(Cf)  {sys.$params(arguments.length, 1);  return sys.$eq(Cf.currentYear , arr.peek(Cf.years));};
+export  function isLastYear(cf)  {sys.$params(arguments.length, 1);  return sys.$eq(cf[currentYear] , arr.peek(cf[Years]));};

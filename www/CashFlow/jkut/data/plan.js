@@ -4,115 +4,93 @@ import * as math from '../_js/math.js';import * as js from '../_js/js.js';import
 
 
 import * as diary from  "../data/diary.js";
+import * as planEntry from  "../data/planEntry.js";
 import * as i18n from  "../i18n.js";
 
 const II =sys.$checkNull( i18n.tlt);
 
 
 
+export  function add( Plan,  entry)  {sys.$params(arguments.length, 2);
+  const id =sys.$checkNull( entry[planEntry.id]);
 
-export  function mk(entries)  {sys.$params(arguments.length, 1);  return {entries:entries};};
+  if (sys.$eq(id , ""))  return II("Id is missing");
+  if (sys.$eq(entry[planEntry.desc] , ""))  return II("Description is missing");
 
-
-
-export  function add(Plan, Entry)  {sys.$params(arguments.length, 2);
-  const id =sys.$checkNull( Entry.id);
-
-  if (sys.asBool(sys.$eq(id , "")))  return II("Id is missing");
-  if (sys.asBool(sys.$eq(Entry.desc , "")))  return II("Description is missing");
-
-  if (sys.asBool(contains(Plan, id)))
+  if (contains(Plan, id))
      return i18n.fmt(II("The account '%0' already exists"), [id]);
 
-  arr.push(Plan.entries, Entry);
+  arr.push(Plan,entry);
    return "";
 };
 
 
 
-export  function del(Plan, idEntry, DiaryAccs)  {sys.$params(arguments.length, 3);
-  if (sys.asBool(arr.any(DiaryAccs, function(a)  {sys.$params(arguments.length, 1);  return sys.$eq(a , idEntry);})))
+export  function del( Plan, idEntry,  DiaryAccs)  {sys.$params(arguments.length, 3);
+  if (arr.any(DiaryAccs,function(a)  {sys.$params(arguments.length, 1);  return sys.$eq(a , idEntry);}))
      return i18n.fmt(
       II("The account '%0' has annotations and can not be deleted"),
       [idEntry]
     );
 
-  const ix =sys.$checkNull( arr.index(Plan.entries, function(E)  {sys.$params(arguments.length, 1);  return sys.$eq(E.id , idEntry);}));
-  if (sys.asBool(sys.$neq(ix ,  -1))) arr.remove(Plan.entries, ix);
+  const ix =sys.$checkNull( arr.index(Plan,function( e)  {sys.$params(arguments.length, 1);  return sys.$eq(e[planEntry.id] , idEntry);}));
+  if (sys.$neq(ix ,  -1)) arr.remove(Plan,ix);
    return "";
 };
 
 
 
 
-export  function modify(Plan, idEntry, Entry, Diary)  {sys.$params(arguments.length, 4);
-  const newId =sys.$checkNull( Entry.id);
+export  function modify( Plan, idEntry,  entry,  Diary)  {sys.$params(arguments.length, 4);
+  const newId =sys.$checkNull( entry[planEntry.id]);
 
-  if (sys.asBool(sys.$eq(newId , "")))  return II("Id is missing");
-  if (sys.asBool(sys.$eq(Entry.desc , "")))  return II("Description is missing");
+  if (sys.$eq(newId , ""))  return II("Id is missing");
+  if (sys.$eq(entry[planEntry.desc] , ""))  return II("Description is missing");
 
-  const Entries =sys.$checkNull( Plan.entries);
-  if (sys.asBool(sys.$eq(idEntry , newId))) {
-    for (let i = 0;i < arr.size(Entries); ++i) {
-      if (sys.asBool(sys.$eq(Entries[i].id , idEntry))) {
-        Entries[i] =sys.$checkExists(Entries[i],sys.$checkNull( Entry));
+  if (sys.$eq(idEntry , newId)) {
+    for ( const [i, e]  of sys.$forObject2( Plan)) {
+      if (sys.$eq(e[planEntry.id] , idEntry)) {
+        Plan[i] =sys.$checkExists(Plan[i],sys.$checkNull( entry));
         break;
       }
     }
      return "";
   }
 
-  if (sys.asBool(contains(Plan, newId)))
+  if (contains(Plan, newId))
      return i18n.fmt(II("The account '%0' already exists"), [newId]);
 
-  for (let i = 0;i < arr.size(Entries); ++i) {
-    if (sys.asBool(sys.$eq(Entries[i].id , idEntry))) {
-      Entries[i] =sys.$checkExists(Entries[i],sys.$checkNull( Entry));
+  for ( const [i, e]  of sys.$forObject2( Plan)) {
+    if (sys.$eq(e[planEntry.id] , idEntry)) {
+      Plan[i] =sys.$checkExists(Plan[i],sys.$checkNull( entry));
       break;
     }
   }
 
-  diary.changeAcc(Diary, idEntry, newId);
+  diary.changeAcc(Diary,idEntry, newId);
 
    return "";
 };
 
 
 
-export  function contains(Plan, id)  {sys.$params(arguments.length, 2);
-   return sys.$neq(arr.index(Plan.entries, function(E)  {sys.$params(arguments.length, 1);  return sys.$eq(E.id , id);}) ,  -1);};
+export  function contains( Plan, id)  {sys.$params(arguments.length, 2);
+   return sys.$neq(arr.index(Plan,function( e)  {sys.$params(arguments.length, 1);  return sys.$eq(e[planEntry.id] , id);}) ,  -1);};
 
 
 
-export  function isIncome(Plan, id)  {sys.$params(arguments.length, 2);
-  const EOp =sys.$checkNull( arr.find(Plan.entries, function(E)  {sys.$params(arguments.length, 1);  return sys.$eq(E.id , id);}));
-  if (sys.asBool(EOp))  return EOp[0].isIncome;
-  throw new Error(("Count " + id + " not found"));
+export  function isIncome( Plan, id)  {sys.$params(arguments.length, 2);
+  const eOp =sys.$checkNull( arr.find(Plan,function( e)  {sys.$params(arguments.length, 1);  return sys.$eq(e[planEntry.id] , id);}));
+  if (!sys.asBool(eOp)) throw new Error(("Count " + id + " not found"));
+   const e =sys.$checkNull( eOp[0]);
+   return e[planEntry.isIncome];
 };
 
 
 
-export  function desc(Plan, id)  {sys.$params(arguments.length, 2);
-  const EOp =sys.$checkNull( arr.find(Plan.entries, function(E)  {sys.$params(arguments.length, 1);  return sys.$eq(E.id , id);}));
-  if (sys.asBool(EOp))  return EOp[0].desc;
-  throw new Error(("Count " + id + " not found"));
+export  function desc( Plan, id)  {sys.$params(arguments.length, 2);
+  const eOp =sys.$checkNull( arr.find(Plan,function( e)  {sys.$params(arguments.length, 1);  return sys.$eq(e[planEntry.id] , id);}));
+  if (!sys.asBool(eOp)) throw new Error(("Count " + id + " not found"));
+   const e =sys.$checkNull( eOp[0]);
+   return e[planEntry.desc];
 };
-
-
-export  function toJs(Plan)  {sys.$params(arguments.length, 1);  return arr.map(Plan.entries, entryToJs);};
-
-
-export  function fromJs(A)  {sys.$params(arguments.length, 1);  return mk(arr.map(A, entryFromJs));};
-
-
-
-
-
-
-export  function mkEntry(isIncome, id, desc)  {sys.$params(arguments.length, 3);  return {isIncome:isIncome, id:id, desc:desc};};
-
-
-export  function entryToJs(E)  {sys.$params(arguments.length, 1);  return [E.isIncome, E.id, E.desc];};
-
-
-export  function entryFromJs(A)  {sys.$params(arguments.length, 1);  return mkEntry(A[0], A[1], A[2]);};

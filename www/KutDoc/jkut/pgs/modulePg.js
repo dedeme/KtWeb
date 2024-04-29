@@ -15,7 +15,7 @@ const tab =sys.$checkNull( "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;");
 
 
 export  async  function mk(wg, pack, path)  {sys.$params(arguments.length, 3);
-  const Rp =sys.$checkNull( await  client.ssend({
+  const Rp =sys.$checkNull( await  client.send({
     prg: "KutDoc",
     source: "ModulePg",
     rq: "doc",
@@ -23,13 +23,14 @@ export  async  function mk(wg, pack, path)  {sys.$params(arguments.length, 3);
     path: path
   }));
 
-  if (sys.asBool(!sys.asBool(Rp.doc))) {
+  if (!sys.asBool(Rp.doc)) {
     msgPg.mk(wg, i18n.fmt(II("[%0] Kut file not found."), [path]), true);
     return;
   }
 
   const Doc =sys.$checkNull( doc.fromJs(Rp.doc[0]));
 
+  arr.sort(Doc.Indexeds, function(E1, E2)  {sys.$params(arguments.length, 2);  return str.less(E1.name, E2.name);});
   arr.sort(Doc.Functions, function(E1, E2)  {sys.$params(arguments.length, 2);  return str.less(E1.name, E2.name);});
   arr.sort(Doc.Values, function(E1, E2)  {sys.$params(arguments.length, 2);  return str.less(E1.name, E2.name);});
 
@@ -37,7 +38,7 @@ export  async  function mk(wg, pack, path)  {sys.$params(arguments.length, 3);
    function index() {sys.$params(arguments.length, 0);
     
      function block(Entries, name)  {sys.$params(arguments.length, 2);
-      if (sys.asBool(!sys.asBool(Entries)))  return [];
+      if (!sys.asBool(Entries))  return [];
 
       const R =sys.$checkNull( []);
       arr.push(R, Q("tr")
@@ -51,7 +52,7 @@ export  async  function mk(wg, pack, path)  {sys.$params(arguments.length, 3);
         arr.push(R, Q("tr")
           .adds(iter.map(iter.$range(0,3), function(x)  {sys.$params(arguments.length, 1);
               const pos =sys.$checkNull( x * h + y);
-              if (sys.asBool(pos < size)) {
+              if (pos < size) {
                 const E =sys.$checkNull( Entries[pos]);
                  return Q("td")
                   .add(Q("a")
@@ -74,6 +75,7 @@ export  async  function mk(wg, pack, path)  {sys.$params(arguments.length, 3);
       .add(Q("table")
         .klass("main")
         .adds(block(Doc.Values, "Values"))
+        .adds(block(Doc.Indexeds, "Indexeds"))
         .adds(block(Doc.Functions, "Functions")))
     ;
   };
@@ -106,14 +108,14 @@ export  async  function mk(wg, pack, path)  {sys.$params(arguments.length, 3);
         const code =sys.$checkNull( E.code);
         for (let i = 0;i < str.len(code); ++i) {
           const ch =sys.$checkNull( code[i]);
-          if (sys.asBool(sys.asBool(IsNewLine[0]) && sys.asBool(sys.$neq(ch , "\n")))) {
-            if (sys.asBool(ch <= " ")) {
+          if (IsNewLine[0] && sys.$neq(ch , "\n")) {
+            if (ch <= " ") {
               Bf2[0] +=sys.$checkExists(Bf2[0],sys.$checkNull( "&nbsp;"));
             } else {
               Bf2[0] +=sys.$checkExists(Bf2[0],sys.$checkNull( ch));
               IsNewLine[0] =sys.$checkExists(IsNewLine[0],sys.$checkNull( false));
             }
-          } else if (sys.asBool(sys.$eq(ch , "\n"))) {
+          } else if (sys.$eq(ch , "\n")) {
             Bf2[0] +=sys.$checkExists(Bf2[0],sys.$checkNull( "<br>"));
             IsNewLine[0] =sys.$checkExists(IsNewLine[0],sys.$checkNull( true));
           } else {
@@ -146,6 +148,7 @@ export  async  function mk(wg, pack, path)  {sys.$params(arguments.length, 3);
 
      return Q("div")
       .adds(block(Doc.Values, "Value", false))
+      .adds(block(Doc.Indexeds, "Indexed", false))
       .adds(block(Doc.Functions, "Function", true))
     ;
   };
@@ -164,13 +167,11 @@ export  async  function mk(wg, pack, path)  {sys.$params(arguments.length, 3);
 
   const lc =sys.$checkNull( window.location.href);
   const ix =sys.$checkNull( str.index(lc, "#"));
-  if (sys.asBool(sys.$neq(ix ,  -1))) {
+  if (sys.$neq(ix ,  -1)) {
     const tg =sys.$checkNull( sys.$slice(lc,ix,null));
-    if (sys.asBool(sys.$neq(tg , "#"))) {
+    if (sys.$neq(tg , "#")) {
       const E =sys.$checkNull( sys.$null((Q(tg).e)));
-      if (sys.asBool(E)) {
-        E[0].scrollIntoView(true);
-      }
+      if (!sys.asBool(!sys.asBool(E))) E[0].scrollIntoView(true);
     }
   }
 
@@ -178,7 +179,7 @@ export  async  function mk(wg, pack, path)  {sys.$params(arguments.length, 3);
 
 
  function mkHelp(tx)  {sys.$params(arguments.length, 1);
-  if (sys.asBool(!sys.asBool(str.trim(tx))))  return [];
+  if (sys.$eq(str.trim(tx) , ""))  return [];
 
   const html =sys.$checkNull( str.replace(str.replace(tx, "&", "&amp;"), "<", "&lt;"));
   const R =sys.$checkNull( []);

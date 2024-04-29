@@ -7,16 +7,16 @@ import * as math from './_js/math.js';import * as js from './_js/js.js';import *
 
 export  function float(wg, dec)  {sys.$params(arguments.length, 2);
   const n =sys.$checkNull( str.trim(wg.getValue()).replace(".", "").replace(",", "."));
-  if (sys.asBool(!sys.asBool(n)))  return [];
+  if (sys.$eq(n , ""))  return [];
   const rOp =sys.$checkNull( math.fromStr(n));
-  return sys.asBool( rOp) ? [math.round(rOp[0], dec)] : [];
+   return !sys.asBool(rOp) ? [] : [math.round(rOp[0], dec)];
 };
 
 
 
 export  function int(wg)  {sys.$params(arguments.length, 1);
   const n =sys.$checkNull( str.trim(wg.getValue()).replace(".", "").replace(",", "."));
-  if (sys.asBool(!sys.asBool(n)))  return [];
+  if (sys.$eq(n , ""))  return [];
   const rOp =sys.$checkNull( math.fromStr(n));
-  return sys.asBool( rOp) ? [math.toInt(rOp[0])] : [];
+   return !sys.asBool(rOp) ? [] : [math.toInt(rOp[0])];
 };

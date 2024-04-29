@@ -30,9 +30,9 @@ export  async  function mk(wg, selected)  {sys.$params(arguments.length, 2);
   const historic =sys.$checkNull( Rp.historicServer);
   const Codes =sys.$checkNull( Rp.codes);
   const SvSelected =sys.$checkNull( arr.find(Svs, function(Sv)  {sys.$params(arguments.length, 1);  return sys.$eq(Sv.id , selected);}));
-  const Selected =sys.$checkNull(sys.asBool( SvSelected) ? [SvSelected[0].id] : [""]);
-  const dailyActive =sys.$checkNull(sys.asBool( SvSelected) ? SvSelected[0].withDiary : false);
-  const historicActive =sys.$checkNull(sys.asBool( SvSelected) ? SvSelected[0].withHistoric : false);
+  const Selected =sys.$checkNull( !sys.asBool(SvSelected) ? [""] : [SvSelected[0].id]);
+  const dailyActive =sys.$checkNull( !sys.asBool(SvSelected) ? false : SvSelected[0].withDiary);
+  const historicActive =sys.$checkNull( !sys.asBool(SvSelected) ? false : SvSelected[0].withHistoric);
 
   const dailyTestImg =sys.$checkNull( Q("span"));
   const historicTestImg =sys.$checkNull( Q("span"));
@@ -60,11 +60,11 @@ export  async  function mk(wg, selected)  {sys.$params(arguments.length, 2);
       rq: "testDiary",
       server: SvSelected[0].id
     }));
-    if (sys.asBool(sys.asBool(Rp.withErrors) && sys.asBool(Rp.withWarnings)))
+    if (Rp.withErrors && Rp.withWarnings)
       msg.error(II("Errors and warnings found.<br>See log."), function(){sys.$params(arguments.length, 0);});
-    else if (sys.asBool(Rp.withErrors))
+    else if (Rp.withErrors)
       msg.error(II("Errors found.<br>See log."), function(){sys.$params(arguments.length, 0);});
-    else if (sys.asBool(Rp.withWarnings))
+    else if (Rp.withWarnings)
       msg.error(II("Warnings found.<br>See log."), function(){sys.$params(arguments.length, 0);});
     else
       msg.ok(II("Test ok."), function(){sys.$params(arguments.length, 0);});
@@ -84,13 +84,13 @@ export  async  function mk(wg, selected)  {sys.$params(arguments.length, 2);
     const WithErrors =sys.$checkNull( [false]);
     const WithWarnings =sys.$checkNull( [false]);
      async  function test2(NksCds)  {sys.$params(arguments.length, 1);
-      if (sys.asBool(!sys.asBool(NksCds))) {
+      if (!sys.asBool(NksCds)) {
         SetWait[0]("");
-        if (sys.asBool(sys.asBool(WithErrors[0]) && sys.asBool(WithWarnings[0])))
+        if (WithErrors[0] && WithWarnings[0])
           msg.error(II("Errors and warnings found.<br>See log."), function(){sys.$params(arguments.length, 0);});
-        else if (sys.asBool(WithErrors[0]))
+        else if (WithErrors[0])
           msg.error(II("Errors found.<br>See log."), function(){sys.$params(arguments.length, 0);});
-        else if (sys.asBool(WithWarnings[0]))
+        else if (WithWarnings[0])
           msg.error(II("Warnings found.<br>See log."), function(){sys.$params(arguments.length, 0);});
         else
           msg.ok(II("Test ok."), function(){sys.$params(arguments.length, 0);});
@@ -120,7 +120,7 @@ export  async  function mk(wg, selected)  {sys.$params(arguments.length, 2);
   
    async  function testCo(span, nick, field)  {sys.$params(arguments.length, 3);
     const code =sys.$checkNull( str.trim(field.getValue()));
-    if (sys.asBool(!sys.asBool(code))) {
+    if (sys.$eq(code , "")) {
       msg.error("Code is empty", function(){sys.$params(arguments.length, 0);});
       return;
     }
@@ -138,11 +138,11 @@ export  async  function mk(wg, selected)  {sys.$params(arguments.length, 2);
       nick: nick,
       code: code
     }));
-    if (sys.asBool(sys.asBool(Rp.withErrors) && sys.asBool(Rp.withWarnings)))
+    if (Rp.withErrors && Rp.withWarnings)
       msg.error(II("Errors and warnings found.<br>See log."), function(){sys.$params(arguments.length, 0);});
-    else if (sys.asBool(Rp.withErrors))
+    else if (Rp.withErrors)
       msg.error(II("Errors found.<br>See log."), function(){sys.$params(arguments.length, 0);});
-    else if (sys.asBool(Rp.withWarnings))
+    else if (Rp.withWarnings)
       msg.error(II("Warnings found.<br>See log."), function(){sys.$params(arguments.length, 0);});
     else
       msg.ok(II("Test ok."), function(){sys.$params(arguments.length, 0);});
@@ -180,15 +180,15 @@ export  async  function mk(wg, selected)  {sys.$params(arguments.length, 2);
   Show[0] =sys.$checkExists(Show[0], function()  {sys.$params(arguments.length, 0);
     const Opts =sys.$checkNull( [vmenu.title(II("Servers")), vmenu.separator()]);
     for (const sv  of sys.$forObject( Svs)) {
-       function dailyWg() {sys.$params(arguments.length, 0); return sys.asBool( sv.withDiary)
-        ?sys.asBool( sys.$eq(sv.id , daily))
+       function dailyWg() {sys.$params(arguments.length, 0);  return sv.withDiary
+        ? sys.$eq(sv.id , daily)
           ? ui.img("star")
           : ui.led("#d0ddde", 6)
         : ui.img("stopped")
       ;};
 
-       function historicWg()  {sys.$params(arguments.length, 0); return sys.asBool( sv.withHistoric)
-        ?sys.asBool( sys.$eq(sv.id , historic))
+       function historicWg()  {sys.$params(arguments.length, 0);  return sv.withHistoric
+        ? sys.$eq(sv.id , historic)
           ? ui.img("star")
           : ui.led("#d0ddde", 6)
         : ui.img("stopped")
@@ -237,7 +237,7 @@ export  async  function mk(wg, selected)  {sys.$params(arguments.length, 2);
 
     const Rows =sys.$checkNull( []);
     const cols =sys.$checkNull( 4);
-    if (sys.asBool(Selected[0])) {
+    if (sys.$neq(Selected[0] , "")) {
       arr.push(
         Rows,
         Q("tr")
@@ -250,7 +250,7 @@ export  async  function mk(wg, selected)  {sys.$params(arguments.length, 2);
 
       dailyTestImg
         .removeAll()
-        .add(sys.asBool(dailyActive)
+        .add(dailyActive
           ? ui.link(function(ev)  {sys.$params(arguments.length, 1); testDiary();})
               .add(ui.img("unknown")
                 .style("vertical-align:top"))
@@ -259,7 +259,7 @@ export  async  function mk(wg, selected)  {sys.$params(arguments.length, 2);
       ;
       historicTestImg
         .removeAll()
-        .add(sys.asBool(historicActive)
+        .add(historicActive
           ? ui.link(function(ev)  {sys.$params(arguments.length, 1); testHistoric();})
               .add(ui.img("unknown")
                 .style("vertical-align:top"))
@@ -324,7 +324,7 @@ export  async  function mk(wg, selected)  {sys.$params(arguments.length, 2);
       for (let i = 0;i < len; ++i) {
         const nk =sys.$checkNull( Nicks[i]);
         const i1 =sys.$checkNull( i + 1);
-        const nextNk =sys.$checkNull(sys.asBool( i1 < len) ? Nicks[i1] : Nicks[0]);
+        const nextNk =sys.$checkNull( i1 < len ? Nicks[i1] : Nicks[0]);
 
         const field =sys.$checkNull( ui.field(nextNk)
           .att("id", nk)
@@ -333,7 +333,7 @@ export  async  function mk(wg, selected)  {sys.$params(arguments.length, 2);
         CodeFields.push(field);
 
         const span =sys.$checkNull( Q("span")
-          .add(sys.asBool(historicActive)
+          .add(historicActive
             ? ui.link(function(ev)  {sys.$params(arguments.length, 1); testCo(span, nk, field);})
               .add(ui.img("unknown")
                 .style("vertical-align:top"))
@@ -351,16 +351,16 @@ export  async  function mk(wg, selected)  {sys.$params(arguments.length, 2);
       }
 
       const rowsLen =sys.$checkNull( Math.ceil(len / cols));
-      if (sys.asBool(sys.$eq(rowsLen , 0))) {
+      if (sys.$eq(rowsLen , 0)) {
         Rows.push(Q("tr").add(Q("td").text(II("Without Nicks"))));
       } else {
         for (let i = 0;i < rowsLen; ++i) {
           const RowTds =sys.$checkNull( []);
           for (let j = 0;j < cols; ++j) {
             const tdix =sys.$checkNull( i + j * rowsLen);
-            RowTds.push(sys.asBool(
-              tdix < len)
-                ?sys.asBool( sys.$eq(j , 0))
+            RowTds.push(
+              tdix < len
+                ? sys.$eq(j , 0)
                   ? Tds[tdix]
                   : Tds[tdix].setStyle("border-left", "1px solid rgb(110,130,150)")
                 : Q("td").setStyle("border-left", "1px solid rgb(110,130,150)")
@@ -397,7 +397,7 @@ export  async  function mk(wg, selected)  {sys.$params(arguments.length, 2);
   SetWait[0] =sys.$checkExists(SetWait[0], function(nick)  {sys.$params(arguments.length, 1);
     msgWait.removeAll();
 
-    if (sys.asBool(sys.$neq(nick , ""))) {
+    if (sys.$neq(nick , "")) {
       const box =sys.$checkNull( modalBox.mk(
         Q("div")
           .add(Q("div")

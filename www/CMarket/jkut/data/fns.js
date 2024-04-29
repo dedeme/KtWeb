@@ -4,19 +4,20 @@ import * as math from '../_js/math.js';import * as js from '../_js/js.js';import
 
 
 import * as model from  "../data/model.js";
+import * as cts from  "../data/cts.js";
 
 
 
 
-export  function paramFmt(type, number)  {sys.$params(arguments.length, 2);   
-    return sys.$eq(type,model.percParam)? sys.$slice(math.toIso(number, 4),2,null):
+export  function paramFmt(type, number)  {sys.$params(arguments.length, 2); return (  
+    sys.$eq(type,model.percParam)? sys.$slice(math.toIso(number, 4),2,null):
      math.toIso(number, 0)
-  ;};
+  );};
 
 
 
 
-export  function format00(n)  {sys.$params(arguments.length, 1); return sys.asBool( (n < 10)) ? "0" + n : "" + n;};
+export  function format00(n)  {sys.$params(arguments.length, 1);  return (n < 10) ? "0" + n : "" + n;};
 
 
 export  function isValidQuote(q)  {sys.$params(arguments.length, 1);  return q > 0;};
@@ -28,12 +29,32 @@ export  function isValidQuote(q)  {sys.$params(arguments.length, 1);  return q >
 export  function validQuote(Qs, i, def)  {sys.$params(arguments.length, 3);
   const q =sys.$checkNull( [Qs[i]]);
   const I =sys.$checkNull( [i]);
-  if (sys.asBool(isValidQuote(q)))  return q;
+  if (isValidQuote(q))  return q;
   I[0] -=sys.$checkExists(I[0],sys.$checkNull( 1));
-  while (sys.asBool(I[0] >= 0)) {
+  while (I[0] >= 0) {
     const q =sys.$checkNull( Qs[I[0]]);
-    if (sys.asBool(isValidQuote(q)))  return q;
+    if (isValidQuote(q))  return q;
     I[0] -=sys.$checkExists(I[0],sys.$checkNull( 1));
   }
    return def;
+};
+
+
+
+
+
+
+
+
+
+
+
+export  function refProfits(modelId, params, stocks, q, ref)  {sys.$params(arguments.length, 5);
+  if (sys.$neq(modelId , "APRX")) throw new Error( "Model " + modelId + " not implemented.");
+
+  const inc =sys.$checkNull( params[1]);
+   return stocks > 0
+    ? (q < ref ? q - ref : (q - ref) * inc) * stocks
+    : (q > ref ? ref - q : (ref - q) * inc) * (cts.bet / q)
+  ;
 };

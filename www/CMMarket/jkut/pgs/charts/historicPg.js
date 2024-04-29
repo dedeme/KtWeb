@@ -4,7 +4,7 @@ import * as math from '../../_js/math.js';import * as js from '../../_js/js.js';
 
 
 import * as menu from  "../../libdm/menu.js";
-import * as lineChart from  "../../libdm/lineChart.js";
+import * as oldChart from  "../../libdm/oldChart.js";
 import * as model from  "../../data/model.js";
 import * as result from  "../../data/result.js";
 import * as modelEval from  "../../data/modelEval.js";
@@ -14,7 +14,7 @@ import * as fns from  "../../fns.js";
 const Q =sys.$checkNull( ui.q);
 const II =sys.$checkNull( i18n.tlt);
 
-const isAssetsx =sys.$checkNull( 0);
+const isAssets =sys.$checkNull( 0);
 const isWithdrawals =sys.$checkNull( 1);
 const isCompanies =sys.$checkNull( 2);
 
@@ -23,14 +23,14 @@ export  async  function mk(wg, modelId)  {sys.$params(arguments.length, 2);
   
   const Params =sys.$checkNull( []);
   const Url =sys.$checkNull( ui.url());
-  const Uparams =sys.$checkNull( dic.get(Url, "2"));
-  if (sys.asBool(Uparams)) {
+  const uparamsOp =sys.$checkNull( arr.size(Url) > 2 ? [Url[2]] : []);
+  if (!sys.asBool(!sys.asBool(uparamsOp))) {
     try{ {
-      const A =sys.$checkNull( js.r(Uparams[0]));
+      const A =sys.$checkNull( js.r(uparamsOp[0]));
       const ok =sys.$checkNull( arr.reduce(
-        A, true, function(r, e)  {sys.$params(arguments.length, 2);  return sys.asBool(sys.asBool(r) && sys.asBool(sys.$eq(sys.type(e) , "number"))) && sys.asBool(e >= 0);}
+        A, true, function(r, e)  {sys.$params(arguments.length, 2);  return r && sys.$eq(sys.type(e) , "number") && e >= 0;}
       ));
-      if (sys.asBool(ok)) arr.push(Params, A);
+      if (ok) arr.push(Params, A);
     }} catch (e){ {}}
   }
 
@@ -41,7 +41,7 @@ export  async  function mk(wg, modelId)  {sys.$params(arguments.length, 2);
     modelId:modelId,
     params: Params 
   }));
-  if (sys.asBool(!sys.asBool(Rp.ok))) {
+  if (!sys.asBool(Rp.ok)) {
     ui.alert(i18n.fmt(II("%0%1 not found."), [modelId, sys.toStr(Params)]));
     window.location.assign("?");
     return;
@@ -59,33 +59,33 @@ export  async  function mk(wg, modelId)  {sys.$params(arguments.length, 2);
    function mkGr(type)  {sys.$params(arguments.length, 1);
     const Labels =sys.$checkNull( arr.map(Dates, function(d)  {sys.$params(arguments.length, 1);  return sys.$slice(d,4,6);}));
 
-    const Ch =sys.$checkNull( lineChart.mkExample());
+    const Ch =sys.$checkNull( oldChart.mkExample());
     Ch.ExArea.width =sys.$checkExists(Ch.ExArea.width,sys.$checkNull( 600));
-    Ch.ExArea.height =sys.$checkExists(Ch.ExArea.height,sys.$checkNull(sys.asBool( sys.$eq(type , isAssetsx)) ? 300 : 150));
+    Ch.ExArea.height =sys.$checkExists(Ch.ExArea.height,sys.$checkNull( sys.$eq(type , isAssets) ? 300 : 150));
     Ch.InPadding.left =sys.$checkExists(Ch.InPadding.left,sys.$checkNull( 100));
     Ch.ExArea.Atts.background =sys.$checkExists(Ch.ExArea.Atts.background,sys.$checkNull( "#ffffff"));
     Ch.InAtts.background =sys.$checkExists(Ch.InAtts.background,sys.$checkNull( "#e9e9e9"));
 
-    const Data =sys.$checkNull( lineChart.mkData(
-      Labels,sys.asBool(
-      sys.$eq(type , isAssetsx))
+    const Data =sys.$checkNull( oldChart.mkData(
+      Labels,
+      sys.$eq(type , isAssets)
         ? [arr.map(Assets, function(e) {sys.$params(arguments.length, 1); return [e];})]
-        :sys.asBool( sys.$eq(type , isCompanies))
+        : sys.$eq(type , isCompanies)
           ? [ arr.map(BuyCos, function(e) {sys.$params(arguments.length, 1); return [e];}),
               arr.map(QuarantineCos, function(e) {sys.$params(arguments.length, 1); return [e];})
             ]
-          : [arr.map(Withdrawals, function(e) {sys.$params(arguments.length, 1); return [e];})],sys.asBool(
-      sys.$eq(type , isCompanies))
-        ? [ lineChart.mkLine(1, "#000080", false),
-            lineChart.mkLine(1, "#800000", false)
+          : [arr.map(Withdrawals, function(e) {sys.$params(arguments.length, 1); return [e];})],
+      sys.$eq(type , isCompanies)
+        ? [ oldChart.mkLine(1, "#000080", false),
+            oldChart.mkLine(1, "#800000", false)
           ]
-        : [ lineChart.mkLine(1, "#000000", false)]
+        : [ oldChart.mkLine(1, "#000000", false)]
     ));
     Data.round =sys.$checkExists(Data.round,sys.$checkNull( 0));
     const PrevLabel =sys.$checkNull( [Labels[0]]);
     Data.drawLabel =sys.$checkExists(Data.drawLabel, function(l, i)  {sys.$params(arguments.length, 2);
-      if (sys.asBool(sys.$eq(i , 0)))  return false;
-      if (sys.asBool(sys.asBool(sys.$neq(l , PrevLabel[0])) && sys.asBool((sys.asBool(sys.asBool(sys.asBool(sys.$eq(l , "01")) || sys.asBool(sys.$eq(l , "04"))) || sys.asBool(sys.$eq(l , "07")))|| sys.asBool(sys.$eq(l , "10")))))) {
+      if (sys.$eq(i , 0))  return false;
+      if (sys.$neq(l , PrevLabel[0]) && (sys.$eq(l , "01") || sys.$eq(l , "04") || sys.$eq(l , "07")|| sys.$eq(l , "10"))) {
         PrevLabel[0] =sys.$checkExists(PrevLabel[0],sys.$checkNull( l));
          return true;
       }
@@ -93,15 +93,15 @@ export  async  function mk(wg, modelId)  {sys.$params(arguments.length, 2);
     });
     const PrevLabel2 =sys.$checkNull( [Labels[0]]);
     Data.drawGrid =sys.$checkExists(Data.drawGrid, function(l, i)  {sys.$params(arguments.length, 2);
-      if (sys.asBool(sys.$eq(i , 0)))  return false;
-      if (sys.asBool(sys.asBool(sys.$neq(l , PrevLabel2[0])) && sys.asBool((sys.asBool(sys.asBool(sys.asBool(sys.$eq(l , "01")) || sys.asBool(sys.$eq(l , "04"))) || sys.asBool(sys.$eq(l , "07")))|| sys.asBool(sys.$eq(l , "10")))))) {
+      if (sys.$eq(i , 0))  return false;
+      if (sys.$neq(l , PrevLabel2[0]) && (sys.$eq(l , "01") || sys.$eq(l , "04") || sys.$eq(l , "07")|| sys.$eq(l , "10"))) {
         PrevLabel2[0] =sys.$checkExists(PrevLabel2[0],sys.$checkNull( l));
          return true;
       }
        return false;
     });
 
-     return lineChart.mkWg(Ch, Data);
+     return oldChart.mkWg(Ch, Data);
   };
 
   wg
@@ -157,7 +157,9 @@ export  async  function mk(wg, modelId)  {sys.$params(arguments.length, 2);
           .text(math.toIso(Result.profits * 100, 2)))
         .add(Q("td")
           .klass("rframe")
-          .text(math.toIso(fns.evaluate(Result.assets, Result.profits), 0)))
+          .text(math.toIso(fns.evaluate(
+              Result.assets, Result.profits), 0
+            )))
         .add(Q("td")
           .klass("rframe")
           .text(math.toIso(Result.sales, 0)))))
@@ -198,7 +200,7 @@ export  async  function mk(wg, modelId)  {sys.$params(arguments.length, 2);
       .att("align", "center")
       .add(Q("tr")
         .add(Q("td")
-          .add(mkGr(isAssetsx)))))
+          .add(mkGr(isAssets)))))
     .add(Q("div")
       .klass("head")
       .text(II("Companies")))

@@ -5,6 +5,7 @@ import * as math from '../../_js/math.js';import * as js from '../../_js/js.js';
 
 import * as menu from  "../../libdm/menu.js";
 import * as cts from  "../../data/cts.js";
+import * as ldg from  "../../data/acc/ldg.js";
 import * as msg from  "../../wgs/msg.js";
 import * as i18n from  "../../i18n.js";
 
@@ -18,20 +19,20 @@ const refOrder =sys.$checkNull( profitsOrder + 1);
 
 
  function fjail(price, close)  {sys.$params(arguments.length, 2);
-  return sys.asBool( sys.$eq(close , 0))
+   return sys.$eq(close , 0)
     ? 0
     : (price - close) * 100 / close
   ;};
 
 
  function fref(ref, close)  {sys.$params(arguments.length, 2);
-  return sys.asBool( sys.$eq(close , 0))
+   return sys.$eq(close , 0)
     ? 0
     : (ref - close) * 100 / close
   ;};
 
 
- function fcolor(value)  {sys.$params(arguments.length, 1); return sys.asBool( value < 0) ? "aa2800" : "0041aa";};
+ function fcolor(value)  {sys.$params(arguments.length, 1);  return value < 0 ? "aa2800" : "0041aa";};
 
 
 
@@ -43,29 +44,21 @@ export  async  function mk(wg)  {sys.$params(arguments.length, 1);
     rq: "idata"
   }));
 
-  if (sys.asBool(!sys.asBool(Rp.ok))) {
+  if (!sys.asBool(Rp.ok)) {
     msg.error(cts.failMsg, function(){sys.$params(arguments.length, 0);});
     return;
   }
 
-  const Ledgers =sys.$checkNull( Rp.ledgers); 
-  const Portfolios =sys.$checkNull( Rp.portfolios); 
+  const ledger =sys.$checkNull( ldg.fromJs(Rp.ledger));
+  const portfolio =sys.$checkNull( Rp.portfolio); 
   const Jails =sys.$checkNull( Rp.jails); 
   const Closes =sys.$checkNull( Rp.closes); 
   const Refs =sys.$checkNull( Rp.refs); 
-  const invs =sys.$checkNull( arr.size(Ledgers));
-  const Inv =sys.$checkNull( [ -1]);
   const Order =sys.$checkNull( [refOrder]);
 
   const Show =sys.$checkNull( [[]]);
 
   
-
-  
-   function setMenu(inv)  {sys.$params(arguments.length, 1);
-    Inv[0] =sys.$checkExists(Inv[0],sys.$checkNull( inv));
-    Show[0]();
-  };
 
   
    function setOrder(order)  {sys.$params(arguments.length, 1);
@@ -77,17 +70,6 @@ export  async  function mk(wg)  {sys.$params(arguments.length, 1);
 
   
   Show[0] =sys.$checkExists(Show[0], function()  {sys.$params(arguments.length, 0);
-
-    const Lopts =sys.$checkNull( [
-      menu.toption("-1", II("All"), function()  {sys.$params(arguments.length, 0); setMenu( -1);})
-    ]);
-    for (let i = 0;i < invs; ++i) {
-      const op =sys.$checkNull( II("Inv-") + i);
-      arr.push(Lopts, menu.separator());
-      arr.push(Lopts, menu.toption("" + i, op, function()  {sys.$params(arguments.length, 0); setMenu(i);}));
-    }
-    const menuWg =sys.$checkNull( menu.mk(Lopts, [], "" + Inv[0], false));
-
     const D =sys.$checkNull( {
       currentProfits: 0,
       accountProfits: 0,
@@ -105,112 +87,99 @@ export  async  function mk(wg)  {sys.$params(arguments.length, 1);
     });
 
     const Rows =sys.$checkNull( {}); 
-    const start =sys.$checkNull(sys.asBool( Inv[0] < 0) ? 0 : Inv[0]);
-    const end =sys.$checkNull(sys.asBool( Inv[0] < 0) ? invs : start + 1);
-    for (let i = start;i < end; ++i) {
-      const L =sys.$checkNull( Ledgers[i]);
-      const P =sys.$checkNull( Portfolios[i]);
-      const J =sys.$checkNull( Jails[i]);
+    const L =sys.$checkNull( ledger);
+    const P =sys.$checkNull( portfolio);
+    const J =sys.$checkNull( Jails);
 
-      D.equity -=sys.$checkExists(D.equity,sys.$checkNull( L.equity));
-      D.sales -=sys.$checkExists(D.sales,sys.$checkNull( L.sales));
-      D.fees -=sys.$checkExists(D.fees,sys.$checkNull( L.fees));
-      D.profits -=sys.$checkExists(D.profits,sys.$checkNull( L.profits));
-      D.differences -=sys.$checkExists(D.differences,sys.$checkNull( L.differences));
-      D.accountStocks +=sys.$checkExists(D.accountStocks,sys.$checkNull( L.stocks));
-      D.cash +=sys.$checkExists(D.cash,sys.$checkNull( L.cash));
+    D.equity -=sys.$checkExists(D.equity,sys.$checkNull( L.equity));
+    D.sales -=sys.$checkExists(D.sales,sys.$checkNull( L.sales));
+    D.fees -=sys.$checkExists(D.fees,sys.$checkNull( L.fees));
+    D.profits -=sys.$checkExists(D.profits,sys.$checkNull( L.profits));
+    D.differences -=sys.$checkExists(D.differences,sys.$checkNull( L.differences));
+    D.accountStocks +=sys.$checkExists(D.accountStocks,sys.$checkNull( L.stocks));
+    D.cash +=sys.$checkExists(D.cash,sys.$checkNull( L.cash));
 
-      for (const [nk, SP]  of sys.$forObject2( P)) {
-        const stocks =sys.$checkNull( SP[0]);
-        const price =sys.$checkNull( SP[1]);
-        const Rfs =sys.$checkNull( dic.get(Refs, nk));
-        const ref =sys.$checkNull(sys.asBool( Rfs)
-          ?sys.asBool( sys.$eq(i , 0))
-            ? Rfs[0][i]
-            : Rfs[0][i - 1]
-          : 0)
-        ;
+    for (const [nk, SP]  of sys.$forObject2( P)) {
+      const stocks =sys.$checkNull( SP[0]);
+      const price =sys.$checkNull( SP[1]);
+      const refOp =sys.$checkNull( dic.get(Refs, nk));
+      const ref =sys.$checkNull( !sys.asBool(refOp) ? 0 : refOp[0]);
 
-        const Close =sys.$checkNull( dic.get(Closes, nk));
-        const close =sys.$checkNull(sys.asBool( Close) ? Close[0] : 0);
-        const TpRef =sys.$checkNull(sys.asBool( arr.any(J, function(n)  {sys.$params(arguments.length, 1);  return sys.$eq(n , nk);}))
-          ? ["*", fjail(price, close)]
-          : ["", fref(ref, close)])
-        ;
+      const Close =sys.$checkNull( dic.get(Closes, nk));
+      const close =sys.$checkNull( !sys.asBool(Close) ? 0 : Close[0]);
+      const TpRef =sys.$checkNull( arr.any(J, function(n)  {sys.$params(arguments.length, 1);  return sys.$eq(n , nk);})
+        ? ["*", fjail(price, close)]
+        : ["", fref(ref, close)])
+      ;
 
-        const RowOp =sys.$checkNull( dic.get(Rows, nk));
-        const Row =sys.$checkNull(sys.asBool( RowOp)
-          ? function()  {sys.$params(arguments.length, 0);
-              const R =sys.$checkNull( RowOp[0]);
-              const stocks2 =sys.$checkNull( R.stocks + stocks);
-              const price2 =sys.$checkNull( (R.stocks * R.price + stocks * price) / stocks2);
-               return {
-                stocks: stocks2,
-                price: price2,
-                close:close,
-                value: stocks2 * close,
-                profits: (close - price2) * stocks2,
-                tpRef:sys.asBool( sys.$eq(R.tpRef[0] , ""))
-                  ?sys.asBool( sys.$eq(TpRef[0] , ""))
-                    ?sys.asBool( TpRef[1] > R.tpRef[1]) ? TpRef : R.tpRef
-                    : R.tpRef
-                  :sys.asBool( sys.$eq(TpRef[0] , ""))
-                    ? TpRef
-                    :sys.asBool( TpRef[1] < R.tpRef[1]) ? TpRef : R.tpRef
-              };
-            }()
-          : {
-              stocks:stocks,
-              price:price,
+      const RowOp =sys.$checkNull( dic.get(Rows, nk));
+      const Row =sys.$checkNull( !sys.asBool(!sys.asBool(RowOp))
+        ? function()  {sys.$params(arguments.length, 0);
+            const R =sys.$checkNull( RowOp[0]);
+            const stocks2 =sys.$checkNull( R.stocks + stocks);
+            const price2 =sys.$checkNull( (R.stocks * R.price + stocks * price) / stocks2);
+             return {
+              stocks: stocks2,
+              price: price2,
               close:close,
-              value: stocks * close,
-              profits: (close - price) * stocks,
-              tpRef: TpRef
-            })
-        ;
-        dic.put(Rows, nk, Row);
-      }
+              value: stocks2 * close,
+              profits: (close - price2) * stocks2,
+              tpRef: sys.$eq(R.tpRef[0] , "")
+                ? sys.$eq(TpRef[0] , "")
+                  ? TpRef[1] > R.tpRef[1] ? TpRef : R.tpRef
+                  : R.tpRef
+                : sys.$eq(TpRef[0] , "")
+                  ? TpRef
+                  : TpRef[1] < R.tpRef[1] ? TpRef : R.tpRef
+            };
+          }()
+        : {
+            stocks:stocks,
+            price:price,
+            close:close,
+            value: stocks * close,
+            profits: (close - price) * stocks,
+            tpRef: TpRef
+          })
+      ;
+      dic.put(Rows, nk, Row);
     }
 
     const Rs =sys.$checkNull( dic.toArr(Rows));
     arr.sort(Rs, function(R1, R2)  {sys.$params(arguments.length, 2);
       const P1 =sys.$checkNull( R1[1]);
       const P2 =sys.$checkNull( R2[1]);
-        
-        return sys.$eq(Order[0],nickOrder)? R1[0] < R2[0]:
+      return (  
+        sys.$eq(Order[0],nickOrder)? R1[0] < R2[0]:
         sys.$eq(Order[0],valueOrder)? P1.value > P2.value:
         sys.$eq(Order[0],profitsOrder)? P1.profits > P2.profits:
-        sys.asBool( sys.$eq(P1.tpRef[0] , "*"))
-          ?sys.asBool( sys.$eq(P2.tpRef[0] , "*"))
+         sys.$eq(P1.tpRef[0] , "*")
+          ? sys.$eq(P2.tpRef[0] , "*")
             ? P1.tpRef[1] < P2.tpRef[1]
             : false
-          :sys.asBool( sys.$eq(P1.tpRef[0] , "*"))
+          : sys.$eq(P1.tpRef[0] , "*")
             ? true
             : P1.tpRef[1] < P2.tpRef[1]
-      ;
+      );
     });
 
     D.accountProfits =sys.$checkExists(D.accountProfits,sys.$checkNull( D.cash + D.accountStocks - D.equity));
     D.currentStocks =sys.$checkExists(D.currentStocks,sys.$checkNull( arr.reduce(Rs, 0, function(r, Tp)  {sys.$params(arguments.length, 2);  return r + Tp[1].value;})));
     D.profitsStocks =sys.$checkExists(D.profitsStocks,sys.$checkNull( arr.reduce(Rs, 0, function(r, Tp)  {sys.$params(arguments.length, 2);  return r + Tp[1].profits;})));
     D.currentProfits =sys.$checkExists(D.currentProfits,sys.$checkNull( D.accountProfits + D.profitsStocks));
-    D.withdraw =sys.$checkExists(D.withdraw,sys.$checkNull(sys.asBool( Inv[0] < 0)
-      ? "- - -"
-      : function()  {sys.$params(arguments.length, 0);
-          const assets =sys.$checkNull( D.equity + D.currentProfits);
-          if (sys.asBool(assets > cts.initialCapital + cts.bet + cts.bet)) {
-            const dif =sys.$checkNull( assets - cts.initialCapital - cts.bet);
-            if (sys.asBool(D.cash > dif + 1000))  return dif;
-            if (sys.asBool(D.cash > cts.bet + 1000))
-               return math.toInt((D.cash - 1000) / cts.bet) * cts.bet;
-          }
-           return 0;
-        }()))
-    ;
+    D.withdraw =sys.$checkExists(D.withdraw,sys.$checkNull( function()  {sys.$params(arguments.length, 0);
+        const assets =sys.$checkNull( D.equity + D.currentProfits);
+        if (assets > cts.initialCapital + cts.bet + cts.bet) {
+          const dif =sys.$checkNull( assets - cts.initialCapital - cts.bet);
+          if (D.cash > dif + 1000)  return dif;
+          if (D.cash > cts.bet + 1000)
+             return math.toInt((D.cash - 1000) / cts.bet) * cts.bet;
+        }
+         return 0;
+      }()));
 
     wg
       .removeAll()
-      .add(menuWg)
       .add(Q("div")
         .klass("head")
         .html(II("Profits")))
@@ -250,7 +219,7 @@ export  async  function mk(wg)  {sys.$params(arguments.length, 1);
           .add(Q("td")
             .klass("number")
             .add(Q("span")
-              .html(sys.asBool(sys.$eq(D.withdraw , "- - -")) ? "- - -" : math.toIso(D.withdraw, 2))))))
+              .html(sys.$eq(D.withdraw , "- - -") ? "- - -" : math.toIso(D.withdraw, 2))))))
 
       .add(Q("div")
         .klass("head")
@@ -402,7 +371,7 @@ export  async  function mk(wg)  {sys.$params(arguments.length, 1);
               .html(math.toIso(R[1].profits, 2))))
           .add(Q("td")
             .klass("number")
-            .setStyle("color",sys.asBool( sys.$eq(R[1].tpRef[0] , "*")) ? "#400000" : "")
+            .setStyle("color", sys.$eq(R[1].tpRef[0] , "*") ? "#400000" : "")
             .add(Q("span")
               .html(math.toIso(R[1].tpRef[1], 2))))
           ;}))

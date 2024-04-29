@@ -5,7 +5,7 @@ import * as math from '../_js/math.js';import * as js from '../_js/js.js';import
 
 import * as i18n from  "../i18n.js";
 import * as msgPg from  "../pgs/msgPg.js";
-import * as cts from  "../data/cts.js";
+import * as cts from  "../cts.js";
 import * as indexTree from  "../data/indexTree.js";
 
 const Q =sys.$checkNull( ui.q);
@@ -13,25 +13,25 @@ const II =sys.$checkNull( i18n.tlt);
 
 
 export  async  function mk(wg, pack)  {sys.$params(arguments.length, 2);
-  const Rp =sys.$checkNull( await  client.ssend({
+   const {indexOp} = await  client.send({
     prg: "CDoc",
     source: "IndexPg",
     rq: "index",
     pack: pack
-  }));
+  });
 
-  if (sys.asBool(!sys.asBool(Rp.index))) {
+  if (!sys.asBool(indexOp)) {
     msgPg.mk(wg, II("Library path not found o not valid."), true);
     return;
   }
 
-  const Tree =sys.$checkNull( indexTree.fromJs(Rp.index[0]));
+   const tree =sys.$checkNull( indexOp[0]);
   const linkPrefix =sys.$checkNull( "?" + pack + "@");
 
   Q("@title").text(cts.appName + " - " + pack);
 
   const Trs =sys.$checkNull( []);
-  add(Trs, Tree.Trees, "", 0, linkPrefix);
+  add(Trs, tree[indexTree.Trees], "", 0, linkPrefix);
 
   wg
     .removeAll()
@@ -44,40 +44,40 @@ export  async  function mk(wg, pack)  {sys.$params(arguments.length, 2);
 };
 
 
- function add(Trs, Trees, ppath, space, linkPrefix)  {sys.$params(arguments.length, 5);
-  const path =sys.$checkNull(sys.asBool( sys.$neq(ppath , "")) ? ppath + "/" : ppath);
+ function add( Trs,  Trees, ppath, space, linkPrefix)  {sys.$params(arguments.length, 5);
+  const path =sys.$checkNull( sys.$neq(ppath , "") ? ppath + "/" : ppath);
 
-  arr.sort(Trees, function(T1, T2)  {sys.$params(arguments.length, 2);
-    return sys.asBool( T1.Doc)
-      ?sys.asBool( T2.Doc)
-        ? str.less(str.toUpper(T1.id), str.toUpper(T2.id))
+  arr.sort(Trees,function( t1,  t2)  {sys.$params(arguments.length, 2);
+     return !sys.asBool(!sys.asBool(t1[indexTree.doc]))
+      ? !sys.asBool(!sys.asBool(t2[indexTree.doc]))
+        ? str.less(str.toUpper(t1[indexTree.id]), str.toUpper(t2[indexTree.id]))
         : false
-      :sys.asBool( T2.Doc)
+      : !sys.asBool(!sys.asBool(t2[indexTree.doc]))
         ? true
-        : str.less(str.toUpper(T1.id), str.toUpper(T2.id))
+        : str.less(str.toUpper(t1[indexTree.id]), str.toUpper(t2[indexTree.id]))
     ;}
   );
-  for (const T  of sys.$forObject( Trees)) {
-    if (sys.asBool(T.Doc)) {
-      arr.push(Trs, Q("tr")
+  for (const  t  of sys.$forObject( Trees)) {
+    if (!sys.asBool(!sys.asBool(t[indexTree.doc]))) {
+      arr.push(Trs,Q("tr")
         .add(Q("td")
           .style('width:10px;padding-left:' + space + 'px')
           .html(str.fmt(
               '<a href="%v%v%v">%v</a>',
-              [linkPrefix, path, T.id, T.id]
+              [linkPrefix, path, t[indexTree.id], t[indexTree.id]]
             )))
         .add(Q("td")
           .style("padding-left:10px")
-          .text(T.Doc[0]))
+          .text(t[indexTree.doc][0]))
       );
     } else {
-      arr.push(Trs, Q("tr")
+      arr.push(Trs,Q("tr")
         .add(Q("td")
           .style('padding-left:' + space + 'px')
-          .html('<b>' + T.id + '</b>'))
+          .html('<b>' + t[indexTree.id] + '</b>'))
         .add(Q("td"))
       );
-      add(Trs, T.Trees, path + T.id, space + 20, linkPrefix);
+      add(Trs, t[indexTree.Trees], path + t[indexTree.id], space + 20, linkPrefix);
     }
   }
 };

@@ -18,7 +18,7 @@ export  function values(Is)  {sys.$params(arguments.length, 1);  return arr.map(
 
 export  function ratios(Is)  {sys.$params(arguments.length, 1);
   const D =sys.$checkNull( Is.Data);
-  if (sys.asBool(sys.$eq(arr.size(D) , 0)))  return [];
+  if (sys.$eq(arr.size(D) , 0))  return [];
   const base =sys.$checkNull( D[0][1]);
    return arr.map(D, function(e)  {sys.$params(arguments.length, 1);  return (e[1] - base) / base;});
 };
@@ -28,7 +28,7 @@ export  function ratios(Is)  {sys.$params(arguments.length, 1);
 export  function add(Is, date, value)  {sys.$params(arguments.length, 3);
   const day =sys.$checkNull( time.toStr(date));
   const D =sys.$checkNull( Is.Data);
-  if (sys.asBool(!sys.asBool(arr.any(D, function(e)  {sys.$params(arguments.length, 1);  return sys.$eq(time.toStr(e[0]) , day);}))))
+  if (!sys.asBool(arr.any(D, function(e)  {sys.$params(arguments.length, 1);  return sys.$eq(time.toStr(e[0]) , day);})))
     arr.push(D, [date, value]);
 };
 

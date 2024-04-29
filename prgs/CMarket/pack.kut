@@ -1,0 +1,8 @@
+// Copyright 03-Feb-2024 ºDeme
+// GNU General Public License - V3 <http://www.gnu.org/licenses/>
+
+cRs = sys.cmd("kinstaller", [
+  "CMarket", "kut:./kut", "data:../../dmcgi/CMarket", "www:./www"
+]);
+if (!cRs[1]) sys.printError(csRs!);
+

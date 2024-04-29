@@ -17,7 +17,6 @@ const esDic =sys.$checkNull( {
   "Ibex": "Ibex",
   "Investor": "Inversor",
   "Investors - Ibex": "Inversores - Ibex",
-  "Investors average": "Media de los inversores",
   "KtWeb session is closed.\nAuthenticating from KtWeb:Main.": "La sesión de KtWeb ha sido cerrada.\nHay que autenticarse en KtWeb:Main.",
   "Log": "Registro",
   "MMarket": "MMarket",
@@ -48,7 +47,6 @@ const enDic =sys.$checkNull( {
   "Ibex": "Ibex",
   "Investor": "Investor",
   "Investors - Ibex": "Investors - Ibex",
-  "Investors average": "Investors average",
   "KtWeb session is closed.\nAuthenticating from KtWeb:Main.": "KtWeb session is closed.\nAuthenticating from KtWeb:Main.",
   "Log": "Log",
   "MMarket": "MMarket",
@@ -65,11 +63,11 @@ const enDic =sys.$checkNull( {
 export  function en() {sys.$params(arguments.length, 0); Lang[0] =sys.$checkExists(Lang[0],sys.$checkNull( "en"));};
 
 
- function dicByKey(s)  {sys.$params(arguments.length, 1);    
-  return sys.$eq(s,"es")? esDic:
+ function dicByKey(s)  {sys.$params(arguments.length, 1); return (   
+  sys.$eq(s,"es")? esDic:
   sys.$eq(s,"en")? enDic:
    "Unreachable"
-;};
+);};
 
 const Lang =sys.$checkNull( ["es"]);
 
@@ -78,7 +76,7 @@ export  function getLang() {sys.$params(arguments.length, 0);  return Lang[0];};
 
 export  function tlt(s)  {sys.$params(arguments.length, 1);
   const T =sys.$checkNull( dic.get(dicByKey(Lang[0]), s));
-  return sys.asBool( T) ? T[0] : s;
+   return !sys.asBool(T) ? s : T[0];
 };
 
 

@@ -3,13 +3,21 @@ import * as math from './_js/math.js';import * as js from './_js/js.js';import *
 
 
 const esDic =sys.$checkNull( {
+  "2 Days": "2 Días",
+  "All": "Todo",
+  "All log entries will be deleted.\nContinue?": "Todas las entradas del registro será borradas.\n¿Continuar?",
   "Amount": "Cantidad",
   "Bills": "Gastos",
   "Click %0 to continue.": "Click %0 para continuar.",
+  "Data base is out of date.": "La base de datos está obsoleta.",
   "Date": "Fecha",
-  "KtWeb session is closed.\nAuthenticating from KtWeb:Main.": "La sesión de KtWeb ha sido cerrada.\nHay que autenticarse en KtWeb:Main.",
+  "Delete": "Eliminar",
+  "Errors": "Errores",
+  "Log": "Registro",
   "Month": "Mes",
   "Place": "Lugar",
+  "Reload": "Recargar",
+  "Session is closed.\nAuthenticating from Main.": "La sesión ha sido cerrada.\nHay que autenticarse en Main.",
   "Session is expired.": "Las sesión ha expirado.",
   "Set Place": "Poner lugar",
   "Stays": "Estancias",
@@ -24,13 +32,21 @@ const esDic =sys.$checkNull( {
 export  function es() {sys.$params(arguments.length, 0); Lang[0] =sys.$checkExists(Lang[0],sys.$checkNull( "es"));};
 
 const enDic =sys.$checkNull( {
+  "2 Days": "2 Days",
+  "All": "All",
+  "All log entries will be deleted.\nContinue?": "All log entries will be deleted.\nContinue?",
   "Amount": "Amount",
   "Bills": "Bills",
   "Click %0 to continue.": "Click %0 to continue.",
+  "Data base is out of date.": "Data base is out of date.",
   "Date": "Date",
-  "KtWeb session is closed.\nAuthenticating from KtWeb:Main.": "KtWeb session is closed.\nAuthenticating from KtWeb:Main.",
+  "Delete": "Delete",
+  "Errors": "Errors",
+  "Log": "Log",
   "Month": "Month",
   "Place": "Place",
+  "Reload": "Reload",
+  "Session is closed.\nAuthenticating from Main.": "Session is closed.\nAuthenticating from Main.",
   "Session is expired.": "Session is expired.",
   "Set Place": "Set Place",
   "Stays": "Stays",
@@ -45,11 +61,11 @@ const enDic =sys.$checkNull( {
 export  function en() {sys.$params(arguments.length, 0); Lang[0] =sys.$checkExists(Lang[0],sys.$checkNull( "en"));};
 
 
- function dicByKey(s)  {sys.$params(arguments.length, 1);    
-  return sys.$eq(s,"es")? esDic:
+ function dicByKey(s)  {sys.$params(arguments.length, 1); return (   
+  sys.$eq(s,"es")? esDic:
   sys.$eq(s,"en")? enDic:
    "Unreachable"
-;};
+);};
 
 const Lang =sys.$checkNull( ["es"]);
 
@@ -58,7 +74,7 @@ export  function getLang() {sys.$params(arguments.length, 0);  return Lang[0];};
 
 export  function tlt(s)  {sys.$params(arguments.length, 1);
   const T =sys.$checkNull( dic.get(dicByKey(Lang[0]), s));
-  return sys.asBool( T) ? T[0] : s;
+   return !sys.asBool(T) ? s : T[0];
 };
 
 

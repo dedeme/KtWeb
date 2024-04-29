@@ -16,25 +16,15 @@ import * as dailyInvestorData from  "../../data/chart/dailyInvestorData.js";
 
 
 
-export  function mk(nick, close, hours, quotes, invs)  {sys.$params(arguments.length, 5);
-   return {nick:nick, close:close, hours:hours, quotes:quotes, invs:invs};};
+export  function mk(nick, close, hours, quotes, invData)  {sys.$params(arguments.length, 5);
+   return {nick:nick, close:close, hours:hours, quotes:quotes, invData:invData};};
 
 
 export  function fromJs(A)  {sys.$params(arguments.length, 1);
-  if (sys.asBool(sys.$eq(arr.size(A) , 5)))
-     return mk(
-      A[0],
-      A[1],
-      A[2],
-      A[3],
-      arr.map(A[4], dailyInvestorData.fromJs)
-    );
-  else
-     return mk(
-      A[0],
-      A[1],
-      A[3],
-      A[4],
-      arr.map(A[5], dailyInvestorData.fromJs)
-    );}
-;
+   return mk(
+    A[0],
+    A[1],
+    A[2],
+    A[3],
+    dailyInvestorData.fromJs(A[4])
+  );};

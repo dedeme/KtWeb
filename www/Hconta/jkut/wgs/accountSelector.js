@@ -4,7 +4,8 @@ import * as math from '../_js/math.js';import * as js from '../_js/js.js';import
 
 
 import * as acc from  "../data/acc.js";
-import * as cts from  "../data/cts.js";
+import * as accValue from  "../data/accValue.js";
+import * as cts from  "../cts.js";
 import * as fns from  "../fns.js";
 import * as i18n from  "../i18n.js";
 
@@ -28,11 +29,11 @@ export  function mk(ac, fn, forCash)  {sys.$params(arguments.length, 3);
 
   
    function changeTo(a)  {sys.$params(arguments.length, 1);
-    acV[0] =sys.$checkExists(acV[0],sys.$checkNull(sys.asBool( sys.$eq(str.len(a) , 1))
+    acV[0] =sys.$checkExists(acV[0],sys.$checkNull( sys.$eq(str.len(a) , 1)
       ? iter.next(dic.toIter(
           acc.subOf(iter.next(dic.toIter(acc.subOf(a)))[0])
         ))[0]
-      :sys.asBool( sys.$eq(str.len(a) , 2))
+      : sys.$eq(str.len(a) , 2)
         ? iter.next(dic.toIter(acc.subOf(a)))[0]
         : a))
     ;
@@ -45,7 +46,7 @@ export  function mk(ac, fn, forCash)  {sys.$params(arguments.length, 3);
   
 
   
-  planHelpfV[0] =sys.$checkExists(planHelpfV[0], function() {sys.$params(arguments.length, 0);   return Q("ul")
+  planHelpfV[0] =sys.$checkExists(planHelpfV[0], function() {sys.$params(arguments.length, 0);  return Q("ul")
     .style("list-style:none;padding-left:0px;")
     .adds(iter.map(iter.$range(1,4), function(lg)  {sys.$params(arguments.length, 1);  return Q("li")
         .html("<a href='#' onclick='return false;'>" +
@@ -55,14 +56,14 @@ export  function mk(ac, fn, forCash)  {sys.$params(arguments.length, 3);
           .att("id", "hlist")
           .style("list-style:none;padding-left:10px;")
           .adds(function()  {sys.$params(arguments.length, 0);
-              const Subs =sys.$checkNull( dic.toArr(acc.subOf(sys.$slice(acV[0],null,lg - 1))));
-              arr.sort(Subs, function(Kv1, Kv2)  {sys.$params(arguments.length, 2);  return Kv1[0] < Kv2[0];});
-               return arr.map(Subs, function(Kv)  {sys.$params(arguments.length, 1);
+               const Subs =sys.$checkNull( dic.toArr(acc.subOf(sys.$slice(acV[0],null,lg - 1))));
+              arr.sort(Subs,function(Kv1, Kv2)  {sys.$params(arguments.length, 2);  return Kv1[0] < Kv2[0];});
+               return arr.map(Subs,function(Kv)  {sys.$params(arguments.length, 1);
                  return Q("li")
                   .add(ui.link(function(e)  {sys.$params(arguments.length, 1); changeTo(Kv[0]);})
                     .klass("link")
                     .att("title", Kv[0])
-                    .html(fns.cutRight(Kv[1].description, cts.helpLen)))
+                    .html(fns.cutRight(Kv[1][accValue.description], cts.helpLen)))
                 ;}
               );
             }()));}))
@@ -71,15 +72,15 @@ export  function mk(ac, fn, forCash)  {sys.$params(arguments.length, 3);
     .adds(function()  {sys.$params(arguments.length, 0);
       const Subs =sys.$checkNull( arr.filter(
         dic.toArr(acc.sub(acV[0])),
-        function(Kv)  {sys.$params(arguments.length, 1);  return sys.asBool(sys.$neq(Kv[0] , cts.cash)) || sys.asBool(!sys.asBool(forCash));}
+        function(Kv)  {sys.$params(arguments.length, 1);  return sys.$neq(Kv[0] , cts.cash) || !sys.asBool(forCash);}
       ));
-      arr.sort(Subs, function(Kv1, Kv2)  {sys.$params(arguments.length, 2);  return Kv1[0] < Kv2[0];});
-       return arr.map(Subs, function(Kv)  {sys.$params(arguments.length, 1);
+      arr.sort(Subs,function(Kv1, Kv2)  {sys.$params(arguments.length, 2);  return Kv1[0] < Kv2[0];});
+       return arr.map(Subs,function(Kv)  {sys.$params(arguments.length, 1);
          return Q("li")
-          .add(ui.link(function(e)  {sys.$params(arguments.length, 1); fn(Kv[0], Kv[1].description);})
+          .add(ui.link(function(e)  {sys.$params(arguments.length, 1); fn(Kv[0], Kv[1][accValue.description]);})
             .klass("link")
             .att("title", acc.accFormat(Kv[0]))
-            .html(fns.cutRight(Kv[1].description, cts.helpLen)))
+            .html(fns.cutRight(Kv[1][accValue.description], cts.helpLen)))
         ;}
       );
     }())

@@ -7,10 +7,4 @@ import * as math from '../_js/math.js';import * as js from '../_js/js.js';import
 
 
 
-export  function mk(description, summary)  {sys.$params(arguments.length, 2);  return {description:description, summary:summary};};
-
-
-export  function toJs(D)  {sys.$params(arguments.length, 1);  return [D.description, D.summary];};
-
-
-export  function fromJs(A)  {sys.$params(arguments.length, 1);  return mk(A[0], A[1]);};
+export function mk (description,summary) { sys.$params(arguments.length, 2); return [ description, summary];}export const description = 0;export const summary = 1;

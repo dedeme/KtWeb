@@ -80,11 +80,11 @@ export  async  function mk(wg)  {sys.$params(arguments.length, 1);
   
    function addHoliday(Ls, d)  {sys.$params(arguments.length, 2);
     const now =sys.$checkNull( time.toStr(time.now()));
-    if (sys.asBool(d < now)) {
+    if (d < now) {
       msg.error(II("Date before today"), function()  {sys.$params(arguments.length, 0);});
       return;
     }
-    if (sys.asBool(arr.any(Ls, function(e)  {sys.$params(arguments.length, 1);  return sys.$eq(e , d);}))) {
+    if (arr.any(Ls, function(e)  {sys.$params(arguments.length, 1);  return sys.$eq(e , d);})) {
       msg.error(i18n.fmt(II("Date '%0' is duplicated"), [d]), function()  {sys.$params(arguments.length, 0);});
       return;
     }
@@ -94,18 +94,18 @@ export  async  function mk(wg)  {sys.$params(arguments.length, 1);
 
   
    function delHoliday(Ls, d)  {sys.$params(arguments.length, 2);
-    if (sys.asBool(ui.confirm(i18n.fmt(II("Delete '%0'?"), [d]))))
+    if (ui.confirm(i18n.fmt(II("Delete '%0'?"), [d])))
       holidaysChange(arr.filter(Ls, function(e)  {sys.$params(arguments.length, 1);  return sys.$neq(e , d);}));
   };
 
   
    function addSpecialDay(Ls, d, hopen, mopen, hclose, mclose)  {sys.$params(arguments.length, 6);
     const now =sys.$checkNull( time.toStr(time.now()));
-    if (sys.asBool(d < now)) {
+    if (d < now) {
       msg.error(II("Date before today"), function()  {sys.$params(arguments.length, 0);});
       return;
     }
-    if (sys.asBool(arr.any(Ls, function(S)  {sys.$params(arguments.length, 1);  return sys.$eq(S.date , d);}))) {
+    if (arr.any(Ls, function(S)  {sys.$params(arguments.length, 1);  return sys.$eq(S.date , d);})) {
       msg.error(i18n.fmt(II("Date '%0' is duplicated"), [d]), function()  {sys.$params(arguments.length, 0);});
       return;
     }
@@ -115,7 +115,7 @@ export  async  function mk(wg)  {sys.$params(arguments.length, 1);
 
   
    function delSpecialDay(Ls, d)  {sys.$params(arguments.length, 2);
-    if (sys.asBool(ui.confirm(i18n.fmt(II("Delete '%0'?"), [d])))) {
+    if (ui.confirm(i18n.fmt(II("Delete '%0'?"), [d]))) {
       specialDaysChange(arr.filter(Ls, function(S)  {sys.$params(arguments.length, 1);  return sys.$neq(S.date , d);}));
     }
   };
@@ -160,18 +160,8 @@ export  async  function mk(wg)  {sys.$params(arguments.length, 1);
     arr.sort(Ls, function(e1, e2)  {sys.$params(arguments.length, 2);  return e1 < e2;});
 
     
-     function list()  {sys.$params(arguments.length, 0); return sys.asBool( Ls)
-      ? arr.map(Ls, function(d)  {sys.$params(arguments.length, 1);  return Q("tr")
-          .add(Q("td")
-            .add(ui.link(function(e)  {sys.$params(arguments.length, 1); delHoliday(Ls, d);})
-              .add(ui.img("minus"))))
-          .add(Q("td")
-            .style("text-align:center")
-            .text(sys.asBool(sys.$eq(i18n.getLang() , "es"))
-                ? time.toIso(time.fromStr(d)[0])
-                : time.toEn(time.fromStr(d)[0])))
-        ;})
-      : [ Q("tr")
+     function list()  {sys.$params(arguments.length, 0);  return !sys.asBool(Ls)
+      ? [ Q("tr")
           .add(Q("td"))
           .add(Q("td")
             .add(Q("table")
@@ -181,6 +171,16 @@ export  async  function mk(wg)  {sys.$params(arguments.length, 1);
                 .add(Q("td")
                   .html(II("Without dates"))))))
         ]
+      : arr.map(Ls, function(d)  {sys.$params(arguments.length, 1);  return Q("tr")
+          .add(Q("td")
+            .add(ui.link(function(e)  {sys.$params(arguments.length, 1); delHoliday(Ls, d);})
+              .add(ui.img("minus"))))
+          .add(Q("td")
+            .style("text-align:center")
+            .text(sys.$eq(i18n.getLang() , "es")
+                ? time.toIso(time.fromStr(d)[0])
+                : time.toEn(time.fromStr(d)[0])))
+        ;})
       ;};
 
     const dpInput =sys.$checkNull( Q("input")
@@ -190,10 +190,10 @@ export  async  function mk(wg)  {sys.$params(arguments.length, 1);
     const dp =sys.$checkNull( datePicker.mk(
       sys.$eq(i18n.getLang() , "es"),
       time.now(),
-      function(d)  {sys.$params(arguments.length, 1); if (sys.asBool(!sys.asBool(d))) {
+      function(d)  {sys.$params(arguments.length, 1); if (sys.$eq(d , "")) {
           const dt =sys.$checkNull( time.now());
           datePicker.setDate(dp, dt);
-          dpInput.value(sys.asBool(sys.$eq(i18n.getLang() , "es"))
+          dpInput.value(sys.$eq(i18n.getLang() , "es")
             ? time.toIso(time.fromStr(dt)[0])
             : time.toEn(time.fromStr(dt)[0])
           );
@@ -225,24 +225,8 @@ export  async  function mk(wg)  {sys.$params(arguments.length, 1);
     arr.sort(Ls, function(S1, S2)  {sys.$params(arguments.length, 2);  return S1.date < S2.date;});
 
   
-     function list()  {sys.$params(arguments.length, 0); return sys.asBool( Ls)
-      ? arr.map(Ls, function(S)  {sys.$params(arguments.length, 1);  return Q("tr")
-          .add(Q("td")
-            .add(ui.link(function(e)  {sys.$params(arguments.length, 1); delSpecialDay(Ls, S.date);})
-              .add(ui.img("minus"))))
-          .add(Q("td")
-            .style("text-align:center")
-            .text(sys.asBool(sys.$eq(i18n.getLang() , "es"))
-                ? time.toIso(time.fromStr(S.date)[0])
-                : time.toEn(time.fromStr(S.date)[0])))
-          .add(Q("td")
-            .style("text-align:center")
-            .text(fns.format00(S.hopen) + ":" + fns.format00(S.mopen)))
-          .add(Q("td")
-            .style("text-align:center")
-            .text(fns.format00(S.hclose) + ":" + fns.format00(S.mclose)))
-        ;})
-      : [ Q("tr")
+     function list()  {sys.$params(arguments.length, 0);  return !sys.asBool(Ls)
+      ? [ Q("tr")
           .add(Q("td"))
           .add(Q("td")
             .add(Q("table")
@@ -254,6 +238,22 @@ export  async  function mk(wg)  {sys.$params(arguments.length, 1);
           .add(Q("td"))
           .add(Q("td"))
         ]
+      : arr.map(Ls, function(S)  {sys.$params(arguments.length, 1);  return Q("tr")
+          .add(Q("td")
+            .add(ui.link(function(e)  {sys.$params(arguments.length, 1); delSpecialDay(Ls, S.date);})
+              .add(ui.img("minus"))))
+          .add(Q("td")
+            .style("text-align:center")
+            .text(sys.$eq(i18n.getLang() , "es")
+                ? time.toIso(time.fromStr(S.date)[0])
+                : time.toEn(time.fromStr(S.date)[0])))
+          .add(Q("td")
+            .style("text-align:center")
+            .text(fns.format00(S.hopen) + ":" + fns.format00(S.mopen)))
+          .add(Q("td")
+            .style("text-align:center")
+            .text(fns.format00(S.hclose) + ":" + fns.format00(S.mclose)))
+        ;})
       ;};
 
     const dpInput =sys.$checkNull( Q("input")
@@ -263,10 +263,10 @@ export  async  function mk(wg)  {sys.$params(arguments.length, 1);
     const dp =sys.$checkNull( datePicker.mk(
       sys.$eq(i18n.getLang() , "es"),
       time.now(),
-      function(d)  {sys.$params(arguments.length, 1); if (sys.asBool(!sys.asBool(d))) {
+      function(d)  {sys.$params(arguments.length, 1); if (sys.$eq(d , "")) {
           const dt =sys.$checkNull( time.now());
           datePicker.setDate(dp, dt);
-          dpInput.value(sys.asBool(sys.$eq(i18n.getLang() , "es"))
+          dpInput.value(sys.$eq(i18n.getLang() , "es")
             ? time.toIso(time.fromStr(dt)[0])
             : time.toEn(time.fromStr(dt)[0])
           );

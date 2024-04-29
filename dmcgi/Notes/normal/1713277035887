@@ -1,0 +1,7 @@
+Cmarket->Market
+
+Actualizar Inversores. 
+  1. Recarger inversores en la página de configuración.
+  2. eliminar 'investor/investor.toJs'.
+  3. cambiar en 'db/investorTb':
+        read = \ -> return investor.fromJs(js.r(file.read(fpath)));;

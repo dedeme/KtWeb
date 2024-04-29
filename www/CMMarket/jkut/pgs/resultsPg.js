@@ -21,7 +21,7 @@ const II =sys.$checkNull( i18n.tlt);
   }));
   const Md =sys.$checkNull( model.fromJs(Rp.model));
   const Evals =sys.$checkNull( arr.map(Rp.evals, modelEval.fromJs));
-  if (sys.asBool(historicOrder))
+  if (historicOrder)
     arr.sort(Evals, function(E1, E2)  {sys.$params(arguments.length, 2);
        return fns.evaluate(E2.hassets, E2.hprofits) <
         fns.evaluate(E1.hassets, E1.hprofits);}
@@ -47,16 +47,25 @@ const II =sys.$checkNull( i18n.tlt);
         .add(Q("td")
           .klass("chead")
           .att("colspan", 4)
-          .add(ui.link(function(e)  {sys.$params(arguments.length, 1); mk2(wg, modelId, false);})
-            .klass("link")
-            .text(II("Current"))))
+          .add(historicOrder
+            ? ui.link(function(e)  {sys.$params(arguments.length, 1); mk2(wg, modelId, false);})
+              .klass("link")
+              .text(II("Current"))
+            : Q("div")
+              .klass("frame")
+              .text(II("Current"))
+            ))
         .add(Q("td").klass("rhead"))
         .add(Q("td")
           .klass("chead")
           .att("colspan", 4)
-          .add(ui.link(function(e)  {sys.$params(arguments.length, 1); mk2(wg, modelId, true);})
-            .klass("link")
-            .text(II("Historic")))))
+          .add(historicOrder
+            ? Q("div")
+              .klass("frame")
+              .text(II("Historic"))
+            : ui.link(function(e)  {sys.$params(arguments.length, 1); mk2(wg, modelId, true);})
+              .klass("link")
+              .text(II("Historic")))))
       .add(Q("tr")
         .add(Q("td"))
         .adds(arr.map(Md.paramNames, function(n)  {sys.$params(arguments.length, 1);  return Q("td")

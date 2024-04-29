@@ -49,7 +49,7 @@ export  function mk(wg, selected)  {sys.$params(arguments.length, 2);
    function change(ev)  {sys.$params(arguments.length, 1);
     Hidden[0] =sys.$checkExists(Hidden[0],sys.$checkNull( !sys.asBool(Hidden[0])));
     upDiv.removeAll().style("padding:0px");
-    if (sys.asBool(!sys.asBool(Hidden[0]))) upDiv.add(upMenu);
+    if (!sys.asBool(Hidden[0])) upDiv.add(upMenu);
   };
 
   

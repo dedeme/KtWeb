@@ -9,10 +9,4 @@ import * as math from '../_js/math.js';import * as js from '../_js/js.js';import
 
 
 
-export  function mk(name, doc, code, link)  {sys.$params(arguments.length, 4);  return {name:name, doc:doc, code:code, link:link};};
-
-
-export  function toJs(E)  {sys.$params(arguments.length, 1);  return [E.name, E.doc, E.code, E.link];};
-
-
-export  function fromJs(A)  {sys.$params(arguments.length, 1);  return mk(A[0], A[1], A[2], A[3]);};
+export function mk (name,doc,code,link) { sys.$params(arguments.length, 4); return [ name, doc, code, link];}export const name = 0;export const doc = 1;export const code = 2;export const link = 3;

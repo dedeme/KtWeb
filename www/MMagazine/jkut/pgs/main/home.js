@@ -21,9 +21,9 @@ export  async  function mk(wg)  {sys.$params(arguments.length, 1);
     rq: "idata"
   }));
 
-  const iparsEvals =sys.$checkNull( arr.map(Rp.iparamsEvals, paramsEval.fromJs));
-  const models =sys.$checkNull( Rp.models);
-  const parsEvals =sys.$checkNull( arr.map(Rp.paramsEvals, paramsEval.fromJs));
+  const iparsEval =sys.$checkNull( paramsEval.fromJs(Rp.iparamsEval));
+  const model =sys.$checkNull( Rp.model);
+  const parsEval =sys.$checkNull( paramsEval.fromJs(Rp.paramsEval));
 
   const logDiv =sys.$checkNull( Q("div"));
 
@@ -50,8 +50,8 @@ export  async  function mk(wg)  {sys.$params(arguments.length, 1);
   };
 
   
-   function tlt(tx)  {sys.$params(arguments.length, 1);    
-    return sys.$eq(tx,"All log entries will be deleted.\nContinue?")?
+   function tlt(tx)  {sys.$params(arguments.length, 1); return (   
+    sys.$eq(tx,"All log entries will be deleted.\nContinue?")?
       II("All log entries will be deleted.\nContinue?"):
     sys.$eq(tx,"2 Days")? II("2 Days"):
     sys.$eq(tx,"All")? II("All"):
@@ -60,7 +60,7 @@ export  async  function mk(wg)  {sys.$params(arguments.length, 1);
     sys.$eq(tx,"Errors")? II("Errors"):
     sys.$eq(tx,"Log")? II("Log"):
      tx
-  ;};
+  );};
 
   log.mk(logDiv, load, reset, tlt, true, 100, 25);
 
@@ -74,15 +74,12 @@ export  async  function mk(wg)  {sys.$params(arguments.length, 1);
         .add(Q("td")
           .add(Q("span")
             .html(
-              "Los mejores resultados de los modelos usados por los inversores son:<br>" +
+              "El mejor resultado del modelo usado por el inversor es:<br>" +
               "<pre>" +
-              arr.join(arr.fromIter(iter.map(iter.$range(0,models.length), function(i)  {sys.$params(arguments.length, 1);
-                 return "Inv-" + i + " (" +
-                sys.toStr(iparsEvals[i].Params) +
-                ": " + math.toStr(iparsEvals[i].ev / 100) +
-                ") -> " +
-                models[i] + sys.toStr(parsEvals[i].Params) +
-                ": " + math.toStr(parsEvals[i].ev / 100);})), "\n") +
+              "Inv (" +  sys.toStr(iparsEval.Params) + ": " +
+              math.toIso(iparsEval.ev, 0) + ") | Mejor (" +
+              model + sys.toStr(parsEval.Params) + ": " +
+              math.toIso(parsEval.ev, 0) + ")" +
               "</pre>"
             )))))
     .add(logDiv)

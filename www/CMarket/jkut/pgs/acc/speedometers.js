@@ -17,12 +17,12 @@ const II =sys.$checkNull( i18n.tlt);
  function acumulatorAvg(value, price)  {sys.$params(arguments.length, 2);
   const profits =sys.$checkNull( value - price);
   const rV =sys.$checkNull( [0.5 - profits / (2 * profits + 4 * price)]);
-  if (sys.asBool(rV[0] > 0.5)) {
+  if (rV[0] > 0.5) {
     rV[0] =sys.$checkExists(rV[0],sys.$checkNull( 0.5 + (rV[0] - 0.5) * 4));
-    if (sys.asBool(rV[0] > 1)) rV[0] =sys.$checkExists(rV[0],sys.$checkNull( 1));
-  } else if (sys.asBool(rV[0] < 0.5)) {
+    if (rV[0] > 1) rV[0] =sys.$checkExists(rV[0],sys.$checkNull( 1));
+  } else if (rV[0] < 0.5) {
     rV[0] =sys.$checkExists(rV[0],sys.$checkNull( 0.5 - (0.5 - rV[0]) * 4));
-    if (sys.asBool(rV[0] < 0)) rV[0] =sys.$checkExists(rV[0],sys.$checkNull( 0));
+    if (rV[0] < 0) rV[0] =sys.$checkExists(rV[0],sys.$checkNull( 0));
   }
    return rV[0];
 };
@@ -68,8 +68,8 @@ export  async  function mk(wg)  {sys.$params(arguments.length, 1);
         const vs1 =sys.$checkNull( C1[1]);
         const nk2 =sys.$checkNull( C2[0]);
         const vs2 =sys.$checkNull( C2[1]);
-           
-          return sys.$eq(orderV[0],"+profits")?
+        return (   
+          sys.$eq(orderV[0],"+profits")?
             acumulatorAvg(vs1[1], vs1[0]) < acumulatorAvg(vs2[1], vs2[0]):
           sys.$eq(orderV[0],"-profits")?
             acumulatorAvg(vs1[1], vs1[0]) > acumulatorAvg(vs2[1], vs2[0]):
@@ -81,7 +81,7 @@ export  async  function mk(wg)  {sys.$params(arguments.length, 1);
             nk1 > nk2:
           
             nk1 < nk2
-        ;
+        );
       }
     );
 
@@ -162,7 +162,7 @@ export  async  function mk(wg)  {sys.$params(arguments.length, 1);
           .add(Q("td")
             .klass("header")
             .add(ui.link(function(ev)  {sys.$params(arguments.length, 1);
-                  orderV[0] =sys.$checkExists(orderV[0],sys.$checkNull(sys.asBool( sys.$eq(orderV[0] , "+nick")) ? "-nick" : "+nick"));
+                  orderV[0] =sys.$checkExists(orderV[0],sys.$checkNull( sys.$eq(orderV[0] , "+nick") ? "-nick" : "+nick"));
                   Show[0]();
                 })
               .klass("link")
@@ -173,7 +173,7 @@ export  async  function mk(wg)  {sys.$params(arguments.length, 1);
           .add(Q("td")
             .klass("header")
             .add(ui.link(function(ev)  {sys.$params(arguments.length, 1);
-                  orderV[0] =sys.$checkExists(orderV[0],sys.$checkNull(sys.asBool( sys.$eq(orderV[0] , "+profits")) ? "-profits" : "+profits"));
+                  orderV[0] =sys.$checkExists(orderV[0],sys.$checkNull( sys.$eq(orderV[0] , "+profits") ? "-profits" : "+profits"));
                   Show[0]();
                 })
               .klass("link")
@@ -181,7 +181,7 @@ export  async  function mk(wg)  {sys.$params(arguments.length, 1);
           .add(Q("td")
             .klass("header")
             .add(ui.link(function(ev)  {sys.$params(arguments.length, 1);
-                  orderV[0] =sys.$checkExists(orderV[0],sys.$checkNull(sys.asBool( sys.$eq(orderV[0] , "+ref")) ? "-ref" : "+ref"));
+                  orderV[0] =sys.$checkExists(orderV[0],sys.$checkNull( sys.$eq(orderV[0] , "+ref") ? "-ref" : "+ref"));
                   Show[0]();
                 })
               .klass("link")

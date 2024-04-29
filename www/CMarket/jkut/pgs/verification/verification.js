@@ -78,12 +78,12 @@ const dateV =sys.$checkNull( [time.now()]);
 
 
  function nickEntry(cMarketEntry, stocksEntry)  {sys.$params(arguments.length, 2);
-  const ok =sys.$checkNull( sys.asBool(sys.$eq(cMarketEntry[1] , stocksEntry[1])) &&
-    sys.asBool(sys.$eq(cMarketEntry[2] , stocksEntry[2])))
+  const ok =sys.$checkNull( sys.$eq(cMarketEntry[1] , stocksEntry[1]) &&
+    sys.$eq(cMarketEntry[2] , stocksEntry[2]))
   ;
 
-   return mkStocksEntry([sys.asBool(
-    ok) ? "well3" : "error3", stocksEntry[0],
+   return mkStocksEntry([
+    ok ? "well3" : "error3", stocksEntry[0],
     cMarketEntry[1], cMarketEntry[2],
     stocksEntry[1], stocksEntry[2], stocksEntry[3],
     ""
@@ -94,7 +94,7 @@ const dateV =sys.$checkNull( [time.now()]);
  async  function mk2(wg, date)  {sys.$params(arguments.length, 2);
   wgV[0] =sys.$checkExists(wgV[0],sys.$checkNull( wg));
   const now =sys.$checkNull( time.now());
-  dateV[0] =sys.$checkExists(dateV[0],sys.$checkNull(sys.asBool( sys.$eq(time.year(date) , time.year(now))) ? date : now));
+  dateV[0] =sys.$checkExists(dateV[0],sys.$checkNull( sys.$eq(time.year(date) , time.year(now)) ? date : now));
   const Rp =sys.$checkNull( await  client.send({
     prg: cts.appName,
     module: "Verification",
@@ -103,7 +103,7 @@ const dateV =sys.$checkNull( [time.now()]);
     lastDate: time.toStr(dateV[0])
   }));
 
-  if (sys.asBool(!sys.asBool(Rp.ok))) {
+  if (!sys.asBool(Rp.ok)) {
     msg.error(cts.failMsg, function(){sys.$params(arguments.length, 0);});
     return;
   }
@@ -150,7 +150,7 @@ const dateV =sys.$checkNull( [time.now()]);
 
 
  function mkCash(div, cMarket, hconta)  {sys.$params(arguments.length, 3);
-  const icon =sys.$checkNull(sys.asBool( sys.$eq(cMarket , hconta)) ? "well3" : "error3");
+  const icon =sys.$checkNull( sys.$eq(cMarket , hconta) ? "well3" : "error3");
   div
     .removeAll()
     .add(Q("table")
@@ -202,17 +202,17 @@ const dateV =sys.$checkNull( [time.now()]);
     const sizeMarket =sys.$checkNull( arr.size(cMarketStocks));
     const sizeStocks =sys.$checkNull( arr.size(stocksStocks));
     while (true) {
-      if (sys.asBool(sys.asBool(mmIxV[0] >= sizeMarket) && sys.asBool(stIxV[0] >= sizeStocks))) {
+      if (mmIxV[0] >= sizeMarket && stIxV[0] >= sizeStocks) {
         break;
       }
 
-      if (sys.asBool(mmIxV[0] >= sizeMarket)) {
+      if (mmIxV[0] >= sizeMarket) {
         arr.push(R, missingCMarket(stocksStocks[stIxV[0]]));
         stIxV[0] +=sys.$checkExists(stIxV[0],sys.$checkNull( 1));
         continue;
       }
 
-      if (sys.asBool(stIxV[0] >= stocksStocks.length)) {
+      if (stIxV[0] >= stocksStocks.length) {
         arr.push(R, missingStocks(cMarketStocks[mmIxV[0]]));
         mmIxV[0] +=sys.$checkExists(mmIxV[0],sys.$checkNull( 1));
         continue;
@@ -221,11 +221,11 @@ const dateV =sys.$checkNull( [time.now()]);
       const mmNick =sys.$checkNull( cMarketStocks[mmIxV[0]][0]);
       const stNick =sys.$checkNull( stocksStocks[stIxV[0]][0]);
 
-      if (sys.asBool(sys.$eq(mmNick , stNick))) {
+      if (sys.$eq(mmNick , stNick)) {
         arr.push(R, nickEntry(cMarketStocks[mmIxV[0]], stocksStocks[stIxV[0]]));
         mmIxV[0] +=sys.$checkExists(mmIxV[0],sys.$checkNull( 1));
         stIxV[0] +=sys.$checkExists(stIxV[0],sys.$checkNull( 1));
-      } else if (sys.asBool(mmNick < stNick)) {
+      } else if (mmNick < stNick) {
         arr.push(R, missingStocks(cMarketStocks[mmIxV[0]]));
         mmIxV[0] +=sys.$checkExists(mmIxV[0],sys.$checkNull( 1));
       } else {
@@ -238,11 +238,11 @@ const dateV =sys.$checkNull( [time.now()]);
   };
 
   const dp =sys.$checkNull( datePicker.mk(i18n.getLang(), dateV[0], function(d)  {sys.$params(arguments.length, 1);
-    if (sys.asBool(sys.$eq(d , ""))) {
+    if (sys.$eq(d , "")) {
       mk(wgV[0]);
     } else {
       const y =sys.$checkNull( time.fmt("%Y", time.now()));
-      if (sys.asBool(sys.$neq(sys.$slice(d,null,4) , y))) {
+      if (sys.$neq(sys.$slice(d,null,4) , y)) {
         ui.alert(i18n.fmt(II("Date '%0' out of year %1"), [d, y]));
         mk(wgV[0]);
       } else {
@@ -353,7 +353,7 @@ const dateV =sys.$checkNull( [time.now()]);
         .add(Q("td")
           .klass("border")
           .style("text-align:center")
-          .add(ui.img(sys.asBool(sys.$eq(stocksSum , hcontaSum)) ? "well3" : "error3")))
+          .add(ui.img(sys.$eq(stocksSum , hcontaSum) ? "well3" : "error3")))
         .add(Q("td")
           .klass("border")
           .style("text-align:center")

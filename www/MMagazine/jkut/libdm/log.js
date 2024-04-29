@@ -117,13 +117,13 @@ export  async  function mk(wg, load, reset, tlt, minified, lineWidth, linesNumbe
   
    function onReload()  {sys.$params(arguments.length, 0); load(function(Rs)  {sys.$params(arguments.length, 1);
       arr.clear(Rows);
-      for (let E  of sys.$forObject( Rs)) arr.push(Rows, E);
+      for (const E  of sys.$forObject( Rs)) arr.push(Rows, E);
       Show[0]();
     });};
 
   
    function onDelete()  {sys.$params(arguments.length, 0);
-    if (sys.asBool(ui.confirm(tlt("All log entries will be deleted.\nContinue?"))))
+    if (ui.confirm(tlt("All log entries will be deleted.\nContinue?")))
       reset(function()  {sys.$params(arguments.length, 0); onReload();});};
 
   
@@ -151,7 +151,7 @@ export  async  function mk(wg, load, reset, tlt, minified, lineWidth, linesNumbe
             "border: 1px solid rgb(110,130,150);" +
             "border-radius: 8px;" +
             "background: " +
-              (sys.asBool(errs) ? "#e04040" :sys.asBool( warns) ? "#e0e040" : "#ffffff") + ";" +
+              (!sys.asBool(!sys.asBool(errs)) ? "#e04040" : !sys.asBool(!sys.asBool(warns)) ? "#e0e040" : "#ffffff") + ";" +
             "cursor:pointer"
           )
         .html("&nbsp;&nbsp;")
@@ -173,7 +173,7 @@ export  async  function mk(wg, load, reset, tlt, minified, lineWidth, linesNumbe
       const link =sys.$checkNull( "text-decoration: none;color: #000080;" +
         "font-weight: normal;cursor:pointer;")
       ;
-      const r =sys.$checkNull(sys.asBool( isSel)
+      const r =sys.$checkNull( isSel
         ? Q("span").style(frame)
         : ui.link(function(ev)  {sys.$params(arguments.length, 1); action();}).style(link))
       ;
@@ -215,8 +215,8 @@ export  async  function mk(wg, load, reset, tlt, minified, lineWidth, linesNumbe
           arr.filter(
             Log,
             function(E)  {sys.$params(arguments.length, 1); 
-              return sys.asBool((sys.asBool(Is2Days[0]) ? time.dfDays(today, logRowDate(E)) < 3 : true)) &&
-              sys.asBool((sys.asBool(IsErrors[0]) ? E.isError : true))
+              return (Is2Days[0] ? time.dfDays(today, logRowDate(E)) < 3 : true) &&
+              (IsErrors[0] ? E.isError : true)
             ;}
           ),
           function(E)  {sys.$params(arguments.length, 1);  return logRowFormat(E, lineWidth);}
@@ -252,7 +252,7 @@ export  async  function mk(wg, load, reset, tlt, minified, lineWidth, linesNumbe
   ;};
   View2[0] =sys.$checkExists(View2[0],sys.$checkNull( view2));
 
-  Show[0] =sys.$checkExists(Show[0], function()  {sys.$params(arguments.length, 0); if (sys.asBool(Minified[0])) view2(); else view1();});
+  Show[0] =sys.$checkExists(Show[0], function()  {sys.$params(arguments.length, 0); if (Minified[0]) view2(); else view1();});
 
   Show[0]();
 };
@@ -269,33 +269,33 @@ export  function mkLogRow(isError, tm, msg)  {sys.$params(arguments.length, 3); 
 
 
 
- function logRowDate(LgR)  {sys.$params(arguments.length, 1); return sys.asBool( sys.$eq(LgR.tm[2] , "-"))
+ function logRowDate(LgR)  {sys.$params(arguments.length, 1);  return sys.$eq(LgR.tm[2] , "-")
     ? time.fromEn(str.trim(sys.$slice(LgR.tm,null,str.index(LgR.tm, "("))), "-")[0]
     : time.fromIso(str.trim(sys.$slice(LgR.tm,null,str.index(LgR.tm, "("))), "/")[0]
   ;};
 
 
  function format2(msg, indent, len)  {sys.$params(arguments.length, 3);
-  if (sys.asBool(sys.$eq(str.trim(msg) , "")))  return msg;
+  if (sys.$eq(str.trim(msg) , ""))  return msg;
 
   const R =sys.$checkNull( []);
-  for (let l  of sys.$forObject( str.split(msg, "\n"))) {
+  for (const l  of sys.$forObject( str.split(msg, "\n"))) {
     const Subr =sys.$checkNull( []);
 
     const L =sys.$checkNull( [l]);
-    while (sys.asBool(str.len(L[0]) > len)) {
+    while (str.len(L[0]) > len) {
       const Line =sys.$checkNull( [sys.$slice(L[0],null,len)]);
       L[0] =sys.$checkExists(L[0],sys.$checkNull( sys.$slice(L[0],len,null)));
       const ix =sys.$checkNull( str.lastIndex(Line[0], " "));
-      if (sys.asBool(sys.asBool(sys.$neq(ix ,  -1)) && sys.asBool(sys.$neq(str.trim(sys.$slice(Line[0],null,ix)) , "")))) {
+      if (sys.$neq(ix ,  -1) && sys.$neq(str.trim(sys.$slice(Line[0],null,ix)) , "")) {
         L[0] =sys.$checkExists(L[0],sys.$checkNull( sys.$slice(Line[0],ix + 1,null) + L[0]));
         Line[0] =sys.$checkExists(Line[0],sys.$checkNull( sys.$slice(Line[0],null,ix)));
       }
       arr.push(Subr, Line[0]);
     }
 
-    if (sys.asBool(sys.$neq(str.trim(L[0]) , ""))) arr.push(Subr, L[0]);
-    for (let subl  of sys.$forObject( Subr)) arr.push(R, subl);
+    if (sys.$neq(str.trim(L[0]) , "")) arr.push(Subr, L[0]);
+    for (const subl  of sys.$forObject( Subr)) arr.push(R, subl);
   }
 
   const Ind =sys.$checkNull( [""]);
@@ -309,7 +309,7 @@ export  function mkLogRow(isError, tm, msg)  {sys.$params(arguments.length, 3); 
  function logRowFormat(LgR, lineWidth)  {sys.$params(arguments.length, 2);
   const indent =sys.$checkNull( str.len(LgR.tm) + 3);
   const len =sys.$checkNull( lineWidth - indent);
-  const sep =sys.$checkNull(sys.asBool( LgR.isError) ? " = " : " - ");
+  const sep =sys.$checkNull( LgR.isError ? " = " : " - ");
    return LgR.tm + sep + format2(LgR.msg, indent, len);
 };
 

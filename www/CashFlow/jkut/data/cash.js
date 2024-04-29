@@ -3,46 +3,21 @@ import * as math from '../_js/math.js';import * as js from '../_js/js.js';import
 
 
 
-
-
-export  function mk(entries)  {sys.$params(arguments.length, 1);  return {entries:entries};};
+import * as cashEntry from  "../data/cashEntry.js";
 
 
 
 export  function previous(Cash, ix)  {sys.$params(arguments.length, 2);
   const start0 =sys.$checkNull( ix - 5);
-  const start =sys.$checkNull(sys.asBool( start0 < 0) ? 0 : start0);
-   return sys.$slice(Cash.entries,start,ix);
+  const start =sys.$checkNull( start0 < 0 ? 0 : start0);
+   return sys.$slice(Cash,start,ix);
 };
 
 
 
-export  function next(Cash, ix)  {sys.$params(arguments.length, 2);
-  const sz =sys.$checkNull( arr.size(Cash.entries));
+export  function next( Cash, ix)  {sys.$params(arguments.length, 2);
+  const sz =sys.$checkNull( arr.size(Cash));
   const end0 =sys.$checkNull( ix + 6);
-  const end =sys.$checkNull(sys.asBool( end0 > sz) ? sz : end0);
-   return sys.$slice(Cash.entries,ix + 1,end);
+  const end =sys.$checkNull( end0 > sz ? sz : end0);
+   return sys.$slice(Cash,ix + 1,end);
 };
-
-
-export  function fromJs(A)  {sys.$params(arguments.length, 1);  return mk(arr.map(A, entryFromJs));};
-
-
-
-
-
-
-
-export  function mkEntry(month, desc, isIncome, am)  {sys.$params(arguments.length, 4);  return {month:month, desc:desc, isIncome:isIncome, am:am };};
-
-
-
-export  function eqHcC(CashEntry, DiaryEntry)  {sys.$params(arguments.length, 2); 
-    return sys.asBool(sys.asBool(sys.asBool(sys.$eq(DiaryEntry.month , CashEntry.month)) &&
-    sys.asBool(sys.$eq(DiaryEntry.desc , CashEntry.desc))) &&
-    sys.asBool(sys.$eq(DiaryEntry.isIncome , CashEntry.isIncome))) &&
-    sys.asBool(math.eq(DiaryEntry.am, CashEntry.am, 0.0001))
-  ;};
-
-
-export  function entryFromJs(A)  {sys.$params(arguments.length, 1);  return mkEntry(A[0], A[1], A[2], A[3]);};

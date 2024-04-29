@@ -37,7 +37,7 @@ NF_00_WD=
 NF_01_LB=Compilar obje_tivo personalizado...
 NF_01_WD=
 KutFT_00_LB=Check
-KutFT_00_CM=kutmkt -c main
+KutFT_00_CM=kut -c main
 KutFT_00_WD=%p/kut
 JKutFT_00_LB=Check
 JKutFT_00_CM=jkut -c jkut/main
@@ -49,21 +49,17 @@ JKutFT_02_LB=
 JKutFT_02_CM=
 JKutFT_02_WD=
 KutFT_01_LB=Run
-KutFT_01_CM=kutmkt -c kut/main; jkut jkut/main www
+KutFT_01_CM=kut -c kut/main; jkut jkut/main www
 KutFT_01_WD=%p
-KutFT_02_LB=
-KutFT_02_CM=
-KutFT_02_WD=
+KutFT_02_LB=Pack
+KutFT_02_CM=kut pack
+KutFT_02_WD=%p
 
 [files]
 current_page=2
-FILE_NAME_0=1082;Kut;0;EUTF-8;0;1;0;%2Fdm%2FKtWeb%2Fprgs%2FCMarket%2Fkut%2Fdata%2Fsvs%2FibexSv.kut;0;2
-FILE_NAME_1=743;Kut;0;EUTF-8;0;1;0;%2Fdm%2FKtWeb%2Fprgs%2FCMarket%2Fkut%2Fqspr.kut;0;2
-FILE_NAME_2=1724;Kut;0;EUTF-8;0;1;0;%2Fdm%2FKtWeb%2Fprgs%2FCMarket%2Fkut%2Fsch.kut;0;2
-FILE_NAME_3=559;Kut;0;EUTF-8;0;1;0;%2Fdm%2FKtWeb%2Fprgs%2FCMarket%2Fkut%2Fdb%2FibexTb.kut;0;2
-FILE_NAME_4=6475;Kut;0;EUTF-8;0;1;0;%2Fdm%2FKtWeb%2Fprgs%2FCMarket%2Fkut%2Fdata%2Fsvs%2Finfob.kut;0;2
-FILE_NAME_5=480;Kut;0;EUTF-8;0;1;0;%2Fdm%2FKtWeb%2Fprgs%2FCMarket%2Fkut%2Fpgs%2Facc%2FibexPg.kut;0;2
-FILE_NAME_6=1984;JKut;0;EUTF-8;0;1;0;%2Fdm%2FKtWeb%2Fprgs%2FCMarket%2Fjkut%2Fpgs%2Facc%2FibexPg.jkut;0;2
+FILE_NAME_0=484;JKut;0;EUTF-8;0;1;0;%2Fdm%2FKtWeb%2Fprgs%2FCMarket%2Fjkut%2Fpgs%2Fdaily%2FrefSmallChart.jkut;0;2
+FILE_NAME_1=408;Kut;0;EUTF-8;0;1;0;%2Fdm%2FKtWeb%2Fprgs%2FCMarket%2Fkut%2Fdata%2Fcts.kut;0;2
+FILE_NAME_2=756;Kut;0;EUTF-8;0;1;0;%2Fdm%2FKtWeb%2Fprgs%2FCMarket%2Fkut%2Fdata%2Fqs%2Fqsvs.kut;0;2
 
 [editor]
 line_wrapping=false

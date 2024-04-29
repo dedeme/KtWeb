@@ -3,7 +3,7 @@ import * as math from '../../_js/math.js';import * as js from '../../_js/js.js';
 
 
 
-import * as lineChart from  "../../libdm/lineChart.js";
+import * as oldChart from  "../../libdm/oldChart.js";
 import * as i18n from  "../../i18n.js";
 
 const Q =sys.$checkNull( ui.q);
@@ -18,14 +18,14 @@ const II =sys.$checkNull( i18n.tlt);
 
 export  function mk(Labels, Values, isRebuy, withRef, ref)  {sys.$params(arguments.length, 5);
   const q =sys.$checkNull( arr.peek(Values[0])[0]);
-  const back =sys.$checkNull(sys.asBool( sys.asBool(withRef > 0) && sys.asBool(q > ref))
+  const back =sys.$checkNull( withRef > 0 && q > ref
     ? "#fff0f0"
-    :sys.asBool( sys.asBool(withRef < 0) && sys.asBool(q < ref))
+    : withRef < 0 && q < ref
       ? "#f0f0ff"
       : "#f5f5f5")
   ;
 
-  const Chart =sys.$checkNull( lineChart.mkExample());
+  const Chart =sys.$checkNull( oldChart.mkExample());
   Chart.ExArea.width =sys.$checkExists(Chart.ExArea.width,sys.$checkNull( 305));
   Chart.ExArea.height =sys.$checkExists(Chart.ExArea.height,sys.$checkNull( 160));
   Chart.ExArea.Atts.Border.width =sys.$checkExists(Chart.ExArea.Atts.Border.width,sys.$checkNull( 0));
@@ -36,29 +36,38 @@ export  function mk(Labels, Values, isRebuy, withRef, ref)  {sys.$params(argumen
   Chart.ExArea.Atts.background =sys.$checkExists(Chart.ExArea.Atts.background,sys.$checkNull( back));
 
   const Atts =sys.$checkNull( [
-    lineChart.mkLine(1.2,sys.asBool( isRebuy) ? "#a9a9a9" : "#202020", false)
+    oldChart.mkLine(1.2, isRebuy ? "#a9a9a9" : "#202020", false)
   ]);
-  const Data =sys.$checkNull( lineChart.mkData(Labels, Values, Atts));
-  Data.round =sys.$checkExists(Data.round,sys.$checkNull( 2));
+  const Data =sys.$checkNull( oldChart.mkData(Labels, Values, Atts));
   Data.drawGrid =sys.$checkExists(Data.drawGrid, function(lb, i)  {sys.$params(arguments.length, 2);
-    if (sys.asBool(sys.$eq(i , 0)))  return false;
+    if (sys.$eq(i , 0))  return false;
      return sys.$neq(Labels[i - 1] , lb);
   });
   Data.drawLabel =sys.$checkExists(Data.drawLabel,sys.$checkNull( Data.drawGrid));
-  Data.maxMinRound =sys.$checkExists(Data.maxMinRound, function(x, n)  {sys.$params(arguments.length, 2);
-    return sys.asBool( n < 1) ?  -3 :sys.asBool( x < 10) ?  -2 :sys.asBool( x < 100) ?  -1 : 0;});
-  if (sys.asBool(withRef > 0))
+  Data.maxMinRound =sys.$checkExists(Data.maxMinRound, function(mx, mn)  {sys.$params(arguments.length, 2);
+    if (mn > 10) {
+      Data.round =sys.$checkExists(Data.round,sys.$checkNull( 2));
+        return -2;
+    } else if (mn > 1) {
+      Data.round =sys.$checkExists(Data.round,sys.$checkNull( 3));
+        return -3;
+    } else {
+      Data.round =sys.$checkExists(Data.round,sys.$checkNull( 4));
+        return -4;
+    }
+  });
+  if (withRef > 0)
     Data.UnarySets =sys.$checkExists(Data.UnarySets,sys.$checkNull( [
-        lineChart.mkUnarySet(
+        oldChart.mkUnarySet(
           II("Reference"), ref,
-          lineChart.mkLine(1.5,sys.asBool( isRebuy) ? "#a9a9a9" : "#00aaff", false
+          oldChart.mkLine(1.5, isRebuy ? "#a9a9a9" : "#00aaff", false
         ))
       ]));
-  else if (sys.asBool(withRef < 0))
+  else if (withRef < 0)
     Data.UnarySets =sys.$checkExists(Data.UnarySets,sys.$checkNull( [
-        lineChart.mkUnarySet(
+        oldChart.mkUnarySet(
           II("Reference"), ref,
-          lineChart.mkLine(1.5,sys.asBool( isRebuy) ? "#a9a9a9" : "#ff8100", false
+          oldChart.mkLine(1.5, isRebuy ? "#a9a9a9" : "#ff8100", false
         ))
       ]));
 
@@ -68,6 +77,6 @@ export  function mk(Labels, Values, isRebuy, withRef, ref)  {sys.$params(argumen
       .add(Q("td")
         .klass("frame0")
         .style("background-color:" + back)
-        .add(lineChart.mkWg(Chart, Data))))
+        .add(oldChart.mkWg(Chart, Data))))
   ;
 };

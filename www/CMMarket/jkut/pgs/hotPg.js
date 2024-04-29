@@ -32,18 +32,18 @@ const II =sys.$checkNull( i18n.tlt);
   const Md =sys.$checkNull( model.fromJs(Rp.model));
   const Evals =sys.$checkNull( arr.map(Rp.evals, modelEval.fromJs));
 
-  const Max =sys.$checkNull(sys.asBool( isHistoric)
+  const Max =sys.$checkNull( isHistoric
     ? [fns.evaluate(Evals[0].hassets, Evals[0].hprofits)]
     : [fns.evaluate(Evals[0].assets, Evals[0].profits)])
   ;
   const Min =sys.$checkNull( [Max[0]]);
   for (const Eval  of sys.$forObject( Evals)) {
-    const ev =sys.$checkNull(sys.asBool( isHistoric)
+    const ev =sys.$checkNull( isHistoric
       ? fns.evaluate(Eval.hassets, Eval.hprofits)
       : fns.evaluate(Eval.assets, Eval.profits))
     ;
-    if (sys.asBool(ev > Max[0])) Max[0] =sys.$checkExists(Max[0],sys.$checkNull( ev));
-    else if (sys.asBool(ev < Min[0])) Min[0] =sys.$checkExists(Min[0],sys.$checkNull( ev));
+    if (ev > Max[0]) Max[0] =sys.$checkExists(Max[0],sys.$checkNull( ev));
+    else if (ev < Min[0]) Min[0] =sys.$checkExists(Min[0],sys.$checkNull( ev));
   }
   const max =sys.$checkNull( Max[0]);
   const min =sys.$checkNull( Min[0]);
@@ -59,7 +59,7 @@ const II =sys.$checkNull( i18n.tlt);
           .text(Md.paramNames[0]))
         .add(Q("td")))
       .adds(arr.map(Evals, function(Eval)  {sys.$params(arguments.length, 1);
-        const ev =sys.$checkNull(sys.asBool( isHistoric)
+        const ev =sys.$checkNull( isHistoric
           ? fns.evaluate(Eval.hassets, Eval.hprofits)
           : fns.evaluate(Eval.assets, Eval.profits))
         ;
@@ -97,7 +97,7 @@ const II =sys.$checkNull( i18n.tlt);
       const Row =sys.$checkNull( [Evals[i * ncols].params[0]]);
       for (let j = 0;j < ncols; ++j) {
         const Eval =sys.$checkNull( Evals[i * ncols + j]);
-        const ev =sys.$checkNull(sys.asBool( isHistoric)
+        const ev =sys.$checkNull( isHistoric
           ? fns.evaluate(Eval.hassets, Eval.hprofits)
           : fns.evaluate(Eval.assets, Eval.profits))
         ;
@@ -151,12 +151,12 @@ const II =sys.$checkNull( i18n.tlt);
     menu.separator(),
     menu.toption("h", II("Historic"), function()  {sys.$params(arguments.length, 0); mk2(wg, modelId, true);})
   ]);
-  const menuWg =sys.$checkNull( menu.mk(Lopts, [],sys.asBool( isHistoric) ? "h" : "c", false));
+  const menuWg =sys.$checkNull( menu.mk(Lopts, [], isHistoric ? "h" : "c", false));
 
   wg
     .removeAll()
     .add(menuWg)
-    .add(sys.asBool(sys.$eq(arr.size(Md.paramNames) , 1)) ? oneParam() : twoParams())
+    .add(sys.$eq(arr.size(Md.paramNames) , 1) ? oneParam() : twoParams())
   ;
 
 };

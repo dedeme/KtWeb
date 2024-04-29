@@ -24,8 +24,8 @@ export  function mk(Opts, selected)  {sys.$params(arguments.length, 2);
     .add(Q("table")
       .klass("frame")
       .adds(arr.map(Opts, function(e)  {sys.$params(arguments.length, 1);
-           return Q("tr").add(td().add(sys.asBool(
-            sys.asBool(e.Id) && sys.asBool(sys.$eq(e.Id[0] , selected))) ? e.selWg : e.wg
+           return Q("tr").add(td().add(
+            sys.$neq(e.Id , "") && sys.$eq(e.Id[0] , selected) ? e.selWg : e.wg
           ));}
         )))
   ;

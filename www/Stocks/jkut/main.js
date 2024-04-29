@@ -4,7 +4,7 @@ import * as math from './_js/math.js';import * as js from './_js/js.js';import *
 
 
 import * as menu from  "./libdm/menu.js";
-import * as cts from  "./data/cts.js";
+import * as cts from  "./cts.js";
 import * as msgPg from  "./pgs/msgPg.js";
 import * as annotationsPg from  "./pgs/annotationsPg.js";
 import * as treasuryPg from  "./pgs/treasuryPg.js";
@@ -18,36 +18,37 @@ const II =sys.$checkNull( i18n.tlt);
 
  async  function mk(wg)  {sys.$params(arguments.length, 1);
   const ok =sys.$checkNull( await  client.connect());
-  if (sys.asBool(!sys.asBool(ok))) {
-    ui.alert(II("KtWeb session is closed.\nAuthenticating from KtWeb:Main."));
+  if (!sys.asBool(ok)) {
+    ui.alert(II("Session is closed.\nAuthenticating from Main."));
     window.location.assign("http://" + window.location.host + "/Main");
     return;
   }
 
-  const Rp =sys.$checkNull( await  client.send({
+  
+   const {lang} = await  client.send({
     prg: "Main", 
     source: "Main",
     rq: "lang"
-  }));
-  if (sys.asBool(sys.$eq(Rp.lang , "en"))) i18n.en();
+  });
+  if (sys.$eq(lang , "en")) i18n.en();
 
   const Url =sys.$checkNull( ui.url());
-  const page =sys.$checkNull(sys.asBool( dic.hasKey(Url, "0")) ? Url["0"] : "annotations");
+  const page =sys.$checkNull( !sys.asBool(Url) ? "annotations" : Url[0]);
 
   const Lopts =sys.$checkNull( [
-    menu.tlink("annotations", II("Annotations"), []),
+    menu.tlink("annotations", II("Annotations")),
     menu.separator(),
-    menu.tlink("treasury", II("Treasury"), []),
+    menu.tlink("treasury", II("Treasury")),
     menu.separator(),
-    menu.tlink("forms", II("Forms"), [])
+    menu.tlink("forms", II("Forms"))
   ]);
-  const Ropts =sys.$checkNull( [menu.tlink("help", II("Close Year (Help)"), [])]);
-  const menuWg =sys.$checkNull( menu.mk(Lopts, Ropts, page, false));
+  const Ropts =sys.$checkNull( [menu.tlink("help", II("Close Year (Help)"))]);
+  const menuWg =sys.$checkNull( menu.mk(Lopts, Ropts, page));
 
   const body =sys.$checkNull( Q("div"));
   switch (page) {
     case "treasury":{ treasuryPg.mk(body, []);break;}
-    case "forms":{ formPg.mk(body, []);break;}
+    case "forms":{ formPg.mk(body);break;}
     case "help":{ helpPg.mk(body);break;}
     default:{ annotationsPg.mk(body, []);}
   }
@@ -68,9 +69,14 @@ export  function load()  {sys.$params(arguments.length, 0);
   mk(wg);
 };
 
-client.init(true, "KtWeb", function()  {sys.$params(arguments.length, 0);
+
+client.init(true, "KtWeb", function(isExpired)  {sys.$params(arguments.length, 1);
+  const message =sys.$checkNull( isExpired
+    ? II("Session is expired.")
+    : II("Data base is out of date."))
+  ;
   const msgWg =sys.$checkNull( Q("div"));
-  msgPg.mk(msgWg, II("Session is expired."), true);
+  msgPg.mk(msgWg, message, true);
   Q("@body")
     .removeAll()
     .add(msgWg)

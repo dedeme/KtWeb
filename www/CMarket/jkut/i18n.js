@@ -12,6 +12,8 @@ const esDic =sys.$checkNull( {
   "Accept": "Aceptar",
   "Accounting": "Contabilidad",
   "Accounting profits": "Beneficios contables",
+  "Activate": "Activar",
+  "Active": "Activo",
   "All": "Todo",
   "All CO's": "Todas las Cías.",
   "All Companies": "Todas las empresas",
@@ -31,7 +33,6 @@ const esDic =sys.$checkNull( {
   "Cancel": "Cancelar",
   "Cash": "Caja",
   "Cash:": "Caja:",
-  "Change": "Cambiar",
   "Charts": "Gráficos",
   "Click %0 to continue.": "Hacer click %0 para continuar.",
   "Close": "Cerrar",
@@ -69,6 +70,7 @@ const esDic =sys.$checkNull( {
   "Errors and warnings found.<br>See log.": "Se han producido errores y avisos.<br>Ver log.",
   "Errors found.<br>See log.": "Se han producido errores.<br>Ver log.",
   "Fees": "Comisiones",
+  "Free": "Libres",
   "General Time Table": "Horario general",
   "Global": "Global",
   "Historic Test": "Prueba histórico",
@@ -77,7 +79,6 @@ const esDic =sys.$checkNull( {
   "In Stock": "En cartera",
   "Income": "Ingreso",
   "Inv": "Inv",
-  "Inv-": "Inv-",
   "Invest": "Inversión",
   "Investment": "Inversión",
   "Investors": "Inversores",
@@ -115,6 +116,7 @@ const esDic =sys.$checkNull( {
   "Reactivate daily charts?": "¿Reactivar los gráficos del día?",
   "Rebuys": "Recompras",
   "Reference": "Referencia",
+  "References": "Referencias",
   "Reload": "Recargar",
   "Reset": "Reiniciar",
   "Reverse": "Reverso",
@@ -123,8 +125,11 @@ const esDic =sys.$checkNull( {
   "Selection": "Selección",
   "Sell": "Venta",
   "Sells": "Ventas",
+  "Server": "Servidor",
   "Servers": "Servidores",
   "Session is expired.": "La sesión ha expirado.",
+  "Show differences": "Mostrar diferencias",
+  "Show values": "Mostrar valores",
   "Signal": "Señal",
   "Sleeping": "Dormido",
   "Some error was found.<br>See Log.": "Se han encontrado errores.<br>Ver el registro.",
@@ -135,6 +140,7 @@ const esDic =sys.$checkNull( {
   "State": "Estado",
   "Stks.": "Accs.",
   "Stocks": "Acciones",
+  "Stopped": "Detenido",
   "Sum": "Suma",
   "Summary": "Resumen",
   "Test": "Prueba",
@@ -142,7 +148,6 @@ const esDic =sys.$checkNull( {
   "To withdraw": "Para retirar",
   "Total: %0. Selected: %1.": "Total: %0. Seleccionados: %1.",
   "Trading": "Operaciones",
-  "Up to": "Hasta",
   "Update": "Actualizar",
   "Value": "Valor",
   "Verification": "Comprobación",
@@ -156,7 +161,6 @@ const esDic =sys.$checkNull( {
   "Without companies": "Sin compañías",
   "Without dates": "Sin fechas",
   "Without operations": "Sin operaciones",
-  "[%0] Value out of range": "[%0] Valor fuera de rango",
   "here": "aquí"
 });
 
@@ -172,6 +176,8 @@ const enDic =sys.$checkNull( {
   "Accept": "Accept",
   "Accounting": "Accounting",
   "Accounting profits": "Accounting profits",
+  "Activate": "Activate",
+  "Active": "Active",
   "All": "All",
   "All CO's": "All CO's",
   "All Companies": "All Companies",
@@ -191,7 +197,6 @@ const enDic =sys.$checkNull( {
   "Cancel": "Cancel",
   "Cash": "Cash",
   "Cash:": "Cash:",
-  "Change": "Change",
   "Charts": "Charts",
   "Click %0 to continue.": "Click %0 to continue.",
   "Close": "Close",
@@ -229,6 +234,7 @@ const enDic =sys.$checkNull( {
   "Errors and warnings found.<br>See log.": "Errors and warnings found.<br>See log.",
   "Errors found.<br>See log.": "Errors found.<br>See log.",
   "Fees": "Fees",
+  "Free": "Free",
   "General Time Table": "General Time Table",
   "Global": "Global",
   "Historic Test": "Historic Test",
@@ -237,7 +243,6 @@ const enDic =sys.$checkNull( {
   "In Stock": "In Stock",
   "Income": "Income",
   "Inv": "Inv",
-  "Inv-": "Inv-",
   "Invest": "Invest",
   "Investment": "Investment",
   "Investors": "Investors",
@@ -251,6 +256,7 @@ const enDic =sys.$checkNull( {
   "Max": "Max",
   "Max.": "Max.",
   "Min": "Min",
+  "Min.": "Min.",
   "Model": "Model",
   "Modify": "Modify",
   "Nick": "Nick",
@@ -274,6 +280,7 @@ const enDic =sys.$checkNull( {
   "Reactivate daily charts?": "Reactivate daily charts?",
   "Rebuys": "Rebuys",
   "Reference": "Reference",
+  "References": "References",
   "Reload": "Reload",
   "Reset": "Reset",
   "Reverse": "Reverse",
@@ -282,8 +289,11 @@ const enDic =sys.$checkNull( {
   "Selection": "Selection",
   "Sell": "Sell",
   "Sells": "Sells",
+  "Server": "Server",
   "Servers": "Servers",
   "Session is expired.": "Session is expired.",
+  "Show differences": "Show differences",
+  "Show values": "Show values",
   "Signal": "Signal",
   "Sleeping": "Sleeping",
   "Some error was found.<br>See Log.": "Some error was found.<br>See Log.",
@@ -294,6 +304,7 @@ const enDic =sys.$checkNull( {
   "State": "State",
   "Stks.": "Stks.",
   "Stocks": "Stocks",
+  "Stopped": "Stopped",
   "Sum": "Sum",
   "Summary": "Summary",
   "Test": "Test",
@@ -301,7 +312,6 @@ const enDic =sys.$checkNull( {
   "To withdraw": "To withdraw",
   "Total: %0. Selected: %1.": "Total: %0. Selected: %1.",
   "Trading": "Trading",
-  "Up to": "Up to",
   "Update": "Update",
   "Value": "Value",
   "Verification": "Verification",
@@ -315,18 +325,17 @@ const enDic =sys.$checkNull( {
   "Without companies": "Without companies",
   "Without dates": "Without dates",
   "Without operations": "Without operations",
-  "[%0] Value out of range": "[%0] Value out of range",
   "here": "here"
 });
 
 export  function en() {sys.$params(arguments.length, 0); Lang[0] =sys.$checkExists(Lang[0],sys.$checkNull( "en"));};
 
 
- function dicByKey(s)  {sys.$params(arguments.length, 1);    
-  return sys.$eq(s,"es")? esDic:
+ function dicByKey(s)  {sys.$params(arguments.length, 1); return (   
+  sys.$eq(s,"es")? esDic:
   sys.$eq(s,"en")? enDic:
    "Unreachable"
-;};
+);};
 
 const Lang =sys.$checkNull( ["es"]);
 
@@ -335,7 +344,7 @@ export  function getLang() {sys.$params(arguments.length, 0);  return Lang[0];};
 
 export  function tlt(s)  {sys.$params(arguments.length, 1);
   const T =sys.$checkNull( dic.get(dicByKey(Lang[0]), s));
-  return sys.asBool( T) ? T[0] : s;
+   return !sys.asBool(T) ? s : T[0];
 };
 
 

@@ -4,6 +4,7 @@ import * as math from '../_js/math.js';import * as js from '../_js/js.js';import
 
 
 import * as cash from  "../data/cash.js";
+import * as cashEntry from  "../data/cashEntry.js";
 import * as diary from  "../data/diary.js";
 
 
@@ -16,43 +17,42 @@ import * as diary from  "../data/diary.js";
 
 
 
-export  function mk(ix, hcErr, hcPrevs, hcNexts, cErr, cPrevs, cNexts)  {sys.$params(arguments.length, 7);
-   return {ix:ix, hcErr:hcErr, hcPrevs:hcPrevs, hcNexts:hcNexts, cErr:cErr, cPrevs:cPrevs, cNexts:cNexts};};
+export function mk (ix,hcErrOp,HcPrevs,HcNexts,cErrOp,CPrevs,CNexts) { sys.$params(arguments.length, 7); return [ ix, hcErrOp, HcPrevs, HcNexts, cErrOp, CPrevs, CNexts];}export const ix = 0;export const hcErrOp = 1;export const HcPrevs = 2;export const HcNexts = 3;export const cErrOp = 4;export const CPrevs = 5;export const CNexts = 6;
 
 
 
- function mkNormal(HcDiary, CDiary, ix)  {sys.$params(arguments.length, 3);  return mk(
+ function mkNormal( HcDiary,  CDiary, ix)  {sys.$params(arguments.length, 3);  return mk(
     ix,
 
-    [HcDiary.entries[ix]],
+    [HcDiary[ix]],
     cash.previous(HcDiary, ix),
     cash.next(HcDiary, ix),
 
-    [CDiary.entries[ix]],
+    [CDiary[ix]],
     diary.previous(CDiary, ix),
     diary.next(CDiary, ix)
   );};
 
 
 
- function mkExtraC(HcDiary, CDiary, ix)  {sys.$params(arguments.length, 3);  return mk(
+ function mkExtraC( HcDiary,  CDiary, ix)  {sys.$params(arguments.length, 3);  return mk(
     ix,
 
     [],
     cash.previous(HcDiary, ix),
     [],
 
-    [CDiary.entries[ix]],
+    [CDiary[ix]],
     diary.previous(CDiary, ix),
     diary.next(CDiary, ix)
   );};
 
 
 
- function mkExtraHc(HcDiary, CDiary, ix)  {sys.$params(arguments.length, 3);  return mk(
+ function mkExtraHc( HcDiary,  CDiary, ix)  {sys.$params(arguments.length, 3);  return mk(
     ix,
 
-    [HcDiary.entries[ix]],
+    [HcDiary[ix]],
     cash.previous(HcDiary, ix),
     cash.next(HcDiary, ix),
 
@@ -70,17 +70,17 @@ export  function mk(ix, hcErr, hcPrevs, hcNexts, cErr, cPrevs, cNexts)  {sys.$pa
 
 
 
-export  function firstProblem(HcDiary, CDiary)  {sys.$params(arguments.length, 2);
-  const szHc =sys.$checkNull( arr.size(HcDiary.entries));
-  const szC =sys.$checkNull( arr.size(CDiary.entries));
-  const sz =sys.$checkNull(sys.asBool( szHc < szC) ? szHc : szC);
+export  function firstProblem( HcDiary,  CDiary)  {sys.$params(arguments.length, 2);
+  const szHc =sys.$checkNull( arr.size(HcDiary));
+  const szC =sys.$checkNull( arr.size(CDiary));
+  const sz =sys.$checkNull( szHc < szC ? szHc : szC);
 
   for (let i = 0;i < sz; ++i)
-    if (sys.asBool(!sys.asBool(cash.eqHcC(HcDiary.entries[i], CDiary.entries[i]))))
+    if (!sys.asBool(cashEntry.eqDiaryEntry(HcDiary[i], CDiary[i])))
        return mkNormal(HcDiary, CDiary, i);
 
-  if (sys.asBool(sys.$eq(sz , szHc))) {
-    if (sys.asBool(sys.$eq(sz , szC)))  return mkOk();
+  if (sys.$eq(sz , szHc)) {
+    if (sys.$eq(sz , szC))  return mkOk();
      return mkExtraC(HcDiary, CDiary, sz);
   }
 

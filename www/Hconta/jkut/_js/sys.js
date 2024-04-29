@@ -11,7 +11,7 @@ export function $slice (o, begin, end) {
     end = end < begin ? begin : end > len ? len : end;
     return o.substring(begin, end);
   }
-  if (typeof(o) === 'object' && Array.isArray(o)) {
+  if (Array.isArray(o)) {
     if (begin === null) begin = 0;
     if (end === null) end = o.length;
     return o.slice(begin, end);
@@ -117,9 +117,8 @@ export function $checkNull (v) {
 export function asBool (e) {
   $params(arguments.length, 1);
   if (typeof(e) === 'boolean') return e;
-  if (typeof(e) === 'string') return e != '';
-  if (typeof(e) === 'object' && Array.isArray(e)) return e.length != 0;
-  throw new Error('\nExpected: boolean, string or Array.\n   Found: ' + e);
+  if (Array.isArray(e)) return e.length != 0;
+  throw new Error('\nExpected: boolean or Array.\n   Found: ' + e);
 }
 
 // \* -> ()

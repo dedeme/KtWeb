@@ -9,11 +9,20 @@ import * as math from '../_js/math.js';import * as js from '../_js/js.js';import
 
 
 
-export  function mk(date, description, debits, credits)  {sys.$params(arguments.length, 4);
-   return {date:date, description:description, debits:debits, credits:credits};};
+export function mk (date,description,debits,credits) { sys.$params(arguments.length, 4); return [ date, description, debits, credits];}export const date = 0;export const description = 1;export const debits = 2;export const credits = 3;
 
 
-export  function toJs(E)  {sys.$params(arguments.length, 1);  return [time.toStr(E.date), E.description, E.debits, E.credits];};
+export  function toJs(o)  {sys.$params(arguments.length, 1);  return [
+    time.toStr(o[date]),
+    o[description],
+    o[debits],
+    o[credits]
+  ];};
 
 
-export  function fromJs(A)  {sys.$params(arguments.length, 1);  return mk(time.fromStr(A[0])[0], A[1], A[2], A[3]);};
+export  function fromJs(A)  {sys.$params(arguments.length, 1);  return [
+    time.fromStr(A[date])[0],
+    A[description],
+    A[debits],
+    A[credits]
+  ];};

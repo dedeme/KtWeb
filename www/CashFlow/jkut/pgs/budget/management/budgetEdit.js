@@ -5,28 +5,19 @@ import * as math from '../../../_js/math.js';import * as js from '../../../_js/j
 
 import * as diary from  "../../../data/diary.js";
 import * as budget from  "../../../data/budget.js";
-import * as plan from  "../../../data/plan.js";
-import * as month from  "../../../data/month.js";
-import * as cts from  "../../../data/cts.js";
 import * as budgetEntry from  "../../../data/budgetEntry.js";
+import * as plan from  "../../../data/plan.js";
+import * as planEntry from  "../../../data/planEntry.js";
+import * as month from  "../../../data/month.js";
+import * as cts from  "../../../cts.js";
+import * as global from  "../../../global.js";
+import * as budgetWgEntry from  "../../../data/budgetWgEntry.js";
 import * as numberField from  "../../../wgs/numberField.js";
 import * as i18n from  "../../../i18n.js";
 
 const Q =sys.$checkNull( ui.q);
 const II =sys.$checkNull( i18n.tlt);
 
-
-
-const mkBudgetEntry =sys.$checkNull( budgetEntry.mk);
-
-
-const sumBudget =sys.$checkNull( budgetEntry.sumBudget);
-
-
-const sumReal =sys.$checkNull( budgetEntry.sumReal);
-
-
-const sumDif =sys.$checkNull( budgetEntry.sumDif);
 
 
 
@@ -39,7 +30,8 @@ const sumDif =sys.$checkNull( budgetEntry.sumDif);
 
 
 export  function mk(wg, selectedYear, selectedMonth,
-      Plan, Diary, Budget, PreviousBudget, updateFinalBalanceFn)  {sys.$params(arguments.length, 8);
+       Plan,  Diary,  Budget,  PreviousBudget,
+      updateFinalBalanceFn)  {sys.$params(arguments.length, 8);
 
   const showOp =sys.$checkNull( [[]]);
 
@@ -47,14 +39,15 @@ export  function mk(wg, selectedYear, selectedMonth,
 
   
    async  function updateBudget()  {sys.$params(arguments.length, 0);
-    await client.ssend({
+     const {dbKey} = await  client.send({
       prg: cts.appName,
       source: "BudgetEdit",
       rq: "updateBudget",
+      dbKey: global.dbKeyV[0],
       year: selectedYear,
-      budget: budget.toJs(Budget)
+      budget: Budget
     });
-
+    global.dbKeyV[0] =sys.$checkExists(global.dbKeyV[0],sys.$checkNull( dbKey));
     updateFinalBalanceFn();
     showOp[0]();
   };
@@ -72,10 +65,10 @@ export  function mk(wg, selectedYear, selectedMonth,
 
   
    function setMonth(id)  {sys.$params(arguments.length, 1);
-    const m =sys.$checkNull(sys.asBool( selectedMonth <= 0) ? 12 : selectedMonth - 1);
-    const B =sys.$checkNull(sys.asBool( selectedMonth <= 0) ? PreviousBudget : Budget);
+    const m =sys.$checkNull( selectedMonth <= 0 ? 12 : selectedMonth - 1);
+    const B =sys.$checkNull( selectedMonth <= 0 ? PreviousBudget : Budget);
     const am =sys.$checkNull( budget.accAmount(B, id, m - 1, m));
-    if (sys.asBool(sys.$eq(am , 0))) {
+    if (sys.$eq(am , 0)) {
       ui.alert(II("There is not value for previous month"));
       showOp[0]();
       Q("#" + id).e.focus();
@@ -88,7 +81,7 @@ export  function mk(wg, selectedYear, selectedMonth,
   
    function setYear(id)  {sys.$params(arguments.length, 1);
     const am =sys.$checkNull( budget.accAmount(PreviousBudget, id, selectedMonth - 1, selectedMonth));
-    if (sys.asBool(sys.$eq(am , 0))) {
+    if (sys.$eq(am , 0)) {
       ui.alert(II("There is not value for previous year"));
       showOp[0]();
       Q("#" + id).e.focus();
@@ -100,7 +93,7 @@ export  function mk(wg, selectedYear, selectedMonth,
 
   
    function changeAmount(id, am)  {sys.$params(arguments.length, 2);
-    if (sys.asBool(am < 0)) {
+    if (am < 0) {
       ui.alert(II("Values less than 0 are not allowed"));
       showOp[0]();
       Q("#" + id).e.focus();
@@ -114,24 +107,28 @@ export  function mk(wg, selectedYear, selectedMonth,
 
   
   showOp[0] =sys.$checkExists(showOp[0], function()  {sys.$params(arguments.length, 0);
-    const BudgetModel =sys.$checkNull( []); 
-    for (const Pe  of sys.$forObject( Plan.entries)) {
-      arr.push(BudgetModel, mkBudgetEntry(
-        Pe.isIncome, Pe.id,
-        budget.accAmount(Budget, Pe.id, selectedMonth -1, selectedMonth),
-        diary.accAmount(Diary, Pe.id, selectedMonth -1, selectedMonth)
+     const BudgetModel =sys.$checkNull( []); 
+    for (const  pe  of sys.$forObject( Plan)) {
+      arr.push(BudgetModel,budgetWgEntry.mk(
+        pe[planEntry.isIncome], pe[planEntry.id],
+        budget.accAmount(Budget, pe[planEntry.id], selectedMonth -1, selectedMonth),
+        diary.accAmount(Diary, pe[planEntry.id], selectedMonth -1, selectedMonth)
       ));
     }
 
-    const Incomes =sys.$checkNull( arr.filter(BudgetModel, function(E)  {sys.$params(arguments.length, 1);  return E.isIncome;}));
-    arr.sort(Incomes, function(E1, E2)  {sys.$params(arguments.length, 2);  return E1.accId < E2.accId;});
-    const Expenses =sys.$checkNull( arr.filter(BudgetModel, function(E)  {sys.$params(arguments.length, 1);  return !sys.asBool(E.isIncome);}));
-    arr.sort(Expenses, function(E1, E2)  {sys.$params(arguments.length, 2);  return E1.accId < E2.accId;});
-    const sz =sys.$checkNull(sys.asBool( arr.size(Incomes) > arr.size(Expenses))
-      ? arr.size(Incomes)
-      : arr.size(Expenses))
+     const Incomes0 =sys.$checkNull( arr.filter(BudgetModel,function( e)  {sys.$params(arguments.length, 1);  return e[budgetWgEntry.isIncome];}));
+    arr.sort(Incomes0,function( e1,  e2)  {sys.$params(arguments.length, 2);
+       return e1[budgetWgEntry.accId] < e2[budgetWgEntry.accId];});
+     const Expenses0 =sys.$checkNull( arr.filter(BudgetModel,function( e)  {sys.$params(arguments.length, 1);  return !sys.asBool(e[budgetWgEntry.isIncome]);}));
+    arr.sort(Expenses0,function( e1,  e2)  {sys.$params(arguments.length, 2);
+       return e1[budgetWgEntry.accId] < e2[budgetWgEntry.accId];});
+    const sz =sys.$checkNull( arr.size(Incomes0) > arr.size(Expenses0)
+      ? arr.size(Incomes0)
+      : arr.size(Expenses0))
     ;
 
+     const Incomes =sys.$checkNull( Incomes0);
+     const Expenses =sys.$checkNull( Expenses0);
     wg
       .removeAll()
       .add(Q("div")
@@ -196,29 +193,31 @@ export  function mk(wg, selectedYear, selectedMonth,
               .style("background-color:#d9d9d9;white-space: nowrap;")
               .text(II("Dif. (B - A))"))))
           .adds(iter.map(iter.$range(0,sz), function(i)  {sys.$params(arguments.length, 1);  return Q("tr")
-              .adds(sys.asBool(i >= arr.size(Incomes))
+              .adds(i >= arr.size(Incomes0)
                 ? iter.map(iter.$range(0,5), function(j)  {sys.$params(arguments.length, 1);  return Q("td")
                     .klass("frameTx")
                     .style("background-color:#f9f9f9")
                   ;})
-                : [
+                : function()  {sys.$params(arguments.length, 0);
+                   const ie =sys.$checkNull( Incomes[i]);
+                   return [
                     Q("td")
                       .klass("frameTx")
                       .style("background-color:#d9d9d9")
-                      .att("title", plan.desc(Plan, Incomes[i].accId))
-                      .text(Incomes[i].accId),
+                      .att("title", plan.desc(Plan, ie[budgetWgEntry.accId]))
+                      .text(ie[budgetWgEntry.accId]),
                     Q("td")
                       .klass("frameTx")
                       .style("background-color:#f9f9f9;white-space: nowrap;")
-                      .add(ui.link(function(ev)  {sys.$params(arguments.length, 1); setReal(Incomes[i].accId);})
+                      .add(ui.link(function(ev)  {sys.$params(arguments.length, 1); setReal(ie[budgetWgEntry.accId]);})
                         .klass("link")
                         .text(II("real")))
                       .add(Q("span").html("&nbsp;&nbsp;"))
-                      .add(ui.link(function(ev)  {sys.$params(arguments.length, 1); setMonth(Incomes[i].accId);})
+                      .add(ui.link(function(ev)  {sys.$params(arguments.length, 1); setMonth(ie[budgetWgEntry.accId]);})
                         .klass("link")
                         .text(II("month")))
                       .add(Q("span").html("&nbsp;&nbsp;"))
-                      .add(ui.link(function(ev)  {sys.$params(arguments.length, 1); setYear(Incomes[i].accId);})
+                      .add(ui.link(function(ev)  {sys.$params(arguments.length, 1); setYear(ie[budgetWgEntry.accId]);})
                         .klass("link")
                         .text(II("year")))
                         ,
@@ -226,43 +225,48 @@ export  function mk(wg, selectedYear, selectedMonth,
                       .klass("frameNm")
                       .style("background-color:#f9f9f9")
                       .add(numberField.mk(
-                          Incomes[i].accId, Expenses[0].accId,
-                          Incomes[i].budget, changeAmount
+                          ie[budgetWgEntry.accId],
+                          Incomes[sys.$eq(i , arr.size(Incomes0) - 1) ? 0 :  i + 1]
+                            [budgetWgEntry.accId],
+                          ie[budgetWgEntry.budget], changeAmount
                         )),
                     Q("td")
                       .klass("frameNm")
                       .style("background-color:#f9f9f9")
-                      .text(math.toIso(Incomes[i].real, 2)),
+                      .text(math.toIso(ie[budgetWgEntry.real], 2)),
                     Q("td")
                       .klass("frameNm")
                       .style("background-color:#f9f9f9")
-                      .text(math.toIso(Incomes[i].dif, 2))
-                  ])
+                      .text(math.toIso(ie[budgetWgEntry.dif], 2))
+                  ];
+                }())
               .add(Q("td")
                 .klass("frameTx"))
-              .adds(sys.asBool(i >= arr.size(Expenses))
+              .adds(i >= arr.size(Expenses0)
                 ? iter.map(iter.$range(0,5), function(j)  {sys.$params(arguments.length, 1);  return Q("td")
                     .klass("frameTx")
                     .style("background-color:#f9f9f9")
                   ;})
-                : [
+                : function()  {sys.$params(arguments.length, 0);
+                   const ee =sys.$checkNull( Expenses[i]);
+                   return [
                     Q("td")
                       .klass("frameTx")
                       .style("background-color:#d9d9d9")
-                      .att("title", plan.desc(Plan, Expenses[i].accId))
-                      .text(Expenses[i].accId),
+                      .att("title", plan.desc(Plan, ee[budgetWgEntry.accId]))
+                      .text(ee[budgetWgEntry.accId]),
                     Q("td")
                       .klass("frameTx")
                       .style("background-color:#f9f9f9;white-space: nowrap;")
-                      .add(ui.link(function(ev)  {sys.$params(arguments.length, 1); setReal(Expenses[i].accId);})
+                      .add(ui.link(function(ev)  {sys.$params(arguments.length, 1); setReal(ee[budgetWgEntry.accId]);})
                         .klass("link")
                         .text(II("real")))
                       .add(Q("span").html("&nbsp;&nbsp;"))
-                      .add(ui.link(function(ev)  {sys.$params(arguments.length, 1); setMonth(Expenses[i].accId);})
+                      .add(ui.link(function(ev)  {sys.$params(arguments.length, 1); setMonth(ee[budgetWgEntry.accId]);})
                         .klass("link")
                         .text(II("month")))
                       .add(Q("span").html("&nbsp;&nbsp;"))
-                      .add(ui.link(function(ev)  {sys.$params(arguments.length, 1); setYear(Expenses[i].accId);})
+                      .add(ui.link(function(ev)  {sys.$params(arguments.length, 1); setYear(ee[budgetWgEntry.accId]);})
                         .klass("link")
                         .text(II("year")))
                         ,
@@ -270,18 +274,21 @@ export  function mk(wg, selectedYear, selectedMonth,
                       .klass("frameNm")
                       .style("background-color:#f9f9f9")
                       .add(numberField.mk(
-                          Expenses[i].accId, Incomes[0].accId,
-                          Expenses[i].budget, changeAmount
+                          ee[budgetWgEntry.accId],
+                          Expenses[sys.$eq(i , arr.size(Expenses0) - 1) ? 0 :  i + 1]
+                            [budgetWgEntry.accId],
+                          ee[budgetWgEntry.budget], changeAmount
                         )),
                     Q("td")
                       .klass("frameNm")
                       .style("background-color:#f9f9f9")
-                      .text(math.toIso(Expenses[i].real, 2)),
+                      .text(math.toIso(ee[budgetWgEntry.real], 2)),
                     Q("td")
                       .klass("frameNm")
                       .style("background-color:#f9f9f9")
-                      .text(math.toIso(Expenses[i].dif, 2))
-                  ])
+                      .text(math.toIso(ee[budgetWgEntry.dif], 2))
+                  ];
+                }())
             ;}))
           .add(Q("tr")
             .add(Q("td")
@@ -298,15 +305,15 @@ export  function mk(wg, selectedYear, selectedMonth,
             .add(Q("td")
               .klass("frameNm")
               .style("background-color:#f9f9f9")
-              .text(math.toIso(sumBudget(Incomes), 2)))
+              .text(math.toIso(budgetWgEntry.sumBudget(Incomes), 2)))
             .add(Q("td")
               .klass("frameNm")
               .style("background-color:#f9f9f9")
-              .text(math.toIso(sumReal(Incomes), 2)))
+              .text(math.toIso(budgetWgEntry.sumReal(Incomes), 2)))
             .add(Q("td")
               .klass("frameNm")
               .style("background-color:#f9f9f9")
-              .text(math.toIso(sumDif(Incomes), 2)))
+              .text(math.toIso(budgetWgEntry.sumDif(Incomes), 2)))
             .add(Q("td")
               .klass("frameTx"))
             .add(Q("td")
@@ -320,15 +327,15 @@ export  function mk(wg, selectedYear, selectedMonth,
             .add(Q("td")
               .klass("frameNm")
               .style("background-color:#f9f9f9")
-              .text(math.toIso(sumBudget(Expenses), 2)))
+              .text(math.toIso(budgetWgEntry.sumBudget(Expenses), 2)))
             .add(Q("td")
               .klass("frameNm")
               .style("background-color:#f9f9f9")
-              .text(math.toIso(sumReal(Expenses), 2)))
+              .text(math.toIso(budgetWgEntry.sumReal(Expenses), 2)))
             .add(Q("td")
               .klass("frameNm")
               .style("background-color:#f9f9f9")
-              .text(math.toIso(sumDif(Expenses), 2)))))
+              .text(math.toIso(budgetWgEntry.sumDif(Expenses), 2)))))
    ;
   });
 

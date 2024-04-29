@@ -95,12 +95,15 @@ KutFT_01_CM=kut -c kut/main; jkut jkut/main www
 KutFT_01_WD=%p
 
 [files]
-current_page=3
-FILE_NAME_0=300;JKut;0;EUTF-8;0;1;0;%2Fdm%2FKtWeb%2Fprgs%2FJkutDoc%2Fjkut%2Fmain.jkut;0;2
-FILE_NAME_1=3864;JKut;0;EUTF-8;0;1;0;%2Fdm%2FKtWeb%2Fprgs%2FJkutDoc%2Fjkut%2Fpgs%2FmodulePg.jkut;0;2
-FILE_NAME_2=0;Kut;0;EUTF-8;0;1;0;%2Fdm%2FKtWeb%2Fprgs%2FJkutDoc%2Fkut%2Fpgs%2FmodulePg.kut;0;2
-FILE_NAME_3=23;None;0;EUTF-8;0;1;0;%2Fdm%2FKtWeb%2Fprgs%2FJkutDoc%2Fjkut%2Fi18n%2Fen.txt;0;2
-FILE_NAME_4=23;None;0;EUTF-8;0;1;0;%2Fdm%2FKtWeb%2Fprgs%2FJkutDoc%2Fjkut%2Fi18n%2Fes.txt;0;2
+current_page=2
+FILE_NAME_0=1266;JKut;0;EUTF-8;0;1;0;%2Fdm%2FKtWeb%2Fprgs%2FJkutDoc%2Fjkut%2Fpgs%2FcodePg.jkut;0;2
+FILE_NAME_1=1186;JKut;0;EUTF-8;0;1;0;%2Fdm%2FKtWeb%2Fprgs%2FKutDoc%2Fjkut%2Fpgs%2FcodePg.jkut;0;2
+FILE_NAME_2=4404;Kut;0;EUTF-8;0;1;0;%2Fdm%2FKtWeb%2Fprgs%2FJkutDoc%2Fkut%2Freaders%2FmdReader.kut;0;2
+FILE_NAME_3=0;Kut;0;EUTF-8;0;1;0;%2Fdm%2FKtWeb%2Fprgs%2FJkutDoc%2Fkut%2Fdata%2FdocEntry.kut;0;2
+FILE_NAME_4=0;Kut;0;EUTF-8;0;1;0;%2Fdm%2FKtWeb%2Fprgs%2FJkutDoc%2Fkut%2Fdata%2FindexTree.kut;0;2
+FILE_NAME_5=0;Kut;0;EUTF-8;0;1;0;%2Fdm%2FKtWeb%2Fprgs%2FJkutDoc%2Fkut%2Fdata%2Fdoc.kut;0;2
+FILE_NAME_6=0;Kut;0;EUTF-8;0;1;0;%2Fdm%2FKtWeb%2Fprgs%2FJkutDoc%2Fkut%2Fdata%2Fdpath.kut;0;2
+FILE_NAME_7=0;Kut;0;EUTF-8;0;1;0;%2Fdm%2FKtWeb%2Fprgs%2FJkutDoc%2Fkut%2Freaders%2FixReader.kut;0;2
 
 [editor]
 line_wrapping=false

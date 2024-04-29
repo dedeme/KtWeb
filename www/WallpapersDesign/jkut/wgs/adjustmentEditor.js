@@ -17,7 +17,7 @@ const II =sys.$checkNull( i18n.tlt);
 
 export  function mk(ImgDiv, Image, onChange)  {sys.$params(arguments.length, 3);
   const Adj =sys.$checkNull( Image.Adjustment);
-  const State =sys.$checkNull( [sys.asBool(Adj) ? Adj[0].type : ""]);
+  const State =sys.$checkNull( [!sys.asBool(Adj) ? "" : Adj[0].type]);
 
   
    function mkIn(id, nextId, value)  {sys.$params(arguments.length, 3);  return ui.changePoint(ui.field(nextId)
@@ -27,25 +27,25 @@ export  function mk(ImgDiv, Image, onChange)  {sys.$params(arguments.length, 3);
     );};
 
   const StartCut =sys.$checkNull( mkIn(
-    "startCut", "startCut",sys.asBool(
-    sys.$eq(State[0] , "cut")) ? Adj[0].Params[0] : 0
+    "startCut", "startCut",
+    sys.$eq(State[0] , "cut") ? Adj[0].Params[0] : 0
   ));
   const RatioBlur =sys.$checkNull( mkIn(
-    "ratioBlur", "ratioLight",sys.asBool(
-    sys.$eq(State[0] , "background")) ? Adj[0].Params[1] : 50
+    "ratioBlur", "ratioLight",
+    sys.$eq(State[0] , "background") ? Adj[0].Params[1] : 50
   ));
   const RatioLight =sys.$checkNull( mkIn(
-    "ratioLight", "ratioBlur",sys.asBool(
-    sys.$eq(State[0] , "background")) ? Adj[0].Params[2] : 30
+    "ratioLight", "ratioBlur",
+    sys.$eq(State[0] , "background") ? Adj[0].Params[2] : 30
   ));
   const PixelsStretch =sys.$checkNull( mkIn(
-    "pixelsStretch", "pixelsStretch",sys.asBool(
-    sys.$eq(State[0] , "stretch")) ? Adj[0].Params[0] : 10
+    "pixelsStretch", "pixelsStretch",
+    sys.$eq(State[0] , "stretch") ? Adj[0].Params[0] : 10
   ));
 
   const Color =sys.$checkNull( Q("input")
     .att("type", "color")
-    .value(sys.asBool(sys.$eq(State[0] , "background"))
+    .value(sys.$eq(State[0] , "background")
         ? "#" + fns.intToColor(Adj[0].Params[0])
         : "#ffffff"
       ))
@@ -66,14 +66,14 @@ export  function mk(ImgDiv, Image, onChange)  {sys.$params(arguments.length, 3);
   
    function restore(ev)  {sys.$params(arguments.length, 1);
     const Adj =sys.$checkNull( Image.Adjustment);
-    State[0] =sys.$checkExists(State[0],sys.$checkNull(sys.asBool( Adj) ? Adj[0].type : ""));
+    State[0] =sys.$checkExists(State[0],sys.$checkNull( Adj ? Adj[0].type : ""));
 
-    StartCut.value(sys.asBool(sys.$eq(State[0] , "cut")) ?Adj[0].Params[0] : 0);
-    RatioBlur.value(sys.asBool(sys.$eq(State[0] , "background")) ?Adj[0].Params[1] : 50);
-    RatioLight.value(sys.asBool(sys.$eq(State[0] , "background")) ?Adj[0].Params[2] : 30);
-    PixelsStretch.value(sys.asBool(sys.$eq(State[0] , "stretch")) ?Adj[0].Params[0] : 10);
-    Color.value(sys.asBool(
-      sys.$eq(State[0] , "background")) ? fns.intToColor(Adj[0].Params[0]) : "#ffffff"
+    StartCut.value(sys.$eq(State[0] , "cut") ?Adj[0].Params[0] : 0);
+    RatioBlur.value(sys.$eq(State[0] , "background") ?Adj[0].Params[1] : 50);
+    RatioLight.value(sys.$eq(State[0] , "background") ?Adj[0].Params[2] : 30);
+    PixelsStretch.value(sys.$eq(State[0] , "stretch") ?Adj[0].Params[0] : 10);
+    Color.value(
+      sys.$eq(State[0] , "background") ? fns.intToColor(Adj[0].Params[0]) : "#ffffff"
     );
 
     onChange(Image);
@@ -85,19 +85,19 @@ export  function mk(ImgDiv, Image, onChange)  {sys.$params(arguments.length, 3);
     
      function value(I, min, max, def)  {sys.$params(arguments.length, 4);
       const R =sys.$checkNull( math.fromStr(I.getValue()));
-      if (sys.asBool(!sys.asBool(R))) {
+      if (!sys.asBool(R)) {
         arr.push(R, def);
         I.value("" + R[0]);
-      } else if (sys.asBool(R[0] > max)) {
+      } else if (R[0] > max) {
         R[0] =sys.$checkExists(R[0],sys.$checkNull( max));
         I.value("" + R[0]);
-      } else if (sys.asBool(R[0] < min)) {
+      } else if (R[0] < min) {
         R[0] =sys.$checkExists(R[0],sys.$checkNull( min));
         I.value("" + R[0]);
       }
        return R[0];
     };
-    const Adj =sys.$checkNull(   
+    const Adj =sys.$checkNull((   
       sys.$eq(State[0],"cut")? [imgAdjustment.mk(State[0], [value(StartCut, 0, 10000, 0)])]:
       sys.$eq(State[0],"background")? [
           imgAdjustment.mk(
@@ -110,7 +110,7 @@ export  function mk(ImgDiv, Image, onChange)  {sys.$params(arguments.length, 3);
         ]:
       sys.$eq(State[0],"stretch")? [imgAdjustment.mk(State[0], [value(PixelsStretch, 1, 100, 10)])]:
        []
-    );
+    ));
 
     onChange(image.setAdjustment(Image, Adj));
     MkEditor[0](EditorDiv);
@@ -176,7 +176,7 @@ export  function mk(ImgDiv, Image, onChange)  {sys.$params(arguments.length, 3);
       ))
     ;
     const Right =sys.$checkNull( Q("div"));
-    if (sys.asBool(sys.$eq(State[0] , "cut"))) {
+    if (sys.$eq(State[0] , "cut")) {
       Right
         .removeAll()
         .add(Q("table")
@@ -187,7 +187,7 @@ export  function mk(ImgDiv, Image, onChange)  {sys.$params(arguments.length, 3);
           .add(Q("tr")
             .add(StartCut)))
       ;
-    } else if (sys.asBool(sys.$eq(State[0] , "background"))) {
+    } else if (sys.$eq(State[0] , "background")) {
       Right
         .removeAll()
         .add(Q("table")
@@ -207,7 +207,7 @@ export  function mk(ImgDiv, Image, onChange)  {sys.$params(arguments.length, 3);
             .add(Q("td")
               .add(RatioLight))))
       ;
-    } else if (sys.asBool(sys.$eq(State[0] , "stretch"))) {
+    } else if (sys.$eq(State[0] , "stretch")) {
       Right
         .removeAll()
         .add(Q("table")

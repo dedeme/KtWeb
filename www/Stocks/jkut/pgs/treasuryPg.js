@@ -6,6 +6,7 @@ import * as math from '../_js/math.js';import * as js from '../_js/js.js';import
 import * as menu from  "../libdm/menu.js";
 import * as all from  "../data/all.js";
 import * as year from  "../data/year.js";
+import * as rann from  "../data/rann.js";
 import * as i18n from  "../i18n.js";
 
 const Q =sys.$checkNull( ui.q);
@@ -13,30 +14,31 @@ const II =sys.$checkNull( i18n.tlt);
 
 
 export  async  function mk(wg, yearOp)  {sys.$params(arguments.length, 2);
-  const All =sys.$checkNull( await  all.request());
+   const All =sys.$checkNull( await  all.request());
 
-  const lastYear =sys.$checkNull(sys.asBool( yearOp) ? yearOp[0] : all.lastYearId(All));
+  const lastYear =sys.$checkNull( !sys.asBool(yearOp) ? all.lastYearId(All) : yearOp[0]) ;
 
   const Lopts =sys.$checkNull( []);
   const firstV =sys.$checkNull( [true]);
   for (const myear  of sys.$forObject( all.yearIds(All))) {
-    if (sys.asBool(firstV[0])) firstV[0] =sys.$checkExists(firstV[0],sys.$checkNull( false));
-    else arr.push(Lopts, menu.separator());
+    if (firstV[0]) firstV[0] =sys.$checkExists(firstV[0],sys.$checkNull( false));
+    else arr.push(Lopts,menu.separator());
 
-    arr.push(Lopts, menu.toption(
+    arr.push(Lopts,menu.toption(
       myear, myear, function()  {sys.$params(arguments.length, 0); mk(wg, [myear]);}
     ));
   }
-  const menuWg =sys.$checkNull( menu.mk(Lopts, [], lastYear, false));
+  const menuWg =sys.$checkNull( menu.mk(Lopts, [], lastYear));
 
-  const YearOp =sys.$checkNull( dic.get(All, lastYear));
-  if (sys.asBool(!sys.asBool(YearOp))) {
+  const yOp =sys.$checkNull( dic.get(All, lastYear));
+  if (!sys.asBool(yOp)) {
     ui.alert(i18n.fmt(II("Year %0 not found"), [lastYear]));
-    arr.push(YearOp, All[all.lastYearId(All)]);
+    arr.push(yOp, All[all.lastYearId(All)]);
   }
-  const Year =sys.$checkNull( YearOp[0]);
+   const y =sys.$checkNull( yOp[0]);
 
-  const D =sys.$checkNull( year.treasury(Year));
+  
+  const {summary,  Entries} = year.treasury(y);
 
   wg
     .removeAll()
@@ -53,7 +55,7 @@ export  async  function mk(wg, yearOp)  {sys.$params(arguments.length, 2);
           .text(II("Profits") + ":"))
         .add(Q("td")
           .klass("number")
-          .text(math.toIso(D.summary, 2)))))
+          .text(math.toIso(summary, 2)))))
     .add(Q("div")
       .klass("head")
       .text(II("Annotations")))
@@ -76,23 +78,22 @@ export  async  function mk(wg, yearOp)  {sys.$params(arguments.length, 2);
         .add(Q("td")
           .klass("header")
           .text(II("Profits"))))
-      .adds(arr.map(D.entries, function(E)  {sys.$params(arguments.length, 1);  return Q("tr")
+      .adds(arr.map(Entries,function( e)  {sys.$params(arguments.length, 1);  return Q("tr")
           .add(Q("td")
-            .text(E.nick))
+            .text(e[rann.nick]))
           .add(Q("td")
             .klass("number2")
-            .text(math.toIso(E.stocks, 0)))
+            .text(math.toIso(e[rann.stocks], 0)))
           .add(Q("td")
             .klass("number")
-            .text(math.toIso(E.total, 2)))
+            .text(math.toIso(e[rann.total], 2)))
           .add(Q("td")
             .klass("number")
-            .text(math.toIso(E.total - E.profits[0], 2)))
+            .text(math.toIso(e[rann.total] - e[rann.profitsOp][0], 2)))
           .add(Q("td")
             .klass("number")
-            .text(math.toIso(E.profits[0], 2)))
+            .text(math.toIso(e[rann.profitsOp][0], 2)))
         ;}))
     )
   ;
-
 };

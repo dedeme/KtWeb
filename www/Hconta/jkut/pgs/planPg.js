@@ -4,10 +4,12 @@ import * as math from '../_js/math.js';import * as js from '../_js/js.js';import
 
 
 import * as acc from  "../data/acc.js";
+import * as accValue from  "../data/accValue.js";
 import * as all from  "../data/all.js";
-import * as cts from  "../data/cts.js";
+import * as cts from  "../cts.js";
 import * as balance from  "../data/balance.js";
 import * as profits from  "../data/profits.js";
+import * as msgPg from  "../pgs/msgPg.js";
 import * as fns from  "../fns.js";
 import * as i18n from  "../i18n.js";
 
@@ -16,7 +18,7 @@ const II =sys.$checkNull( i18n.tlt);
 
 
 export  function mk(wg, account)  {sys.$params(arguments.length, 2);
-  const ac =sys.$checkNull(sys.asBool( sys.asBool(sys.$eq(acc.descriptionOf(account) , "")) || sys.asBool(str.len(account) > 3)) ? "" : account);
+  const ac =sys.$checkNull( sys.$eq(acc.descriptionOf(account) , "") || str.len(account) > 3 ? "" : account);
   const acLen =sys.$checkNull( str.len(ac));
   const modIdV =sys.$checkNull( [""]);
 
@@ -41,35 +43,39 @@ export  function mk(wg, account)  {sys.$params(arguments.length, 2);
   
    async  function update()  {sys.$params(arguments.length, 0);
     const desc =sys.$checkNull( nameField.getValue().trim());
-    if (sys.asBool(sys.$eq(desc , ""))) {
+    if (sys.$eq(desc , "")) {
       ui.alert(II("Description is missing"));
       return;
     }
     const summary =sys.$checkNull( groupField.getValue().trim());
-    if (sys.asBool(sys.asBool(sys.$eq(acLen , 2)) && sys.asBool(sys.$eq(summary , "")))) {
+    if (sys.$eq(acLen , 2) && sys.$eq(summary , "")) {
       ui.alert(II("Group is missing"));
       return;
     }
     const id =sys.$checkNull( ac + selectIdV[0].getValue());
 
-    const error =sys.$checkNull(sys.asBool( sys.$eq(modIdV[0] , ""))
-    ?   
+    const error =sys.$checkNull( sys.$eq(modIdV[0] , "")
+    ?(   
         sys.$eq(acLen,1)? acc.subgroupAdd(id, desc):
         sys.$eq(acLen,2)? acc.accountAdd(id, desc, summary):
          acc.subaccountAdd(id, desc)
-      
-    :   
+      )
+    :(   
         sys.$eq(acLen,1)? acc.subgroupMod(modIdV[0], id, desc):
         sys.$eq(acLen,2)? acc.accountMod(modIdV[0], id, desc, summary):
          acc.subaccountMod(modIdV[0], id, desc)
-      )
+      ))
     ;
 
-    if (sys.asBool(sys.$neq(error , ""))) {
+    if (sys.$neq(error , "")) {
       ui.alert(error);
       return;
     }
-    await all.send();
+    const ok =sys.$checkNull( await  all.send());
+    if (!sys.asBool(ok)) {
+      msgPg.mk(wg, II("Data base out of date."), true);
+      return;
+    }
     mk(wg, ac);
   };
 
@@ -109,15 +115,15 @@ export  function mk(wg, account)  {sys.$params(arguments.length, 2);
 
   
    async  function del(id, description)  {sys.$params(arguments.length, 2);
-    if (sys.asBool(!sys.asBool(ui.confirm(i18n.fmt(II("Delete '%0'?"), [id + " - " + description]))))) {
+    if (!sys.asBool(ui.confirm(i18n.fmt(II("Delete '%0'?"), [id + " - " + description])))) {
       return;
     }
-    const error =sys.$checkNull(   
+    const error =sys.$checkNull((   
       sys.$eq(acLen,1)? acc.subgroupDeletable(id):
       sys.$eq(acLen,2)? acc.accountDeletable(id):
        acc.subaccountDeletable(id)
-    );
-    if (sys.asBool(sys.$neq(error , ""))) {
+    ));
+    if (sys.$neq(error , "")) {
       ui.alert(error);
       return;
     }
@@ -126,7 +132,11 @@ export  function mk(wg, account)  {sys.$params(arguments.length, 2);
       case 2:{ acc.accountDel(id);break;}
       default:{ acc.subaccountDel(id);}
     }
-    await all.send();
+    const ok =sys.$checkNull( await  all.send());
+    if (!sys.asBool(ok)) {
+      msgPg.mk(wg, II("Data base out of date."), true);
+      return;
+    }
     mk(wg, ac);
   };
 
@@ -142,8 +152,8 @@ export  function mk(wg, account)  {sys.$params(arguments.length, 2);
         const Sub =sys.$checkNull( []); 
         const Entries =sys.$checkNull( balance.entries());
         for (const [ekey, ename]  of sys.$forObject2( Entries)) {
-          if (sys.asBool(sys.$eq(balance.groupOf(ekey) , gkey))) {
-            arr.push(Sub, Q("li")
+          if (sys.$eq(balance.groupOf(ekey) , gkey)) {
+            arr.push(Sub,Q("li")
               .add(ui.link(function(e)  {sys.$params(arguments.length, 1); groupField.value("B" + ekey);})
                 .klass("link")
                 .att("title", "B" + ekey)
@@ -151,7 +161,7 @@ export  function mk(wg, account)  {sys.$params(arguments.length, 2);
             );
           }
         }
-        arr.push(R, Q("li")
+        arr.push(R,Q("li")
           .html("<a href='#' onclick='return false;'>" + gname + "</a>")
           .add(Q("ul").att("id", "hlist")
             .style("list-style:none;padding-left:10px;")
@@ -169,8 +179,8 @@ export  function mk(wg, account)  {sys.$params(arguments.length, 2);
         const Sub =sys.$checkNull( []); 
         const Entries =sys.$checkNull( profits.entries());
         for (const [ekey, ename]  of sys.$forObject2( Entries)) {
-          if (sys.asBool(sys.$eq(profits.groupOf(ekey) , gkey))) {
-            arr.push(Sub, Q("li")
+          if (sys.$eq(profits.groupOf(ekey) , gkey)) {
+            arr.push(Sub,Q("li")
               .add(ui.link(function(e)  {sys.$params(arguments.length, 1); groupField.value("P" + ekey);})
                 .klass("link")
                 .att("title", "P" + ekey)
@@ -178,7 +188,7 @@ export  function mk(wg, account)  {sys.$params(arguments.length, 2);
             );
           }
         }
-        arr.push(R, Q("li")
+        arr.push(R,Q("li")
           .html("<a href='#' onclick='return false;'>" + gname + "</a>")
           .add(Q("ul").att("id", "hlist")
             .style("list-style:none;padding-left:10px;")
@@ -206,12 +216,12 @@ export  function mk(wg, account)  {sys.$params(arguments.length, 2);
 
   
    function right()  {sys.$params(arguments.length, 0);
-    const title =sys.$checkNull(   
-      sys.$eq(arr.size(ac),1)? II("Subgroups"):
-      sys.$eq(arr.size(ac),2)? II("Accounts"):
-      sys.$eq(arr.size(ac),3)? II("Subaccounts"):
+    const title =sys.$checkNull((   
+      sys.$eq(str.len(ac),1)? II("Subgroups"):
+      sys.$eq(str.len(ac),2)? II("Accounts"):
+      sys.$eq(str.len(ac),3)? II("Subaccounts"):
        II("Groups")
-    );
+    ));
 
     
      function mkSubmenu()  {sys.$params(arguments.length, 0);
@@ -228,12 +238,12 @@ export  function mk(wg, account)  {sys.$params(arguments.length, 2);
       const Es =sys.$checkNull( [separator(), entry("*", ""), separator()]);
       
        function add(tx, lk)  {sys.$params(arguments.length, 2);
-        arr.push(Es, entry(tx, lk));
-        arr.push(Es, separator());
+        arr.push(Es,entry(tx, lk));
+        arr.push(Es,separator());
       };
-      if (sys.asBool(acLen > 0)) add(ac[0], ac[0]);
-      if (sys.asBool(acLen > 1)) add(ac[1], sys.$slice(ac,null,2));
-      if (sys.asBool(acLen > 2)) add(ac[2], ac);
+      if (acLen > 0) add(ac[0], ac[0]);
+      if (acLen > 1) add(ac[1], sys.$slice(ac,null,2));
+      if (acLen > 2) add(ac[2], ac);
        return Q("p").adds(Es);
     };
 
@@ -244,19 +254,19 @@ export  function mk(wg, account)  {sys.$params(arguments.length, 2);
       .removeAll()
       .add(selectIdV[0])
     ;
-    if (sys.asBool(!sys.asBool(all.isLastYear()))) {
+    if (!sys.asBool(all.isLastYear())) {
       nameField.disabled(true);
       selectIdV[0].disabled(true);
     }
 
     const Rows =sys.$checkNull( []); 
     const colsV =sys.$checkNull( [2]);
-    if (sys.asBool(sys.$neq(ac , ""))) colsV[0] +=sys.$checkExists(colsV[0],sys.$checkNull( 2));
-    if (sys.asBool(sys.$eq(acLen , 2))) colsV[0] +=sys.$checkExists(colsV[0],sys.$checkNull( 1));
+    if (sys.$neq(ac , "")) colsV[0] +=sys.$checkExists(colsV[0],sys.$checkNull( 2));
+    if (sys.$eq(acLen , 2)) colsV[0] +=sys.$checkExists(colsV[0],sys.$checkNull( 1));
     const cols =sys.$checkNull( colsV[0]);
 
     
-    if (sys.asBool(sys.$neq(ac , ""))) {
+    if (sys.$neq(ac , "")) {
       const Tds =sys.$checkNull( [
         Q("td")
           .att("colspan", 2)
@@ -272,10 +282,10 @@ export  function mk(wg, account)  {sys.$params(arguments.length, 2);
         Q("td")
           .add(nameField)
       ]);
-      if (sys.asBool(sys.$eq(acLen , 2))) arr.push(Tds, Q("td").add(groupField));
+      if (sys.$eq(acLen , 2)) arr.push(Tds,Q("td").add(groupField));
 
-      arr.push(Rows, Q("tr").adds(Tds));
-      arr.push(Rows, Q("tr")
+      arr.push(Rows,Q("tr").adds(Tds));
+      arr.push(Rows,Q("tr")
         .add(Q("td")
           .att("colspan", cols)
           .add(Q("hr")))
@@ -284,19 +294,19 @@ export  function mk(wg, account)  {sys.$params(arguments.length, 2);
 
     
     const Tds =sys.$checkNull( []); 
-    if (sys.asBool(sys.$neq(ac , ""))) {
-      arr.push(Tds, modIdTd);
+    if (sys.$neq(ac , "")) {
+      arr.push(Tds,modIdTd);
     }
-    arr.push(Tds, Q("td")
+    arr.push(Tds,Q("td")
       .html(II("Nº")));
-    arr.push(Tds, Q("td")
+    arr.push(Tds,Q("td")
       .style("text-align:left;").html(II("Description")));
-    if (sys.asBool(sys.$eq(acLen , 2))) {
-      arr.push(Tds, Q("td")
+    if (sys.$eq(acLen , 2)) {
+      arr.push(Tds,Q("td")
         .html(II("Group")));
     }
-    arr.push(Rows, Q("tr").adds(Tds));
-    arr.push(Rows, Q("tr")
+    arr.push(Rows,Q("tr").adds(Tds));
+    arr.push(Rows,Q("tr")
       .add(Q("td")
         .att("colspan", cols)
         .add(Q("hr")))
@@ -304,51 +314,51 @@ export  function mk(wg, account)  {sys.$params(arguments.length, 2);
 
     
     const Sub =sys.$checkNull( acc.sub(ac));
-    for (const [k, V]  of sys.$forObject2( Sub)) {
+    for ( const [k, v]  of sys.$forObject2( Sub)) {
       const Tds =sys.$checkNull( []); 
-      if (sys.asBool(sys.$neq(ac , ""))) {
-        if (sys.asBool(
-          sys.asBool(sys.asBool(sys.asBool(sys.asBool(sys.asBool(sys.asBool(sys.asBool(sys.asBool(sys.asBool(sys.$eq(k , sys.$slice(cts.cash,null,2))) ||
-          sys.asBool(sys.$eq(k , sys.$slice(cts.cash,null,3)))) ||
-          sys.asBool(sys.$eq(k , cts.cash))) ||
-          sys.asBool(sys.$eq(k , sys.$slice(cts.capital,null,2)))) ||
-          sys.asBool(sys.$eq(k , sys.$slice(cts.capital,null,3)))) ||
-          sys.asBool(sys.$eq(k , cts.capital))) ||
-          sys.asBool(sys.$eq(k , sys.$slice(cts.results,null,2)))) ||
-          sys.asBool(sys.$eq(k , sys.$slice(cts.results,null,3)))) ||
-          sys.asBool(sys.$eq(k , cts.results))) ||
-          sys.asBool(!sys.asBool(all.isLastYear())))
+      if (sys.$neq(ac , "")) {
+        if (
+          sys.$eq(k , sys.$slice(cts.cash,null,2)) ||
+          sys.$eq(k , sys.$slice(cts.cash,null,3)) ||
+          sys.$eq(k , cts.cash) ||
+          sys.$eq(k , sys.$slice(cts.capital,null,2)) ||
+          sys.$eq(k , sys.$slice(cts.capital,null,3)) ||
+          sys.$eq(k , cts.capital) ||
+          sys.$eq(k , sys.$slice(cts.results,null,2)) ||
+          sys.$eq(k , sys.$slice(cts.results,null,3)) ||
+          sys.$eq(k , cts.results) ||
+          !sys.asBool(all.isLastYear())
         ) {
-          arr.push(Tds, Q("td").add(ui.lightImg("edit")));
-          arr.push(Tds, Q("td").add(ui.lightImg("delete")));
+          arr.push(Tds,Q("td").add(ui.lightImg("edit")));
+          arr.push(Tds,Q("td").add(ui.lightImg("delete")));
         } else {
-          arr.push(Tds, Q("td")
-            .add(ui.link(function(e)  {sys.$params(arguments.length, 1); modifyStart(k, V.description, V.summary);})
+          arr.push(Tds,Q("td")
+            .add(ui.link(function(e)  {sys.$params(arguments.length, 1); modifyStart(k, v[accValue.description], v[accValue.summary]);})
               .add(ui.img("edit"))));
-          arr.push(Tds, Q("td")
-            .add(ui.link(function(e)  {sys.$params(arguments.length, 1); del(k, V.description);})
+          arr.push(Tds,Q("td")
+            .add(ui.link(function(e)  {sys.$params(arguments.length, 1); del(k, v[accValue.description]);})
               .add(ui.img("delete"))));
         }
       }
-      arr.push(Tds, Q("td")
+      arr.push(Tds,Q("td")
         .style("text-align:right;")
         .text(sys.$slice(k,acLen,null))
       );
-      arr.push(Tds, Q("td")
+      arr.push(Tds,Q("td")
         .style("text-align:left;")
-        .add(sys.asBool(acLen < 3)
+        .add(acLen < 3
           ? ui.link(function(e)  {sys.$params(arguments.length, 1); window.location.assign("?plan&" + k);})
             .klass("link")
-            .add(Q("span").text(V.description))
-          : Q("span").text(V.description))
+            .add(Q("span").text(v[accValue.description]))
+          : Q("span").text(v[accValue.description]))
       );
-      if (sys.asBool(sys.$eq(acLen , 2))) {
-        arr.push(Tds, Q("td")
+      if (sys.$eq(acLen , 2)) {
+        arr.push(Tds,Q("td")
           .style("text-align:left;")
-          .text(V.summary)
+          .text(v[accValue.summary])
         );
       }
-      arr.push(Rows, Q("tr").adds(Tds));
+      arr.push(Rows,Q("tr").adds(Tds));
     }
 
      return Q("td")
@@ -369,7 +379,7 @@ export  function mk(wg, account)  {sys.$params(arguments.length, 2);
     .add(Q("table")
       .klass("main")
       .add(Q("tr")
-        .add(sys.asBool(sys.asBool(sys.$eq(acLen , 2)) && sys.asBool(all.isLastYear())) ? left() : Q("div"))
+        .add(sys.$eq(acLen , 2) && all.isLastYear() ? left() : Q("div"))
         .add(right())))
   ;
 };

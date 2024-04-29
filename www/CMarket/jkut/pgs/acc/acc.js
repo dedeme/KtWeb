@@ -22,7 +22,7 @@ const II =sys.$checkNull( i18n.tlt);
 
 
 export  function mk(wg, dbMenu, LcPath)  {sys.$params(arguments.length, 3);
-  const mSel =sys.$checkNull(sys.asBool( LcPath) ? LcPath[0] : "profits");
+  const mSel =sys.$checkNull( !sys.asBool(LcPath) ? "profits" : LcPath[0]);
 
   
 

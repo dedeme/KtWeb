@@ -43,7 +43,7 @@ export const profitsAvgRatio =sys.$checkNull( 1 - assetsRatio);
 export const daysWin =sys.$checkNull( 0); 
 
 
-export const daysLoss =sys.$checkNull( 45); 
+export const daysLoss =sys.$checkNull( 63); 
 
 
 export const noLossMultiplicator =sys.$checkNull( 1.02);

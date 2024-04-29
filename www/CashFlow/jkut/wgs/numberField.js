@@ -15,7 +15,7 @@ const II =sys.$checkNull( i18n.tlt);
 
 
 export  function mk(id, targetId, value, fn)  {sys.$params(arguments.length, 4);
-  const wg =sys.$checkNull( ui.changePoint(ui.field(targetId)
+   const wg =sys.$checkNull( ui.changePoint(ui.field(targetId)
     .att("id", id)
     .style("width:80px")
     .value(str.replace(math.toFix(value, 2), ".", ","))
@@ -25,14 +25,14 @@ export  function mk(id, targetId, value, fn)  {sys.$params(arguments.length, 4);
    function onchange(ev)  {sys.$params(arguments.length, 1);
     const wgValue =sys.$checkNull( str.trim(wg.getValue()));
     const newValueOp =sys.$checkNull( math.fromStr(str.replace(
-      str.replace(wgValue, ".", ""), ",", "."
+      str.replace(wgValue,".", ""), ",", "."
     )));
-    if (sys.asBool(newValueOp)) {
-      fn(id, newValueOp[0]);
-    } else {
+    if (!sys.asBool(newValueOp)) {
       ui.alert(i18n.fmt(II("'%0' is not a valid number"), [wgValue]));
       wg.value(str.replace(math.toStr(value, 2), ".", ","));
       wg.e.focus();
+    } else {
+      fn(id, newValueOp[0]);
     }
   };
 

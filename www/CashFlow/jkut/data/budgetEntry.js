@@ -6,26 +6,5 @@ import * as math from '../_js/math.js';import * as js from '../_js/js.js';import
 
 
 
-export  function mk(isIncome, accId, budget, real)  {sys.$params(arguments.length, 4);
-   return {isIncome:isIncome, accId:accId, budget:budget, real:real, dif: real - budget};};
 
-
-export  function sumBudget(Entries)  {sys.$params(arguments.length, 1);
-  const sumV =sys.$checkNull( [0]);
-  for (const E  of sys.$forObject( Entries)) sumV[0] +=sys.$checkExists(sumV[0],sys.$checkNull( E.budget));
-   return sumV[0];
-};
-
-
-export  function sumReal(Entries)  {sys.$params(arguments.length, 1);
-  const sumV =sys.$checkNull( [0]);
-  for (const E  of sys.$forObject( Entries)) sumV[0] +=sys.$checkExists(sumV[0],sys.$checkNull( E.real));
-   return sumV[0];
-};
-
-
-export  function sumDif(Entries)  {sys.$params(arguments.length, 1);
-  const sumV =sys.$checkNull( [0]);
-  for (const E  of sys.$forObject( Entries)) sumV[0] +=sys.$checkExists(sumV[0],sys.$checkNull( E.dif));
-   return sumV[0];
-};
+export function mk (accId,am) { sys.$params(arguments.length, 2); return [ accId, am];}export const accId = 0;export const am = 1;

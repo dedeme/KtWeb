@@ -9,6 +9,7 @@ import * as modelsPg from  "../pgs/mmarket/modelsPg.js";
 import * as hotMapsPg from  "../pgs/mmarket/hotMapsPg.js";
 import * as i18n from  "../i18n.js";
 
+const Q =sys.$checkNull( ui.q);
 const II =sys.$checkNull( i18n.tlt);
 
 
@@ -17,20 +18,24 @@ const II =sys.$checkNull( i18n.tlt);
 
 
 export  function process(wg, dbmenu, LcPath)  {sys.$params(arguments.length, 3);
-  if (sys.asBool(!sys.asBool(LcPath))) arr.push(LcPath, "models");
+  if (!sys.asBool(LcPath)) arr.push(LcPath, "models");
+  const pg =sys.$checkNull( LcPath[0]);
 
-  const lopts =sys.$checkNull( [
+  const Url =sys.$checkNull( ui.url());
+  const opt =sys.$checkNull( arr.size(Url) > 2 ? Url[2] : "");
+
+  const Lopts =sys.$checkNull( [
     dmenu.mkHiddenButton(dbmenu),
     menu.separator2(),
     menu.tlink("models", II("Models"), ["mmarket"]),
     menu.separator(),
     menu.tlink("hotmaps", II("Hot Maps"), ["mmarket"])
   ]);
-  const menuWg =sys.$checkNull( menu.mk(lopts, [], LcPath[0], false));
+  const menuWg =sys.$checkNull( menu.mk(Lopts, [], pg, false));
   dmenu.setDownMenu(dbmenu, menuWg);
 
-  switch (LcPath[0]) {
-    case "hotmaps":{ hotMapsPg.mk(wg);break;}
-    default:{ modelsPg.mk(wg);}
+  switch (pg) {
+    case "hotmaps":{ hotMapsPg.mk(wg, opt);break;}
+    default:{ modelsPg.mk(wg, opt);}
   }
 };

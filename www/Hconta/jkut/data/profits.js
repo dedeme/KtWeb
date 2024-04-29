@@ -38,13 +38,13 @@ export  function entries()  {sys.$params(arguments.length, 0);  return {
 
 
 export  function isValid(id)  {sys.$params(arguments.length, 1);
-   return sys.asBool(sys.asBool(sys.$eq(str.len(id) , 3)) &&
-    sys.asBool(sys.$eq(id[0] , "P"))) &&
-    sys.asBool(( sys.asBool((sys.asBool(sys.asBool(sys.$eq(id[2] , "0")) && sys.asBool(id[3] >= "1")) && sys.asBool(id[3] <= "9"))) ||
-      sys.asBool((sys.asBool(sys.asBool(sys.$eq(id[2] , "1")) && sys.asBool(id[3] >= "0")) && sys.asBool(id[3] <= "8")))
-    ));};
+   return sys.$eq(str.len(id) , 3) &&
+    sys.$eq(id[0] , "P") &&
+    ( (sys.$eq(id[2] , "0") && id[3] >= "1" && id[3] <= "9") ||
+      (sys.$eq(id[2] , "1") && id[3] >= "0" && id[3] <= "8")
+    );};
 
 
 
 
-export  function groupOf(id)  {sys.$params(arguments.length, 1); return sys.asBool( id < "13") ? "A" :sys.asBool( id < "18") ? "B" : "C";};
+export  function groupOf(id)  {sys.$params(arguments.length, 1);  return id < "13" ? "A" : id < "18" ? "B" : "C";};

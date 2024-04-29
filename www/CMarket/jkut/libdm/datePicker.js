@@ -60,7 +60,7 @@ export  function setDate(Dp, newDate)  {sys.$params(arguments.length, 2);
 };
 
 
- function months(Dp)  {sys.$params(arguments.length, 1); return sys.asBool( Dp[isEs])
+ function months(Dp)  {sys.$params(arguments.length, 1);  return Dp[isEs]
     ? ["ene", "feb", "mar", "abr", "may", "jun", "jul",
       "ago", "sep", "oct", "nov", "dic"]
     : ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul",
@@ -68,13 +68,13 @@ export  function setDate(Dp, newDate)  {sys.$params(arguments.length, 2);
   ;};
 
 
- function weekDays(Dp)  {sys.$params(arguments.length, 1); return sys.asBool( Dp[isEs])
+ function weekDays(Dp)  {sys.$params(arguments.length, 1);  return Dp[isEs]
     ? ["dom", "lun", "mar", "mié", "jue", "vie", "sáb"]
     : ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"]
   ;};
 
 
- function i18n(Dp)  {sys.$params(arguments.length, 1); return sys.asBool( Dp[isEs])
+ function i18n(Dp)  {sys.$params(arguments.length, 1);  return Dp[isEs]
     ? {firstWeekDay: 1, today: "Hoy", none: "Nada"}
     : {firstWeekDay: 0, today: "Today", none: "None"}
   ;};
@@ -85,7 +85,7 @@ export  function setDate(Dp, newDate)  {sys.$params(arguments.length, 2);
   Dp[elYear].html("" + time.year(Dp[dateView]));
 
   const ix0 =sys.$checkNull( time.weekday(Dp[dateView]) - i18n(Dp).firstWeekDay);
-  const ix =sys.$checkNull(sys.asBool( ix0 < 0) ? 7 + ix0 : ix0);
+  const ix =sys.$checkNull( ix0 < 0 ? 7 + ix0 : ix0);
   const month =sys.$checkNull( time.month(Dp[dateView]));
   const Date1 =sys.$checkNull( [time.mkDate(time.day(Dp[dateView]) - ix, month, time.year(Dp[dateView]))]);
 
@@ -98,7 +98,7 @@ export  function setDate(Dp, newDate)  {sys.$params(arguments.length, 2);
   const Dmonth =sys.$checkNull( [tmonth]);
   const Dday =sys.$checkNull( [tday]);
 
-  if (sys.asBool(Dp[date])) {
+  if (!sys.asBool(!sys.asBool(Dp[date]))) {
     Dyear[0] =sys.$checkExists(Dyear[0],sys.$checkNull( time.year(Dp[date][0])));
     Dmonth[0] =sys.$checkExists(Dmonth[0],sys.$checkNull( time.month(Dp[date][0])));
     Dday[0] =sys.$checkExists(Dday[0],sys.$checkNull( time.day(Dp[date][0])));
@@ -106,24 +106,24 @@ export  function setDate(Dp, newDate)  {sys.$params(arguments.length, 2);
 
   const ExtraRow =sys.$checkNull( [false]);
   iter.each(iter.$range(0,6), function(i)  {sys.$params(arguments.length, 1);
-    if (sys.asBool(sys.asBool(sys.$eq(i , 5)) && sys.asBool(sys.$eq(time.month(Date1[0]) , month)))) ExtraRow[0] =sys.$checkExists(ExtraRow[0],sys.$checkNull( true));
+    if (sys.$eq(i , 5) && sys.$eq(time.month(Date1[0]) , month)) ExtraRow[0] =sys.$checkExists(ExtraRow[0],sys.$checkNull( true));
     iter.each(iter.$range(0,7), function(j)  {sys.$params(arguments.length, 1);
       const d =sys.$checkNull( Dp[elDays][i][j].removeAll());
       const year1 =sys.$checkNull( time.year(Date1[0]));
       const month1 =sys.$checkNull( time.month(Date1[0]));
       const day1 =sys.$checkNull( time.day(Date1[0]));
 
-      if (sys.asBool(sys.asBool(sys.asBool(sys.$eq(day1 , Dday[0])) && sys.asBool(sys.$eq(month1 , Dmonth[0]))) && sys.asBool(sys.$eq(year1 , Dyear[0])))) {
+      if (sys.$eq(day1 , Dday[0]) && sys.$eq(month1 , Dmonth[0]) && sys.$eq(year1 , Dyear[0])) {
         d.klass("select");
       } else {
         d.klass("day");
-        if (sys.asBool(sys.$neq(time.month(Date1[0]) , month))) d.klass("dayOut");
-        if (sys.asBool(sys.asBool(sys.$eq(time.weekday(Date1[0]) , 6)) || sys.asBool(sys.$eq(time.weekday(Date1[0]) , 0)))) {
+        if (sys.$neq(time.month(Date1[0]) , month)) d.klass("dayOut");
+        if (sys.$eq(time.weekday(Date1[0]) , 6) || sys.$eq(time.weekday(Date1[0]) , 0)) {
           d.klass("weekend");
-          if (sys.asBool(sys.$neq(time.month(Date1[0]) , month))) d.klass("weekendOut");
+          if (sys.$neq(time.month(Date1[0]) , month)) d.klass("weekendOut");
         }
       }
-      if (sys.asBool(sys.asBool(sys.asBool(sys.$eq(day1 , tday)) && sys.asBool(sys.$eq(month1 , tmonth))) && sys.asBool(sys.$eq(year1 , tyear))))
+      if (sys.$eq(day1 , tday) && sys.$eq(month1 , tmonth) && sys.$eq(year1 , tyear))
         d.klass("today");
 
       const ddate1 =sys.$checkNull( Date1[0]);
@@ -135,12 +135,12 @@ export  function setDate(Dp, newDate)  {sys.$params(arguments.length, 2);
     });
   });
 
-  if (sys.asBool(sys.$eq(Dp[tb].getAtt("hasTrEx") , "true"))) {
+  if (sys.$eq(Dp[tb].getAtt("hasTrEx") , "true")) {
     Dp[tb].remove(Dp[exTr]);
     Dp[tb].att("hasTrEx", "false");
   }
 
-  if (sys.asBool(ExtraRow[0])) {
+  if (ExtraRow[0]) {
     Dp[tb].remove(Dp[tr4]);
 
     Dp[tb].add(Dp[exTr]).add(Dp[tr4]);
@@ -270,7 +270,7 @@ export  function mkWg(Dp)  {sys.$params(arguments.length, 1);
     .add(Q("tr")
       .adds(iter.map(iter.$range(0,7), function(i)  {sys.$params(arguments.length, 1);
         const ix0 =sys.$checkNull( i + i18n(Dp).firstWeekDay);
-        const ix =sys.$checkNull(sys.asBool( ix0 > 6) ? ix0 - 7 : ix0);
+        const ix =sys.$checkNull( ix0 > 6 ? ix0 - 7 : ix0);
          return Q("td")
           .html(weekDays(Dp)[ix])
         ;
@@ -304,7 +304,7 @@ export  function mkWg(Dp)  {sys.$params(arguments.length, 1);
     .add(Dp[tr4])));
   load(Dp);
    return Q("div")
-    .style(sys.asBool(Dp[floating]) ? "position:absolute" : "position:relative")
+    .style(Dp[floating] ? "position:absolute" : "position:relative")
     .add(Dp[tb])
   ;
 };
@@ -319,7 +319,7 @@ export  function mkButton(Dp, button)  {sys.$params(arguments.length, 2);
 
   
    function btAction(ev)  {sys.$params(arguments.length, 1);
-    if (sys.asBool(!sys.asBool(IsShow[0]))) {
+    if (!sys.asBool(IsShow[0])) {
       span.add(mkWg(Dp));
       IsShow[0] =sys.$checkExists(IsShow[0],sys.$checkNull( true));
       return;
@@ -351,14 +351,14 @@ export  function mkText(Dp, textInput)  {sys.$params(arguments.length, 2);
   
    function format(s)  {sys.$params(arguments.length, 1);
     const d =sys.$checkNull( time.fromStr(s)[0]);
-    return sys.asBool( Dp[isEs]) ? time.toIso(d) : time.toEn(d);
+     return Dp[isEs] ? time.toIso(d) : time.toEn(d);
   };
   const span =sys.$checkNull( Q("span"));
   const IsShow =sys.$checkNull( [false]);
 
   
    function btAction(ev)  {sys.$params(arguments.length, 1);
-    if (sys.asBool(!sys.asBool(IsShow[0]))) {
+    if (!sys.asBool(IsShow[0])) {
       span.add(mkWg(Dp));
       IsShow[0] =sys.$checkExists(IsShow[0],sys.$checkNull( true));
       return;
@@ -368,14 +368,14 @@ export  function mkText(Dp, textInput)  {sys.$params(arguments.length, 2);
   };
 
   const Date =sys.$checkNull( getDate(Dp));
-  const val =sys.$checkNull(sys.asBool( Date) ? format(time.toStr(Date[0])) : "");
+  const val =sys.$checkNull( !sys.asBool(Date) ? "" : format(time.toStr(Date[0])));
   textInput.value(val);
   textInput.on("click", btAction);
   textInput.on("keydown", function(e)  {sys.$params(arguments.length, 1);  e.preventDefault();;});
 
   const previousFn =sys.$checkNull( Dp[fn]);
   Dp[fn] =sys.$checkExists(Dp[fn], function(s)  {sys.$params(arguments.length, 1);
-    textInput.value(sys.asBool(sys.$eq(s , "")) ? "" : format(s));
+    textInput.value(sys.$eq(s , "") ? "" : format(s));
     previousFn(s);
     span.removeAll();
     IsShow[0] =sys.$checkExists(IsShow[0],sys.$checkNull( false));

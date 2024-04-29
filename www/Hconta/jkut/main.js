@@ -4,7 +4,7 @@ import * as math from './_js/math.js';import * as js from './_js/js.js';import *
 
 
 import * as menu from  "./libdm/menu.js";
-import * as cts from  "./data/cts.js";
+import * as cts from  "./cts.js";
 import * as all from  "./data/all.js";
 import * as acc from  "./data/acc.js";
 import * as msgPg from  "./pgs/msgPg.js";
@@ -22,76 +22,77 @@ const II =sys.$checkNull( i18n.tlt);
 
  async  function mk(wg)  {sys.$params(arguments.length, 1);
   const ok =sys.$checkNull( await  client.connect());
-  if (sys.asBool(!sys.asBool(ok))) {
-    ui.alert(II("KtWeb session is closed.\nAuthenticating from KtWeb:Main."));
+  if (!sys.asBool(ok)) {
+    ui.alert(II("Session is closed.\nAuthenticating from Main."));
     window.location.assign("http://" + window.location.host + "/Main");
     return;
   }
 
-  const Rp =sys.$checkNull( await  client.send({
+  
+   const {lang} = await  client.send({
     prg: "Main", 
     source: "Main",
     rq: "lang"
-  }));
-  if (sys.asBool(sys.$eq(Rp.lang , "en"))) i18n.en();
+  });
+  if (sys.$eq(lang , "en")) i18n.en();
 
   await all.request();
 
-  const Url =sys.$checkNull( ui.url());
-  const page =sys.$checkNull(sys.asBool( dic.hasKey(Url, "0")) ? Url["0"] : "cash");
+   const Url =sys.$checkNull( ui.url());
+  const page =sys.$checkNull( !sys.asBool(Url) ? "cash" : Url[0]);
 
   const year =sys.$checkNull( all.currentYear());
-  const myear =sys.$checkNull( menu.tlink(year, year, []));
+   const myear =sys.$checkNull( menu.tlink(year, year));
 
   const Lopts =sys.$checkNull( [
     myear,
     menu.separator(),
-    menu.tlink("diary", II("Diary"), []),
+    menu.tlink("diary", II("Diary")),
     menu.separator(),
-    menu.tlink("cash", II("Cash"), []),
+    menu.tlink("cash", II("Cash")),
     menu.separator(),
-    menu.tlink("57202", II("Accs"), ["accs"]),
+    menu.tlink("accs", II("Accs")),
     menu.separator(),
-    menu.tlink("summaries", II("Summaries"), []),
+    menu.tlink("summaries", II("Summaries")),
     menu.separator(),
-    menu.tlink("plan", II("Plan"), [])
+    menu.tlink("plan", II("Plan"))
   ]);
-  const menuWg =sys.$checkNull( menu.mk(Lopts, [], page, false));
-  if (sys.asBool(!sys.asBool(all.isLastYear()))) myear.wg.setStyle("color", "#800000");
+  const menuWg =sys.$checkNull( menu.mk(Lopts, [], page));
+  if (!sys.asBool(all.isLastYear())) myear.wg.setStyle("color", "#800000");
 
   const body =sys.$checkNull( Q("div"));
 
   switch (page) {
     case "diary":{ {
-      const ac =sys.$checkNull(sys.asBool( dic.hasKey(Url, "1")) ? Url["1"] : "");
-      const ix =sys.$checkNull(sys.asBool( dic.hasKey(Url, "2")) ? Url["2"]: "-");
+      const ac =sys.$checkNull( arr.size(Url) > 1 ? Url[1] : "");
+      const ix =sys.$checkNull( arr.size(Url) > 2 ? Url[2]: "-");
       diaryPg.mk(body, ac, ix);
     }break;}
     case "cash":{{
-      const ac =sys.$checkNull(sys.asBool( dic.hasKey(Url, "1")) ? Url["1"] : "");
-      const ix =sys.$checkNull(sys.asBool( dic.hasKey(Url, "2")) ? Url["2"]: "-");
+      const ac =sys.$checkNull( arr.size(Url) > 1 ? Url[1] : "");
+      const ix =sys.$checkNull( arr.size(Url) > 2 ? Url[2]: "-");
       cashPg.mk(body, ac, ix);
     }break;}
     case "accs":{ {
-      const ac =sys.$checkNull(sys.asBool( dic.hasKey(Url, "1")) ? Url["1"] : "");
-      const ix =sys.$checkNull(sys.asBool( dic.hasKey(Url, "2")) ? Url["2"]: "-");
+      const ac =sys.$checkNull( arr.size(Url) > 1 ? Url[1] : "57202");
+      const ix =sys.$checkNull( arr.size(Url) > 2 ? Url[2]: "-");
       accsPg.mk(body, ac, ix);
     }break;}
     case "summaries":{ {
-      const type =sys.$checkNull(sys.asBool( dic.hasKey(Url, "1")) ? Url["1"] : "");
-      const deep =sys.$checkNull(sys.asBool( dic.hasKey(Url, "2")) ? Url["2"] : "");
+      const type =sys.$checkNull( arr.size(Url) > 1 ? Url[1] : "");
+      const deep =sys.$checkNull( arr.size(Url) > 2 ? Url[2]: "-");
       summaryPg.mk(body, type, deep);
     }break;}
     case "plan":{ {
-      const ac =sys.$checkNull(sys.asBool( dic.hasKey(Url, "1")) ? Url["1"] : "");
+      const ac =sys.$checkNull( arr.size(Url) > 1 ? Url[1] : "57202");
       planPg.mk(body, ac);
     }break;}
     default:{ {
-      if (sys.asBool(sys.$eq(page , all.currentYear()))) {
+      if (sys.$eq(page , all.currentYear())) {
         yearPg.mk(body);
       } else {
-        const ac =sys.$checkNull(sys.asBool( dic.hasKey(Url, "1")) ? Url["1"] : "");
-        const ix =sys.$checkNull(sys.asBool( dic.hasKey(Url, "2")) ? Url["2"]: "-");
+        const ac =sys.$checkNull( arr.size(Url) > 1 ? Url[1] : "");
+        const ix =sys.$checkNull( arr.size(Url) > 2 ? Url[2]: "-");
         cashPg.mk(body, ac, ix);
       }
     }}
@@ -113,9 +114,14 @@ export  function load()  {sys.$params(arguments.length, 0);
   mk(wg);
 };
 
-client.init(true, "KtWeb", function()  {sys.$params(arguments.length, 0);
+
+client.init(true, "KtWeb", function(isExpired)  {sys.$params(arguments.length, 1);
+  const message =sys.$checkNull( isExpired
+    ? II("Session is expired.")
+    : II("Data base is out of date."))
+  ;
   const msgWg =sys.$checkNull( Q("div"));
-  msgPg.mk(msgWg, II("Session is expired."), true);
+  msgPg.mk(msgWg, message, true);
   Q("@body")
     .removeAll()
     .add(msgWg)

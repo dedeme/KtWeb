@@ -89,7 +89,7 @@ export  function toJs(op)  {sys.$params(arguments.length, 1); switch(op.tp) {
     case seT: case buT: case stT:{  return [op.tp, op.s, op.i, op.f];break;}
     case prT: case feT: case pdT: case ndT:{  return [op.tp, op.f, op.s];break;}
     case inT: case wiT:{  return [op.tp, op.f];break;}
-    default:{ throw new Error(("Unknown operation of type " + op.tp));}
+    default:{ throw new Error( "Unknown operation of type " + op.tp);}
   }};
 
 
@@ -100,6 +100,6 @@ export  function fromJs(A)  {sys.$params(arguments.length, 1);
     case seT: case buT: case stT:{  return mk(tp, A[2], A[3], A[1]);break;}
     case prT: case feT: case pdT: case ndT:{  return mk(tp, 0, A[1], A[2]);break;}
     case inT: case wiT:{  return mk(tp, 0, A[1], "");break;}
-    default:{ throw new Error(("Unknown operation of type " + tp));}
+    default:{ throw new Error( "Unknown operation of type " + tp);}
   }
 };

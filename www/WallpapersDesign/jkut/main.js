@@ -14,7 +14,7 @@ const II =sys.$checkNull( i18n.tlt);
 
  async  function mk(wg)  {sys.$params(arguments.length, 1);
   const ok =sys.$checkNull( await  client.connect());
-  if (sys.asBool(!sys.asBool(ok))) {
+  if (!sys.asBool(ok)) {
     ui.alert(II("KtWeb session is closed.\nAuthenticating from KtWeb:Main."));
     window.location.assign("http://" + window.location.host + "/Main");
     return;
@@ -25,7 +25,7 @@ const II =sys.$checkNull( i18n.tlt);
     source: "Main",
     rq: "lang"
   }));
-  if (sys.asBool(sys.$eq(Rp.lang , "en"))) i18n.en();
+  if (sys.$eq(Rp.lang , "en")) i18n.en();
 
   const body =sys.$checkNull( Q("div"));
   wg

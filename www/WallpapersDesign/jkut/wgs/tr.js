@@ -71,7 +71,7 @@ export  function mk(Images, ix)  {sys.$params(arguments.length, 2);
             .add(Q("input")
               .att("type", "checkbox")
               .disabled(true)
-              .checked(sys.asBool(true) && sys.asBool(Image[0].Cut))))
+              .checked(!sys.asBool(!sys.asBool(Image[0].Cut)))))
           .add(Q("td")
             .add(ui.link(editCut)
               .klass("link")
@@ -81,7 +81,7 @@ export  function mk(Images, ix)  {sys.$params(arguments.length, 2);
             .add(Q("input")
               .att("type", "checkbox")
               .disabled(true)
-              .checked(sys.asBool(true) && sys.asBool(Image[0].Adjustment))))
+              .checked(!sys.asBool(!sys.asBool(Image[0].Adjustment)))))
           .add(Q("td")
             .add(ui.link(editAdjustment)
               .klass("link")
@@ -91,7 +91,7 @@ export  function mk(Images, ix)  {sys.$params(arguments.length, 2);
             .add(Q("input")
               .att("type", "checkbox")
               .disabled(true)
-              .checked(sys.asBool(true) && sys.asBool(Image[0].Blur))))
+              .checked(!sys.asBool(!sys.asBool(Image[0].Blur)))))
           .add(Q("td")
             .add(ui.link(editBlur)
               .klass("link")
@@ -103,7 +103,7 @@ export  function mk(Images, ix)  {sys.$params(arguments.length, 2);
   
    function showTargetImg()  {sys.$params(arguments.length, 0);
     const ix =sys.$checkNull( str.lastIndex(Image[0].id, "."));
-    const newId =sys.$checkNull(sys.asBool( sys.$eq(ix ,  -1))
+    const newId =sys.$checkNull( sys.$eq(ix ,  -1)
       ? Image[0].id + ".jpg"
       : sys.$slice(Image[0].id,null,ix) + ".jpg")
     ;
@@ -131,7 +131,7 @@ export  function mk(Images, ix)  {sys.$params(arguments.length, 2);
       rq: "idata",
       image: image.toJs(Image[0])
     }));
-    if (sys.asBool(!sys.asBool(Rp.ok))) {
+    if (!sys.asBool(Rp.ok)) {
       ui.alert(i18n.fmt(II("Image '%0' can not be processed"), [Image[0].id]));
       window.location.reload(true);
     } else {

@@ -3,7 +3,9 @@ import * as math from '../../../_js/math.js';import * as js from '../../../_js/j
 
 
 
+import * as prEd from  "../../../pgs/budget/fixProblem/prEd.js";
 import * as delEditor from  "../../../pgs/budget/fixProblem/delEditor.js";
+import * as diaryEntry from  "../../../data/diaryEntry.js";
 import * as i18n from  "../../../i18n.js";
 
 const Q =sys.$checkNull( ui.q);
@@ -18,7 +20,7 @@ const II =sys.$checkNull( i18n.tlt);
 
 
 
-export  function mk(tr, CEntry, ix, activated, deactivateAllFn, updateFn)  {sys.$params(arguments.length, 6);
+export  function mk(tr,  cEntry, ix, activated, deactivateAllFn, updateFn)  {sys.$params(arguments.length, 6);
   const activatedV =sys.$checkNull( [activated]);
 
   const imgDiv =sys.$checkNull( Q("div"));
@@ -41,7 +43,7 @@ export  function mk(tr, CEntry, ix, activated, deactivateAllFn, updateFn)  {sys.
     updateFn(ix);
   };
 
-  const DelEd =sys.$checkNull( delEditor.mk(annsDiv, CEntry, update));
+   const delEd =sys.$checkNull( delEditor.mk(annsDiv, cEntry, update));
 
   
    function deactivate()  {sys.$params(arguments.length, 0);
@@ -58,21 +60,22 @@ export  function mk(tr, CEntry, ix, activated, deactivateAllFn, updateFn)  {sys.
 
   
   showV[0] =sys.$checkExists(showV[0], function()  {sys.$params(arguments.length, 0);
-    if (sys.asBool(activatedV[0])) {
+    if (activatedV[0]) {
       imgDiv
         .removeAll()
         .klass("frame")
         .add(ui.lightImg("delete"))
       ;
-      DelEd.active(true);
+      prEd.active(delEd,true);
     } else {
       imgDiv
         .removeAll()
+        .klass("")
         .add(ui.link(function(ev)  {sys.$params(arguments.length, 1); activate();})
           .klass("link")
           .add(ui.img("delete")))
       ;
-      DelEd.active(false);
+      prEd.active(delEd,false);
     }
 
     tr
@@ -81,15 +84,15 @@ export  function mk(tr, CEntry, ix, activated, deactivateAllFn, updateFn)  {sys.
         .add(imgDiv))
       .add(Q("td")
         .klass("frameTx")
-        .text(CEntry.month))
+        .text(cEntry[diaryEntry.month]))
       .add(Q("td")
         .klass("frameTx")
         .add(Q("div")
-          .text(CEntry.desc))
+          .text(cEntry[diaryEntry.desc]))
         .add(annsDiv))
       .add(Q("td")
         .klass("frameNm")
-        .text(math.toIso(CEntry.am, 2)))
+        .text(math.toIso(cEntry[diaryEntry.am], 2)))
 
       .add(Q("td"))
 

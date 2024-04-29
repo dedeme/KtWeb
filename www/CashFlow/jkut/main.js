@@ -4,12 +4,12 @@ import * as math from './_js/math.js';import * as js from './_js/js.js';import *
 
 
 import * as menu from  "./libdm/menu.js";
-import * as cts from  "./data/cts.js";
+import * as cts from  "./cts.js";
 import * as month from  "./data/month.js";
 import * as msgPg from  "./pgs/msgPg.js";
-import * as yearPg from  "./pgs/yearPg.js";
 import * as budgetPg from  "./pgs/budgetPg.js";
 import * as planPg from  "./pgs/planPg.js";
+import * as yearPg from  "./pgs/yearPg.js";
 import * as fns from  "./fns.js";
 import * as i18n from  "./i18n.js";
 
@@ -19,52 +19,58 @@ const II =sys.$checkNull( i18n.tlt);
 
  async  function mk(wg)  {sys.$params(arguments.length, 1);
   const ok =sys.$checkNull( await  client.connect());
-  if (sys.asBool(!sys.asBool(ok))) {
+  if (!sys.asBool(ok)) {
     ui.alert(II("KtWeb session is closed.\nAuthenticating from KtWeb:Main."));
     window.location.assign("http://" + window.location.host + "/Main");
     return;
   }
 
-  const Rp =sys.$checkNull( await  client.send({
+  
+   const {lang} = await  client.send({
     prg: "Main", 
     source: "Main",
     rq: "lang"
-  }));
-  if (sys.asBool(sys.$eq(Rp.lang , "en"))) i18n.en();
+  });
+  if (sys.$eq(lang , "en")) i18n.en();
 
-  const Url =sys.$checkNull( ui.url());
+   const Url =sys.$checkNull( ui.url());
 
   const now =sys.$checkNull( time.now());
-  const page =sys.$checkNull(sys.asBool( dic.hasKey(Url, "0")) ? Url["0"] : "budget");
+  const page =sys.$checkNull( arr.size(Url) > 0 ? Url[0] : "budget");
 
-  const currentYear =sys.$checkNull( time.fmt("%Y", now));
-  const selectedYear =sys.$checkNull(sys.asBool( dic.hasKey(Url, "1"))
-    ? fns.validateYear(Url["1"])
+  const currentYear =sys.$checkNull( time.format(now,"%Y"));
+  const selectedYear =sys.$checkNull( Url[1]
+    ? fns.validateYear(Url[1])
     : currentYear)
   ;
 
-  const isUntil =sys.$checkNull(sys.asBool( dic.hasKey(Url, "2"))
+  const isUntil =sys.$checkNull( Url[2]
     ? sys.$eq(Url["2"] , "true")
     : false)
   ;
 
   const currentMonth =sys.$checkNull( time.month(now));
-  const selectedMonth =sys.$checkNull(sys.asBool( dic.hasKey(Url, "3"))
-    ? month.toIx(Url["3"])
+  const selectedMonth =sys.$checkNull( Url[3]
+    ? month.toIx(Url[3])
     : currentMonth)
   ;
 
+  
+
+  
+
+
   const selLink =sys.$checkNull( page + "&" + selectedYear);
-  const myear =sys.$checkNull( menu.tlink("year&" + selectedYear, selectedYear, []));
-  if (sys.asBool(sys.$neq(selectedYear , currentYear))) myear.wg.setStyle("color", "#800000");
+   const myear =sys.$checkNull( menu.tlink("year&" + selectedYear, selectedYear));
+  if (sys.$neq(selectedYear , currentYear)) myear.wg.setStyle("color", "#800000");
   const Lopts =sys.$checkNull( [
     myear,
     menu.separator(),
-    menu.tlink("budget&" + selectedYear, II("Budget"), []),
+    menu.tlink("budget&" + selectedYear, II("Budget")),
     menu.separator(),
-    menu.tlink("plan&" + selectedYear, II("Plan"), [])
+    menu.tlink("plan&" + selectedYear, II("Plan"))
   ]);
-  const menuWg =sys.$checkNull( menu.mk(Lopts, [], selLink, false));
+  const menuWg =sys.$checkNull( menu.mk(Lopts, [], selLink));
 
   const body =sys.$checkNull( Q("div"));
   switch (page) {
@@ -78,8 +84,7 @@ const II =sys.$checkNull( i18n.tlt);
   wg
     .removeAll()
     .add(menuWg)
-    .add(body)
-  ;
+    .add(body)  ;
 };
 
 
@@ -87,13 +92,13 @@ const II =sys.$checkNull( i18n.tlt);
 const wg =sys.$checkNull( Q("div"));
 
 
-export  function load()  {sys.$params(arguments.length, 0);
-  mk(wg);
-};
-
-client.init(true, "KtWeb", function()  {sys.$params(arguments.length, 0);
+client.init(true, "KtWeb", function(isExpired)  {sys.$params(arguments.length, 1);
+  const msg =sys.$checkNull( isExpired
+    ? II("Session is expired.")
+    : II("Data base is out of date."))
+  ;
   const msgWg =sys.$checkNull( Q("div"));
-  msgPg.mk(msgWg, II("Session is expired."), true);
+  msgPg.mk(msgWg, msg, true);
   Q("@body")
     .removeAll()
     .add(msgWg)
@@ -105,11 +110,6 @@ Q("@body")
   .removeAll()
   .add(wg)
   .add(cts.foot)
-  .add(ui.upTop("up"))
 ;
 
-load();
-
-try{ {
-  Q("#autofocus").e.focus();
-}} catch (e){ {}}
+mk(wg);

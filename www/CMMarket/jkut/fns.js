@@ -20,7 +20,7 @@ export  function evaluate(assets, profits)  {sys.$params(arguments.length, 2);  
 
 
 
-export  function paramFmt(type, number)  {sys.$params(arguments.length, 2);   
-    return sys.$eq(type,model.percParam)? sys.$slice(math.toIso(number, 4),2,null):
+export  function paramFmt(type, number)  {sys.$params(arguments.length, 2); return (  
+    sys.$eq(type,model.percParam)? sys.$slice(math.toIso(number, 4),2,null):
      math.toIso(number, 0)
-  ;};
+  );};

@@ -6,9 +6,10 @@ import * as math from '../_js/math.js';import * as js from '../_js/js.js';import
 import * as datePicker from  "../libdm/datePicker.js";
 import * as all from  "../data/all.js";
 import * as acc from  "../data/acc.js";
-import * as cts from  "../data/cts.js";
+import * as cts from  "../cts.js";
 import * as diaryEntry from  "../data/diaryEntry.js";
 import * as accountSelector from  "../wgs/accountSelector.js";
+import * as msgPg from  "../pgs/msgPg.js";
 import * as fns from  "../fns.js";
 import * as i18n from  "../i18n.js";
 
@@ -17,13 +18,13 @@ const II =sys.$checkNull( i18n.tlt);
 
 
 export  function mk(wg, account, ix)  {sys.$params(arguments.length, 3);
-  const ac =sys.$checkNull(sys.asBool( sys.asBool(sys.$eq(acc.descriptionOf(account) , "")) || sys.asBool(str.len(account) > 3)) ? "" : account);
-  const acV =sys.$checkNull( [sys.asBool(sys.asBool(sys.$eq(ac , "")) || sys.asBool(!sys.asBool(dic.hasKey(acc.accounts(), ac)))) ? sys.$slice(cts.cash,null,3) : ac]);
-  const CashEntryIxs =sys.$checkNull( acc.usedSubaccounts(cts.cash));
-  const lastIx =sys.$checkNull(sys.asBool( CashEntryIxs) ? arr.peek(CashEntryIxs) :  -1);
+  const ac =sys.$checkNull( sys.$eq(acc.descriptionOf(account) , "") || str.len(account) > 3 ? "" : account);
+  const acV =sys.$checkNull( [sys.$eq(ac , "") || !sys.asBool(dic.hasKey(acc.accounts(), ac)) ? sys.$slice(cts.cash,null,3) : ac]);
+   const CashEntryIxs =sys.$checkNull( acc.usedSubaccounts(cts.cash));
+  const lastIx =sys.$checkNull( !sys.asBool(CashEntryIxs) ?  -1 : arr.peek(CashEntryIxs));
 
-  const ixn =sys.$checkNull(sys.asBool( math.isDigits(ix)) ? math.toInt(math.fromStr(ix)[0]) : lastIx);
-  const ixFirstRowV =sys.$checkNull( [sys.asBool(ixn >= lastIx) ? lastIx : ixn]);
+  const ixn =sys.$checkNull( math.isDigits(ix) ? math.toInt(math.fromStr(ix)[0]) : lastIx);
+  const ixFirstRowV =sys.$checkNull( [ixn >= lastIx ? lastIx : ixn]);
 
   const accIn =sys.$checkNull( Q("input")
     .att("type", "text")
@@ -51,52 +52,56 @@ export  function mk(wg, account, ix)  {sys.$params(arguments.length, 3);
   
    async  function accept(ev)  {sys.$params(arguments.length, 1);
     const dateOp =sys.$checkNull( datePicker.getDate(dpV[0]));
-    if (sys.asBool(!sys.asBool(dateOp))) {
+    if (!sys.asBool(dateOp)) {
       ui.alert(II("Date is missing"));
       return;
     }
     const date =sys.$checkNull( dateOp[0]);
 
     const a =sys.$checkNull( str.replace(str.trim(accIn.getValue()), ".", ""));
-    if (sys.asBool(!sys.asBool(a))) {
+    if (sys.$eq(a , "")) {
       ui.alert(II("Account is missing"));
       return;
     }
 
     const desc =sys.$checkNull( str.trim(description.getValue()));
-    if (sys.asBool(!sys.asBool(desc))) {
+    if (sys.$eq(desc , "")) {
       ui.alert(II("Description is missing"));
       return;
     }
 
     const amOp =sys.$checkNull( fns.float(ammIn.getValue()));
-    if (sys.asBool(!sys.asBool(amOp))) {
+    if (!sys.asBool(amOp)) {
       ui.alert(i18n.fmt(II("'%0' is not a number"), [ammIn.getValue()]));
       return;
     }
     const am =sys.$checkNull( amOp[0]);
-    if (sys.asBool(sys.$eq(am , 0))) {
+    if (sys.$eq(am , 0)) {
       ui.alert(II("Ammount is 0"));
       return;
     }
 
     const Debits =sys.$checkNull( {}); 
-    if (sys.asBool(am > 0)) dic.put(Debits, cts.cash, am);
-    else dic.put(Debits, a,  -am);
+    if (am > 0) dic.put(Debits,cts.cash, am);
+    else dic.put(Debits,a,  -am);
 
     const Credits =sys.$checkNull( {}); 
-    if (sys.asBool(am > 0)) dic.put(Credits, a, am);
-    else dic.put(Credits, cts.cash,  -am);
+    if (am > 0) dic.put(Credits,a, am);
+    else dic.put(Credits,cts.cash,  -am);
 
-    const Dentry =sys.$checkNull( diaryEntry.mk(date, desc, Debits, Credits));
-    const ix =sys.$checkNull( acc.addDiary(Dentry) + 4);
+    const dentry =sys.$checkNull( diaryEntry.mk(date, desc, Debits, Credits));
+    const ix =sys.$checkNull( acc.addDiary(dentry) + 4);
 
     arr.clear(CashEntryIxs);
-    arr.cat(CashEntryIxs, acc.usedSubaccounts(cts.cash));
-    ixFirstRowV[0] =sys.$checkExists(ixFirstRowV[0],sys.$checkNull(sys.asBool( CashEntryIxs) ? arr.peek(CashEntryIxs) :  -1));
-    if (sys.asBool(ix < ixFirstRowV[0])) ixFirstRowV[0] =sys.$checkExists(ixFirstRowV[0],sys.$checkNull( ix));
+    arr.cat(CashEntryIxs,acc.usedSubaccounts(cts.cash));
+    ixFirstRowV[0] =sys.$checkExists(ixFirstRowV[0],sys.$checkNull( !sys.asBool(CashEntryIxs) ?  -1 : arr.peek(CashEntryIxs)));
+    if (ix < ixFirstRowV[0]) ixFirstRowV[0] =sys.$checkExists(ixFirstRowV[0],sys.$checkNull( ix));
 
-    await all.send();
+    const ok =sys.$checkNull( await  all.send());
+    if (!sys.asBool(ok)) {
+      msgPg.mk(wg, II("Data base out of date."), true);
+      return;
+    }
     accIn.value("");
     description.value("");
     ammIn.value("");
@@ -107,7 +112,7 @@ export  function mk(wg, account, ix)  {sys.$params(arguments.length, 3);
    function getEntriesIndex(ix)  {sys.$params(arguments.length, 1);
     const size =sys.$checkNull( arr.size(CashEntryIxs));
     for (let i = 0;i < size; ++i)
-      if (sys.asBool(sys.$eq(CashEntryIxs[i] , ix)))  return i;
+      if (sys.$eq(CashEntryIxs[i] , ix))  return i;
 
      return size - 1;
   };
@@ -115,7 +120,7 @@ export  function mk(wg, account, ix)  {sys.$params(arguments.length, 3);
   
    function upClick(e)  {sys.$params(arguments.length, 1);
     const i =sys.$checkNull( getEntriesIndex(ixFirstRowV[0]));
-    if (sys.asBool(sys.asBool(ixFirstRowV[0] >  -1) && sys.asBool(i < arr.size(CashEntryIxs) - 1))) {
+    if (ixFirstRowV[0] >  -1 && i < arr.size(CashEntryIxs) - 1) {
       ixFirstRowV[0] =sys.$checkExists(ixFirstRowV[0],sys.$checkNull( CashEntryIxs[i + 1]));
       listDiv.removeAll().add(listV[0]());
     }
@@ -124,7 +129,7 @@ export  function mk(wg, account, ix)  {sys.$params(arguments.length, 3);
   
    function downClick(e)  {sys.$params(arguments.length, 1);
     const i =sys.$checkNull( getEntriesIndex(ixFirstRowV[0]));
-    if (sys.asBool(i > 0)) {
+    if (i > 0) {
       ixFirstRowV[0] =sys.$checkExists(ixFirstRowV[0],sys.$checkNull( CashEntryIxs[i - 1]));
       listDiv.removeAll().add(listV[0]());
     }
@@ -133,8 +138,8 @@ export  function mk(wg, account, ix)  {sys.$params(arguments.length, 3);
   
    function dupClick(e)  {sys.$params(arguments.length, 1);
     const i =sys.$checkNull( getEntriesIndex(ixFirstRowV[0]) + math.toInt(cts.tableLen / 2));
-    if(sys.asBool(ixFirstRowV[0] >  -1)) {
-      ixFirstRowV[0] =sys.$checkExists(ixFirstRowV[0],sys.$checkNull(sys.asBool( i < arr.size(CashEntryIxs))
+    if(ixFirstRowV[0] >  -1) {
+      ixFirstRowV[0] =sys.$checkExists(ixFirstRowV[0],sys.$checkNull( i < arr.size(CashEntryIxs)
         ? CashEntryIxs[i]
         : arr.peek(CashEntryIxs)))
       ;
@@ -145,7 +150,7 @@ export  function mk(wg, account, ix)  {sys.$params(arguments.length, 3);
   
    function ddownClick(e)  {sys.$params(arguments.length, 1);
     const i =sys.$checkNull( getEntriesIndex(ixFirstRowV[0]) - math.toInt(cts.tableLen / 2));
-    if (sys.asBool(i > 0)) {
+    if (i > 0) {
       ixFirstRowV[0] =sys.$checkExists(ixFirstRowV[0],sys.$checkNull( CashEntryIxs[i]));
       listDiv.removeAll().add(listV[0]());
     }
@@ -153,7 +158,7 @@ export  function mk(wg, account, ix)  {sys.$params(arguments.length, 3);
 
   
    function topClick(e)  {sys.$params(arguments.length, 1);
-    if (sys.asBool(ixFirstRowV[0] >  -1)) {
+    if (ixFirstRowV[0] >  -1) {
       ixFirstRowV[0] =sys.$checkExists(ixFirstRowV[0],sys.$checkNull( arr.peek(CashEntryIxs)));
       listDiv.removeAll().add(listV[0]());
     }
@@ -161,9 +166,9 @@ export  function mk(wg, account, ix)  {sys.$params(arguments.length, 3);
 
   
    function bottomClick(e)  {sys.$params(arguments.length, 1);
-    if (sys.asBool(ixFirstRowV[0] >  -1)) {
+    if (ixFirstRowV[0] >  -1) {
       const iV =sys.$checkNull( [cts.tableLen - 1]);
-      if (sys.asBool(iV[0] >= arr.size(CashEntryIxs))) iV[0] =sys.$checkExists(iV[0],sys.$checkNull( arr.size(CashEntryIxs) - 1));
+      if (iV[0] >= arr.size(CashEntryIxs)) iV[0] =sys.$checkExists(iV[0],sys.$checkNull( arr.size(CashEntryIxs) - 1));
       ixFirstRowV[0] =sys.$checkExists(ixFirstRowV[0],sys.$checkNull( CashEntryIxs[iV[0]]));
       listDiv.removeAll().add(listV[0]());
     }
@@ -171,14 +176,14 @@ export  function mk(wg, account, ix)  {sys.$params(arguments.length, 3);
 
   
    function monthClick(m)  {sys.$params(arguments.length, 1);
-    if (sys.asBool(ixFirstRowV[0] >  -1)) {
+    if (ixFirstRowV[0] >  -1) {
       const Diary =sys.$checkNull( acc.diary());
       const size =sys.$checkNull( arr.size(CashEntryIxs));
       const iV =sys.$checkNull( [0]);
-      while (sys.asBool(true)) {
-        const E =sys.$checkNull( Diary[CashEntryIxs[iV[0]]]);
+      while (true) {
+         const e =sys.$checkNull( Diary[CashEntryIxs[iV[0]]]);
         iV[0] +=sys.$checkExists(iV[0],sys.$checkNull( 1));
-        if (sys.asBool(sys.asBool(time.month(E.date) >= m) || sys.asBool(sys.$eq(iV[0] , size)))) break;
+        if (time.month(e[diaryEntry.date]) >= m || sys.$eq(iV[0] , size)) break;
       }
       ixFirstRowV[0] =sys.$checkExists(ixFirstRowV[0],sys.$checkNull( CashEntryIxs[iV[0] - 1]));
       listDiv.removeAll().add(listV[0]());
@@ -211,36 +216,36 @@ export  function mk(wg, account, ix)  {sys.$params(arguments.length, 3);
      function addSels(desc, val)  {sys.$params(arguments.length, 2);
       const toDoV =sys.$checkNull( [true]);
       for (const E  of sys.$forObject( Sels)) {
-        if (sys.asBool(sys.asBool(sys.$eq(E.desc , desc)) && sys.asBool(sys.$eq(E.val , val)))){
+        if (sys.$eq(E.desc , desc) && sys.$eq(E.val , val)){
           E.n +=sys.$checkExists(E.n,sys.$checkNull( 1));
           toDoV[0] =sys.$checkExists(toDoV[0],sys.$checkNull( false));
           break;
         }
       }
-      if (sys.asBool(toDoV[0])) arr.push(Sels, {n: 1, desc:desc, val:val});
+      if (toDoV[0]) arr.push(Sels,{n: 1, desc:desc, val:val});
     };
 
-    for (const E  of sys.$forObject( acc.diary())) {
-      const Debits =sys.$checkNull( E.debits);
-      const Credits =sys.$checkNull( E.credits);
-      if (sys.asBool(
-        sys.asBool(sys.asBool(sys.$eq(dic.size(Debits) , 1)) &&
-        sys.asBool(sys.$eq(dic.size(Credits) , 1))) &&
-        sys.asBool((sys.asBool(dic.hasKey(Debits, cts.cash)) || sys.asBool(dic.hasKey(Credits, cts.cash)))))
+    for (const  e  of sys.$forObject( acc.diary())) {
+       const Debits =sys.$checkNull( e[diaryEntry.debits]);
+       const Credits =sys.$checkNull( e[diaryEntry.credits]);
+      if (
+        sys.$eq(dic.size(Debits) , 1) &&
+        sys.$eq(dic.size(Credits) , 1) &&
+        (dic.hasKey(Debits,cts.cash) || dic.hasKey(Credits,cts.cash))
       ) {
-        if (sys.asBool(dic.hasKey(Debits, account)))
-          addSels(E.description, "-" + math.toIso(Debits[account], 2));
-        if (sys.asBool(dic.hasKey(Credits, account)))
-          addSels(E.description, math.toIso(Credits[account], 2));
+        if (dic.hasKey(Debits,account))
+          addSels(e[diaryEntry.description], "-" + math.toIso(Debits[account], 2));
+        if (dic.hasKey(Credits,account))
+          addSels(e[diaryEntry.description], math.toIso(Credits[account], 2));
       }
     }
 
-    if (sys.asBool(Sels)) {
+    if (!sys.asBool(!sys.asBool(Sels))) {
       const nV =sys.$checkNull( [0]);
       const descV =sys.$checkNull( [""]);
       const valV =sys.$checkNull( [""]);
       for (const E  of sys.$forObject( Sels)) {
-        if (sys.asBool(E.n >= nV[0])) {
+        if (E.n >= nV[0]) {
           nV[0] =sys.$checkExists(nV[0],sys.$checkNull( E.n));
           descV[0] =sys.$checkExists(descV[0],sys.$checkNull( E.desc));
           valV[0] =sys.$checkExists(valV[0],sys.$checkNull( E.val));
@@ -257,16 +262,16 @@ export  function mk(wg, account, ix)  {sys.$params(arguments.length, 3);
   listV[0] =sys.$checkExists(listV[0], function()  {sys.$params(arguments.length, 0);
     const Diary =sys.$checkNull( acc.diary());
     const sumV =sys.$checkNull( [0]);
-    const Entries =sys.$checkNull( arr.map(CashEntryIxs, function(i)  {sys.$params(arguments.length, 1);
-      const E =sys.$checkNull( Diary[i]);
+     const Entries =sys.$checkNull( arr.map(CashEntryIxs,function(i)  {sys.$params(arguments.length, 1);
+       const e =sys.$checkNull( Diary[i]);
       const ammV =sys.$checkNull( [0]);
-      for (const [a, v]  of sys.$forObject2( E.debits)) if (sys.asBool(sys.$eq(a , cts.cash))) ammV[0] =sys.$checkExists(ammV[0],sys.$checkNull( v));
-      for (const [a, v]  of sys.$forObject2( E.credits)) if (sys.asBool(sys.$eq(a , cts.cash))) ammV[0] =sys.$checkExists(ammV[0],sys.$checkNull(  -v));
+      for (const [a, v]  of sys.$forObject2( e[diaryEntry.debits])) if (sys.$eq(a , cts.cash)) ammV[0] =sys.$checkExists(ammV[0],sys.$checkNull( v));
+      for (const [a, v]  of sys.$forObject2( e[diaryEntry.credits])) if (sys.$eq(a , cts.cash)) ammV[0] =sys.$checkExists(ammV[0],sys.$checkNull(  -v));
       sumV[0] +=sys.$checkExists(sumV[0],sys.$checkNull( ammV[0]));
        return {
         ix: i,
-        date: E.date,
-        desc: E.description,
+        date: e[diaryEntry.date],
+        desc: e[diaryEntry.description],
         amm: ammV[0],
         sum: sumV[0]
       };
@@ -282,7 +287,7 @@ export  function mk(wg, account, ix)  {sys.$params(arguments.length, 3);
     const cutV =sys.$checkNull( [0]);
     for (let ix = 0;ix < arr.size(Entries); ++ix) {
       const E =sys.$checkNull( Entries[ix]);
-      if (sys.asBool(E.ix >= ixFirstRowV[0])) {
+      if (E.ix >= ixFirstRowV[0]) {
         cutV[0] =sys.$checkExists(cutV[0],sys.$checkNull( ix + 1));
         break;
       }
@@ -290,12 +295,12 @@ export  function mk(wg, account, ix)  {sys.$params(arguments.length, 3);
      return Q("table")
       .att("align", "center")
       .adds(arr.map(
-        arr.reverse(arr.drop(arr.take(Entries, cutV[0]), cutV[0] - cts.tableLen)),
+        arr.reverse(arr.drop(arr.take(Entries,cutV[0]), cutV[0] - cts.tableLen)),
         function(E)  {sys.$params(arguments.length, 1);  return Q("tr")
             .add(tdr()
               .html("" + (E.ix + 1)))
             .add(td()
-              .html(time.fmt("%D/%M", E.date)))
+              .html(time.format(E.date, "%D/%M")))
             .add(tdl()
               .add(ui.link(function(ev)  {sys.$params(arguments.length, 1);
                   window.location.assign("?diary&" + acV[0] + "&" + E.ix);}
@@ -317,7 +322,7 @@ export  function mk(wg, account, ix)  {sys.$params(arguments.length, 3);
       i18n.getLang(), time.now(), function(m)  {sys.$params(arguments.length, 1); description.e.focus();}
     )));
     ui.changePoint(ammIn);
-    if (sys.asBool(!sys.asBool(all.isLastYear()))) {
+    if (!sys.asBool(all.isLastYear())) {
       description.disabled(true);
       ammIn.disabled(true);
       acceptBt.disabled(true);
@@ -373,7 +378,7 @@ export  function mk(wg, account, ix)  {sys.$params(arguments.length, 3);
     .add(Q("table")
       .klass("main")
       .add(Q("tr")
-        .add(sys.asBool(all.isLastYear()) ? left() : Q("div"))
+        .add(all.isLastYear() ? left() : Q("div"))
         .add(right())))
   ;
 };

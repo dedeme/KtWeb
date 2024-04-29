@@ -5,8 +5,9 @@ import * as math from '../_js/math.js';import * as js from '../_js/js.js';import
 
 import * as menu from  "../libdm/menu.js";
 import * as acc from  "../data/acc.js";
+import * as accValue from  "../data/accValue.js";
 import * as all from  "../data/all.js";
-import * as cts from  "../data/cts.js";
+import * as cts from  "../cts.js";
 import * as balance from  "../data/balance.js";
 import * as profits from  "../data/profits.js";
 import * as diaryEntry from  "../data/diaryEntry.js";
@@ -21,8 +22,8 @@ const II =sys.$checkNull( i18n.tlt);
 
 
 export  function mk(wg, stype, sdeep)  {sys.$params(arguments.length, 3);
-  const type =sys.$checkNull(sys.asBool( sys.asBool(sys.asBool(sys.$neq(stype , "S")) && sys.asBool(sys.$neq(stype , "P"))) && sys.asBool(sys.$neq(stype , "B"))) ? "P" : stype);
-  const deep =sys.$checkNull(sys.asBool( sys.asBool(sys.asBool(sys.$neq(sdeep , "M")) && sys.asBool(sys.$neq(sdeep , "A"))) && sys.asBool(sys.$neq(sdeep , "S"))) ? "M" : sdeep);
+  const type =sys.$checkNull( sys.$neq(stype , "S") && sys.$neq(stype , "P") && sys.$neq(stype , "B") ? "P" : stype);
+  const deep =sys.$checkNull( sys.$neq(sdeep , "M") && sys.$neq(sdeep , "A") && sys.$neq(sdeep , "S") ? "M" : sdeep);
 
   
    function blanks(tx, n)  {sys.$params(arguments.length, 2);
@@ -54,7 +55,7 @@ export  function mk(wg, stype, sdeep)  {sys.$params(arguments.length, 3);
     menu.toption("B", II("Balance"), function()  {sys.$params(arguments.length, 0); mk(wg, "B", deep);}),
     menu.separator2()
   ]);
-  const menu1Wg =sys.$checkNull( menu.mk([], Ropts1, type, false));
+  const menu1Wg =sys.$checkNull( menu.mk([], Ropts1, type));
   const Lopts2 =sys.$checkNull( [
     menu.separator2(),
     menu.toption("M", II("Summary"), function()  {sys.$params(arguments.length, 0); mk(wg, type, "M");}),
@@ -63,7 +64,7 @@ export  function mk(wg, stype, sdeep)  {sys.$params(arguments.length, 3);
     menu.separator(),
     menu.toption("S", II("Subaccounts"), function()  {sys.$params(arguments.length, 0); mk(wg, type, "S");})
   ]);
-  const menu2Wg =sys.$checkNull( menu.mk(Lopts2, [], deep, false));
+  const menu2Wg =sys.$checkNull( menu.mk(Lopts2, [], deep));
 
   
 
@@ -72,22 +73,18 @@ export  function mk(wg, stype, sdeep)  {sys.$params(arguments.length, 3);
    function calcSubStats(Accs, ac, sac, am)  {sys.$params(arguments.length, 4);
     const missingV =sys.$checkNull( [true]);
     for (const A  of sys.$forObject( Accs)) {
-      if (sys.asBool(sys.$eq(A[0].id , ac))) {
+      if (sys.$eq(A[0].id , ac)) {
         const missing3V =sys.$checkNull( [true]);
-        const Saccs =sys.$checkNull( A[1]);
+         const Saccs =sys.$checkNull( A[1]);
         for (const Sa  of sys.$forObject( Saccs)) {
-          if (sys.asBool(sys.$eq(Sa.id , sac))) {
+          if (sys.$eq(Sa.id , sac)) {
             Sa.am +=sys.$checkExists(Sa.am,sys.$checkNull( am));
             missing3V[0] =sys.$checkExists(missing3V[0],sys.$checkNull( false));
             break;
           }
         }
-        if (sys.asBool(missing3V[0])) {
-          arr.push(
-            Saccs,
-            {id: sac, desc: acc.descriptionOf(sac), am:am}
-          );
-        }
+        if (missing3V[0])
+          arr.push(Saccs,{id: sac, desc: acc.descriptionOf(sac), am:am});
         A[0].am +=sys.$checkExists(A[0].am,sys.$checkNull( am));
         missingV[0] =sys.$checkExists(missingV[0],sys.$checkNull( false));
         break;
@@ -102,16 +99,16 @@ export  function mk(wg, stype, sdeep)  {sys.$params(arguments.length, 3);
     const Diary =sys.$checkNull( acc.diary());
     const Stats=sys.$checkNull( []); 
 
-    for (const E  of sys.$forObject( Diary)) {
+    for (const  e  of sys.$forObject( Diary)) {
       
        function process(sac, am)  {sys.$params(arguments.length, 2);
         const gr =sys.$checkNull( sac[0]);
         const ac =sys.$checkNull( sys.$slice(sac,null,3));
         const missingV =sys.$checkNull( [true]);
         for (const G  of sys.$forObject( Stats)) {
-          if (sys.asBool(sys.$eq(G[0].id , gr))) {
+          if (sys.$eq(G[0].id , gr)) {
             const missing2V =sys.$checkNull( [calcSubStats(G[1], ac, sac, am)]);
-            if (sys.asBool(missing2V[0])) {
+            if (missing2V[0]) {
               const S3 =sys.$checkNull( {id: sac, desc: acc.descriptionOf(sac), am:am});
               arr.push(G[1], [
                 {id: ac, desc: acc.descriptionOf(ac), am:am},
@@ -123,27 +120,27 @@ export  function mk(wg, stype, sdeep)  {sys.$params(arguments.length, 3);
             break;
           }
         }
-        if (sys.asBool(missingV[0])) {
+        if (missingV[0]) {
           const S3 =sys.$checkNull( {id: sac, desc: acc.descriptionOf(sac), am:am});
           const S2 =sys.$checkNull( [
             {id: ac, desc: acc.descriptionOf(ac), am:am},
             [S3]
           ]);
-          arr.push(Stats, [
+          arr.push(Stats,[
             {id: gr, desc: acc.descriptionOf(gr), am:am},
             [S2]
           ]);
         }
       };
 
-      iter.each(dic.toIter(E.debits), function(Kv)  {sys.$params(arguments.length, 1); process(Kv[0], Kv[1]);});
-      iter.each(dic.toIter(E.credits), function(Kv)  {sys.$params(arguments.length, 1); process(Kv[0],  -Kv[1]);});
+      iter.each(dic.toIter(e[diaryEntry.debits]), function(Kv)  {sys.$params(arguments.length, 1); process(Kv[0], Kv[1]);});
+      iter.each(dic.toIter(e[diaryEntry.credits]), function(Kv)  {sys.$params(arguments.length, 1); process(Kv[0],  -Kv[1]);});
     }
     for (const G  of sys.$forObject( Stats)) {
       for (const A  of sys.$forObject( G[1])) arr.sort(A[1], function(E1, E2)  {sys.$params(arguments.length, 2);  return E1.id < E2.id;});
       arr.sort(G[1], function(E1, E2)  {sys.$params(arguments.length, 2);  return E1[0].id < E2[0].id;});
     }
-    arr.sort(Stats, function(E1, E2)  {sys.$params(arguments.length, 2);  return E1[0].id < E2[0].id;});
+    arr.sort(Stats,function(E1, E2)  {sys.$params(arguments.length, 2);  return E1[0].id < E2[0].id;});
 
      return Stats;
   };
@@ -155,19 +152,19 @@ export  function mk(wg, stype, sdeep)  {sys.$params(arguments.length, 3);
 
     const Accs =sys.$checkNull( acc.accounts());
     
-     function filter(nm, smm)  {sys.$params(arguments.length, 2);  return sys.asBool(str.starts(smm, "P")) && sys.asBool(sys.$eq(sys.$slice(smm,1,null) , nm));};
+     function filter(nm, smm)  {sys.$params(arguments.length, 2);  return str.starts(smm, "P") && sys.$eq(sys.$slice(smm,1,null) , nm);};
     
      function diary(nm)  {sys.$params(arguments.length, 1);
-       return arr.map(acc.diary(), function(E)  {sys.$params(arguments.length, 1);
+       return arr.map(acc.diary(), function( e)  {sys.$params(arguments.length, 1);
          return diaryEntry.mk(
-          E.date, E.description,
+          e[diaryEntry.date], e[diaryEntry.description],
           dic.fromArr(arr.filter(
-            dic.toArr(E.debits),
-            function(Kv)  {sys.$params(arguments.length, 1);  return filter(nm, Accs[sys.$slice(Kv[0],null,3)].summary);}
+            dic.toArr(e[diaryEntry.debits]),
+            function(Kv)  {sys.$params(arguments.length, 1);  return filter(nm, Accs[sys.$slice(Kv[0],null,3)][accValue.summary]);}
           )),
           dic.fromArr(arr.filter(
-            dic.toArr(E.credits),
-            function(Kv)  {sys.$params(arguments.length, 1);  return filter(nm, Accs[sys.$slice(Kv[0],null,3)].summary);}
+            dic.toArr(e[diaryEntry.credits]),
+            function(Kv)  {sys.$params(arguments.length, 1);  return filter(nm, Accs[sys.$slice(Kv[0],null,3)][accValue.summary]);}
           ))
         );}
       );};
@@ -179,28 +176,28 @@ export  function mk(wg, stype, sdeep)  {sys.$params(arguments.length, 3);
         dic.toArr(profits.entries()),
         function(Kv)  {sys.$params(arguments.length, 1);  return sys.$eq(profits.groupOf(Kv[0]) , l);}
       ));
-      arr.sort(Es, function(Kv1, Kv2)  {sys.$params(arguments.length, 2);  return Kv1[0] < Kv2[0];});
+      arr.sort(Es,function(Kv1, Kv2)  {sys.$params(arguments.length, 2);  return Kv1[0] < Kv2[0];});
       const Stats =sys.$checkNull( arr.map(
         Es,
         function(Kv)  {sys.$params(arguments.length, 1);
           const sumV =sys.$checkNull( [0]);
           const Accs =sys.$checkNull( []); 
                      
-          for (const E  of sys.$forObject( diary(Kv[0]))) {
+          for (const  e  of sys.$forObject( diary(Kv[0]))) {
             
              function process(sac, am)  {sys.$params(arguments.length, 2);
               const ac =sys.$checkNull( sys.$slice(sac,null,3));
               const missing =sys.$checkNull( calcSubStats(Accs, ac, sac, am));
-              if (sys.asBool(missing)) {
-                arr.push(Accs, [
+              if (missing) {
+                arr.push(Accs,[
                   {id: ac, desc: acc.descriptionOf(ac), am:am},
                   [{id: sac, desc: acc.descriptionOf(sac), am:am}]
                 ]);
               }
               sumV[0] +=sys.$checkExists(sumV[0],sys.$checkNull( am));
             };
-            iter.each(dic.toIter(E.debits), function(Kv)  {sys.$params(arguments.length, 1); process(Kv[0], Kv[1]);});
-            iter.each(dic.toIter(E.credits), function(Kv)  {sys.$params(arguments.length, 1); process(Kv[0],  -Kv[1]);});
+            iter.each(dic.toIter(e[diaryEntry.debits]), function(Kv)  {sys.$params(arguments.length, 1); process(Kv[0], Kv[1]);});
+            iter.each(dic.toIter(e[diaryEntry.credits]), function(Kv)  {sys.$params(arguments.length, 1); process(Kv[0],  -Kv[1]);});
           }
 
            return [{id: Kv[0], desc: Kv[1], am: sumV[0]}, Accs];
@@ -211,20 +208,17 @@ export  function mk(wg, stype, sdeep)  {sys.$params(arguments.length, 3);
         for (const A  of sys.$forObject( G[1])) arr.sort(A[1], function(E1, E2)  {sys.$params(arguments.length, 2);  return E1.id < E2.id;});
         arr.sort(G[1], function(E1, E2)  {sys.$params(arguments.length, 2);  return E1[0].id < E2[0].id;});
       }
-      const sum =sys.$checkNull( arr.reduce(
-        Stats, 0,
-        function(r, E)  {sys.$params(arguments.length, 2);  return r + E[0].am;}
-      ));
-      arr.push(Pls, [
+      const sum =sys.$checkNull( arr.reduce(Stats,0, function(r, E)  {sys.$params(arguments.length, 2);  return r + E[0].am;}));
+      arr.push(Pls,[
         { id: l,
           desc: profits.groups()[l],
-          am:sys.asBool( sys.$eq(l , "C")) ? sumTV[0] : sum
+          am: sys.$eq(l , "C") ? sumTV[0] : sum
         },
         Stats
       ]);
       sumTV[0] +=sys.$checkExists(sumTV[0],sys.$checkNull( sum));
     }
-    arr.push(Pls, [
+    arr.push(Pls,[
       {id: "D", desc: profits.groups()["D"], am: sumTV[0]},
       []
     ]);
@@ -239,19 +233,19 @@ export  function mk(wg, stype, sdeep)  {sys.$params(arguments.length, 3);
 
     const Accs =sys.$checkNull( acc.accounts());
     
-     function filter(nm, smm)  {sys.$params(arguments.length, 2);  return sys.asBool(str.starts(smm, "B")) && sys.asBool(sys.$eq(sys.$slice(smm,1,null) , nm));};
+     function filter(nm, smm)  {sys.$params(arguments.length, 2);  return str.starts(smm, "B") && sys.$eq(sys.$slice(smm,1,null) , nm);};
     
      function diary(nm)  {sys.$params(arguments.length, 1);
-       return arr.map(acc.diary(), function(E)  {sys.$params(arguments.length, 1);
+       return arr.map(acc.diary(), function( e)  {sys.$params(arguments.length, 1);
          return diaryEntry.mk(
-          E.date, E.description,
+          e[diaryEntry.date], e[diaryEntry.description],
           dic.fromArr(arr.filter(
-            dic.toArr(E.debits),
-            function(Kv)  {sys.$params(arguments.length, 1);  return filter(nm, Accs[sys.$slice(Kv[0],null,3)].summary);}
+            dic.toArr(e[diaryEntry.debits]),
+            function(Kv)  {sys.$params(arguments.length, 1);  return filter(nm, Accs[sys.$slice(Kv[0],null,3)][accValue.summary]);}
           )),
           dic.fromArr(arr.filter(
-            dic.toArr(E.credits),
-            function(Kv)  {sys.$params(arguments.length, 1);  return filter(nm, Accs[sys.$slice(Kv[0],null,3)].summary);}
+            dic.toArr(e[diaryEntry.credits]),
+            function(Kv)  {sys.$params(arguments.length, 1);  return filter(nm, Accs[sys.$slice(Kv[0],null,3)][accValue.summary]);}
           ))
         );}
       );};
@@ -264,28 +258,27 @@ export  function mk(wg, stype, sdeep)  {sys.$params(arguments.length, 3);
         dic.toArr(balance.entries()),
         function(Kv)  {sys.$params(arguments.length, 1);  return sys.$eq(balance.groupOf(Kv[0]) , l);}
       ));
-      arr.sort(Es, function(Kv1, Kv2)  {sys.$params(arguments.length, 2);  return Kv1[0] < Kv2[0];});
-      const Stats =sys.$checkNull( arr.map(
-        Es,
+      arr.sort(Es,function(Kv1, Kv2)  {sys.$params(arguments.length, 2);  return Kv1[0] < Kv2[0];});
+      const Stats =sys.$checkNull( arr.map(Es,
         function(Kv)  {sys.$params(arguments.length, 1);
           const sumV =sys.$checkNull( [0]);
           const Accs =sys.$checkNull( []); 
                      
-          for (const E  of sys.$forObject( diary(Kv[0]))) {
+          for (const  e  of sys.$forObject( diary(Kv[0]))) {
             
              function process(sac, am)  {sys.$params(arguments.length, 2);
               const ac =sys.$checkNull( sys.$slice(sac,null,3));
               const missing =sys.$checkNull( calcSubStats(Accs, ac, sac, am));
-              if (sys.asBool(missing)) {
-                arr.push(Accs, [
+              if (missing) {
+                arr.push(Accs,[
                   {id: ac, desc: acc.descriptionOf(ac), am:am},
                   [{id: sac, desc: acc.descriptionOf(sac), am:am}]
                 ]);
               }
               sumV[0] +=sys.$checkExists(sumV[0],sys.$checkNull( am));
             };
-            iter.each(dic.toIter(E.debits), function(Kv)  {sys.$params(arguments.length, 1); process(Kv[0], Kv[1]);});
-            iter.each(dic.toIter(E.credits), function(Kv)  {sys.$params(arguments.length, 1); process(Kv[0],  -Kv[1]);});
+            iter.each(dic.toIter(e[diaryEntry.debits]), function(Kv)  {sys.$params(arguments.length, 1); process(Kv[0], Kv[1]);});
+            iter.each(dic.toIter(e[diaryEntry.credits]), function(Kv)  {sys.$params(arguments.length, 1); process(Kv[0],  -Kv[1]);});
           }
 
            return [{id: Kv[0], desc: Kv[1], am: sumV[0]}, Accs];
@@ -296,11 +289,8 @@ export  function mk(wg, stype, sdeep)  {sys.$params(arguments.length, 3);
         for (const A  of sys.$forObject( G[1])) arr.sort(A[1], function(E1, E2)  {sys.$params(arguments.length, 2);  return E1.id < E2.id;});
         arr.sort(G[1], function(E1, E2)  {sys.$params(arguments.length, 2);  return E1[0].id < E2[0].id;});
       }
-      const sum =sys.$checkNull( arr.reduce(
-        Stats, 0,
-        function(r, E)  {sys.$params(arguments.length, 2);  return r + E[0].am;}
-      ));
-      arr.push(Bal, [{id: l, desc: balance.groups()[l], am: sum}, Stats]);
+      const sum =sys.$checkNull( arr.reduce(Stats,0, function(r, E)  {sys.$params(arguments.length, 2);  return r + E[0].am;}));
+      arr.push(Bal,[{id: l, desc: balance.groups()[l], am: sum}, Stats]);
       sumTV[0] +=sys.$checkExists(sumTV[0],sys.$checkNull( sum));
     }
 
@@ -320,7 +310,7 @@ export  function mk(wg, stype, sdeep)  {sys.$params(arguments.length, 3);
       const V =sys.$checkNull( G[0]);
       const desc =sys.$checkNull( V.desc);
       const am =sys.$checkNull( V.am);
-      const fmt =sys.$checkNull(sys.asBool( sys.$eq(level , 0)) ? normal :sys.asBool( sys.$eq(level , 1)) ? bold : italic);
+      const fmt =sys.$checkNull( sys.$eq(level , 0) ? normal : sys.$eq(level , 1) ? bold : italic);
       table.add(Q("tr")
         .add(Q("td").klass("summary0cp")
           .att("colspan", 3)
@@ -328,16 +318,16 @@ export  function mk(wg, stype, sdeep)  {sys.$params(arguments.length, 3);
             .klass("link")
             .html(fmt(V.id + ". " + desc))))
         .add(Q("td").klass("summary0d")
-          .html(sys.asBool(am > 0) ? fmt(fnm(am)) : ""))
+          .html(am > 0 ? fmt(fnm(am)) : ""))
         .add(Q("td").klass("summary0c")
-          .html(sys.asBool(am < 0) ? fmt(fnm( -am)) : "")));
-      if (sys.asBool(sys.$eq(level , 0))) continue;
+          .html(am < 0 ? fmt(fnm( -am)) : "")));
+      if (sys.$eq(level , 0)) continue;
 
       for (const A  of sys.$forObject( G[1])) {
         const V =sys.$checkNull( A[0]);
         const desc =sys.$checkNull( V.desc);
         const am =sys.$checkNull( V.am);
-        const fmt =sys.$checkNull(sys.asBool( sys.$eq(level , 1)) ? normal : bold);
+        const fmt =sys.$checkNull( sys.$eq(level , 1) ? normal : bold);
         table.add(Q("tr")
           .add(Q("td").style("width:40px"))
           .add(Q("td").klass("summary0cp")
@@ -346,11 +336,11 @@ export  function mk(wg, stype, sdeep)  {sys.$params(arguments.length, 3);
               .klass("link")
               .html(fmt(V.id + ". " + desc))))
           .add(Q("td").klass("summary0d")
-            .html(sys.asBool(am > 0) ? fmt(fnm(am)) : ""))
+            .html(am > 0 ? fmt(fnm(am)) : ""))
           .add(Q("td").klass("summary0c")
-            .html(sys.asBool(am < 0) ? fmt(fnm( -am)) : "")));
+            .html(am < 0 ? fmt(fnm( -am)) : "")));
 
-        if (sys.asBool(sys.$eq(level , 1))) continue;
+        if (sys.$eq(level , 1)) continue;
         for (const V  of sys.$forObject( A[1])) {
           const desc =sys.$checkNull( V.desc);
           const am =sys.$checkNull( V.am);
@@ -362,9 +352,9 @@ export  function mk(wg, stype, sdeep)  {sys.$params(arguments.length, 3);
                 .klass("link")
                 .html(V.id + ". " + desc)))
             .add(Q("td").klass("summary0d")
-              .html(sys.asBool(am > 0) ? fnm(am) : ""))
+              .html(am > 0 ? fnm(am) : ""))
             .add(Q("td").klass("summary0c")
-              .html(sys.asBool(am < 0) ? fnm( -am) : "")));
+              .html(am < 0 ? fnm( -am) : "")));
         }
       }
     }
@@ -387,7 +377,7 @@ export  function mk(wg, stype, sdeep)  {sys.$params(arguments.length, 3);
 
   
    function fPB(isP, level)  {sys.$params(arguments.length, 2);
-    const Entries =sys.$checkNull(sys.asBool( isP) ? calcPl() : calcBalance());
+    const Entries =sys.$checkNull( isP ? calcPl() : calcBalance());
     const table =sys.$checkNull( Q("table")
       .klass("summary")
       .att("align", "center"))
@@ -396,37 +386,37 @@ export  function mk(wg, stype, sdeep)  {sys.$params(arguments.length, 3);
       const V =sys.$checkNull( L[0]);
       const desc =sys.$checkNull( V.desc);
       const am =sys.$checkNull( V.am);
-      const fmt =sys.$checkNull(sys.asBool( sys.$eq(level , 0)) ? bold :sys.asBool( sys.$eq(level , 1)) ? italic : underline);
+      const fmt =sys.$checkNull( sys.$eq(level , 0) ? bold : sys.$eq(level , 1) ? italic : underline);
       table.add(Q("tr")
         .add(Q("td").klass("summary0cp")
           .att("colspan", 4)
           .html(fmt(V.id + ". " + desc)))
         .add(Q("td").klass("summary0d")
-          .html(sys.asBool(am > 0) ? fmt(fnm(am)) : ""))
+          .html(am > 0 ? fmt(fnm(am)) : ""))
         .add(Q("td").klass("summary0c")
-          .html(sys.asBool(am < 0) ? fmt(fnm( -am)) : "")));
+          .html(am < 0 ? fmt(fnm( -am)) : "")));
 
       for (const G  of sys.$forObject( L[1])) {
         const V =sys.$checkNull( G[0]);
         const desc =sys.$checkNull( V.desc);
         const am =sys.$checkNull( V.am);
-        const fmt =sys.$checkNull(sys.asBool( sys.$eq(level , 0)) ? normal :sys.asBool( sys.$eq(level , 1)) ? bold : italic);
+        const fmt =sys.$checkNull( sys.$eq(level , 0) ? normal : sys.$eq(level , 1) ? bold : italic);
         table.add(Q("tr")
           .add(Q("td").style("width:40px"))
           .add(Q("td").klass("summary0cp")
             .att("colspan", 3)
             .html(fmt(V.id + ". " + desc)))
           .add(Q("td").klass("summary0d")
-            .html(sys.asBool(am > 0) ? fmt(fnm(am)) : ""))
+            .html(am > 0 ? fmt(fnm(am)) : ""))
           .add(Q("td").klass("summary0c")
-            .html(sys.asBool(am < 0) ? fmt(fnm( -am)) : "")));
-        if (sys.asBool(sys.$eq(level , 0))) continue;
+            .html(am < 0 ? fmt(fnm( -am)) : "")));
+        if (sys.$eq(level , 0)) continue;
 
         for (const A  of sys.$forObject( G[1])) {
           const V =sys.$checkNull( A[0]);
           const desc =sys.$checkNull( V.desc);
           const am =sys.$checkNull( V.am);
-          const fmt =sys.$checkNull(sys.asBool( sys.$eq(level , 1)) ? normal : bold);
+          const fmt =sys.$checkNull( sys.$eq(level , 1) ? normal : bold);
           table.add(Q("tr")
             .add(Q("td").style("width:40px"))
             .add(Q("td").style("width:40px"))
@@ -436,11 +426,11 @@ export  function mk(wg, stype, sdeep)  {sys.$params(arguments.length, 3);
                 .klass("link")
                 .html(fmt(V.id + ". " + desc))))
             .add(Q("td").klass("summary0d")
-              .html(sys.asBool(am > 0) ? fmt(fnm(am)) : ""))
+              .html(am > 0 ? fmt(fnm(am)) : ""))
             .add(Q("td").klass("summary0c")
-              .html(sys.asBool(am < 0) ? fmt(fnm( -am)) : "")));
+              .html(am < 0 ? fmt(fnm( -am)) : "")));
 
-          if (sys.asBool(sys.$eq(level , 1))) continue;
+          if (sys.$eq(level , 1)) continue;
           for (const V  of sys.$forObject( A[1])) {
             const desc =sys.$checkNull( V.desc);
             const am =sys.$checkNull( V.am);
@@ -453,9 +443,9 @@ export  function mk(wg, stype, sdeep)  {sys.$params(arguments.length, 3);
                   .klass("link")
                   .html(V.id + ". " + desc)))
               .add(Q("td").klass("summary0d")
-                .html(sys.asBool(am > 0) ? fnm(am) : ""))
+                .html(am > 0 ? fnm(am) : ""))
               .add(Q("td").klass("summary0c")
-                .html(sys.asBool(am < 0) ? fnm( -am) : "")));
+                .html(am < 0 ? fnm( -am) : "")));
           }
         }
       }
@@ -463,7 +453,7 @@ export  function mk(wg, stype, sdeep)  {sys.$params(arguments.length, 3);
      return Q("div")
       .add(Q("div")
         .klass("head")
-        .html((sys.asBool(isP)
+        .html((isP
             ? II("P & L")
             : II("Balance")
           ) + "<br><i>" + II("Summary") + "</i>"))
@@ -490,23 +480,23 @@ export  function mk(wg, stype, sdeep)  {sys.$params(arguments.length, 3);
    function fBS()  {sys.$params(arguments.length, 0);  return fPB(false, 2);};
 
   
-   function summary()  {sys.$params(arguments.length, 0);    
-      return sys.$eq(type,"S")?   
+   function summary()  {sys.$params(arguments.length, 0); return (   
+      sys.$eq(type,"S")?(   
           sys.$eq(deep,"M")? fSM():
           sys.$eq(deep,"A")? fSA():
             fSS()
-        :
-      sys.$eq(type,"P")?   
+        ):
+      sys.$eq(type,"P")?(   
           sys.$eq(deep,"M")? fPM():
           sys.$eq(deep,"A")? fPA():
             fPS()
-        :
-          
+        ):
+       (   
           sys.$eq(deep,"M")? fBM():
           sys.$eq(deep,"A")? fBA():
             fBS()
-        
-    ;};
+        )
+    );};
 
   wg
     .removeAll()

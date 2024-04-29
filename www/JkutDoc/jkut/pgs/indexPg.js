@@ -13,14 +13,14 @@ const II =sys.$checkNull( i18n.tlt);
 
 
 export  async  function mk(wg, pack)  {sys.$params(arguments.length, 2);
-  const Rp =sys.$checkNull( await  client.ssend({
+  const Rp =sys.$checkNull( await  client.send({
     prg: "JkutDoc",
     source: "IndexPg",
     rq: "index",
     pack: pack
   }));
 
-  if (sys.asBool(!sys.asBool(Rp.index))) {
+  if (!sys.asBool(Rp.index)) {
     msgPg.mk(wg, II("Library path not found o not valid."), true);
     return;
   }
@@ -45,20 +45,20 @@ export  async  function mk(wg, pack)  {sys.$params(arguments.length, 2);
 
 
  function add(Trs, Trees, ppath, space, linkPrefix)  {sys.$params(arguments.length, 5);
-  const path =sys.$checkNull(sys.asBool( sys.$neq(ppath , "")) ? ppath + "/" : ppath);
+  const path =sys.$checkNull( sys.$neq(ppath , "") ? ppath + "/" : ppath);
 
   arr.sort(Trees, function(T1, T2)  {sys.$params(arguments.length, 2);
-    return sys.asBool( T1.Doc)
-      ?sys.asBool( T2.Doc)
+     return !sys.asBool(!sys.asBool(T1.Doc))
+      ? !sys.asBool(!sys.asBool(T2.Doc))
         ? str.less(str.toUpper(T1.id), str.toUpper(T2.id))
         : false
-      :sys.asBool( T2.Doc)
+      : !sys.asBool(!sys.asBool(T2.Doc))
         ? true
         : str.less(str.toUpper(T1.id), str.toUpper(T2.id))
     ;}
   );
   for (const T  of sys.$forObject( Trees)) {
-    if (sys.asBool(T.Doc)) {
+    if (!sys.asBool(!sys.asBool(T.Doc))) {
       arr.push(Trs, Q("tr")
         .add(Q("td")
           .style('width:10px;padding-left:' + space + 'px')

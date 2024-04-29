@@ -63,13 +63,13 @@ export  async  function mk(wg)  {sys.$params(arguments.length, 1);
     rq: "idata"
   }));
 
-  if (sys.asBool(!sys.asBool(Rp.ok))) {
+  if (!sys.asBool(Rp.ok)) {
     msg.error(cts.failMsg, function(){sys.$params(arguments.length, 0);});
     return;
   }
 
   const InvOperations =sys.$checkNull( arr.map(Rp.invOperations, invOperation.fromJs));
-  const Portfolios =sys.$checkNull( Rp.portfolios); 
+  const Portfolio =sys.$checkNull( Rp.portfolio); 
   const Closes =sys.$checkNull( Rp.closes); 
   const Rebuys =sys.$checkNull( Rp.rebuys); 
 
@@ -120,7 +120,7 @@ export  async  function mk(wg)  {sys.$params(arguments.length, 1);
     const bs =sys.$checkNull( bentry.getValue());
     const ps =sys.$checkNull( pentry.getValue());
     const B =sys.$checkNull( math.fromIso(bs));
-    if (sys.asBool(!sys.asBool(B))) {
+    if (!sys.asBool(B)) {
       ui.alert(i18n.fmt(II("'%0' is not a valid number."), [bs]));
       return;
     }
@@ -128,12 +128,12 @@ export  async  function mk(wg)  {sys.$params(arguments.length, 1);
     const b2 =sys.$checkNull( b + b - broker.buy(1, b));
 
     const P =sys.$checkNull( math.fromIso(ps));
-    if (sys.asBool(!sys.asBool(P))) {
+    if (!sys.asBool(P)) {
       ui.alert(i18n.fmt(II("'%0' is not a valid number."), [ps]));
       return;
     }
     const p =sys.$checkNull( P[0]);
-    if (sys.asBool(sys.$eq(p , 0))) {
+    if (sys.$eq(p , 0)) {
       ui.alert(II("Price is 0"));
       return;
     }
@@ -151,7 +151,7 @@ export  async  function mk(wg)  {sys.$params(arguments.length, 1);
    function calculateSell()  {sys.$params(arguments.length, 0);
     const ps =sys.$checkNull( sentry.getValue());
     const P =sys.$checkNull( math.fromIso(ps));
-    if (sys.asBool(!sys.asBool(P))) {
+    if (!sys.asBool(P)) {
       ui.alert(i18n.fmt(II("'%0' is not a valid number."), [ps]));
       return;
     }
@@ -271,93 +271,88 @@ export  async  function mk(wg)  {sys.$params(arguments.length, 1);
 
   const RebuysArr =sys.$checkNull( dic.toArr(Rebuys));
   arr.sort(RebuysArr, function(Tp1, Tp2)  {sys.$params(arguments.length, 2);
-    return sys.asBool( sys.$eq(Tp1[1] , Tp2[1])) ? Tp1[0] < Tp2[0] : Tp1[1] < Tp2[1];});
-  const rebuyTrs =sys.$checkNull(sys.asBool( RebuysArr)
-    ? function()  {sys.$params(arguments.length, 0);
+     return sys.$eq(Tp1[1] , Tp2[1]) ? Tp1[0] < Tp2[0] : Tp1[1] < Tp2[1];});
+  const rebuyTrs =sys.$checkNull( !sys.asBool(RebuysArr)
+    ? [ Q("tr")
+        .add(Q("td")
+          .att("colspan", 2)
+          .klass("borderWhite")
+          .html(II("Without operations")))
+      ]
+    : function()  {sys.$params(arguments.length, 0);
       const Trs =sys.$checkNull( []);
       const iV =sys.$checkNull([0]);
       const trV =sys.$checkNull( [Q("tr")]);
-      while (sys.asBool(iV[0] < arr.size(RebuysArr))) {
+      while (iV[0] < arr.size(RebuysArr)) {
         const Tp =sys.$checkNull( RebuysArr[iV[0]]);
         trV[0]
           .add(ciaTd(Tp[0]))
-          .add(ciaTd(sys.asBool(
-            sys.$eq(i18n.getLang() , "es"))
+          .add(ciaTd(
+            sys.$eq(i18n.getLang() , "es")
               ? time.toIso(time.fromStr(Tp[1])[0])
               : time.toEn(time.fromStr(Tp[1])[0])))
         ;
-        if (sys.asBool(sys.$neq(iV[0] % 3 , 2)))
+        if (sys.$neq(iV[0] % 3 , 2))
           trV[0].add(Q("td").klass("separator"));
         iV[0] +=sys.$checkExists(iV[0],sys.$checkNull( 1));
-        if (sys.asBool(sys.$eq(iV[0] % 3 , 0))) {
+        if (sys.$eq(iV[0] % 3 , 0)) {
           arr.push(Trs, trV[0]);
           trV[0] =sys.$checkExists(trV[0],sys.$checkNull( Q("tr")));
         }
       }
-      if (sys.asBool(sys.$neq(iV[0] % 3 , 0))) arr.push(Trs, trV[0]);
+      if (sys.$neq(iV[0] % 3 , 0)) arr.push(Trs, trV[0]);
        return Trs;
-    }()
-    : [ Q("tr")
-        .add(Q("td")
-          .att("colspan", 2)
-          .klass("borderWhite")
-          .html(II("Without operations")))
-      ])
+    }())
   ;
 
-  arr.sort(InvOperations, function(O1, O2)  {sys.$params(arguments.length, 2); return sys.asBool(
-    sys.$eq(O1.nick , O2.nick)) ? O1.investor < O2.investor : O1.nick < O2.nick;}
-  );
+  arr.sort(InvOperations, function(O1, O2)  {sys.$params(arguments.length, 2);  return O1.nick < O2.nick;});
   const BuyOps =sys.$checkNull( arr.filter(
     InvOperations,
-    function(O)  {sys.$params(arguments.length, 1);  return sys.asBool(O.stocks <= 0) && sys.asBool(sys.$eq(O.investor , 0));}
+    function(O)  {sys.$params(arguments.length, 1);  return O.stocks <= 0;}
   ));
-  const buyTrs =sys.$checkNull(sys.asBool( BuyOps)
-    ? arr.map(
+  const buyTrs =sys.$checkNull( !sys.asBool(BuyOps)
+    ? [ Q("tr")
+        .add(Q("td")
+          .klass("borderWhite")
+          .html(II("Without operations")))
+      ]
+    : arr.map(
        BuyOps ,
         function(O)  {sys.$params(arguments.length, 1);  return Q("tr")
           .add(ciaTd(O.nick).setStyle(
-              "text-decoration",sys.asBool(
-              arr.any(RebuysArr, function(Tp)  {sys.$params(arguments.length, 1);  return sys.$eq(Tp[0] , O.nick);}))
+              "text-decoration",
+              arr.any(RebuysArr, function(Tp)  {sys.$params(arguments.length, 1);  return sys.$eq(Tp[0] , O.nick);})
               ? "line-through"
               : ""
             ))
-          .add(invTd(O.investor))
-      ;})
-    : [ Q("tr")
-        .add(Q("td")
-          .att("colspan", 2)
-          .klass("borderWhite")
-          .html(II("Without operations")))
-      ])
+      ;}))
   ;
 
   const SellOps =sys.$checkNull( arr.filter(InvOperations, function(O)  {sys.$params(arguments.length, 1);
-     return sys.asBool(O.stocks > 0) && sys.asBool(dic.hasKey(Portfolios[O.investor], O.nick));}
+     return O.stocks > 0 && dic.hasKey(Portfolio, O.nick);}
   ));
-  const sellTrs =sys.$checkNull(sys.asBool( SellOps)
-    ? arr.map(
+  const sellTrs =sys.$checkNull( !sys.asBool(SellOps)
+    ? [ Q("tr")
+        .add(Q("td")
+          .att("colspan", 5)
+          .klass("borderWhite")
+          .html(II("Without operations")))
+      ]
+    : arr.map(
         SellOps,
         function(O)  {sys.$params(arguments.length, 1);
-          const pr =sys.$checkNull( Portfolios[O.investor][O.nick][1]);
+          const pr =sys.$checkNull( Portfolio[O.nick][1]);
           const cl =sys.$checkNull( Closes[O.nick]);
           const dif =sys.$checkNull( (cl - pr) * 100 / pr);
-          const color =sys.$checkNull(sys.asBool( dif >= 0) ? "#d0d9f0" :sys.asBool( dif >=  -5) ? "#f0f0d9" : "#ffffff");
+          const color =sys.$checkNull( dif >= 0 ? "#d0d9f0" : dif >=  -5 ? "#f0f0d9" : "#ffffff");
            return Q("tr")
             .add(ciaTd(O.nick).setStyle("background", color))
-            .add(invTd(O.investor).setStyle("background", color))
             .add(stocksTd(O.stocks).setStyle("background", color))
             .add(quoteTd(pr).setStyle("background", color))
             .add(quoteTd(cl).setStyle("background", color))
             .add(quoteTd(dif).setStyle("background", color))
           ;
-      })
-    : [ Q("tr")
-        .add(Q("td")
-          .att("colspan", 6)
-          .klass("borderWhite")
-          .html(II("Without operations")))
-      ])
+      }))
   ;
 
   wg
@@ -395,7 +390,7 @@ export  async  function mk(wg)  {sys.$params(arguments.length, 1);
                     .style("border-collapse : collapse;")
                     .add(Q("tr")
                       .adds(iter.reduce(
-                          iter.$range(0,(sys.asBool(arr.size(RebuysArr) > 2) ? 2 : arr.size(RebuysArr) -1)),
+                          iter.$range(0,(arr.size(RebuysArr) > 2 ? 2 : arr.size(RebuysArr) -1)),
                           [ Q("td").klass("head").html(II("Co.")),
                             Q("td").klass("head").html(II("Date")),
                             Q("td").klass("separator")
@@ -403,7 +398,7 @@ export  async  function mk(wg)  {sys.$params(arguments.length, 1);
                           function(R, i)  {sys.$params(arguments.length, 2);
                             arr.push(R, Q("td").klass("head").html(II("Co.")));
                             arr.push(R, Q("td").klass("head").html(II("Date")));
-                            if (sys.asBool(sys.$neq(i % 3 , 1)))
+                            if (sys.$neq(i % 3 , 1))
                               arr.push(R, Q("td").klass("separator"));
                              return R;
                           }
@@ -419,8 +414,7 @@ export  async  function mk(wg)  {sys.$params(arguments.length, 1);
             .att("align", "center")
             .klass("buys")
             .add(Q("tr")
-              .add(Q("td").klass("head").html(II("Co.")))
-              .add(Q("td").klass("head").html(II("Inv"))))
+              .add(Q("td").klass("head").html(II("Co."))))
             .adds(buyTrs))
           .add(Q("div")
             .klass("head")
@@ -430,7 +424,6 @@ export  async  function mk(wg)  {sys.$params(arguments.length, 1);
             .klass("sells")
             .add(Q("tr")
               .add(Q("td").klass("head").html(II("Co.")))
-              .add(Q("td").klass("head").html(II("Inv")))
               .add(Q("td").klass("head").html(II("Stocks")))
               .add(Q("td").klass("head").html(II("Price")))
               .add(Q("td").klass("head").html(II("Quote")))

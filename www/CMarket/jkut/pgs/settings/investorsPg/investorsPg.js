@@ -19,24 +19,16 @@ const II =sys.$checkNull( i18n.tlt);
 
 
 
-
-export  async  function mk(wg, investorIx)  {sys.$params(arguments.length, 2);
+export  async  function mk(wg)  {sys.$params(arguments.length, 1);
   const Rp =sys.$checkNull( await  client.send({
     prg: cts.appName,
     module: "Settings",
     source: "InvestorsPg",
-    rq: "idata",
-    investorIx:investorIx
+    rq: "idata"
   }));
-  if (sys.asBool(!sys.asBool(Rp.ok))) {
-    msg.error(cts.failMsg, function()  {sys.$params(arguments.length, 0);});
-    return;
-  }
   const Models =sys.$checkNull( arr.map(Rp.models, model.fromJs));
   const Investor =sys.$checkNull( investor.fromJs(Rp.investor));
-  const investors =sys.$checkNull( Rp.investors);
 
-  const sinvestor =sys.$checkNull( II("Inv") + "-" + investorIx);
   const waitBox =sys.$checkNull( modalBox.mk(ui.img("wait2.gif"), false));
   const editorDiv =sys.$checkNull( Q("div"));
   const paramsDiv =sys.$checkNull( Q("div"));
@@ -44,11 +36,6 @@ export  async  function mk(wg, investorIx)  {sys.$params(arguments.length, 2);
   const EditorView =sys.$checkNull( [[]]);
 
   
-
-  
-   function selInvestor(inv)  {sys.$params(arguments.length, 1);
-    mk(wg, inv);
-  };
 
   
    async  function update()  {sys.$params(arguments.length, 0);
@@ -60,11 +47,11 @@ export  async  function mk(wg, investorIx)  {sys.$params(arguments.length, 2);
       rq: "updateAll"
     }));
     modalBox.show(waitBox, false);
-    if (sys.asBool(!sys.asBool(Rp.ok))) {
+    if (!sys.asBool(Rp.ok)) {
       msg.error(cts.failMsg, function()  {sys.$params(arguments.length, 0);});
       return;
     }
-    mk(wg, investorIx);
+    mk(wg);
   };
 
   
@@ -83,12 +70,11 @@ export  async  function mk(wg, investorIx)  {sys.$params(arguments.length, 2);
       module: "Settings",
       source: "InvestorsPg",
       rq: "update",
-      investorIx:investorIx,
       nickName:nickName,
       modelId:modelId,
       params: Params
     });
-    mk(wg, investorIx);
+    mk(wg);
   };
   
 
@@ -98,7 +84,7 @@ export  async  function mk(wg, investorIx)  {sys.$params(arguments.length, 2);
     const sel =sys.$checkNull( Q("select"));
     for (const M  of sys.$forObject( Models)) {
       const op =sys.$checkNull( Q("option").text(M.id));
-      if (sys.asBool(sys.$eq(M.id , Md.id))) op.att("selected", true);
+      if (sys.$eq(M.id , Md.id)) op.att("selected", true);
       sel.e.add(op.e);
     }
     sel.on(
@@ -118,16 +104,13 @@ export  async  function mk(wg, investorIx)  {sys.$params(arguments.length, 2);
               .add(Q("div")
                 .style("text-align:center")
                 .text(Md.paramNames[i]))
-              .add(Q("div")
-                .style("text-align:center;color:#c9c9c9;font-style:italic")
-                .text(math.toIso(Md.paramBases[i], 6)))
               .add(function() {sys.$params(arguments.length, 0);
                   const inp =sys.$checkNull( ui.field("Zord" + (i + 1))
                     .att("id", "Zord" + i)
                     .style("width:80px")
                     .on("change", function(e)  {sys.$params(arguments.length, 1);
                         const V =sys.$checkNull( math.fromIso(e.target.value));
-                        if (sys.asBool(!sys.asBool(V))) {
+                        if (!sys.asBool(V)) {
                           ui.alert(i18n.fmt(
                             II("Bad number [%0]"), [e.target.value]
                           ));
@@ -135,25 +118,13 @@ export  async  function mk(wg, investorIx)  {sys.$params(arguments.length, 2);
                           return;
                         }
                         const v =sys.$checkNull( V[0]);
-                        const min =sys.$checkNull( Md.paramBases[i]);
-                        const max =sys.$checkNull( model.maxs(Md)[i]);
-                        if (sys.asBool(sys.asBool(v > max) || sys.asBool(v < min))) {
-                          ui.alert(i18n.fmt(
-                            II("[%0] Value out of range"), [e.target.value]
-                          ));
-                          paramsView(nick, modelId, Params);
-                          return;
-                        }
                         Params[i] =sys.$checkExists(Params[i],sys.$checkNull( v));
                       })
                     .value(math.toIso(Params[i], 6)))
                   ;
                   ui.changePoint(inp);
                    return inp;
-                }())
-              .add(Q("div")
-                .style("text-align:center;color:#c9c9c9;font-style:italic")
-                .text(math.toIso(model.maxs(Md)[i], 6))))
+                }()))
           ;}))))
     ;
 
@@ -197,7 +168,7 @@ export  async  function mk(wg, investorIx)  {sys.$params(arguments.length, 2);
 
   
   EditorView[0] =sys.$checkExists(EditorView[0], function(nick)  {sys.$params(arguments.length, 1);
-    const Str =sys.$checkNull(sys.asBool( sys.$eq(nick , "")) ? Investor.base : Investor.nicks[nick]);
+    const Str =sys.$checkNull( sys.$eq(nick , "") ? Investor.base : Investor.nicks[nick]);
     const Md =sys.$checkNull( arr.find(Models, function(md)  {sys.$params(arguments.length, 1);  return sys.$eq(md.id , Str.modelId);})[0]);
     paramsView(nick, Md.id, Str.params);
 
@@ -205,7 +176,7 @@ export  async  function mk(wg, investorIx)  {sys.$params(arguments.length, 2);
       .removeAll()
       .add(Q("div")
         .klass("head")
-        .text(sys.asBool(sys.$eq(nick , ""))
+        .text(sys.$eq(nick , "")
           ? II("Default Model")
           : i18n.fmt(II("%0 Model"), [nick])
         ))
@@ -219,14 +190,8 @@ export  async  function mk(wg, investorIx)  {sys.$params(arguments.length, 2);
     ;
   });
 
-  const Lopts =sys.$checkNull( []);
-  for (let i = 0;i < investors; ++i) {
-    const lb =sys.$checkNull( II("Inv") + "-" + i);
-    if (sys.asBool(i > 0)) arr.push(Lopts, menu.separator());
-    arr.push(Lopts, menu.toption(lb, lb, function()  {sys.$params(arguments.length, 0); selInvestor(i);}));
-  }
   const Ropts =sys.$checkNull( [menu.toption("update", II("Update"), update)]);
-  const menuWg =sys.$checkNull( menu.mk(Lopts, Ropts, sinvestor, []));
+  const menuWg =sys.$checkNull( menu.mk([], Ropts, "", false));
 
   const Base =sys.$checkNull( Investor.base);
   const Md =sys.$checkNull( arr.find(Models, function(md)  {sys.$params(arguments.length, 1);  return sys.$eq(md.id , Base.modelId);})[0]);
@@ -234,7 +199,7 @@ export  async  function mk(wg, investorIx)  {sys.$params(arguments.length, 2);
   arr.sort(NickStrs, function(N1, N2)  {sys.$params(arguments.length, 2);  return N1[0] < N2[0];});
   const maxNParams =sys.$checkNull( arr.reduce(
     NickStrs, 0,
-    function(r, S)  {sys.$params(arguments.length, 2); return sys.asBool( arr.size(S[1].params) > r) ? arr.size(S[1].params) : r;}
+    function(r, S)  {sys.$params(arguments.length, 2);  return arr.size(S[1].params) > r ? arr.size(S[1].params) : r;}
   ));
   wg
     .removeAll()
@@ -307,8 +272,8 @@ export  async  function mk(wg, investorIx)  {sys.$params(arguments.length, 2);
                 .text(Md.id)))
             .adds(iter.map(
               iter.$range(0,maxNParams),
-              function(ix)  {sys.$params(arguments.length, 1); return sys.asBool(
-                ix >= arr.size(Str.params))
+              function(ix)  {sys.$params(arguments.length, 1); 
+                return ix >= arr.size(Str.params)
                   ? Q("td")
                     .klass("border")
                   : Q("td")
@@ -317,7 +282,7 @@ export  async  function mk(wg, investorIx)  {sys.$params(arguments.length, 2);
               ;}))
             .add(Q("td")
               .klass("border")
-              .add(ui.img(sys.asBool(istrategy.eq(Base, Str)) ? "blank" : "warning")))
+              .add(ui.img(istrategy.eq(Base, Str) ? "blank" : "warning")))
           ;
         })))
   ;

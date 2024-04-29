@@ -7,7 +7,6 @@ import * as menu from  "../../../libdm/menu.js";
 import * as cts from  "../../../data/cts.js";
 import * as ann from  "../../../data/acc/ann.js";
 import * as msg from  "../../../wgs/msg.js";
-import * as allWg from  "../../../pgs/settings/acc/allWg.js";
 import * as invWg from  "../../../pgs/settings/acc/invWg.js";
 import * as i18n from  "../../../i18n.js";
 
@@ -18,32 +17,12 @@ const II =sys.$checkNull( i18n.tlt);
 
 
 export  async  function mk(wg)  {sys.$params(arguments.length, 1);
-  const Rp =sys.$checkNull( await  client.send({
-    prg: cts.appName,
-    module: "Settings",
-    source: "acc/AccPg",
-    rq: "idata"
-  }));
-  const investors =sys.$checkNull( Rp.investors); 
-
   const menuDiv =sys.$checkNull( Q("div"));
   const body =sys.$checkNull( Q("div"));
 
   const MkMenu =sys.$checkNull( [[]]);
 
   
-
-  
-   function all()  {sys.$params(arguments.length, 0);
-    MkMenu[0]("all");
-    allWg.mk(body);
-  };
-
-  
-   function investor(inv)  {sys.$params(arguments.length, 1);
-    MkMenu[0](II("Inv") + "-" + inv);
-    invWg.mk(body, inv);
-  };
 
   
    function closeYear()  {sys.$params(arguments.length, 0); msg.info(String.raw
@@ -66,19 +45,11 @@ pegar dichos archivos a los nuevos creados.</p>
   
 
   
-  MkMenu[0] =sys.$checkExists(MkMenu[0], function(sel)  {sys.$params(arguments.length, 1);
-    const Lopts =sys.$checkNull( [
-      menu.toption("all", II("All"), all)
-    ]);
-    for (let i = 0;i < investors; ++i) {
-      const lb =sys.$checkNull( II("Inv") + "-" + i);
-      arr.push(Lopts, menu.separator());
-      arr.push(Lopts, menu.toption(lb, lb, function()  {sys.$params(arguments.length, 0); investor(i);}));
-    }
+  MkMenu[0] =sys.$checkExists(MkMenu[0], function()  {sys.$params(arguments.length, 0);
     const Ropts =sys.$checkNull( [menu.toption("close", II("Close Year Help"), closeYear)]);
     menuDiv
       .removeAll()
-      .add(menu.mk(Lopts, Ropts, sel, false))
+      .add(menu.mk([], Ropts, "", false))
     ;
   });
 
@@ -88,5 +59,5 @@ pegar dichos archivos a los nuevos creados.</p>
     .add(body)
   ;
 
-  all();
+  invWg.mk(body);
 };

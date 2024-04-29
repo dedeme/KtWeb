@@ -4,11 +4,7 @@ import * as math from '../_js/math.js';import * as js from '../_js/js.js';import
 
 
 
-export const typePERIODIC =sys.$checkNull( 0);
-
-export const typeFIX =sys.$checkNull( 1);
-
-export const typeMANUAL =sys.$checkNull( 2);
+export const [typePERIODIC, typeFIX, typeMANUAL]=[0, 1, 2];
 
 
 
@@ -20,40 +16,39 @@ export const typeMANUAL =sys.$checkNull( 2);
 
 
 
-export  function mk(id, type, data, text)  {sys.$params(arguments.length, 4);  return {id:id, type:type, data:data, text:text};};
+
+export function mk (id,type,data,text) { sys.$params(arguments.length, 4); return [ id, type, data, text];}export const id = 0;export const type = 1;export const data = 2;export const text = 3;
 
 
-
-export  function days(Ann)  {sys.$params(arguments.length, 1);
-  if (sys.asBool(sys.$neq(Ann.type , typePERIODIC)))
-    throw new Error(("Expected type typePERIODIC, but it is " + Ann.data));
-   return js.r(Ann.data)[1];
-};
-
-
-
-export  function date(Ann)  {sys.$params(arguments.length, 1);
-  if (sys.asBool(sys.$eq(Ann.type , typeMANUAL)))
-    throw new Error(("type must not be Ann_MANUAL"));
-  if (sys.asBool(sys.$eq(Ann.type , typeFIX)))
-     return js.r(Ann.data) * 1000;
-   return js.r(Ann.data)[0] * 1000;
-};
-
-
-export  function toJs(A)  {sys.$params(arguments.length, 1);  return [
-    A.id,
-    A.type,
-    js.r(A.data),
-    A.text
+export  function toJs(a)  {sys.$params(arguments.length, 1);  return [
+    a[id],
+    a[type],
+    js.r(a[data]),
+    a[text]
   ];};
 
 
-export  function fromJs(A)  {sys.$params(arguments.length, 1);
-   return mk (
-    A[0],
-    A[1],
-    js.w(A[2]),
-    A[3]
-  );
+export  function fromJs(A)  {sys.$params(arguments.length, 1);  return [
+    A[id],
+    A[type],
+    js.w(A[data]),
+    A[text]
+  ];};
+
+
+
+export  function days(a)  {sys.$params(arguments.length, 1);
+  if (sys.$neq(a[type] , typePERIODIC))
+    throw new Error(("Expected type typePERIODIC, but it is " + a[data]));
+   return js.r(a[data])[1];
+};
+
+
+
+export  function date(a)  {sys.$params(arguments.length, 1);
+  if (sys.$eq(a[type] , typeMANUAL))
+    throw new Error(("type must not be Ann_MANUAL"));
+  if (sys.$eq(a[type] , typeFIX))
+     return js.r(a[data]) * 1000;
+   return js.r(a[data])[0] * 1000;
 };

@@ -18,7 +18,7 @@ export  function mk(Wg, url, width, onClick)  {sys.$params(arguments.length, 4);
   ;
   Img.on("load", function(ev)  {sys.$params(arguments.length, 1);
     const E =sys.$checkNull( Img.e);
-    if (sys.asBool(E.width / E.height > 1.77777777)) Img.att("width", width);
+    if (E.width / E.height > 1.77777777) Img.att("width", width);
     else Img.att("height", height);
   });
   Wg

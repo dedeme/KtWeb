@@ -13,10 +13,10 @@ export  function float(n)  {sys.$params(arguments.length, 1);
     ),
     ",", "."
   ));
-  if (sys.asBool(sys.$eq(n2 , "")))  return [0];
+  if (sys.$eq(n2 , ""))  return [0];
   const rOp =sys.$checkNull( math.fromStr(n2));
-  if (sys.asBool(rOp))  return [math.round(rOp[0], 2)];
-   return rOp;
+  if (!sys.asBool(rOp))  return rOp;
+   return [math.round(rOp[0], 2)];
 };
 
 
@@ -25,9 +25,9 @@ export  function float(n)  {sys.$params(arguments.length, 1);
 export  function validateYear(y)  {sys.$params(arguments.length, 1);
   const current =sys.$checkNull( time.year(time.now()));
   const yOp =sys.$checkNull( math.fromStr(y));
-  if (sys.asBool(yOp)) {
+  if (!sys.asBool(!sys.asBool(yOp))) {
     const y =sys.$checkNull( math.toInt(yOp[0]));
-    if (sys.asBool(sys.asBool(y >= current - 5) && sys.asBool(y <= current + 1)))  return math.toStr(y);
+    if (y >= current - 5 && y <= current + 1)  return math.toStr(y);
   }
    return math.toStr(current);
 };

@@ -117,9 +117,8 @@ export function $checkNull (v) {
 export function asBool (e) {
   $params(arguments.length, 1);
   if (typeof(e) === 'boolean') return e;
-  if (typeof(e) === 'string') return e != '';
   if (typeof(e) === 'object' && Array.isArray(e)) return e.length != 0;
-  throw new Error('\nExpected: boolean, string or Array.\n   Found: ' + e);
+  throw new Error('\nExpected: boolean or Array.\n   Found: ' + e);
 }
 
 // \* -> ()

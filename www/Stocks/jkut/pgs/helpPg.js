@@ -3,10 +3,6 @@ import * as math from '../_js/math.js';import * as js from '../_js/js.js';import
 
 
 
-import * as menu from  "../libdm/menu.js";
-import * as all from  "../data/all.js";
-import * as report from  "../data/report.js";
-import * as cts from  "../data/cts.js";
 import * as i18n from  "../i18n.js";
 
 const Q =sys.$checkNull( ui.q);
@@ -27,7 +23,7 @@ utilizadas en su elaboración.</p>
 '0101' de la paǵina de apuntes, y elimina cualquier previa anotación en tal
 día. Ello es debido a que las fichas de almacén se realizan con las
 anotaciones de todos los años, saltándose las correspondientes a los 1 de
-Enero, pare evitar así duplicados.</p>
+Enero, para evitar así duplicados.</p>
 `);
 
   const txEn =sys.$checkNull( String.raw
@@ -59,6 +55,6 @@ entries.</p>
           .add(Q("td")
             .klass("frame")
             .style("Text-align: left")
-            .html(sys.asBool(sys.$eq(i18n.getLang() , "es")) ? txEs : txEn)))))
+            .html(sys.$eq(i18n.getLang() , "es") ? txEs : txEn)))))
   ;
 };

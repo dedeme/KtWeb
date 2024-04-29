@@ -6,7 +6,12 @@ import * as math from '../_js/math.js';import * as js from '../_js/js.js';import
 import * as cts from  "../data/cts.js";
 
 
-export  function mk(assets, profits, sales)  {sys.$params(arguments.length, 3);  return {assets:assets, profits:profits, sales:sales};};
+
+
+
+
+export  function mk(assets, profits, sales)  {sys.$params(arguments.length, 3);
+   return {assets:assets, profits:profits, sales:sales};};
 
 
 export  function fromJs(A)  {sys.$params(arguments.length, 1);  return mk(A[0], A[1], A[2]);};

@@ -95,11 +95,14 @@ KutFT_01_CM=kut -c kut/main; jkut jkut/main www
 KutFT_01_WD=%p
 
 [files]
-current_page=3
-FILE_NAME_0=416;Kut;0;EUTF-8;0;1;0;%2Fdm%2FdmKut%2Fapp%2FKtWebPrgs%2FWallpapersDesign%2Fdata%2Fconf.kut;0;2
-FILE_NAME_1=459;Kut;0;EUTF-8;0;1;0;%2Fdm%2FdmKut%2Fapp%2FKtWebPrgs%2FWallpapersDesign%2FKtWeb%2Frp.kut;0;2
-FILE_NAME_2=296;Kut;0;EUTF-8;0;1;0;%2Fdm%2FKtWeb%2Fprgs%2FWallpapersDesign%2Fkut%2Fdata%2Fcts.kut;0;2
-FILE_NAME_3=0;JKut;0;EUTF-8;0;1;0;%2Fdm%2FKtWeb%2Fprgs%2FWallpapersDesign%2Fjkut%2Fmain.jkut;0;2
+current_page=4
+FILE_NAME_0=3432;JKut;0;EUTF-8;0;1;0;%2Fdm%2FKtWeb%2Fprgs%2FWallpapersDesign%2Fjkut%2Fpgs%2Fhome.jkut;0;2
+FILE_NAME_1=0;JKut;0;EUTF-8;0;1;0;%2Fdm%2FKtWeb%2Fprgs%2FWallpapersDesign%2Fjkut%2Fdata%2Fimage.jkut;0;2
+FILE_NAME_2=348;JKut;0;EUTF-8;0;1;0;%2Fdm%2FKtWeb%2Fprgs%2FWallpapersDesign%2Fjkut%2Fwgs%2Ftr.jkut;0;2
+FILE_NAME_3=0;JKut;0;EUTF-8;0;1;0;%2Fdm%2FKtWeb%2Fprgs%2FWallpapersDesign%2Fjkut%2Fwgs%2FimageViewer.jkut;0;2
+FILE_NAME_4=725;Kut;0;EUTF-8;0;1;0;%2Fdm%2FKtWeb%2Fprgs%2FWallpapersDesign%2Fkut%2Fweb%2Ftr.kut;0;2
+FILE_NAME_5=1786;Kut;0;EUTF-8;0;1;0;%2Fdm%2FKtWeb%2Fprgs%2FWallpapersDesign%2Fkut%2Fweb%2Fhome.kut;0;2
+FILE_NAME_6=462;Kut;0;EUTF-8;0;1;0;%2Fdm%2FKtWeb%2Fprgs%2FWallpapersDesign%2Fkut%2Fart.kut;0;2
 
 [editor]
 line_wrapping=false

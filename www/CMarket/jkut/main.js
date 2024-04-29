@@ -20,7 +20,7 @@ const II =sys.$checkNull( i18n.tlt);
 
  async  function mk(wg)  {sys.$params(arguments.length, 1);
   const ok =sys.$checkNull( await  client.connect());
-  if (sys.asBool(!sys.asBool(ok))) {
+  if (!sys.asBool(ok)) {
     ui.alert(II("KtWeb session is closed.\nAuthenticating from KtWeb:Main."));
     window.location.assign("http://" + window.location.host + "/Main");
     return;
@@ -31,19 +31,19 @@ const II =sys.$checkNull( i18n.tlt);
     source: "Main",
     rq: "lang"
   }));
-  if (sys.asBool(sys.$eq(Rp.lang , "en"))) i18n.en();
+  if (sys.$eq(Rp.lang , "en")) i18n.en();
 
   const search =sys.$checkNull( window.location.search);
-  const LcPath =sys.$checkNull(sys.asBool( sys.$eq(search , ""))
+  const LcPath =sys.$checkNull( sys.$eq(search , "")
     ? []
     : sys.$slice(search,1,null).split("&"))
   ;
-  if (sys.asBool(!sys.asBool(LcPath))) LcPath.push("home");
+  if (!sys.asBool(LcPath)) LcPath.push("home");
 
-  const target =sys.$checkNull(   
+  const target =sys.$checkNull((   
       sys.$eq(LcPath[0],"daily")|| sys.$eq(LcPath[0],"acc")|| sys.$eq(LcPath[0],"verification")|| sys.$eq(LcPath[0],"settings")? LcPath[0]:
        "home"
-    );
+    ));
   arr.shift(LcPath);
 
   const menuDiv =sys.$checkNull( Q("div"));

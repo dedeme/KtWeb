@@ -4,7 +4,7 @@ import * as math from '../../_js/math.js';import * as js from '../../_js/js.js';
 
 
 import * as menu from  "../../libdm/menu.js";
-import * as lineChart from  "../../libdm/lineChart.js";
+import * as oldChart from  "../../libdm/oldChart.js";
 import * as cts from  "../../data/cts.js";
 import * as profitsEntry from  "../../data/chart/profitsEntry.js";
 import * as msg from  "../../wgs/msg.js";
@@ -48,30 +48,12 @@ export  async  function mk(wg)  {sys.$params(arguments.length, 1);
 
   
    function backColor(prevQ, Refs, nextQ)  {sys.$params(arguments.length, 3);
-    return sys.asBool( arr.any(Refs, function(ref)  {sys.$params(arguments.length, 1);  return sys.asBool(prevQ < ref) && sys.asBool(ref < nextQ);}))
+     return arr.any(Refs, function(ref)  {sys.$params(arguments.length, 1);  return prevQ < ref && ref < nextQ;})
       ? "#fff0f0"
-      :sys.asBool( arr.any(Refs, function(ref)  {sys.$params(arguments.length, 1);  return sys.asBool(prevQ > ref) && sys.asBool(ref > nextQ);}))
+      : arr.any(Refs, function(ref)  {sys.$params(arguments.length, 1);  return prevQ > ref && ref > nextQ;})
         ? "#f0f0ff"
         : "#c9c9c9"
     ;};
-
-   function leds(invsN, Invs)  {sys.$params(arguments.length, 2);
-     return Q("table")
-      .style("border-collapse : collapse;")
-      .add(Q("tr")
-        .adds(iter.map(iter.$range(0,invsN), function(inv)  {sys.$params(arguments.length, 1);
-           return Q("td")
-            .add(Q("div")
-              .style("padding:5px;" +
-               "border: 1px solid #002040;border-radius: 6px;" +
-               "cursor:pointer;" +
-               "background: " +
-               (sys.asBool(arr.any(Invs, function(i)  {sys.$params(arguments.length, 1);  return sys.$eq(i , inv);}))
-                  ? cts.toBuyColors[inv]
-                  : "#e9e9e9"
-                ) +
-               ";"));})))
-  ;};
 
   
    async  function mkChart(wg, nick, url)  {sys.$params(arguments.length, 3);
@@ -97,7 +79,7 @@ export  async  function mk(wg)  {sys.$params(arguments.length, 1);
 
     
     const error =sys.$checkNull( Rp.error);
-    if (sys.asBool(error)) {
+    if (sys.$neq(error , "")) {
       wg.removeAll()
         .add(Q("table")
         .klass("main")
@@ -111,11 +93,7 @@ export  async  function mk(wg)  {sys.$params(arguments.length, 1);
     }
 
     
-    const invsN =sys.$checkNull( Rp.investorsN);
-    
     const price =sys.$checkNull( Rp.price);
-    
-    const Invs =sys.$checkNull( Rp.investors); 
     
     const profits =sys.$checkNull( Rp.profits);
     
@@ -133,7 +111,7 @@ export  async  function mk(wg)  {sys.$params(arguments.length, 1);
 
     
      function mkSmallGr()  {sys.$params(arguments.length, 0);
-      const Ch =sys.$checkNull( lineChart.mkExample());
+      const Ch =sys.$checkNull( oldChart.mkExample());
       Ch.ExArea.width =sys.$checkExists(Ch.ExArea.width,sys.$checkNull( 300));
       Ch.ExArea.height =sys.$checkExists(Ch.ExArea.height,sys.$checkNull( 150));
       Ch.ExArea.Atts.background =sys.$checkExists(Ch.ExArea.Atts.background,sys.$checkNull( back));
@@ -158,26 +136,36 @@ export  async  function mk(wg)  {sys.$params(arguments.length, 1);
         const rf =sys.$checkNull( Refs2[i]);
         arr.push(Lbs, time.toIso(time.fromStr(Dates2[i])[0]));
         arr.push(Vals[0], [cl]);
-        arr.push(Vals[1],sys.asBool( cl > rf) ? [rf] : []);
-        arr.push(Vals[2],sys.asBool( cl < rf) ? [rf] : []);
+        arr.push(Vals[1], cl > rf ? [rf] : []);
+        arr.push(Vals[2], cl < rf ? [rf] : []);
       }
       const Atts =sys.$checkNull( [
-        lineChart.mkLine(1.2, "#414141", false),
-        lineChart.mkLine(1.2, "#aa4100", false),
-        lineChart.mkLine(1.2, "#0041aa", false)
+        oldChart.mkLine(1.2, "#414141", false),
+        oldChart.mkLine(1.2, "#aa4100", false),
+        oldChart.mkLine(1.2, "#0041aa", false)
       ]);
-      const Data =sys.$checkNull( lineChart.mkData(Lbs, Vals, Atts));
-      Data.round =sys.$checkExists(Data.round,sys.$checkNull( 2));
+      const Data =sys.$checkNull( oldChart.mkData(Lbs, Vals, Atts));
       Data.Labels =sys.$checkExists(Data.Labels,sys.$checkNull( Lbs));
       Data.SetValues =sys.$checkExists(Data.SetValues,sys.$checkNull( [Vals[0], Vals[1], Vals[2]]));
-      if (sys.asBool(price >= 0))
-        Data.UnarySets =sys.$checkExists(Data.UnarySets,sys.$checkNull( [lineChart.mkUnarySet(
+      if (price >= 0)
+        Data.UnarySets =sys.$checkExists(Data.UnarySets,sys.$checkNull( [oldChart.mkUnarySet(
             II("Price"),
             price,
-            lineChart.mkLine(1.2, "#c9c9c9", false)
+            oldChart.mkLine(1.2, "#c9c9c9", false)
           )]));
       Data.SetAtts =sys.$checkExists(Data.SetAtts,sys.$checkNull( Atts));
-      Data.maxMinRound =sys.$checkExists(Data.maxMinRound, function(mx, mn)  {sys.$params(arguments.length, 2); return sys.asBool( mx > 10) ? 0 :  -1;});
+      Data.maxMinRound =sys.$checkExists(Data.maxMinRound, function(mx, mn)  {sys.$params(arguments.length, 2);
+        if (mn > 10) {
+          Data.round =sys.$checkExists(Data.round,sys.$checkNull( 1));
+            return -2;
+        } else if (mn > 1) {
+          Data.round =sys.$checkExists(Data.round,sys.$checkNull( 2));
+            return -3;
+        } else {
+          Data.round =sys.$checkExists(Data.round,sys.$checkNull( 3));
+            return -4;
+        }
+      });
       Data.drawGrid =sys.$checkExists(Data.drawGrid, function(lb, i)  {sys.$params(arguments.length, 2);  return false;});
       Data.drawLabel =sys.$checkExists(Data.drawLabel,sys.$checkNull( Data.drawGrid));
 
@@ -186,13 +174,13 @@ export  async  function mk(wg)  {sys.$params(arguments.length, 1);
           .add(Q("td")
             .klass("frame0")
             .style("background-color:" + back)
-            .add(lineChart.mkWg(Ch, Data))))
+            .add(oldChart.mkWg(Ch, Data))))
       ;
     };
 
     
      function mkBigGr()  {sys.$params(arguments.length, 0);
-      const Ch =sys.$checkNull( lineChart.mkExample());
+      const Ch =sys.$checkNull( oldChart.mkExample());
       Ch.ExArea.width =sys.$checkExists(Ch.ExArea.width,sys.$checkNull( 600));
       Ch.ExArea.height =sys.$checkExists(Ch.ExArea.height,sys.$checkNull( 300));
       Ch.ExArea.Atts.background =sys.$checkExists(Ch.ExArea.Atts.background,sys.$checkNull( back));
@@ -211,57 +199,67 @@ export  async  function mk(wg)  {sys.$params(arguments.length, 1);
        function mk0(chartDiv, zoomDiv, zoom)  {sys.$params(arguments.length, 3);
         const Lbs =sys.$checkNull( []);
         const Vals =sys.$checkNull( [[], [], []]); 
-        const Dates2 =sys.$checkNull(sys.asBool( zoom) ? sys.$slice(Dates, -30,null) : Dates);
-        const Closes2 =sys.$checkNull(sys.asBool( zoom) ? sys.$slice(Closes, -30,null) : Closes);
-        const Refs2 =sys.$checkNull(sys.asBool( zoom) ? sys.$slice(Refs[0], -30,null) : Refs[0]);
+        const Dates2 =sys.$checkNull( zoom ? sys.$slice(Dates, -30,null) : Dates);
+        const Closes2 =sys.$checkNull( zoom ? sys.$slice(Closes, -30,null) : Closes);
+        const Refs2 =sys.$checkNull( zoom ? sys.$slice(Refs[0], -30,null) : Refs[0]);
 
         for (let i = 0;i < arr.size(Dates2); ++i) {
           const cl =sys.$checkNull( Closes2[i]);
           const rf =sys.$checkNull( Refs2[i]);
           arr.push(Lbs, time.toIso(time.fromStr(Dates2[i])[0]));
           arr.push(Vals[0], [cl]);
-          arr.push(Vals[1],sys.asBool( cl > rf) ? [rf] : []);
-          arr.push(Vals[2],sys.asBool( cl < rf) ? [rf] : []);
+          arr.push(Vals[1], cl > rf ? [rf] : []);
+          arr.push(Vals[2], cl < rf ? [rf] : []);
         }
-        const wln =sys.$checkNull(sys.asBool( zoom) ? 1.8 : 1);
+        const wln =sys.$checkNull( zoom ? 1.8 : 1);
         const Atts =sys.$checkNull( [
-          lineChart.mkLine(wln, "#414141", false),
-          lineChart.mkLine(wln, "#aa4100", false),
-          lineChart.mkLine(wln, "#0041aa", false)
+          oldChart.mkLine(wln, "#414141", false),
+          oldChart.mkLine(wln, "#aa4100", false),
+          oldChart.mkLine(wln, "#0041aa", false)
         ]);
-        const Data =sys.$checkNull( lineChart.mkData(Lbs, Vals, Atts));
-        Data.round =sys.$checkExists(Data.round,sys.$checkNull( 2));
+        const Data =sys.$checkNull( oldChart.mkData(Lbs, Vals, Atts));
         Data.Labels =sys.$checkExists(Data.Labels,sys.$checkNull( Lbs));
         Data.SetValues =sys.$checkExists(Data.SetValues,sys.$checkNull( [Vals[0], Vals[1], Vals[2]]));
-        if (sys.asBool(sys.asBool(price >= 0) && sys.asBool(!sys.asBool(zoom))))
-          Data.UnarySets =sys.$checkExists(Data.UnarySets,sys.$checkNull( [lineChart.mkUnarySet(
+        if (price >= 0 && !sys.asBool(zoom))
+          Data.UnarySets =sys.$checkExists(Data.UnarySets,sys.$checkNull( [oldChart.mkUnarySet(
               II("Price"),
               price,
-              lineChart.mkLine(1.2, "#c9c9c9", false)
+              oldChart.mkLine(1.2, "#c9c9c9", false)
             )]));
         Data.SetAtts =sys.$checkExists(Data.SetAtts,sys.$checkNull( Atts));
-        Data.maxMinRound =sys.$checkExists(Data.maxMinRound, function(mx, mn)  {sys.$params(arguments.length, 2); return sys.asBool( mx > 10) ? 0 :  -1;});
+        Data.maxMinRound =sys.$checkExists(Data.maxMinRound, function(mx, mn)  {sys.$params(arguments.length, 2);
+          if (mn > 10) {
+            Data.round =sys.$checkExists(Data.round,sys.$checkNull( 1));
+              return -2;
+          } else if (mn > 1) {
+            Data.round =sys.$checkExists(Data.round,sys.$checkNull( 2));
+              return -3;
+          } else {
+            Data.round =sys.$checkExists(Data.round,sys.$checkNull( 3));
+              return -4;
+          }
+        });
         Data.drawGrid =sys.$checkExists(Data.drawGrid, function(lb, i)  {sys.$params(arguments.length, 2);
-          if (sys.asBool(sys.$eq(i , 0)))  return false;
-          return sys.asBool( zoom)
+          if (sys.$eq(i , 0))  return false;
+           return zoom
             ? sys.$eq(i % 2 , 0)
-            : sys.asBool(sys.$neq(sys.$slice(Lbs[i - 1],3,5) , sys.$slice(lb,3,5))) &&
-                sys.asBool(sys.$eq(sys.$slice(lb,3,5),"03")|| sys.$eq(sys.$slice(lb,3,5),"06")|| sys.$eq(sys.$slice(lb,3,5),"09")|| sys.$eq(sys.$slice(lb,3,5),"12")? true:  false)
+            : sys.$neq(sys.$slice(Lbs[i - 1],3,5) , sys.$slice(lb,3,5)) &&(
+                sys.$eq(sys.$slice(lb,3,5),"03")|| sys.$eq(sys.$slice(lb,3,5),"06")|| sys.$eq(sys.$slice(lb,3,5),"09")|| sys.$eq(sys.$slice(lb,3,5),"12")? true:  false)
           ;
         });
         Data.drawLabel =sys.$checkExists(Data.drawLabel,sys.$checkNull( Data.drawGrid));
-        Data.mapLabel =sys.$checkExists(Data.mapLabel, function(lb, i)  {sys.$params(arguments.length, 2); return sys.asBool( zoom) ? sys.$slice(lb,null,2) : sys.$slice(lb,3,5);});
+        Data.mapLabel =sys.$checkExists(Data.mapLabel, function(lb, i)  {sys.$params(arguments.length, 2);  return zoom ? sys.$slice(lb,null,2) : sys.$slice(lb,3,5);});
 
         chartDiv
           .removeAll()
-          .add(lineChart.mkWg(Ch, Data))
+          .add(oldChart.mkWg(Ch, Data))
         ;
 
         zoomDiv
           .removeAll()
           .add(ui.link(function(e)  {sys.$params(arguments.length, 1); mk0(chartDiv, zoomDiv, !sys.asBool(zoom));})
               .klass("frame")
-              .add(ui.img(sys.asBool(zoom) ? "rk-new" : "minus2")
+              .add(ui.img(zoom ? "rk-new" : "minus2")
                   .style("vertical-align:top")))
         ;
       };
@@ -300,18 +298,16 @@ export  async  function mk(wg)  {sys.$params(arguments.length, 1);
               .att("href", url)
               .text(nick)))
           .add(Q("td")
-            .add(leds(invsN, Invs)))
-          .add(Q("td")
             .style("text-align:right;width:40%")
             .add(Q("span")
               .html(math.toIso(profits, 2) + "&nbsp;&nbsp;"))
-            .add(ui.img(sys.asBool(
-              profits > 0) ? "profits" :sys.asBool( profits < 0) ? "losses" : "noresult"
+            .add(ui.img(
+              profits > 0 ? "profits" : profits < 0 ? "losses" : "noresult"
             )
               .style("vertical-align:middle"))))
         .add(Q("tr")
           .add(Q("td")
-            .att("colspan", 3)
+            .att("colspan", 2)
             .add(mkSmallGr()
               .setStyle("cursor", "pointer")
               .on("click", function(e)  {sys.$params(arguments.length, 1); msg.showWg(mkBigGr(), function(){sys.$params(arguments.length, 0);});})))))
@@ -320,7 +316,7 @@ export  async  function mk(wg)  {sys.$params(arguments.length, 1);
 
   
   Show[0] =sys.$checkExists(Show[0], function()  {sys.$params(arguments.length, 0);
-    const Ls =sys.$checkNull(sys.asBool( ShowAll[0])
+    const Ls =sys.$checkNull( ShowAll[0]
       ? List
       : arr.filter(List, function(E)  {sys.$params(arguments.length, 1);  return E.bought;}))
     ;
@@ -363,7 +359,7 @@ export  async  function mk(wg)  {sys.$params(arguments.length, 1);
         .style("text-align:center")
         .add(ui.link(function(e)  {sys.$params(arguments.length, 1); changeShowAll();})
           .klass("link")
-          .html(sys.asBool(ShowAll[0])
+          .html(ShowAll[0]
               ? II("Portfolio")
               : II("All Companies")
             )))

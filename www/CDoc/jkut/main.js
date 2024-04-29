@@ -3,8 +3,10 @@ import * as math from './_js/math.js';import * as js from './_js/js.js';import *
 
 
 
-import * as cts from  "./data/cts.js";
 import * as menu from  "./libdm/menu.js";
+import * as global from  "./global.js";
+import * as cts from  "./cts.js";
+import * as conf from  "./data/conf.js";
 import * as dpath from  "./data/dpath.js";
 import * as msgPg from  "./pgs/msgPg.js";
 import * as pathsPg from  "./pgs/pathsPg.js";
@@ -19,84 +21,92 @@ const II =sys.$checkNull( i18n.tlt);
 
  async  function mk(wg)  {sys.$params(arguments.length, 1);
   const ok =sys.$checkNull( await  client.connect());
-  if (sys.asBool(!sys.asBool(ok))) {
+  if (!sys.asBool(ok)) {
     ui.alert(II("KtWeb session is closed.\nAuthenticating from KtWeb:Main."));
     window.location.assign("http://" + window.location.host + "/Main");
-  } else {
-    const rp =sys.$checkNull( await  client.send({
-      prg: "Main", 
-      source: "Main",
-      rq: "lang"
-    }));
-    if (sys.asBool(sys.$eq(rp.lang , "en"))) i18n.en();
+    return;
+  }
 
-    const rp2 =sys.$checkNull( await  client.send({
-      prg: "CDoc",
-      source: "Main",
-      rq: "idata"
-    }));
-    const Cf =sys.$checkNull( rp2.conf);
-    const Paths =sys.$checkNull( arr.map(rp2.paths, dpath.fromJs));
-    arr.sort(Paths, function(p1, p2)  {sys.$params(arguments.length, 2);  return str.less(p1.id, p2.id);});
+  
+   const {lang} = await  client.send({
+    prg: "Main", 
+    source: "Main",
+    rq: "lang"
+  });
+  if (sys.$eq(lang , "en")) i18n.en();
 
-    const url =sys.$checkNull( ui.url());
-    const page =sys.$checkNull(sys.asBool( dic.hasKey(url, "0")) ? url["0"] : Cf.path);
+   const {cf, 
+   Paths, 
+  dbKey}
+  = await  client.send({
+    prg: "CDoc",
+    source: "Main",
+    rq: "idata"
+  });
+  global.dbKeyV[0] =sys.$checkExists(global.dbKeyV[0],sys.$checkNull( dbKey));
+  arr.sort(Paths,function( p1,  p2)  {sys.$params(arguments.length, 2);  return str.less(p1[dpath.id], p2[dpath.id]);});
+   const Url =sys.$checkNull( ui.url());
+  const page =sys.$checkNull( !sys.asBool(Url) ? cf[conf.path] : Url[0]);
 
-    const parts =sys.$checkNull( page.split("@"));
-    const pack =sys.$checkNull(sys.asBool( sys.$eq(page , "@")) ? page : parts[0]);
-    const PkPath =sys.$checkNull(sys.asBool( sys.asBool(parts.length > 1) && sys.asBool(sys.$neq(pack , "@"))) ? [parts[1]] : []);
+   const Parts =sys.$checkNull( page.split("@"));
+  const pack =sys.$checkNull( sys.$eq(page , "@") ? page : Parts[0]);
+  const pkPathOp =sys.$checkNull( arr.size(Parts) > 1 && sys.$neq(pack , "@") ? [Parts[1]] : []);
 
-    const Anchor =sys.$checkNull(sys.asBool( dic.hasKey(url, "1")) ? [url["1"]] : []);
+  const anchorOp =sys.$checkNull(  arr.size(Url) > 1 ? [Url[1]] : []);
 
-    client.send({
+  {
+     const {dbKey} = await  client.send({
       prg: "CDoc",
       source: "Main",
       rq: "savePath",
-      path:sys.asBool( PkPath) ? pack + "@" + PkPath[0] : pack
+      dbKey: global.dbKeyV[0],
+      path: !sys.asBool(pkPathOp) ? pack : pack + "@" + pkPathOp[0]
     });
-
-    const Lopts =sys.$checkNull( [menu.ilink("@", "asterisk", [])]);
-
-    for (const p  of sys.$forObject( Paths)) {
-      if (sys.asBool(sys.asBool(p.isValid) && sys.asBool(p.isShown))) {
-        arr.push(Lopts, menu.separator());
-        arr.push(Lopts, menu.tlink(p.id, p.id, []));
-      }
-    }
-    const menuWg =sys.$checkNull( menu.mk(Lopts, [], pack, false));
-
-    const body =sys.$checkNull( Q("div"));
-    if (sys.asBool(sys.$eq(pack , "@"))) pathsPg.mk(body, Cf, Paths);
-    else if (sys.asBool(!sys.asBool(PkPath))) indexPg.mk(body, pack);
-    else if (sys.asBool(Anchor)) codePg.mk(body, pack, PkPath[0], Anchor[0]);
-    else modulePg.mk(body, pack, PkPath[0]);
-
-    wg
-      .removeAll()
-      .add(menuWg)
-      .add(body)
-    ;
+    global.dbKeyV[0] =sys.$checkExists(global.dbKeyV[0],sys.$checkNull( dbKey));
   }
+
+  const Lopts =sys.$checkNull( [menu.ilink("@", "asterisk")]);
+
+  for (const  p  of sys.$forObject( Paths)) {
+    if (p[dpath.isValid] && p[dpath.isShown]) {
+      arr.push(Lopts, menu.separator());
+      arr.push(Lopts, menu.tlink(p[dpath.id], p[dpath.id]));
+    }
+  }
+  const menuWg =sys.$checkNull( menu.mk(Lopts, [], pack));
+
+  const body =sys.$checkNull( Q("div"));
+  if (sys.$eq(pack , "@")) pathsPg.mk(body, cf, Paths);
+  else if (!sys.asBool(pkPathOp)) indexPg.mk(body, pack);
+  else if (!sys.asBool(anchorOp)) modulePg.mk(body, pack, pkPathOp[0]);
+  else codePg.mk(body, pack, pkPathOp[0], anchorOp[0]);
+
+  
+
+  
+
+  wg
+    .removeAll()
+    .add(menuWg)
+    .add(body)
+  ;
 };
+
+
 
 const wg =sys.$checkNull( Q("div"));
 
 
-export  async  function load()  {sys.$params(arguments.length, 0);
-  await mk(wg);
-
-  const Fc =sys.$checkNull( ui.qOp("#autofocus"));
-  if (sys.asBool(Fc)) Fc[0].e.focus();
-};
-
-
-
-client.init(true, "KtWeb", function()  {sys.$params(arguments.length, 0);
-  const wg =sys.$checkNull( Q("div"));
-  msgPg.mk(wg, II("Session is expired."), true);
+client.init(true, "KtWeb", function(isExpired)  {sys.$params(arguments.length, 1);
+  const msg =sys.$checkNull( isExpired
+    ? II("Session is expired.")
+    : II("Data base is out of date."))
+  ;
+  const msgWg =sys.$checkNull( Q("div"));
+  msgPg.mk(msgWg, msg, true);
   Q("@body")
     .removeAll()
-    .add(wg)
+    .add(msgWg)
     .add(cts.foot)
   ;
 });
@@ -107,5 +117,13 @@ Q("@body")
   .add(cts.foot)
   .add(ui.upTop("up"))
 ;
+
+
+export  async  function load()  {sys.$params(arguments.length, 0);
+  await mk(wg);
+
+  const fc =sys.$checkNull( ui.qOp("#autofocus"));
+  if (!sys.asBool(!sys.asBool(fc))) fc[0].e.focus();
+};
 
 load();

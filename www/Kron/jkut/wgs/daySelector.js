@@ -18,38 +18,38 @@ const II =sys.$checkNull( i18n.tlt);
 
 
 
-export  function mk(wg, days, editable)  {sys.$params(arguments.length, 3);
+export  function mk(wg,  Days, editable)  {sys.$params(arguments.length, 3);
   
-  const Show =sys.$checkNull( [[]]);
+  const showV =sys.$checkNull( [[]]);
 
   
    function click(n)  {sys.$params(arguments.length, 1);
-    const ix =sys.$checkNull( arr.index(days, function(d)  {sys.$params(arguments.length, 1);  return sys.$eq(d , n);}));
-    if (sys.asBool(sys.$neq(ix ,  -1))) arr.remove(days, ix);
-    else arr.push(days, n);
-    Show[0]();
+    const ix =sys.$checkNull( arr.index(Days,function(d)  {sys.$params(arguments.length, 1);  return sys.$eq(d , n);}));
+    if (sys.$neq(ix ,  -1)) arr.remove(Days,ix);
+    else arr.push(Days,n);
+    showV[0]();
   };
 
-  Show[0] =sys.$checkExists(Show[0], function() {sys.$params(arguments.length, 0);
+  showV[0] =sys.$checkExists(showV[0], function() {sys.$params(arguments.length, 0);
     const ds =sys.$checkNull( II("MTWRFSU"));
-    const tds =sys.$checkNull(sys.asBool( editable)
+     const Tds =sys.$checkNull( editable
       ? arr.fromIter(iter.map(iter.$range(0,7), function(i)  {sys.$params(arguments.length, 1);
-          const selected =sys.$checkNull( arr.any(days, function(d)  {sys.$params(arguments.length, 1);  return sys.$eq(d , i);}));
+          const selected =sys.$checkNull( arr.any(Days,function(d)  {sys.$params(arguments.length, 1);  return sys.$eq(d , i);}));
            return Q("td")
-            .klass(sys.asBool(selected) ? "frame" : "GrFrame")
+            .klass(selected ? "frame" : "GrFrame")
             .style("font-family:monospace;cursor:pointer;" +
-              (sys.asBool(selected) ? "font-weight:bold;" : "color:#a9a9a9;"))
+              (selected ? "font-weight:bold;" : "color:#a9a9a9;"))
             .on("click", function(ev)  {sys.$params(arguments.length, 1); click(i);})
-            .text(ds.charAt(i))
+            .text(ds[i])
           ;
         }))
       : arr.fromIter(iter.map(iter.$range(0,7), function(i)  {sys.$params(arguments.length, 1);
-          const selected =sys.$checkNull( arr.any(days, function(d)  {sys.$params(arguments.length, 1);  return sys.$eq(d , i);}));
+          const selected =sys.$checkNull( arr.any(Days,function(d)  {sys.$params(arguments.length, 1);  return sys.$eq(d , i);}));
            return Q("td")
             .klass("GrFrame")
             .style("font-family:monospace;"+
-              (sys.asBool(selected) ? "font-weight:bold;" : "color:#a9a9a9;"))
-            .text(ds.charAt(i))
+              (selected ? "font-weight:bold;" : "color:#a9a9a9;"))
+            .text(ds[i])
           ;
         })))
     ;
@@ -62,15 +62,15 @@ export  function mk(wg, days, editable)  {sys.$params(arguments.length, 3);
           .add(Q("td")
             .add(Q("table")
               .add(Q("tr")
-                .adds(arr.take(tds, 4))))))
+                .adds(arr.take(Tds,4))))))
         .add(Q("tr")
           .add(Q("td")
             .add(Q("table")
               .att("align", "center")
               .add(Q("tr")
-                .adds(arr.drop(tds, 4)))))))
+                .adds(arr.drop(Tds,4)))))))
     ;
   });
 
-   return {days:days, editable:editable, show: Show[0]};
+   return {Days:Days, editable:editable, show: showV[0]};
 };

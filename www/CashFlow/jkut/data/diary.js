@@ -4,32 +4,26 @@ import * as math from '../_js/math.js';import * as js from '../_js/js.js';import
 
 
 import * as month from  "../data/month.js";
+import * as dann from  "../data/dann.js";
+import * as danns from  "../data/danns.js";
+import * as diaryEntry from  "../data/diaryEntry.js";
 
 
 
-export  function mk(entries)  {sys.$params(arguments.length, 1);  return {entries:entries};};
+export  function del( D, ix)  {sys.$params(arguments.length, 2); arr.remove(D,ix);};
 
 
 
-export  function del(D, ix)  {sys.$params(arguments.length, 2); arr.remove(D.entries, ix);};
-
-
-
-export  function changeAcc(D, oldAcc, newAcc)  {sys.$params(arguments.length, 3);
-  for (const E  of sys.$forObject( D.entries)) {
-    const Anns =sys.$checkNull( E.anns);
-    for (let i = 0;i < arr.size(Anns); ++i) {
-      const a =sys.$checkNull( Anns[i]);
-      if (sys.asBool(sys.$eq(annId(a) , oldAcc))) Anns[i] =sys.$checkExists(Anns[i],sys.$checkNull( mkAnnotation(newAcc, annAm(a))));
-    }
-  }}
+export  function changeAcc( D, oldAcc, newAcc)  {sys.$params(arguments.length, 3);
+  for (const  e  of sys.$forObject( D)) for ( const [i, a]  of sys.$forObject2( e[diaryEntry.Anns]))
+    if (sys.$eq(a[dann.id] , oldAcc)) e[diaryEntry.Anns][i] =sys.$checkExists(e[diaryEntry.Anns][i],sys.$checkNull( dann.mk(newAcc, a[dann.am])));}
 ;
 
 
 
 export  function accs(D)  {sys.$params(arguments.length, 1);
-  const Dic =sys.$checkNull( {}); 
-  for (const E  of sys.$forObject( D.entries)) for (const a  of sys.$forObject( E.anns)) dic.put(Dic, a, 1);
+   const Dic =sys.$checkNull( {}); 
+  for (const  e  of sys.$forObject( D)) for (const a  of sys.$forObject( e[diaryEntry.Anns])) dic.put(Dic,a.id, 1);
    return dic.keys(Dic);
 };
 
@@ -37,30 +31,32 @@ export  function accs(D)  {sys.$params(arguments.length, 1);
 
 export  function previous(D, ix)  {sys.$params(arguments.length, 2);
   const start0 =sys.$checkNull( ix - 5);
-  const start =sys.$checkNull(sys.asBool( start0 < 0) ? 0 : start0);
-   return sys.$slice(D.entries,start,ix);
+  const start =sys.$checkNull( start0 < 0 ? 0 : start0);
+   return sys.$slice(D,start,ix);
 };
 
 
 
-export  function next(D, ix)  {sys.$params(arguments.length, 2);
+export  function next( D, ix)  {sys.$params(arguments.length, 2);
   const end0 =sys.$checkNull( ix + 6);
-  const end =sys.$checkNull(sys.asBool( end0 > arr.size(D.entries)) ? arr.size(D.entries) : end0);
-   return sys.$slice(D.entries,ix + 1,end);
+  const end =sys.$checkNull( end0 > arr.size(D) ? arr.size(D) : end0);
+   return sys.$slice(D,ix + 1,end);
 };
 
 
 
 
 
-export  function filterReverse(D, fromMonthIx, toMonthIx)  {sys.$params(arguments.length, 3);
+export  function filterReverse( D, fromMonthIx, toMonthIx)  {sys.$params(arguments.length, 3);
   const from =sys.$checkNull( month.format(fromMonthIx + 1));
   const to =sys.$checkNull( month.format(toMonthIx + 1));
-  const R =sys.$checkNull( []); 
-  for (let i = 0;i < arr.size(D.entries); ++i) arr.push(R, [i, D.entries[i]]);
-   return arr.reverse(arr.filter(
-    R, function(Tp)  {sys.$params(arguments.length, 1);  return sys.asBool(Tp[1].month >= from) && sys.asBool(Tp[1].month < to);}
-  ));
+   const R =sys.$checkNull( []); 
+  for (let i = 0;i < arr.size(D); ++i) arr.push(R,[i, D[i]]);
+  arr.filterIn(R,function(tp)  {sys.$params(arguments.length, 1);
+    const month =sys.$checkNull( tp[1][diaryEntry.month]);
+     return month >= from && month < to;
+  });
+   return arr.reverse(R);
 };
 
 
@@ -71,10 +67,10 @@ export  function accAmount(D, accId, fromMonthIx, toMonthIx)  {sys.$params(argum
   const from =sys.$checkNull( month.format(fromMonthIx + 1));
   const to =sys.$checkNull( month.format(toMonthIx + 1));
   const sumV =sys.$checkNull( [0]);
-  for (const E  of sys.$forObject( D.entries))
-    if (sys.asBool(sys.asBool(E.month >= from) && sys.asBool(E.month < to)))
-      for (const a  of sys.$forObject( E.anns))
-        if (sys.asBool(sys.$eq(annId(a) , accId))) sumV[0] +=sys.$checkExists(sumV[0],sys.$checkNull( annAm(a)));
+  for (const  e  of sys.$forObject( D))
+    if (e[diaryEntry.month] >= from && e[diaryEntry.month] < to)
+      for (const  a  of sys.$forObject( e[diaryEntry.Anns]))
+        if (sys.$eq(a[dann.id] , accId)) sumV[0] +=sys.$checkExists(sumV[0],sys.$checkNull( a[dann.am]));
 
    return sumV[0];
 };
@@ -88,94 +84,11 @@ export  function totalAmount(D, fromMonthIx, toMonthIx)  {sys.$params(arguments.
   const to =sys.$checkNull( month.format(toMonthIx + 1));
 
   const sumV =sys.$checkNull( [0]);
-  for (const E  of sys.$forObject( D.entries))
-    if (sys.asBool(sys.asBool(E.month >= from) && sys.asBool(E.month < to)))
-      for (const a  of sys.$forObject( E.anns))
-        if (sys.asBool(E.isIncome)) sumV[0] +=sys.$checkExists(sumV[0],sys.$checkNull( annAm(a)));
-        else sumV[0] -=sys.$checkExists(sumV[0],sys.$checkNull( annAm(a)));
+  for (const  e  of sys.$forObject( D))
+    if (e[diaryEntry.month] >= from && e[diaryEntry.month] < to)
+      for (const  a  of sys.$forObject( e[diaryEntry.Anns]))
+        if (e[diaryEntry.isIncome]) sumV[0] +=sys.$checkExists(sumV[0],sys.$checkNull( a[dann.am]));
+        else sumV[0] -=sys.$checkExists(sumV[0],sys.$checkNull( a[dann.am]));
 
    return sumV[0];
 };
-
-
-export  function toJs(D)  {sys.$params(arguments.length, 1);  return arr.map(D.entries, entryToJs);};
-
-
-export  function fromJs(A)  {sys.$params(arguments.length, 1);  return mk(arr.map(A, entryFromJs));};
-
-
-
-
-
-
-
-
-
-export  function mkEntry(month, desc, isIncome, anns)  {sys.$params(arguments.length, 4);  return {
-    month:month, desc:desc, isIncome:isIncome, anns:anns,
-    am: arr.reduce(anns, 0, function(r, e)  {sys.$params(arguments.length, 2);  return r + annAm(e);})
-  };};
-
-
-
-
-export  function setAnns(Entry, Anns)  {sys.$params(arguments.length, 2);
-   return mkEntry(Entry.month, Entry.desc, Entry.isIncome, Anns);};
-
-
-export  function entryToJs(E)  {sys.$params(arguments.length, 1);  return [E.month, E.desc, E.isIncome, E.anns];};
-
-
-export  function entryFromJs(A)  {sys.$params(arguments.length, 1);  return mkEntry(A[0], A[1], A[2], A[3]);};
-
-
-
-
-
-
-export  function mkAnnotation(id, am)  {sys.$params(arguments.length, 2);  return [id, am];};
-
-
-
-export  function annId(ann)  {sys.$params(arguments.length, 1);  return ann[0];};
-
-
-
-export  function annAm(ann)  {sys.$params(arguments.length, 1);  return ann[1];};
-
-
-
-export  function setAnnId(Anns, ix, id)  {sys.$params(arguments.length, 3);
-  const R =sys.$checkNull( arr.copy(Anns));
-  R[ix] =sys.$checkExists(R[ix],sys.$checkNull( [id, R[ix][1]]));
-   return R;
-};
-
-
-
-
-
-
-
-export  function setAnnAm(Anns, ix, am)  {sys.$params(arguments.length, 3);
-  const R =sys.$checkNull( arr.copy(Anns));
-  R[ix] =sys.$checkExists(R[ix],sys.$checkNull( [R[ix][0], am]));
-  const oldSum =sys.$checkNull( arr.reduce(Anns, 0, function(r, e)  {sys.$params(arguments.length, 2);  return r + e;}));
-  const newSum =sys.$checkNull( arr.reduce(R, 0, function(r, e)  {sys.$params(arguments.length, 2);  return r + e;}));
-  const lastValue =sys.$checkNull( arr.peek(R)[1] + oldSum - newSum);
-  if (sys.asBool(lastValue < 0))  return [];
-  arr.peek(R)[1] =sys.$checkExists(arr.peek(R)[1],sys.$checkNull( lastValue));
-   return R;
-};
-
-
-
-export  function addAnn(Anns, A)  {sys.$params(arguments.length, 2);
-  const R =sys.$checkNull( arr.copy(Anns));
-  arr.push(R, mkAnnotation("", 0));
-   return R;
-};
-
-
-
-export  function clearAnns(Anns)  {sys.$params(arguments.length, 1);  return arr.filter(Anns, function(A)  {sys.$params(arguments.length, 1);  return sys.$neq(A[1] , 0);});};

@@ -17,7 +17,7 @@ const II =sys.$checkNull( i18n.tlt);
 
 
 export  function process(wg, dbmenu, LcPath)  {sys.$params(arguments.length, 3);
-  if (sys.asBool(!sys.asBool(LcPath))) arr.push(LcPath, "profits");
+  if (!sys.asBool(LcPath)) arr.push(LcPath, "profits");
 
   const lopts =sys.$checkNull( [
     dmenu.mkHiddenButton(dbmenu),

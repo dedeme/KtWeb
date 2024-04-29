@@ -10,9 +10,6 @@ const Q =sys.$checkNull( ui.q);
 
 
 
-
-
-
 export  function mk(content, withClose)  {sys.$params(arguments.length, 2);
   const wg =sys.$checkNull( Q("div")
     .style(
@@ -39,7 +36,7 @@ export  function mk(content, withClose)  {sys.$params(arguments.length, 2);
       "padding: 4px;border-radius: 4px;"
     ));
 
-  if (sys.asBool(withClose))
+  if (withClose)
     tb.add(Q("tr")
       .add(Q("td")
         .style("width:100%;text-align:right;padding-bottom:5px")
@@ -64,6 +61,10 @@ export  function mk(content, withClose)  {sys.$params(arguments.length, 2);
 
 
 
-export  function show(Mbox, value)  {sys.$params(arguments.length, 2);
-  if (sys.asBool(value)) Mbox.wg.setStyle("display", "block");
-  else Mbox.wg.setStyle("display", "none");};
+export  function mkWg(mbox)  {sys.$params(arguments.length, 1);  return mbox.wg;};
+
+
+
+export  function show(mbox, value)  {sys.$params(arguments.length, 2);
+  if (value) mbox.wg.setStyle("display", "block");
+  else mbox.wg.setStyle("display", "none");};

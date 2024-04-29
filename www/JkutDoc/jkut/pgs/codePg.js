@@ -26,7 +26,7 @@ const stQ =sys.$checkNull( stLong + 1);
 
 
 export  async  function mk(wg, pack, path, anchor)   {sys.$params(arguments.length, 4);
-  const prefix =sys.$checkNull(sys.asBool( anchor.startsWith("hp::")) ? "hp::" : "hp:");
+  const prefix =sys.$checkNull( anchor.startsWith("hp::") ? "hp::" : "hp:");
   const Left =sys.$checkNull( [""]);
   const Right =sys.$checkNull( [""]);
   const LineCounter =sys.$checkNull( [0]);
@@ -47,42 +47,21 @@ export  async  function mk(wg, pack, path, anchor)   {sys.$params(arguments.leng
    function processCode(l)  {sys.$params(arguments.length, 1);
     
      function makeLink(code)  {sys.$params(arguments.length, 1);
-      const Bf =sys.$checkNull( [""]);
-      for (let i = 0;i < str.len(code); ++i) {
-        const ch =sys.$checkNull( code[i]);
-        if (sys.asBool(sys.$eq(ch , "#"))) {
-          Bf[0] +=sys.$checkExists(Bf[0],sys.$checkNull( "_"));
-        } else if (sys.asBool(ch > " ")) {
-          Bf[0] +=sys.$checkExists(Bf[0],sys.$checkNull( ch));
-        }
-      }
+      const ix0 =sys.$checkNull( code.indexOf("="));
+      const ix =sys.$checkNull( sys.$eq(ix0 ,  -1) ? code.indexOf(":") : ix0);
 
-      const Ix =sys.$checkNull( [Bf[0].indexOf("=")]);
-      const ix2 =sys.$checkNull( Bf[0].indexOf("("));
-      if (sys.asBool(sys.asBool(sys.$eq(Ix[0] ,  -1)) || sys.asBool((sys.asBool(sys.$neq(ix2 ,  -1)) && sys.asBool(ix2 < Ix[0]))))) {
-        Ix[0] =sys.$checkExists(Ix[0],sys.$checkNull( ix2));
-        if (sys.asBool(sys.$neq(Ix[0] ,  -1))) {
-          if (sys.asBool(str.starts(sys.$slice(Bf[0],Ix[0],null), "(*"))) {
-            const ix2 =sys.$checkNull( Bf[0].indexOf("(", Ix[0] + 1));
-            if (sys.asBool(sys.$neq(ix2 ,  -1))) Ix[0] =sys.$checkExists(Ix[0],sys.$checkNull( ix2));
-          }
-        }
-      }
-      if (sys.asBool(sys.$eq(Ix[0] ,  -1))) Ix[0] =sys.$checkExists(Ix[0],sys.$checkNull( Bf[0].indexOf(";")));
-      if (sys.asBool(sys.$eq(Ix[0] ,  -1))) Ix[0] =sys.$checkExists(Ix[0],sys.$checkNull( Bf[0].length));
-
-       return sys.$slice(Bf[0],null,Ix[0]);
+       return sys.$eq(ix ,  -1) ? "*" : str.trim(sys.$slice(code,null,ix));
     };
 
     const R =sys.$checkNull( [toHtml(l)]);
 
     for (const w  of sys.$forObject( reserved.split(" "))) {
       const Ix =sys.$checkNull( [str.index(R[0], w)]);
-      while (sys.asBool(sys.$neq(Ix[0] ,  -1))) {
+      while (sys.$neq(Ix[0] ,  -1)) {
         const ix1 =sys.$checkNull( Ix[0]);
         const ix2 =sys.$checkNull( ix1 + w.length);
-        if (sys.asBool(sys.asBool((sys.asBool(sys.$eq(ix1 , 0)) || sys.asBool(isNotId(R[0][ix1 - 1])))) &&
-            sys.asBool((sys.asBool(sys.$eq(ix1 , str.len(R[0]))) || sys.asBool(isNotId(R[0][ix2])))))
+        if ((sys.$eq(ix1 , 0) || isNotId(R[0][ix1 - 1])) &&
+            (sys.$eq(ix1 , str.len(R[0])) || isNotId(R[0][ix2]))
         ) {
           R[0] =sys.$checkExists(R[0],sys.$checkNull( sys.$slice(R[0],null,Ix[0]) + "<span==>" + w +
             "</span>" + sys.$slice(R[0],Ix[0] + w.length,null)));
@@ -94,11 +73,11 @@ export  async  function mk(wg, pack, path, anchor)   {sys.$params(arguments.leng
 
     for (const w  of sys.$forObject( lib.split(" "))) {
       const Ix =sys.$checkNull( [str.index(R[0], w)]);
-      while (sys.asBool(sys.$neq(Ix[0] ,  -1))) {
+      while (sys.$neq(Ix[0] ,  -1)) {
         const ix1 =sys.$checkNull( Ix[0]);
         const ix2 =sys.$checkNull( ix1 + w.length);
-        if (sys.asBool(sys.asBool((sys.asBool(sys.$eq(ix1 , 0)) || sys.asBool(isNotId(R[0][ix1 - 1])))) &&
-            sys.asBool((sys.asBool(sys.$eq(ix1 , str.len(R[0]))) || sys.asBool(isNotId(R[0][ix2])))))
+        if ((sys.$eq(ix1 , 0) || isNotId(R[0][ix1 - 1])) &&
+            (sys.$eq(ix1 , str.len(R[0])) || isNotId(R[0][ix2]))
         ) {
           R[0] =sys.$checkExists(R[0],sys.$checkNull( sys.$slice(R[0],null,Ix[0]) + "<span class='package'>" + w +
             "</span>" + sys.$slice(R[0],Ix[0] + w.length,null)));
@@ -109,11 +88,11 @@ export  async  function mk(wg, pack, path, anchor)   {sys.$params(arguments.leng
 
     for (const w  of sys.$forObject( special.split(" "))) {
       const Ix =sys.$checkNull( [str.index(R[0], w)]);
-      while (sys.asBool(sys.$neq(Ix[0] ,  -1))) {
+      while (sys.$neq(Ix[0] ,  -1)) {
         const ix1 =sys.$checkNull( Ix[0]);
         const ix2 =sys.$checkNull( ix1 + w.length);
-        if (sys.asBool(sys.asBool((sys.asBool(sys.$eq(ix1 , 0)) || sys.asBool(isNotId(R[0][ix1 - 1])))) &&
-            sys.asBool((sys.asBool(sys.$eq(ix1 , str.len(R[0]))) || sys.asBool(isNotId(R[0][ix2])))))
+        if ((sys.$eq(ix1 , 0) || isNotId(R[0][ix1 - 1])) &&
+            (sys.$eq(ix1 , str.len(R[0])) || isNotId(R[0][ix2]))
         ) {
           R[0] =sys.$checkExists(R[0],sys.$checkNull( sys.$slice(R[0],null,Ix[0]) + "<span class='special'>" + w +
             "</span>" + sys.$slice(R[0],Ix[0] + w.length,null)));
@@ -125,36 +104,36 @@ export  async  function mk(wg, pack, path, anchor)   {sys.$params(arguments.leng
     const UpperBf =sys.$checkNull( [""]);
     const St =sys.$checkNull( [0]);
     Right[0] +=sys.$checkExists(Right[0],sys.$checkNull( arr.reduce(str.split(R[0], ""), "", function(seed, ch)  {sys.$params(arguments.length, 2);
-      if (sys.asBool(sys.asBool(sys.$eq(St[0] , 0)) || sys.asBool(sys.$eq(St[0] , 3)))) { 
-        if (sys.asBool(isNumber(ch))) {
+      if (sys.$eq(St[0] , 0) || sys.$eq(St[0] , 3)) { 
+        if (isNumber(ch)) {
           St[0] =sys.$checkExists(St[0],sys.$checkNull( 1));
            return seed + "<span class='number'>" + ch;
         }
-        if (sys.asBool(isUpper(ch))) {
+        if (isUpper(ch)) {
           UpperBf[0] =sys.$checkExists(UpperBf[0],sys.$checkNull( ch));
           St[0] =sys.$checkExists(St[0],sys.$checkNull( 2));
            return seed;
         }
-        if (sys.asBool(isNotId(ch))) {
+        if (isNotId(ch)) {
           St[0] =sys.$checkExists(St[0],sys.$checkNull( 3));
            return seed + ch;
         }
         St[0] =sys.$checkExists(St[0],sys.$checkNull( 4));
          return seed + ch;
       }
-      if (sys.asBool(sys.$eq(St[0] , 1))) { 
-        if (sys.asBool(isNumber(ch)))
+      if (sys.$eq(St[0] , 1)) { 
+        if (isNumber(ch))
            return seed + ch;
         St[0] =sys.$checkExists(St[0],sys.$checkNull( 4));
-        if (sys.asBool(isNotId(ch))) {
+        if (isNotId(ch)) {
           St[0] =sys.$checkExists(St[0],sys.$checkNull( 3));
         }
          return seed + "</span>" + ch;
       }
-      if (sys.asBool(sys.$eq(St[0] , 2))) { 
-        if (sys.asBool(isNotId(ch))) {
+      if (sys.$eq(St[0] , 2)) { 
+        if (isNotId(ch)) {
           St[0] =sys.$checkExists(St[0],sys.$checkNull( 3));
-          if (sys.asBool(sys.$eq(str.index(" " + special + " ", " " + UpperBf[0] + " ") ,  -1)))
+          if (sys.$eq(str.index(" " + special + " ", " " + UpperBf[0] + " ") ,  -1))
              return seed + "<span class='container'>" + UpperBf[0] + "</span>" + ch;
           else
              return seed + UpperBf[0] + ch;
@@ -162,19 +141,19 @@ export  async  function mk(wg, pack, path, anchor)   {sys.$params(arguments.leng
         UpperBf[0] +=sys.$checkExists(UpperBf[0],sys.$checkNull( ch));
          return seed;
       } 
-      if (sys.asBool(isNotId(ch)))
+      if (isNotId(ch))
         St[0] =sys.$checkExists(St[0],sys.$checkNull( 3));
        return seed + ch;
     })));
-    if (sys.asBool(sys.asBool(sys.$eq(St[0] , 1)) || sys.asBool(sys.$eq(St[0] , 2)))) {
+    if (sys.$eq(St[0] , 1) || sys.$eq(St[0] , 2)) {
       Right[0] +=sys.$checkExists(Right[0],sys.$checkNull( "</span>"));
     }
 
-    if (sys.asBool(str.len(l) > 0)) {
+    if (str.len(l) > 0) {
       const ch =sys.$checkNull( l[0]);
-      if (sys.asBool(sys.asBool(sys.asBool(ch > " ") &&
-        sys.asBool(sys.$neq(ch , "("))) &&
-        sys.asBool(sys.$neq(ch , "}")))
+      if (ch > " " &&
+        sys.$neq(ch , "(") &&
+        sys.$neq(ch , "}")
       ) {
         Left[0] +=sys.$checkExists(Left[0],sys.$checkNull( "<span id='" + prefix +
           makeLink(str.trim(l)) +
@@ -186,9 +165,9 @@ export  async  function mk(wg, pack, path, anchor)   {sys.$params(arguments.leng
 
   
    function processLine(l)  {sys.$params(arguments.length, 1);
-    if (sys.asBool(sys.$eq(State[0] , stLong))) { 
+    if (sys.$eq(State[0] , stLong)) { 
       const ix =sys.$checkNull( l.indexOf("*/"));
-      if (sys.asBool(sys.$neq(ix ,  -1))) {
+      if (sys.$neq(ix ,  -1)) {
         State[0] =sys.$checkExists(State[0],sys.$checkNull( stCode));
         Right[0] +=sys.$checkExists(Right[0],sys.$checkNull( toHtml(sys.$slice(l,null,ix + 2)) + "</span>"));
         processLine(sys.$slice(l,ix + 2,null));
@@ -196,10 +175,10 @@ export  async  function mk(wg, pack, path, anchor)   {sys.$params(arguments.leng
         Right[0] +=sys.$checkExists(Right[0],sys.$checkNull( toHtml(l)));
         newLine();
       }
-    } else if (sys.asBool(sys.$eq(State[0] , stQ))) { 
+    } else if (sys.$eq(State[0] , stQ)) { 
       const qix =sys.$checkNull( l.indexOf(CharQuotes[0]));
-      if (sys.asBool(sys.$eq(qix ,  -1))) {
-        if (sys.asBool(sys.$eq(str.len(CharQuotes[0]) , 3))) {
+      if (sys.$eq(qix ,  -1)) {
+        if (sys.$eq(str.len(CharQuotes[0]) , 3)) {
           Right[0] +=sys.$checkExists(Right[0],sys.$checkNull( toHtml(l)));
           newLine();
         } else {
@@ -209,13 +188,13 @@ export  async  function mk(wg, pack, path, anchor)   {sys.$params(arguments.leng
         }
         return;
       }
-      if (sys.asBool(sys.$eq(CharQuotes[0].length , 3))) {
+      if (sys.$eq(CharQuotes[0].length , 3)) {
         State[0] =sys.$checkExists(State[0],sys.$checkNull( stCode));
         Right[0] +=sys.$checkExists(Right[0],sys.$checkNull( toHtml(sys.$slice(l,null,qix + 3)) + "</span>"));
         processLine(sys.$slice(l,qix + 3,null));
       } else {
         const bix =sys.$checkNull( l.indexOf("\\"));
-        if (sys.asBool(sys.asBool(sys.$neq(bix ,  -1)) && sys.asBool(bix < qix))) {
+        if (sys.$neq(bix ,  -1) && bix < qix) {
           Right[0] +=sys.$checkExists(Right[0],sys.$checkNull( toHtml(sys.$slice(l,null,bix + 2))));
           processLine(sys.$slice(l,bix + 2,null));
         } else {
@@ -225,37 +204,37 @@ export  async  function mk(wg, pack, path, anchor)   {sys.$params(arguments.leng
         }
       }
     } else { 
-      if (sys.asBool(sys.$eq(l.trim() , ""))) {
+      if (sys.$eq(l.trim() , "")) {
         newLine();
         return;
       }
       const R =sys.$checkNull( [0]);
       const Pos =sys.$checkNull( [2000]);
       const Ix =sys.$checkNull( [l.indexOf("/*")]); 
-      if (sys.asBool(sys.$neq(Ix[0] ,  -1))) {
+      if (sys.$neq(Ix[0] ,  -1)) {
         R[0] =sys.$checkExists(R[0],sys.$checkNull( 1));
         Pos[0] =sys.$checkExists(Pos[0],sys.$checkNull( Ix[0]));
       }
       Ix[0] =sys.$checkExists(Ix[0],sys.$checkNull( l.indexOf("//"))); 
-      if (sys.asBool(sys.asBool(sys.$neq(Ix[0] ,  -1)) && sys.asBool(Ix[0] < Pos[0]))) {
+      if (sys.$neq(Ix[0] ,  -1) && Ix[0] < Pos[0]) {
         R[0] =sys.$checkExists(R[0],sys.$checkNull( 2));
         Pos[0] =sys.$checkExists(Pos[0],sys.$checkNull( Ix[0]));
       }
       Ix[0] =sys.$checkExists(Ix[0],sys.$checkNull( l.indexOf("\""))); 
-      if (sys.asBool(sys.asBool(sys.$neq(Ix[0] ,  -1)) && sys.asBool(Ix[0] < Pos[0]))) {
+      if (sys.$neq(Ix[0] ,  -1) && Ix[0] < Pos[0]) {
         R[0] =sys.$checkExists(R[0],sys.$checkNull( 3));
         Pos[0] =sys.$checkExists(Pos[0],sys.$checkNull( Ix[0]));
       }
       Ix[0] =sys.$checkExists(Ix[0],sys.$checkNull( l.indexOf("'"))); 
-      if (sys.asBool(sys.asBool(sys.$neq(Ix[0] ,  -1)) && sys.asBool(Ix[0] < Pos[0]))) {
+      if (sys.$neq(Ix[0] ,  -1) && Ix[0] < Pos[0]) {
         R[0] =sys.$checkExists(R[0],sys.$checkNull( 4));
         Pos[0] =sys.$checkExists(Pos[0],sys.$checkNull( Ix[0]));
       }
 
-      if (sys.asBool(sys.$eq(R[0] , 1))) { 
+      if (sys.$eq(R[0] , 1)) { 
         processCode(sys.$slice(l,null,Pos[0]));
         const l2 =sys.$checkNull( sys.$slice(l,Pos[0] + 2,null));
-        if (sys.asBool(str.starts(l2, "*"))) {
+        if (str.starts(l2, "*")) {
           Right[0] +=sys.$checkExists(Right[0],sys.$checkNull( "<span class='docComment'>/*"));
           State[0] =sys.$checkExists(State[0],sys.$checkNull( stLong));
         } else {
@@ -263,21 +242,21 @@ export  async  function mk(wg, pack, path, anchor)   {sys.$params(arguments.leng
           State[0] =sys.$checkExists(State[0],sys.$checkNull( stLong));
         }
         processLine(l2);
-      } else if (sys.asBool(sys.$eq(R[0] , 2))) { 
+      } else if (sys.$eq(R[0] , 2)) { 
         processCode(sys.$slice(l,null,Pos[0]));
         const l2 =sys.$checkNull( sys.$slice(l,Pos[0] + 2,null));
-        if (sys.asBool(str.starts(l2, "/"))) {
+        if (str.starts(l2, "/")) {
           Right[0] +=sys.$checkExists(Right[0],sys.$checkNull( "<span class='docComment'>//"));
         } else {
           Right[0] +=sys.$checkExists(Right[0],sys.$checkNull( "<span class='docComment'>//"));
         }
         Right[0] +=sys.$checkExists(Right[0],sys.$checkNull( toHtml(l2) + "</span>"));
         newLine();
-      } else if (sys.asBool(sys.$eq(R[0] , 3))) { 
+      } else if (sys.$eq(R[0] , 3)) { 
         processCode(sys.$slice(l,null,Pos[0]));
         State[0] =sys.$checkExists(State[0],sys.$checkNull( stQ));
         const l2 =sys.$checkNull( sys.$slice(l,Pos[0] + 1,null));
-        if (sys.asBool(str.starts(l2, "\"\""))) {
+        if (str.starts(l2, "\"\"")) {
           CharQuotes[0] =sys.$checkExists(CharQuotes[0],sys.$checkNull( "\"\"\""));
           Right[0] +=sys.$checkExists(Right[0],sys.$checkNull( "<span class='quote'>\"\"\""));
           processLine(sys.$slice(l2,2,null));
@@ -286,7 +265,7 @@ export  async  function mk(wg, pack, path, anchor)   {sys.$params(arguments.leng
           Right[0] +=sys.$checkExists(Right[0],sys.$checkNull( "<span class='quote'>\""));
           processLine(l2);
         }
-      } else if (sys.asBool(sys.$eq(R[0] , 4))) { 
+      } else if (sys.$eq(R[0] , 4)) { 
         processCode(sys.$slice(l,null,Pos[0]));
         State[0] =sys.$checkExists(State[0],sys.$checkNull( stQ));
         CharQuotes[0] =sys.$checkExists(CharQuotes[0],sys.$checkNull( "'"));
@@ -306,7 +285,7 @@ export  async  function mk(wg, pack, path, anchor)   {sys.$params(arguments.leng
 
   
 
-  const Rp =sys.$checkNull( await  client.ssend({
+  const Rp =sys.$checkNull( await  client.send({
     prg: "JkutDoc",
     source: "CodePg",
     rq: "code",
@@ -314,7 +293,7 @@ export  async  function mk(wg, pack, path, anchor)   {sys.$params(arguments.leng
     path: path
   }));
 
-  if (sys.asBool(!sys.asBool(Rp.code))) {
+  if (sys.$eq(Rp.code , "")) {
     msgPg.mk(wg, i18n.fmt(II("[%0] Jkut file not found."), [path]), true);
     return;
   }
@@ -352,20 +331,20 @@ export  async  function mk(wg, pack, path, anchor)   {sys.$params(arguments.leng
   ;
 
   const Tg =sys.$checkNull( sys.$null((Q("#" + anchor).e)));
-  if (sys.asBool(Tg)) Tg[0].scrollIntoView(true);
+  if (!sys.asBool(!sys.asBool(Tg))) Tg[0].scrollIntoView(true);
 };
 
 
- function isNumber(ch)  {sys.$params(arguments.length, 1);  return sys.asBool(ch >= "0") && sys.asBool(ch <= "9");};
+ function isNumber(ch)  {sys.$params(arguments.length, 1);  return ch >= "0" && ch <= "9";};
 
 
- function isUpper(ch)  {sys.$params(arguments.length, 1);  return (sys.asBool(ch >= "A") && sys.asBool(ch <= "Z"));};
+ function isUpper(ch)  {sys.$params(arguments.length, 1);  return (ch >= "A" && ch <= "Z");};
 
 
- function isLetter(ch)  {sys.$params(arguments.length, 1);  return sys.asBool((sys.asBool(ch >= "a") && sys.asBool(ch <= "z"))) || sys.asBool((sys.asBool(ch >= "A") && sys.asBool(ch <= "Z")));};
+ function isLetter(ch)  {sys.$params(arguments.length, 1);  return (ch >= "a" && ch <= "z") || (ch >= "A" && ch <= "Z");};
 
 
- function isNotId(ch)  {sys.$params(arguments.length, 1);  return sys.asBool(!sys.asBool(isNumber(ch))) && sys.asBool(!sys.asBool(isLetter(ch)));};
+ function isNotId(ch)  {sys.$params(arguments.length, 1);  return !sys.asBool(isNumber(ch)) && !sys.asBool(isLetter(ch));};
 
 
  function toHtml(s)  {sys.$params(arguments.length, 1);  return s

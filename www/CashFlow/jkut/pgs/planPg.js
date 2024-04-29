@@ -3,9 +3,12 @@ import * as math from '../_js/math.js';import * as js from '../_js/js.js';import
 
 
 
-import * as cts from  "../data/cts.js";
+import * as global from  "../global.js";
+import * as cts from  "../cts.js";
 import * as plan from  "../data/plan.js";
+import * as planEntry from  "../data/planEntry.js";
 import * as diary from  "../data/diary.js";
+import * as diaryEntry from  "../data/diaryEntry.js";
 import * as i18n from  "../i18n.js";
 
 const Q =sys.$checkNull( ui.q);
@@ -16,79 +19,86 @@ const II =sys.$checkNull( i18n.tlt);
 
 
 export  async  function mk(wg, selectedYear)  {sys.$params(arguments.length, 2);
-  const Rp =sys.$checkNull( await  client.send({
+   const {Plan, 
+   CDiary, 
+  dbKey}
+  = await  client.send({
     prg: cts.appName,
     source: "PlanPg",
     rq: "idata",
     year: selectedYear
-  }));
-  const Plan =sys.$checkNull( plan.fromJs(Rp.plan));
-  const Diary =sys.$checkNull( diary.fromJs(Rp.diary));
+  });
+  global.dbKeyV[0] =sys.$checkExists(global.dbKeyV[0],sys.$checkNull( dbKey));
+   const Diary =sys.$checkNull( arr.map(CDiary,diaryEntry.fromJs)); 
 
-  const OldEntryOp =sys.$checkNull( []);
+  const oldEntryOp =sys.$checkNull( []); 
 
   const showOp =sys.$checkNull( [[]]);
 
   
 
   
-   function updateServerPlan()  {sys.$params(arguments.length, 0);
-     return client.ssend({
+   async  function updateServerPlan()  {sys.$params(arguments.length, 0);
+     const {dbKey} = await  client.send({
       prg: cts.appName,
       source: "PlanPg",
       rq: "updatePlan",
+      dbKey: global.dbKeyV[0],
       year: selectedYear,
-      plan: plan.toJs(Plan)
+      plan: Plan
     });
+    global.dbKeyV[0] =sys.$checkExists(global.dbKeyV[0],sys.$checkNull( dbKey));
   };
 
   
-   function updateServerPlanAndDiary()  {sys.$params(arguments.length, 0);
-     return client.ssend({
+   async  function updateServerPlanAndDiary()  {sys.$params(arguments.length, 0);
+     const {dbKey} = await  client.send({
       prg: cts.appName,
       source: "PlanPg",
       rq: "updatePlanAndDiary",
+      dbKey: global.dbKeyV[0],
       year: selectedYear,
-      plan: plan.toJs(Plan),
-      diary: diary.toJs(Diary)
+      plan: Plan,
+      diary: Diary
     });
+    global.dbKeyV[0] =sys.$checkExists(global.dbKeyV[0],sys.$checkNull( dbKey));
   };
 
   
    function reload()  {sys.$params(arguments.length, 0);
-    arr.clear(OldEntryOp);
+    arr.clear(oldEntryOp);
     showOp[0]();
   };
 
   
-   async  function acceptEntry(Entry)  {sys.$params(arguments.length, 1);
-    if (sys.asBool(OldEntryOp)) {
-      const E =sys.$checkNull( OldEntryOp[0]);
-      const r =sys.$checkNull( plan.modify(Plan, E.id, Entry, Diary));
-      if (sys.asBool(sys.$neq(r , ""))) {
-        ui.alert(r);
-        return;
-      }
-      diary.changeAcc(Diary, E.id, Entry.id);
-      await updateServerPlanAndDiary();
-      reload();
-    } else {
-      const r =sys.$checkNull( plan.add(Plan, Entry));
-      if (sys.asBool(sys.$neq(r , ""))) {
+   async  function acceptEntry( entry)  {sys.$params(arguments.length, 1);
+    if (!sys.asBool(oldEntryOp)) {
+      const r =sys.$checkNull( plan.add(Plan, entry));
+      if (sys.$neq(r , "")) {
         ui.alert(r);
         return;
       }
       await updateServerPlan();
+      reload();
+    } else {
+       const e =sys.$checkNull( oldEntryOp[0]);
+      const r =sys.$checkNull( plan.modify(Plan,e[planEntry.id], entry, Diary));
+      if (sys.$neq(r , "")) {
+        ui.alert(r);
+        return;
+      }
+      diary.changeAcc(Diary,e[planEntry.id], entry[planEntry.id]);
+      await updateServerPlanAndDiary();
       reload();
     }
   };
 
   
    async  function del(id)  {sys.$params(arguments.length, 1);
-    if (sys.asBool(!sys.asBool(ui.confirm(i18n.fmt(II("Delete %0?"), [id]))))) return;
+    if (!sys.asBool(ui.confirm(i18n.fmt(II("Delete %0?"), [id])))) return;
 
-    const r =sys.$checkNull( plan.del(Plan, id, diary.accs(Diary)));
-    if (sys.asBool(sys.$neq(r , ""))) {
+    const r =sys.$checkNull( plan.del(Plan,id, diary.accs(Diary)));
+    if (sys.$neq(r , "")) {
       ui.alert(r);
       return;
     }
@@ -97,9 +107,9 @@ export  async  function mk(wg, selectedYear)  {sys.$params(arguments.length, 2);
   };
 
   
-   function modify(Entry)  {sys.$params(arguments.length, 1);
-    arr.clear(OldEntryOp);
-    arr.push(OldEntryOp, Entry);
+   function modify(entry)  {sys.$params(arguments.length, 1);
+    arr.clear(oldEntryOp);
+    arr.push(oldEntryOp, entry);
     showOp[0]();
   };
 
@@ -107,31 +117,31 @@ export  async  function mk(wg, selectedYear)  {sys.$params(arguments.length, 2);
 
   
    function dataEntry()  {sys.$params(arguments.length, 0);
-    const Entry =sys.$checkNull(sys.asBool( OldEntryOp) ? OldEntryOp[0] : plan.mkEntry(false, "", ""));
+     const entry =sys.$checkNull( !sys.asBool(oldEntryOp) ? planEntry.mk(false, "", "") : oldEntryOp[0]);
 
     const opInc =sys.$checkNull( Q("input")
       .att("type", "radio")
-      .checked(Entry.isIncome)
+      .checked(entry[planEntry.isIncome])
       .att("name", "inc"))
     ;
     const opExp =sys.$checkNull( Q("input")
       .att("type", "radio")
-      .checked(!sys.asBool(Entry.isIncome))
+      .checked(!sys.asBool(entry[planEntry.isIncome]))
       .att("name", "inc"))
     ;
     const idWg =sys.$checkNull( ui.field("desc")
       .att("id", "autofocus")
       .style("width:80px")
-      .value(Entry.id))
+      .value(entry[planEntry.id]))
     ;
     const descWg =sys.$checkNull( ui.field("accept")
       .att("id", "desc")
       .style("width:200px")
-      .value(Entry.desc))
+      .value(entry[planEntry.desc]))
     ;
 
     
-     function mkEntry()  {sys.$params(arguments.length, 0);  return plan.mkEntry(
+     function mkEntry()  {sys.$params(arguments.length, 0);  return planEntry.mk(
         opInc.isChecked(),
         sys.$slice(str.trim(idWg.getValue()),null,6),
         str.trim(descWg.getValue())
@@ -170,14 +180,14 @@ export  async  function mk(wg, selectedYear)  {sys.$params(arguments.length, 2);
         .add(Q("td").add(descWg))))
     ;
 
-    if (sys.asBool(OldEntryOp)) {
-      const E =sys.$checkNull( OldEntryOp[0]);
+    if (!sys.asBool(!sys.asBool(oldEntryOp))) {
+       const e =sys.$checkNull( oldEntryOp[0]);
       table
         .add(Q("tr")
-          .add(tdInfo(sys.asBool(E.isIncome) ? II("Income") : II("Expense"))
+          .add(tdInfo(e[planEntry.isIncome] ? II("Income") : II("Expense"))
             .att("colspan", "5"))
-          .add(tdInfo(E.id))
-          .add(tdInfo(E.desc)))
+          .add(tdInfo(e[planEntry.id]))
+          .add(tdInfo(e[planEntry.desc])))
       ;
     }
 
@@ -203,7 +213,7 @@ export  async  function mk(wg, selectedYear)  {sys.$params(arguments.length, 2);
    function entryWg()  {sys.$params(arguments.length, 0);  return Q("div")
     .add(Q("div")
       .klass("head")
-      .html(sys.asBool(OldEntryOp)
+      .html(!sys.asBool(!sys.asBool(oldEntryOp))
         ? II("Modification")
         : II("New Account")))
     .add(dataEntry())
@@ -220,19 +230,19 @@ export  async  function mk(wg, selectedYear)  {sys.$params(arguments.length, 2);
   ;};
 
   
-   function mkTr(Entry)  {sys.$params(arguments.length, 1);  return Q("tr")
+   function mkTr( entry)  {sys.$params(arguments.length, 1);  return Q("tr")
     .add(Q("td")
-      .add(ui.link(function(e)  {sys.$params(arguments.length, 1); del(Entry.id);})
+      .add(ui.link(function(e)  {sys.$params(arguments.length, 1); del(entry[planEntry.id]);})
         .add(ui.img("delete"))))
     .add(Q("td")
-      .add(ui.link(function(e)  {sys.$params(arguments.length, 1); modify(Entry);})
+      .add(ui.link(function(e)  {sys.$params(arguments.length, 1); modify(entry);})
         .add(ui.img("edit"))))
     .add(Q("td")
       .style("border: 1px solid rgb(110,130,150)")
-      .text(Entry.id))
+      .text(entry[planEntry.id]))
     .add(Q("td")
       .style("border: 1px solid rgb(110,130,150)")
-      .text(Entry.desc))
+      .text(entry[planEntry.desc]))
   ;};
 
   
@@ -240,21 +250,19 @@ export  async  function mk(wg, selectedYear)  {sys.$params(arguments.length, 2);
     const div =sys.$checkNull( Q("div")
       .add(Q("div")
         .klass("head")
-        .html(sys.asBool(isIncomes) ? II("Incomes") : II("Expenses"))))
+        .html(isIncomes ? II("Incomes") : II("Expenses"))))
     ;
 
-    const Es =sys.$checkNull( arr.filter(Plan.entries, function(E)  {sys.$params(arguments.length, 1);  return sys.$eq(E.isIncome , isIncomes);}));
+     const Es =sys.$checkNull( arr.filter(Plan, function( e)  {sys.$params(arguments.length, 1);  return sys.$eq(e[planEntry.isIncome] , isIncomes);}));
 
-
-
-    if (sys.asBool(Es)) {
-      const Trs =sys.$checkNull( []); 
-      for (const E  of sys.$forObject( Es)) arr.push(Trs, mkTr(E));
+    if (!sys.asBool(Es)) {
+      div.add(withoutAccountsTable());
+    } else {
+       const Trs =sys.$checkNull( []); 
+      for (const e  of sys.$forObject( Es)) arr.push(Trs,mkTr(e));
       div.add(Q("table")
         .att("align", "center")
         .adds(Trs));
-    } else {
-      div.add(withoutAccountsTable());
     }
 
      return div;
@@ -262,7 +270,9 @@ export  async  function mk(wg, selectedYear)  {sys.$params(arguments.length, 2);
 
   showOp[0] =sys.$checkExists(showOp[0], function()  {sys.$params(arguments.length, 0);
     arr.sort(
-      Plan.entries, function(E1, E2)  {sys.$params(arguments.length, 2);  return str.toUpper(E1.id) < str.toUpper(E2.id);}
+      Plan,
+      function( e1,  e2)  {sys.$params(arguments.length, 2);
+         return str.toUpper(e1[planEntry.id]) < str.toUpper(e2[planEntry.id]);}
     );
 
     wg

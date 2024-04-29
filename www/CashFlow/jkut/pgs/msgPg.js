@@ -4,7 +4,7 @@ import * as math from '../_js/math.js';import * as js from '../_js/js.js';import
 
 
 import * as i18n from  "../i18n.js";
-import * as cts from  "../data/cts.js";
+import * as cts from  "../cts.js";
 
 const Q =sys.$checkNull( ui.q);
 const II =sys.$checkNull( i18n.tlt);
@@ -14,7 +14,7 @@ const II =sys.$checkNull( i18n.tlt);
 
 
 export  function mk(wg, msg, withReload)  {sys.$params(arguments.length, 3);
-  const tx =sys.$checkNull( "<a href='?@'>" + II("here") + "</a>");
+  const tx =sys.$checkNull( "<a href=''>" + II("here") + "</a>");
   const reload =sys.$checkNull(
     "<p><b>" +
     i18n.fmt(II("Click %0 to continue."), [tx]) +
@@ -36,6 +36,6 @@ export  function mk(wg, msg, withReload)  {sys.$params(arguments.length, 3);
             .add(Q("tr")
               .add(Q("td")
                 .style("padding:0px 10px 0px 10px;")
-                .html(str.fmt("<p>%v<p>%v", [msg,sys.asBool( withReload) ? reload : ""]))
+                .html(str.fmt("<p>%v<p>%v", [msg, withReload ? reload : ""]))
               ))))));
 };

@@ -131,10 +131,16 @@ export function index (a, fn) {
   return a.findIndex(e => fn(e));
 }
 
-// \a, n -> ()
+// \a, n, * -> ()
 export function insert (a, ix, e) {
   sys.$params(arguments.length, 3);
   a.splice(ix, 0, e);
+}
+
+// \a, n, * -> ()
+export function insertArr (a, ix, a2) {
+  sys.$params(arguments.length, 3);
+  a.splice(ix, 0, ...a2);
 }
 
 // \[s...], s -> s
@@ -204,6 +210,17 @@ export function remove (a, ix) {
   sys.$params(arguments.length, 2);
   const r = a[ix];
   if (r !== undefined) a.splice(ix, 1);
+  return r;
+}
+
+// \a, n -> *
+export function removeRange (a, begin, end) {
+  sys.$params(arguments.length, 2);
+  if (begin > end) return null;
+  if (begin < 0) return null;
+  if (end > a.length) return null;
+  const r = a.slice(begin, end);
+  a.splice(begin, end - begin);
   return r;
 }
 

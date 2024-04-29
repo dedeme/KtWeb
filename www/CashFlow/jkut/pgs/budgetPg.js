@@ -3,14 +3,13 @@ import * as math from '../_js/math.js';import * as js from '../_js/js.js';import
 
 
 
-import * as cts from  "../data/cts.js";
+import * as cts from  "../cts.js";
+import * as global from  "../global.js";
 import * as plan from  "../data/plan.js";
-import * as cash from  "../data/cash.js";
-import * as diary from  "../data/diary.js";
-import * as budget from  "../data/budget.js";
 import * as problem from  "../data/problem.js";
-import * as fixProblem from  "../pgs/budget/fixProblem.js";
-import * as management from  "../pgs/budget/management.js";
+import * as diaryEntry from  "../data/diaryEntry.js";
+import * as managementPg from  "../pgs/budget/managementPg.js";
+import * as fixProblemPg from  "../pgs/budget/fixProblemPg.js";
 import * as i18n from  "../i18n.js";
 
 const Q =sys.$checkNull( ui.q);
@@ -23,20 +22,23 @@ const II =sys.$checkNull( i18n.tlt);
 
 
 export  async  function mk(wg, selectedYear, isUntil, selectedMonth)  {sys.$params(arguments.length, 4);
-  const Rp =sys.$checkNull( await  client.send({
+   const {Plan, 
+   HcDiary, 
+   CFDiary, 
+   Budget, 
+   PreviousBudget, 
+  hcBalance, 
+  cBalance, 
+  dbKey}
+  = await  client.send({
     prg: cts.appName,
     source: "BudgetPg",
     rq: "idata",
     year: selectedYear
-  }));
-
-  const Plan =sys.$checkNull( plan.fromJs(Rp.plan));
-  const hcBalance =sys.$checkNull( Rp.hcBalance); 
-  const cBalanceV =sys.$checkNull( [Rp.cBalance]); 
-  const HcDiary =sys.$checkNull( cash.fromJs(Rp.hcDiary));
-  const CDiary =sys.$checkNull( diary.fromJs(Rp.cDiary));
-  const Budget =sys.$checkNull( budget.fromJs(Rp.budget));
-  const PreviousBudget =sys.$checkNull( budget.fromJs(Rp.previousBudget));
+  });
+  global.dbKeyV[0] =sys.$checkExists(global.dbKeyV[0],sys.$checkNull( dbKey));
+  const CDiary =sys.$checkNull( arr.map(CFDiary,diaryEntry.fromJs));
+  const cBalanceV =sys.$checkNull( [cBalance]);
 
   const showOp =sys.$checkNull( [[]]);
 
@@ -49,13 +51,15 @@ export  async  function mk(wg, selectedYear, isUntil, selectedMonth)  {sys.$para
     ui.alert(i18n.fmt(II("fixBalance hc(%0) c(%1)"), [hc, c]));
 
     cBalanceV[0] =sys.$checkExists(cBalanceV[0],sys.$checkNull( hcBalance));
-    await client.send({
+     const {dbKey} = await  client.send({
       prg: cts.appName,
       source: "BudgetPg",
       rq: "updateBalance",
+      dbKey: global.dbKeyV[0],
       year: selectedYear,
       value: cBalanceV[0]
     });
+    global.dbKeyV[0] =sys.$checkExists(global.dbKeyV[0],sys.$checkNull( dbKey));
 
     showOp[0]();
   };
@@ -64,13 +68,13 @@ export  async  function mk(wg, selectedYear, isUntil, selectedMonth)  {sys.$para
 
   
   showOp[0] =sys.$checkExists(showOp[0], function()  {sys.$params(arguments.length, 0);
-    const Problem =sys.$checkNull( problem.firstProblem(HcDiary, CDiary));
-    if (sys.asBool(!sys.asBool(math.eq(hcBalance, cBalanceV[0], 0.0001)))) {
+     const prob =sys.$checkNull( problem.firstProblem(HcDiary, CDiary));
+    if (!sys.asBool(math.eq(hcBalance, cBalanceV[0], 0.0001))) {
       fixBalance();
-    } else if (sys.asBool(sys.$neq(Problem.ix ,  -1))) {
-      fixProblem.mk(wg, selectedYear, Plan, CDiary, Problem, function()  {sys.$params(arguments.length, 0); showOp[0]();});
+    } else if (sys.$neq(prob[problem.ix] ,  -1)) {
+      fixProblemPg.mk(wg, selectedYear, Plan, CDiary, prob, function()  {sys.$params(arguments.length, 0); showOp[0]();});
     } else {
-      management.mk(
+      managementPg.mk(
         wg, selectedYear, isUntil, selectedMonth,
         Plan, cBalanceV[0], CDiary, Budget, PreviousBudget
       );

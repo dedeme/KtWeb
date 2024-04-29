@@ -3,7 +3,7 @@ import * as math from '../../_js/math.js';import * as js from '../../_js/js.js';
 
 
 
-import * as lineChart from  "../../libdm/lineChart.js";
+import * as oldChart from  "../../libdm/oldChart.js";
 import * as cts from  "../../data/cts.js";
 import * as profitsEntry from  "../../data/profitsEntry.js";
 import * as ibexSundays from  "../../data/ibexSundays.js";
@@ -20,28 +20,27 @@ export  async  function mk(wg)  {sys.$params(arguments.length, 1);
     source: "PercentsPg",
     rq: "idata"
   }));
-  const invs =sys.$checkNull( Rp.investors); 
-  const InitialAssets =sys.$checkNull( Rp.initialAssets); 
+  const initialAssets =sys.$checkNull( Rp.initialAssets);
   const Profits =sys.$checkNull( arr.map(Rp.profits, profitsEntry.fromJs));
   const ibex =sys.$checkNull( ibexSundays.fromJs(Rp.ibex));
 
   const pfColor =sys.$checkNull( "#000000");
   const ibexColor =sys.$checkNull( "#800000");
 
-  if (sys.asBool(!sys.asBool(Profits))) {
-    arr.push(Profits, [new  ProfitsEntry(
+  if (!sys.asBool(Profits)) {
+    arr.push(Profits, profitsEntry.mk(
       time.toStr(time.mkDate(1, 1, time.year(time.now()))), [0, 0, 0]
-    )]);
+    ));
   }
-  if (sys.asBool(sys.$eq(arr.size(Profits) , 1))) arr.push(Profits, Profits[0]);
+  if (sys.$eq(arr.size(Profits) , 1)) arr.push(Profits, Profits[0]);
 
   const Ibexdts =sys.$checkNull( ibexSundays.dates(ibex));
   const Ibexrts =sys.$checkNull( ibexSundays.ratios(ibex));
-  if (sys.asBool(!sys.asBool(Ibexdts))) {
+  if (!sys.asBool(Ibexdts)) {
     arr.push(Ibexdts, time.now());
     arr.push(Ibexrts, 0);
   }
-  if (sys.asBool(sys.$eq(arr.size(Ibexdts) , 1))) {
+  if (sys.$eq(arr.size(Ibexdts) , 1)) {
     Ibexdts.push(Ibexdts[0]);
     Ibexrts.push(0);
   }
@@ -88,19 +87,6 @@ export  async  function mk(wg)  {sys.$params(arguments.length, 1);
      return Q("table")
       .klass("frame")
       .att("align", "center")
-      .adds(iter.map(iter.$range(0,invs), function(i)  {sys.$params(arguments.length, 1);
-         return Q("tr")
-          .add(Q("td")
-            .style("width:30px")
-            .add(ui.led(cts.ToSellColors[i], 6)))
-          .add(Q("td")
-            .style("vertical-align: middle;text-align:left;")
-            .text(II("Investor") + "-" + i))
-        ;}))
-      .add(Q("tr")
-        .add(Q("td")
-          .att("colspan", 2)
-          .add(Q("hr"))))
       .add(Q("tr")
         .add(Q("td")
           .style("width:30px")
@@ -114,7 +100,7 @@ export  async  function mk(wg)  {sys.$params(arguments.length, 1);
           .add(ui.led(pfColor, 6)))
         .add(Q("td")
           .style("vertical-align: middle;text-align:left;")
-          .text(II("Investors average"))))
+          .text(II("Investor"))))
   ;};
 
   
@@ -131,80 +117,57 @@ export  async  function mk(wg)  {sys.$params(arguments.length, 1);
           .text(II("Investors - Ibex"))))
   ;};
 
-  if (sys.asBool(sys.$neq(arr.size(Profits[0].Profits) , invs)))
-    throw new Error( ("Investor number is not " + invs));
-
-  if (sys.asBool(
+  if (
     sys.$neq(arr.map(Profits, function(p)  {sys.$params(arguments.length, 1);  return p.date;}) ,
-    arr.map(Ibexdts, function(d)  {sys.$params(arguments.length, 1);  return time.toStr(d);})))
+    arr.map(Ibexdts, function(d)  {sys.$params(arguments.length, 1);  return time.toStr(d);}))
   ) {
     badData();
     return;
   }
 
-  const SumInitialAssets =sys.$checkNull( [0]);
-  const SumInitialPfs =sys.$checkNull( [0]);
-  
-  const InitialPfs =sys.$checkNull( []);
-  
-  const Sums =sys.$checkNull( []);
-  
-  const Labels =sys.$checkNull( []);
   
   const Sets =sys.$checkNull( []);
-  for (let i  of sys.$forObject( iter.$range(0,invs))) {
-    const pfs =sys.$checkNull( Profits[0].Profits[i]);
-    arr.push(InitialPfs, pfs);
-    SumInitialPfs[0] +=sys.$checkExists(SumInitialPfs[0],sys.$checkNull( pfs));
-    SumInitialAssets[0] +=sys.$checkExists(SumInitialAssets[0],sys.$checkNull( InitialAssets[i]));
-    arr.push(Sets, []);
-  }
-  for (let E  of sys.$forObject( Profits)) {
+  
+  const Difs =sys.$checkNull( []);
+  
+  const Labels =sys.$checkNull( []);
+  const initialPfs =sys.$checkNull( Profits[0].profits);
+  for (const E  of sys.$forObject( Profits)) {
     arr.push(Labels, sys.$slice(E.date,6,null) + "/" + sys.$slice(E.date,4,6));
-    const Pfs =sys.$checkNull( E.Profits);
-    const Sum =sys.$checkNull( [0]);
-    for (let i  of sys.$forObject( iter.$range(0,invs))) {
-      const dif =sys.$checkNull( Pfs[i] - InitialPfs[i]);
-      arr.push(Sets[i], [dif * 100 / InitialAssets[i]]);
-      Sum[0] +=sys.$checkExists(Sum[0],sys.$checkNull( dif));
-    }
-    arr.push(Sums, [Sum[0] * 100 / SumInitialAssets]);
+    const pfs =sys.$checkNull( E.profits);
+    const dif =sys.$checkNull( (pfs - initialPfs) * 100 / initialAssets);
+    arr.push(Difs, [dif]);
   }
   arr.push(Sets, arr.map(Ibexrts, function(v)  {sys.$params(arguments.length, 1);  return [v * 100];}));
-  arr.push(Sets, Sums);
+  arr.push(Sets, Difs);
 
   
   const SetAtts =sys.$checkNull( []);
-  for (let i  of sys.$forObject( iter.$range(0,invs))) {
-    const Atts =sys.$checkNull( lineChart.mkLineExample());
-    Atts.color =sys.$checkExists(Atts.color,sys.$checkNull( cts.ToSellColors[i]));
-    arr.push(SetAtts, Atts);
-  }
-  const IbexAtts =sys.$checkNull( lineChart.mkLineExample());
+  const IbexAtts =sys.$checkNull( oldChart.mkLineExample());
   IbexAtts.color =sys.$checkExists(IbexAtts.color,sys.$checkNull( ibexColor));
   IbexAtts.width =sys.$checkExists(IbexAtts.width,sys.$checkNull( 3));
   arr.push(SetAtts, IbexAtts);
-  const PfAtts =sys.$checkNull( lineChart.mkLineExample());
+  const PfAtts =sys.$checkNull( oldChart.mkLineExample());
   PfAtts.color =sys.$checkExists(PfAtts.color,sys.$checkNull( pfColor));
   PfAtts.width =sys.$checkExists(PfAtts.width,sys.$checkNull( 3));
   arr.push(SetAtts, PfAtts);
 
-  const Data =sys.$checkNull( lineChart.mkData(Labels, Sets, SetAtts));
+  const Data =sys.$checkNull( oldChart.mkData(Labels, Sets, SetAtts));
   const lenGroup =sys.$checkNull( math.toInt(arr.size(Labels) / 10) + 1);
-  Data.drawLabel =sys.$checkExists(Data.drawLabel, function(l, i)  {sys.$params(arguments.length, 2);  return sys.asBool(i > 0) && sys.asBool(sys.$eq(i % lenGroup , 0));});
+  Data.drawLabel =sys.$checkExists(Data.drawLabel, function(l, i)  {sys.$params(arguments.length, 2);  return i > 0 && sys.$eq(i % lenGroup , 0);});
   Data.drawGrid =sys.$checkExists(Data.drawGrid, function(l, i)  {sys.$params(arguments.length, 2);
-     return sys.asBool(sys.asBool(i > 0) && sys.asBool(sys.$eq(i % lenGroup , 0))) && sys.asBool(i < arr.size(Labels) - 1);});
+     return i > 0 && sys.$eq(i % lenGroup , 0) && i < arr.size(Labels) - 1;});
 
-  const Chart =sys.$checkNull( lineChart.mkExample());
+  const Chart =sys.$checkNull( oldChart.mkExample());
   Chart.ExArea.width =sys.$checkExists(Chart.ExArea.width,sys.$checkNull( 600));
   Chart.ExArea.height =sys.$checkExists(Chart.ExArea.height,sys.$checkNull( 400));
-  Chart.InPadding =sys.$checkExists(Chart.InPadding,sys.$checkNull( lineChart.mkPadding(25, 25, 30, 100)));
+  Chart.InPadding =sys.$checkExists(Chart.InPadding,sys.$checkNull( oldChart.mkPadding(25, 25, 30, 100)));
 
-  const Data2 =sys.$checkNull( lineChart.mkData(
+  const Data2 =sys.$checkNull( oldChart.mkData(
     Labels,
-    [arr.fromIter(iter.map(iter.$range(0,arr.size(Sums)), function(i)  {sys.$params(arguments.length, 1);
-        const Sum =sys.$checkNull( Sums[i]);
-        return sys.asBool( (Sum)) ? [Sum[0] - Ibexrts[i] * 100] : [];
+    [arr.fromIter(iter.map(iter.$range(0,arr.size(Difs)), function(i)  {sys.$params(arguments.length, 1);
+        const difOp =sys.$checkNull( Difs[i]);
+         return !sys.asBool(difOp) ? [] : [difOp[0] - Ibexrts[i] * 100];
       }))
     ],
     [PfAtts]
@@ -212,10 +175,10 @@ export  async  function mk(wg)  {sys.$params(arguments.length, 1);
   Data2.drawLabel =sys.$checkExists(Data2.drawLabel,sys.$checkNull( Data.drawLabel));
   Data2.drawGrid =sys.$checkExists(Data2.drawGrid,sys.$checkNull( Data.drawGrid));
 
-  const Chart2 =sys.$checkNull( lineChart.mkExample());
+  const Chart2 =sys.$checkNull( oldChart.mkExample());
   Chart2.ExArea.width =sys.$checkExists(Chart2.ExArea.width,sys.$checkNull( 600));
   Chart2.ExArea.height =sys.$checkExists(Chart2.ExArea.height,sys.$checkNull( 200));
-  Chart2.InPadding =sys.$checkExists(Chart2.InPadding,sys.$checkNull( lineChart.mkPadding(25, 25, 30, 100)));
+  Chart2.InPadding =sys.$checkExists(Chart2.InPadding,sys.$checkNull( oldChart.mkPadding(25, 25, 30, 100)));
 
   wg
     .removeAll()
@@ -230,7 +193,7 @@ export  async  function mk(wg)  {sys.$params(arguments.length, 1);
           .style("width:5px;")
           .text("%"))
         .add(Q("td")
-          .add(lineChart.mkWg(Chart, Data))))
+          .add(oldChart.mkWg(Chart, Data))))
       .add(Q("tr")
         .add(Q("td")
           .att("colspan", "2")
@@ -245,7 +208,7 @@ export  async  function mk(wg)  {sys.$params(arguments.length, 1);
           .style("width:5px;")
           .text("%"))
         .add(Q("td")
-          .add(lineChart.mkWg(Chart2, Data2))))
+          .add(oldChart.mkWg(Chart2, Data2))))
       )
   ;
 

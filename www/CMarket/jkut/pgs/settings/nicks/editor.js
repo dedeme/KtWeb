@@ -25,7 +25,7 @@ export  async  function mk(wg, nicks, mainNick, nick)  {sys.$params(arguments.le
     mainNick: mainNick,
     nick: nick
   }));
-  if (sys.asBool(!sys.asBool(Rp.ok))) {
+  if (!sys.asBool(Rp.ok)) {
     msg.error(cts.failMsg, function()  {sys.$params(arguments.length, 0);});
     return;
   }
@@ -92,7 +92,7 @@ export  async  function mk(wg, nicks, mainNick, nick)  {sys.$params(arguments.le
       nick: nick,
       qs: str.trim(leftArea.getValue())
     }));
-    if (sys.asBool(Rp.ok)) {
+    if (Rp.ok) {
       msg.ok(II("Quotes were successfully modified"), function(){sys.$params(arguments.length, 0);});
       mk(wg, nicks, mainNick, nick);
     } else {
@@ -141,7 +141,7 @@ export  async  function mk(wg, nicks, mainNick, nick)  {sys.$params(arguments.le
 
   
    async  function updateCode(sId, code)  {sys.$params(arguments.length, 2);
-    if (sys.asBool(sys.$eq(code , "")))
+    if (sys.$eq(code , ""))
       msg.error(i18n.fmt(II("Nick code of %0 is missing"), [sId]), function()  {sys.$params(arguments.length, 0);});
     else
       UpdatingServer[0] =sys.$checkExists(UpdatingServer[0],sys.$checkNull( true));
@@ -160,7 +160,7 @@ export  async  function mk(wg, nicks, mainNick, nick)  {sys.$params(arguments.le
   
    async  function serverTests() {sys.$params(arguments.length, 0);
     await timer.delay(timer.mk(100), function()  {sys.$params(arguments.length, 0);});
-    if (sys.asBool(UpdatingServer[0])) {
+    if (UpdatingServer[0]) {
       ui.alert("Updating server. Try again.");
       UpdatingServer[0] =sys.$checkExists(UpdatingServer[0],sys.$checkNull( false));
       return;
@@ -169,13 +169,13 @@ export  async  function mk(wg, nicks, mainNick, nick)  {sys.$params(arguments.le
     const WithErrors =sys.$checkNull( [false]);
     const WithWarnings =sys.$checkNull( [false]);
      async  function test(SICs)  {sys.$params(arguments.length, 1);
-      if (sys.asBool(!sys.asBool(SICs))) {
+      if (!sys.asBool(SICs)) {
         SetWait[0]("");
-        if (sys.asBool(sys.asBool(WithErrors[0]) && sys.asBool(WithWarnings[0])))
+        if (WithErrors[0] && WithWarnings[0])
           msg.error(II("Errors and warnings found.<br>See log."), function(){sys.$params(arguments.length, 0);});
-        else if (sys.asBool(WithErrors[0]))
+        else if (WithErrors[0])
           msg.error(II("Errors found.<br>See log."), function(){sys.$params(arguments.length, 0);});
-        else if (sys.asBool(WithWarnings[0]))
+        else if (WithWarnings[0])
           msg.error(II("Warnings found.<br>See log."), function(){sys.$params(arguments.length, 0);});
         else
           msg.ok(II("Test ok."), function(){sys.$params(arguments.length, 0);});
@@ -183,7 +183,7 @@ export  async  function mk(wg, nicks, mainNick, nick)  {sys.$params(arguments.le
       }
 
       const SIC =sys.$checkNull( arr.pop(SICs));
-      if (sys.asBool(SIC.withHistoric)) {
+      if (SIC.withHistoric) {
         SetWait[0](SIC.id);
         const Rp =sys.$checkNull( await  client.send({
           prg: cts.appName,
@@ -211,7 +211,7 @@ export  async  function mk(wg, nicks, mainNick, nick)  {sys.$params(arguments.le
       rq: "getQuotes",
       nick: nick
     }));
-    if (sys.asBool(!sys.asBool(Rp.ok))) {
+    if (!sys.asBool(Rp.ok)) {
       msg.error(i18n.fmt(
         II("Quotes of %0 can not be loaded.<br>See Log."), [nick]
       ));
@@ -227,7 +227,7 @@ export  async  function mk(wg, nicks, mainNick, nick)  {sys.$params(arguments.le
    function serversDiv()  {sys.$params(arguments.length, 0);
     
      function svTd(S)  {sys.$params(arguments.length, 1);
-      const color =sys.$checkNull(sys.asBool( S.withHistoric) ? "#000000" : "#909090");
+      const color =sys.$checkNull( S.withHistoric ? "#000000" : "#909090");
       const field =sys.$checkNull( Q("input")
         .att("type", "text")
         .style("width:125px")
@@ -254,7 +254,7 @@ export  async  function mk(wg, nicks, mainNick, nick)  {sys.$params(arguments.le
       const tr =sys.$checkNull( Q("tr"));
       for (let c = 0;c < cols; ++c) {
         const i =sys.$checkNull( r * cols + c);
-        tr.add(sys.asBool(i < sz)
+        tr.add(i < sz
           ? svTd(SIdCodes[i])
           : Q("td")
         );
@@ -299,7 +299,7 @@ export  async  function mk(wg, nicks, mainNick, nick)  {sys.$params(arguments.le
   
    function rightMenu()  {sys.$params(arguments.length, 0);
     const sel =sys.$checkNull( ui.select("nks", arr.map(
-      nicks, function(n)  {sys.$params(arguments.length, 1);  return (sys.asBool(sys.$eq(n , mainNick)) ? "+" : "") + n;}
+      nicks, function(n)  {sys.$params(arguments.length, 1);  return (sys.$eq(n , mainNick) ? "+" : "") + n;}
     )));
     const selEl =sys.$checkNull( sel.e);
     sel.on("change", function(e)  {sys.$params(arguments.length, 1); setRightArea(nicks[selEl.selectedIndex]);});
@@ -327,7 +327,7 @@ export  async  function mk(wg, nicks, mainNick, nick)  {sys.$params(arguments.le
   SetWait[0] =sys.$checkExists(SetWait[0], function(nick)  {sys.$params(arguments.length, 1);
     msgWait.removeAll();
 
-    if (sys.asBool(sys.$neq(nick , ""))) {
+    if (sys.$neq(nick , "")) {
       const box =sys.$checkNull( modalBox.mk(
         Q("div")
           .add(Q("div")

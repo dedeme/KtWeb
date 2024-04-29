@@ -25,13 +25,13 @@ export  function mk(wg, dbmenu, LcPath)  {sys.$params(arguments.length, 3);
 
   
 
-  if (sys.asBool(!sys.asBool(LcPath))) arr.push(LcPath, "nicks");
-  const target =sys.$checkNull(   
+  if (!sys.asBool(LcPath)) arr.push(LcPath, "nicks");
+  const target =sys.$checkNull((   
       sys.$eq(LcPath[0],"settings")|| sys.$eq(LcPath[0],"calendar")|| sys.$eq(LcPath[0],"servers")|| sys.$eq(LcPath[0],"annotations")|| sys.$eq(LcPath[0],"investors")?
         LcPath[0]:
       
         "nicks"
-    );
+    ));
 
   const Lopts =sys.$checkNull( [
     dmenu.mkHiddenButton(dbmenu),
@@ -56,13 +56,8 @@ export  function mk(wg, dbmenu, LcPath)  {sys.$params(arguments.length, 3);
       servers.mk(wg, "");break;}
     case "annotations":{
       accPg.mk(wg);break;}
-    case "investors":{ {
-        const ix =sys.$checkNull(sys.asBool( sys.asBool(sys.$eq(arr.size(LcPath) , 2)) && sys.asBool(math.isDigits(LcPath[1])))
-          ? math.fromStr(LcPath[1])[0]
-          : 0)
-        ;
-        investorsPg.mk(wg, ix);
-      }break;}
+    case "investors":{
+      investorsPg.mk(wg);break;}
     case "calendar":{
       calendarPg.mk(wg);break;}
     default:{

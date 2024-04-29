@@ -11,7 +11,7 @@ export  function mk(modelId, params)  {sys.$params(arguments.length, 2);  return
 
 
 
-export  function eq(S1, S2)  {sys.$params(arguments.length, 2);  return sys.asBool(sys.$eq(S1.modelId , S2.modelId)) && sys.asBool(sys.$eq(S1.params , S2.params));};
+export  function eq(S1, S2)  {sys.$params(arguments.length, 2);  return sys.$eq(S1.modelId , S2.modelId) && sys.$eq(S1.params , S2.params);};
 
 
 export  function toJs(S)  {sys.$params(arguments.length, 1);  return [S.modelId, S.params];};

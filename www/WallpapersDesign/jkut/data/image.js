@@ -22,16 +22,16 @@ export  function setBlur(I, V)  {sys.$params(arguments.length, 2);  return mk(I.
 
 
 export  function toJs(I)  {sys.$params(arguments.length, 1);  return [
-    I.id,sys.asBool(
-    I.Cut) ? [imgCut.toJs(I.Cut[0])] : [],sys.asBool(
-    I.Adjustment) ? [imgAdjustment.toJs(I.Adjustment[0])] : [],sys.asBool(
-    I.Blur) ? [imgBlur.toJs(I.Blur[0])] : []
+    I.id,
+    !sys.asBool(I.Cut) ? [] : [imgCut.toJs(I.Cut[0])],
+    !sys.asBool(I.Adjustment) ? [] : [imgAdjustment.toJs(I.Adjustment[0])],
+    !sys.asBool(I.Blur) ? [] : [imgBlur.toJs(I.Blur[0])]
   ];};
 
 
 export  function fromJs(A)  {sys.$params(arguments.length, 1);  return mk(
-    A[0],sys.asBool(
-    A[1]) ? [imgCut.fromJs(A[1][0])] : [],sys.asBool(
-    A[2]) ? [imgAdjustment.fromJs(A[2][0])] : [],sys.asBool(
-    A[3]) ? [imgBlur.fromJs(A[3][0])] : []
+    A[0],
+    !sys.asBool(A[1]) ? [] : [imgCut.fromJs(A[1][0])],
+    !sys.asBool(A[2]) ? [] : [imgAdjustment.fromJs(A[2][0])],
+    !sys.asBool(A[3]) ? [] : [imgBlur.fromJs(A[3][0])]
   );};

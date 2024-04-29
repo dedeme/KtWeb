@@ -4,12 +4,12 @@ import * as math from './_js/math.js';import * as js from './_js/js.js';import *
 
 
 import * as menu from  "./libdm/menu.js";
-import * as cts from  "./data/cts.js";
+import * as cts from  "./cts.js";
 import * as msgPg from  "./pgs/msgPg.js";
-import * as home from  "./pgs/home.js";
-import * as manual from  "./pgs/manual.js";
-import * as fix from  "./pgs/fix.js";
-import * as periodic from  "./pgs/periodic.js";
+import * as homePg from  "./pgs/homePg.js";
+import * as manualPg from  "./pgs/manualPg.js";
+import * as fixPg from  "./pgs/fixPg.js";
+import * as periodicPg from  "./pgs/periodicPg.js";
 import * as i18n from  "./i18n.js";
 
 const Q =sys.$checkNull( ui.q);
@@ -18,33 +18,33 @@ const II =sys.$checkNull( i18n.tlt);
 
  async  function mk(wg)  {sys.$params(arguments.length, 1);
   const ok =sys.$checkNull( await  client.connect());
-  if (sys.asBool(!sys.asBool(ok))) {
-    ui.alert(II("KtWeb session is closed.\nAuthenticating from KtWeb:Main."));
+  if (!sys.asBool(ok)) {
+    ui.alert(II("Session is closed.\nAuthenticating from Main."));
     window.location.assign("http://" + window.location.host + "/Main");
     return;
   }
 
-  const rp =sys.$checkNull( await  client.send({
+  
+   const {lang} = await  client.send({
     prg: "Main", 
     source: "Main",
     rq: "lang"
-  }));
-  if (sys.asBool(sys.$eq(rp.lang , "en"))) i18n.en();
+  });
+  if (sys.$eq(lang , "en")) i18n.en();
 
   const Url =sys.$checkNull( ui.url());
-  const page =sys.$checkNull(sys.asBool( dic.hasKey(Url, "0")) ? Url["0"] : "home");
+  const page =sys.$checkNull( !sys.asBool(Url) ? "home" : Url[0]);
   const menuWg =sys.$checkNull( menu.mk(
-    [ menu.tlink("home", II("Home"), []),
+    [ menu.tlink("home", II("Home")),
       menu.separator2(),
-      menu.tlink("periodic", II("Periodic"), []),
+      menu.tlink("periodic", II("Periodic")),
       menu.separator(),
-      menu.tlink("fix", II("Fix"), []),
+      menu.tlink("fix", II("Fix")),
       menu.separator(),
-      menu.tlink("manual", II("Manual"), [])
+      menu.tlink("manual", II("Manual"))
     ],
     [],
-    page,
-    false
+    page
   ));
 
   const body =sys.$checkNull( Q("div"));
@@ -56,10 +56,10 @@ const II =sys.$checkNull( i18n.tlt);
   ;
 
   switch (page) {
-    case "periodic":{ periodic.mk(body);break;}
-    case "fix":{ fix.mk(body);break;}
-    case "manual":{ manual.mk(body);break;}
-    default:{ home.mk(body);}
+    case "periodic":{ periodicPg.mk(body);break;}
+    case "fix":{ fixPg.mk(body);break;}
+    case "manual":{ manualPg.mk(body);break;}
+    default:{ homePg.mk(body);}
   }
 };
 
@@ -72,9 +72,14 @@ export  function load()  {sys.$params(arguments.length, 0);
   mk(wg);
 };
 
-client.init(true, "KtWeb", function()  {sys.$params(arguments.length, 0);
+
+client.init(true, "KtWeb", function(isExpired)  {sys.$params(arguments.length, 1);
+  const message =sys.$checkNull( isExpired
+    ? II("Session is expired.")
+    : II("Data base is out of date."))
+  ;
   const msgWg =sys.$checkNull( Q("div"));
-  msgPg.mk(msgWg, II("Session is expired."), true);
+  msgPg.mk(msgWg, message, true);
   Q("@body")
     .removeAll()
     .add(msgWg)

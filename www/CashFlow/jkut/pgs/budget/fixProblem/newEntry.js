@@ -3,8 +3,11 @@ import * as math from '../../../_js/math.js';import * as js from '../../../_js/j
 
 
 
+import * as cashEntry from  "../../../data/cashEntry.js";
+import * as diaryEntry from  "../../../data/diaryEntry.js";
 import * as diary from  "../../../data/diary.js";
 import * as annsEditor from  "../../../pgs/budget/fixProblem/annsEditor.js";
+import * as prEd from  "../../../pgs/budget/fixProblem/prEd.js";
 import * as i18n from  "../../../i18n.js";
 
 const Q =sys.$checkNull( ui.q);
@@ -20,16 +23,14 @@ const II =sys.$checkNull( i18n.tlt);
 
 
 
-
-
-export  function mk(tr, Plan, HcEntry, CEntry, ix, activated, deactivateAllFn, updateFn)  {sys.$params(arguments.length, 8);
+export  function mk(tr,  hcEntry,  entry, ix, activated,
+        deactivateAllFn, updateFn)  {sys.$params(arguments.length, 7);
   const activatedV =sys.$checkNull( [activated]);
 
   const imgDiv =sys.$checkNull( Q("div"));
   const annsDiv =sys.$checkNull( Q("div"));
 
   const showV =sys.$checkNull( [[]]);
-
 
   
 
@@ -42,10 +43,10 @@ export  function mk(tr, Plan, HcEntry, CEntry, ix, activated, deactivateAllFn, u
 
   
    function update()  {sys.$params(arguments.length, 0);
-    updateFn(ix, CEntry);
+    updateFn(ix, entry);
   };
 
-  const AnnsEd =sys.$checkNull( annsEditor.mk(annsDiv, CEntry, update));
+   const ed =sys.$checkNull( annsEditor.mk(annsDiv, entry, update));
 
   
    function deactivate()  {sys.$params(arguments.length, 0);
@@ -55,27 +56,28 @@ export  function mk(tr, Plan, HcEntry, CEntry, ix, activated, deactivateAllFn, u
 
   
    function updateAccount(acc)  {sys.$params(arguments.length, 1);
-    if (sys.asBool(activatedV[0])) AnnsEd.updateAccount(acc);};
+    if (activatedV[0]) prEd.updateAccount(ed,acc);};
 
   
 
   
   showV[0] =sys.$checkExists(showV[0], function()  {sys.$params(arguments.length, 0);
-    if (sys.asBool(activatedV[0])) {
+    if (activatedV[0]) {
       imgDiv
         .removeAll()
         .klass("frame")
         .add(ui.lightImg("insert"))
       ;
-      AnnsEd.active(true);
+      prEd.active(ed,true);
     } else {
       imgDiv
         .removeAll()
+        .klass("")
         .add(ui.link(function(ev)  {sys.$params(arguments.length, 1); activate();})
           .klass("link")
           .add(ui.img("insert")))
       ;
-      AnnsEd.active(false);
+      prEd.active(ed,false);
     }
 
     tr
@@ -84,27 +86,27 @@ export  function mk(tr, Plan, HcEntry, CEntry, ix, activated, deactivateAllFn, u
         .add(imgDiv))
       .add(Q("td")
         .klass("frameTx")
-        .text(CEntry.month))
+        .text(entry[diaryEntry.month]))
       .add(Q("td")
         .klass("frameTx")
         .add(Q("div")
-          .text(CEntry.desc))
+          .text(entry[diaryEntry.desc]))
         .add(annsDiv))
       .add(Q("td")
         .klass("frameNm")
-        .text(math.toIso(CEntry.am, 2)))
+        .text(math.toIso(entry[diaryEntry.am], 2)))
 
       .add(Q("td"))
 
       .add(Q("td")
         .klass("frameTx")
-        .text(HcEntry.month))
+        .text(hcEntry[cashEntry.month]))
       .add(Q("td")
         .klass("frameTx")
-        .text(HcEntry.desc))
+        .text(hcEntry[cashEntry.desc]))
       .add(Q("td")
         .klass("frameNm")
-        .text(math.toIso(HcEntry.am, 2)))
+        .text(math.toIso(hcEntry[cashEntry.am], 2)))
     ;
   });
 

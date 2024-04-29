@@ -13,8 +13,18 @@ import * as math from '../_js/math.js';import * as js from '../_js/js.js';import
 
 
 
-export  function mk(params, times, hassets, hprofits, hsales, assets, profits, sales)  {sys.$params(arguments.length, 8);
-   return {params:params, times:times, hassets:hassets, hprofits:hprofits, hsales:hsales, assets:assets, profits:profits, sales:sales};};
+export  function mk(params, times,
+       hassets, hprofits, hsales,
+       assets, profits, sales)
+        {sys.$params(arguments.length, 8);
+   return {params:params, times:times,
+       hassets:hassets, hprofits:hprofits, hsales:hsales,
+       assets:assets, profits:profits, sales:sales
+    };};
 
 
-export  function fromJs(A)  {sys.$params(arguments.length, 1);  return mk(A[0], A[1], A[2], A[3], A[4], A[5], A[6], A[7]);};
+export  function fromJs(A)  {sys.$params(arguments.length, 1);  return mk(
+    A[0], A[1],
+    A[2], A[3], A[4],
+    A[5], A[6], A[7]
+  );};

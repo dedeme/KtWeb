@@ -20,19 +20,19 @@ const II =sys.$checkNull( i18n.tlt);
 
 
  function checkEmpty(field, value)  {sys.$params(arguments.length, 2);
-  if (sys.asBool(value))  return "";
+  if (sys.$neq(value , ""))  return "";
   else  return i18n.fmt(II("'%0' is empty"), [field]);}
 ;
 
 
  function checkInt(field, value)  {sys.$params(arguments.length, 2);
-  if (sys.asBool(sys.asBool(value) && sys.asBool(math.isDigits(value))))  return "";
+  if (sys.$neq(value , "") && math.isDigits(value))  return "";
   else  return i18n.fmt(II("'%0' is not a positive integer"), [field]);}
 ;
 
 
  function checkFloat(field, value)  {sys.$params(arguments.length, 2);
-  if (sys.asBool(sys.asBool(value) && sys.asBool(math.fromIso(value))))  return "";
+  if (sys.$neq(value , "") && math.fromIso(value))  return "";
   else  return i18n.fmt(II("'%0' is not a positive number"), [field]);}
 ;
 
@@ -40,16 +40,15 @@ const II =sys.$checkNull( i18n.tlt);
  function dt2s(d)  {sys.$params(arguments.length, 1);  return time.toStr(time.fromIso(d, "/")[0]);};
 
 
-export  async  function mk2(wg, inv, year0)  {sys.$params(arguments.length, 3);
+export  async  function mk2(wg, year0)  {sys.$params(arguments.length, 2);
   const Rp =sys.$checkNull( await  client.send({
     prg: cts.appName,
     module: "Settings",
     source: "acc/InvWg",
     rq: "idata",
-    inv:inv,
     year: year0
   }));
-  if (sys.asBool(!sys.asBool(Rp.ok)))
+  if (!sys.asBool(Rp.ok))
     msg.error(II("Some error was found.<br>See Log."), function(){sys.$params(arguments.length, 0);});
   const year =sys.$checkNull( Rp.year); 
   const Years =sys.$checkNull( Rp.years); 
@@ -66,40 +65,38 @@ export  async  function mk2(wg, inv, year0)  {sys.$params(arguments.length, 3);
 
   
    async  function sendAnn(Ann)  {sys.$params(arguments.length, 1);
-    await client.ssend({
+    await client.send({
       prg: cts.appName,
       module: "Settings",
       source: "acc/InvWg",
       rq: "new",
-      inv:inv,
       annotation: ann.toJs(Ann)
     });
-    mk2(wg, inv, year);
+    mk2(wg, year);
   };
 
   
    async  function del(annId)  {sys.$params(arguments.length, 1);
     const Ann =sys.$checkNull( arr.find(Anns, function(A)  {sys.$params(arguments.length, 1);  return sys.$eq(A.id , annId);}));
-    if (sys.asBool(!sys.asBool(Ann))) {
+    if (!sys.asBool(Ann)) {
       ui.alert(i18n.fmt(II("Annotation con id '%0' not found"), ["" + annId]));
       return;
     }
     const AnnJs =sys.$checkNull( ann.toJs(Ann[0]));
-    if (sys.asBool(ui.confirm(i18n.fmt(II("Delete %0?"), [js.w(AnnJs)])))) {
-      await client.ssend({
+    if (ui.confirm(i18n.fmt(II("Delete %0?"), [js.w(AnnJs)]))) {
+      await client.send({
         prg: cts.appName,
         module: "Settings",
         source: "acc/InvWg",
         rq: "del",
-        inv:inv,
         annId:annId
       });
-      mk2(wg, inv, year);
+      mk2(wg, year);
     }
   };
 
   
-   function changeYear(y)  {sys.$params(arguments.length, 1); mk2(wg, inv, y);};
+   function changeYear(y)  {sys.$params(arguments.length, 1); mk2(wg, y);};
 
   
 
@@ -168,10 +165,10 @@ export  async  function mk2(wg, inv, year0)  {sys.$params(arguments.length, 3);
     
      function f()  {sys.$params(arguments.length, 0);
       const R =sys.$checkNull( [checkEmpty(II("Date"), v(dtf))]);
-      if (sys.asBool(!sys.asBool(R[0]))) R[0] =sys.$checkExists(R[0],sys.$checkNull( checkEmpty(II("Nick"), v(nkf))));
-      if (sys.asBool(!sys.asBool(R[0]))) R[0] =sys.$checkExists(R[0],sys.$checkNull( checkInt(II("Stocks"), v(stf))));
-      if (sys.asBool(!sys.asBool(R[0]))) R[0] =sys.$checkExists(R[0],sys.$checkNull( checkFloat(II("Price"), v(prf))));
-      if (sys.asBool(!sys.asBool(R[0])))
+      if (sys.$eq(R[0] , "")) R[0] =sys.$checkExists(R[0],sys.$checkNull( checkEmpty(II("Nick"), v(nkf))));
+      if (sys.$eq(R[0] , "")) R[0] =sys.$checkExists(R[0],sys.$checkNull( checkInt(II("Stocks"), v(stf))));
+      if (sys.$eq(R[0] , "")) R[0] =sys.$checkExists(R[0],sys.$checkNull( checkFloat(II("Price"), v(prf))));
+      if (sys.$eq(R[0] , ""))
         sendAnn(ann.mk( -1, dt2s(v(dtf)), opr.mkSe(
           v(nkf), math.fromStr(v(stf))[0], math.fromIso(v(prf))[0]
         )));
@@ -204,10 +201,10 @@ export  async  function mk2(wg, inv, year0)  {sys.$params(arguments.length, 3);
     
      function f()  {sys.$params(arguments.length, 0);
       const R =sys.$checkNull( [checkEmpty(II("Date"), v(dtf))]);
-      if (sys.asBool(!sys.asBool(R[0]))) R[0] =sys.$checkExists(R[0],sys.$checkNull( checkEmpty(II("Nick"), v(nkf))));
-      if (sys.asBool(!sys.asBool(R[0]))) R[0] =sys.$checkExists(R[0],sys.$checkNull( checkInt(II("Stocks"), v(stf))));
-      if (sys.asBool(!sys.asBool(R[0]))) R[0] =sys.$checkExists(R[0],sys.$checkNull( checkFloat(II("Price"), v(prf))));
-      if (sys.asBool(!sys.asBool(R[0])))
+      if (sys.$eq(R[0] , "")) R[0] =sys.$checkExists(R[0],sys.$checkNull( checkEmpty(II("Nick"), v(nkf))));
+      if (sys.$eq(R[0] , "")) R[0] =sys.$checkExists(R[0],sys.$checkNull( checkInt(II("Stocks"), v(stf))));
+      if (sys.$eq(R[0] , "")) R[0] =sys.$checkExists(R[0],sys.$checkNull( checkFloat(II("Price"), v(prf))));
+      if (sys.$eq(R[0] , ""))
         sendAnn(ann.mk( -1, dt2s(v(dtf)), opr.mkBu(
           v(nkf), math.fromStr(v(stf))[0], math.fromIso(v(prf))[0]
         )));
@@ -238,8 +235,8 @@ export  async  function mk2(wg, inv, year0)  {sys.$params(arguments.length, 3);
     
      function f()  {sys.$params(arguments.length, 0);
       const R =sys.$checkNull( [checkEmpty(II("Date"), v(dtf))]);
-      if (sys.asBool(!sys.asBool(R[0]))) R[0] =sys.$checkExists(R[0],sys.$checkNull( checkFloat(II("Amount"), v(amf))));
-      if (sys.asBool(!sys.asBool(R[0])))
+      if (sys.$eq(R[0] , "")) R[0] =sys.$checkExists(R[0],sys.$checkNull( checkFloat(II("Amount"), v(amf))));
+      if (sys.$eq(R[0] , ""))
         sendAnn(ann.mk( -1, dt2s(v(dtf)), opr.mkIn(
           math.fromIso(v(amf))[0]
         )));
@@ -268,8 +265,8 @@ export  async  function mk2(wg, inv, year0)  {sys.$params(arguments.length, 3);
     
      function f()  {sys.$params(arguments.length, 0);
       const R =sys.$checkNull( [checkEmpty(II("Date"), v(dtf))]);
-      if (sys.asBool(!sys.asBool(R[0]))) R[0] =sys.$checkExists(R[0],sys.$checkNull( checkFloat(II("Amount"), v(amf))));
-      if (sys.asBool(!sys.asBool(R[0])))
+      if (sys.$eq(R[0] , "")) R[0] =sys.$checkExists(R[0],sys.$checkNull( checkFloat(II("Amount"), v(amf))));
+      if (sys.$eq(R[0] , ""))
         sendAnn(ann.mk( -1, dt2s(v(dtf)), opr.mkWi(
           math.fromIso(v(amf))[0]
         )));
@@ -299,9 +296,9 @@ export  async  function mk2(wg, inv, year0)  {sys.$params(arguments.length, 3);
     
      function f()  {sys.$params(arguments.length, 0);
       const R =sys.$checkNull( [checkEmpty(II("Date"), v(dtf))]);
-      if (sys.asBool(!sys.asBool(R[0]))) R[0] =sys.$checkExists(R[0],sys.$checkNull( checkFloat(II("Amount"), v(amf))));
-      if (sys.asBool(!sys.asBool(R[0]))) R[0] =sys.$checkExists(R[0],sys.$checkNull( checkEmpty(II("Description"), v(def))));
-      if (sys.asBool(!sys.asBool(R[0])))
+      if (sys.$eq(R[0] , "")) R[0] =sys.$checkExists(R[0],sys.$checkNull( checkFloat(II("Amount"), v(amf))));
+      if (sys.$eq(R[0] , "")) R[0] =sys.$checkExists(R[0],sys.$checkNull( checkEmpty(II("Description"), v(def))));
+      if (sys.$eq(R[0] , ""))
         sendAnn(ann.mk( -1, dt2s(v(dtf)), opr.mkPr(
           math.fromIso(v(amf))[0], v(def)
         )));
@@ -332,9 +329,9 @@ export  async  function mk2(wg, inv, year0)  {sys.$params(arguments.length, 3);
     
      function f()  {sys.$params(arguments.length, 0);
       const R =sys.$checkNull( [checkEmpty(II("Date"), v(dtf))]);
-      if (sys.asBool(!sys.asBool(R[0]))) R[0] =sys.$checkExists(R[0],sys.$checkNull( checkFloat(II("Amount"), v(amf))));
-      if (sys.asBool(!sys.asBool(R[0]))) R[0] =sys.$checkExists(R[0],sys.$checkNull( checkEmpty(II("Description"), v(def))));
-      if (sys.asBool(!sys.asBool(R[0])))
+      if (sys.$eq(R[0] , "")) R[0] =sys.$checkExists(R[0],sys.$checkNull( checkFloat(II("Amount"), v(amf))));
+      if (sys.$eq(R[0] , "")) R[0] =sys.$checkExists(R[0],sys.$checkNull( checkEmpty(II("Description"), v(def))));
+      if (sys.$eq(R[0] , ""))
         sendAnn(ann.mk( -1, dt2s(v(dtf)), opr.mkFe(
           math.fromIso(v(amf))[0], v(def)
         )));
@@ -365,9 +362,9 @@ export  async  function mk2(wg, inv, year0)  {sys.$params(arguments.length, 3);
     
      function f()  {sys.$params(arguments.length, 0);
       const R =sys.$checkNull( [checkEmpty(II("Date"), v(dtf))]);
-      if (sys.asBool(!sys.asBool(R[0]))) R[0] =sys.$checkExists(R[0],sys.$checkNull( checkFloat(II("Amount"), v(amf))));
-      if (sys.asBool(!sys.asBool(R[0]))) R[0] =sys.$checkExists(R[0],sys.$checkNull( checkEmpty(II("Diff. +"), v(def))));
-      if (sys.asBool(!sys.asBool(R[0])))
+      if (sys.$eq(R[0] , "")) R[0] =sys.$checkExists(R[0],sys.$checkNull( checkFloat(II("Amount"), v(amf))));
+      if (sys.$eq(R[0] , "")) R[0] =sys.$checkExists(R[0],sys.$checkNull( checkEmpty(II("Diff. +"), v(def))));
+      if (sys.$eq(R[0] , ""))
         sendAnn(ann.mk( -1, dt2s(v(dtf)), opr.mkPd(
           math.fromIso(v(amf))[0], v(def)
         )));
@@ -398,9 +395,9 @@ export  async  function mk2(wg, inv, year0)  {sys.$params(arguments.length, 3);
     
      function f()  {sys.$params(arguments.length, 0);
       const R =sys.$checkNull( [checkEmpty(II("Date"), v(dtf))]);
-      if (sys.asBool(!sys.asBool(R[0]))) R[0] =sys.$checkExists(R[0],sys.$checkNull( checkFloat(II("Amount"), v(amf))));
-      if (sys.asBool(!sys.asBool(R[0]))) R[0] =sys.$checkExists(R[0],sys.$checkNull( checkEmpty(II("Description"), v(def))));
-      if (sys.asBool(!sys.asBool(R[0])))
+      if (sys.$eq(R[0] , "")) R[0] =sys.$checkExists(R[0],sys.$checkNull( checkFloat(II("Amount"), v(amf))));
+      if (sys.$eq(R[0] , "")) R[0] =sys.$checkExists(R[0],sys.$checkNull( checkEmpty(II("Description"), v(def))));
+      if (sys.$eq(R[0] , ""))
         sendAnn(ann.mk( -1, dt2s(v(dtf)), opr.mkNd(
           math.fromIso(v(amf))[0], v(def)
         )));
@@ -425,7 +422,10 @@ export  async  function mk2(wg, inv, year0)  {sys.$params(arguments.length, 3);
     
      function td()  {sys.$params(arguments.length, 0);  return Q("td").style("width:50%;");};
     
-     function lk(tx, f)  {sys.$params(arguments.length, 2);  return ui.link(f).klass("link").html(tx);};
+     function lk(tx, f)  {sys.$params(arguments.length, 2);  return sys.$eq(year , Years[0])
+      ? ui.link(f).klass("link").html(tx)
+      : Q("span").html(tx)
+    ;};
     editor
       .removeAll()
       .add(Q("table").klass("main")
@@ -446,13 +446,13 @@ export  async  function mk2(wg, inv, year0)  {sys.$params(arguments.length, 3);
 
   const Lopts =sys.$checkNull( []);
   arr.eachIx(Years, function(y, i)  {sys.$params(arguments.length, 2);
-    if (sys.asBool(i > 0)) arr.push(Lopts, menu.separator());
+    if (i > 0) arr.push(Lopts, menu.separator());
     arr.push(Lopts, menu.toption(y, y, function()  {sys.$params(arguments.length, 0); changeYear(y);}));
   });
   const menuWg =sys.$checkNull( menu.mk(Lopts, [], year, false));
 
   const annsWg =sys.$checkNull( Q("div"));
-  if (sys.asBool(sys.$eq(year , Years[0]))) annotationsWg.mk(annsWg, Anns, [del]);
+  if (sys.$eq(year , Years[0])) annotationsWg.mk(annsWg, Anns, [del]);
   else annotationsWg.mk(annsWg, Anns, []);
 
   ShowSelector[0]();
@@ -493,4 +493,4 @@ export  async  function mk2(wg, inv, year0)  {sys.$params(arguments.length, 3);
 };
 
 
-export  function mk(wg, inv)  {sys.$params(arguments.length, 2); mk2(wg, inv, "");};
+export  function mk(wg)  {sys.$params(arguments.length, 1); mk2(wg, "");};

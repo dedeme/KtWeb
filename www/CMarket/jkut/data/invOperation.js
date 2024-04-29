@@ -8,8 +8,7 @@ import * as math from '../_js/math.js';import * as js from '../_js/js.js';import
 
 
 
+export  function mk(stocks, nick)  {sys.$params(arguments.length, 2);  return {stocks:stocks, nick:nick};};
 
-export  function mk(stocks, investor, nick)  {sys.$params(arguments.length, 3);  return {stocks:stocks, investor:investor, nick:nick};};
 
-
-export  function fromJs(A)  {sys.$params(arguments.length, 1);  return mk(A[0], A[1], A[2]);};
+export  function fromJs(A)  {sys.$params(arguments.length, 1);  return mk(A[0], A[1]);};

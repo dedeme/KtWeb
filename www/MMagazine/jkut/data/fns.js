@@ -8,13 +8,13 @@ import * as math from '../_js/math.js';import * as js from '../_js/js.js';import
 
 export  function paramFormatter(n1, n2)  {sys.$params(arguments.length, 2);
    function r4(n)  {sys.$params(arguments.length, 1);  return math.toIso(n, 4);};
-  if (sys.asBool(sys.asBool(!sys.asBool(str.ends(r4(n1), "0"))) || sys.asBool(!sys.asBool(str.ends(r4(n2), "0")))))  return r4;
+  if (!sys.asBool(str.ends(r4(n1), "0")) || !sys.asBool(str.ends(r4(n2), "0")))  return r4;
    function r3(n)  {sys.$params(arguments.length, 1);  return math.toIso(n, 3);};
-  if (sys.asBool(sys.asBool(!sys.asBool(str.ends(r3(n1), "0"))) || sys.asBool(!sys.asBool(str.ends(r3(n2), "0")))))  return r3;
+  if (!sys.asBool(str.ends(r3(n1), "0")) || !sys.asBool(str.ends(r3(n2), "0")))  return r3;
    function r2(n)  {sys.$params(arguments.length, 1);  return math.toIso(n, 2);};
-  if (sys.asBool(sys.asBool(!sys.asBool(str.ends(r2(n1), "0"))) || sys.asBool(!sys.asBool(str.ends(r2(n2), "0")))))  return r2;
+  if (!sys.asBool(str.ends(r2(n1), "0")) || !sys.asBool(str.ends(r2(n2), "0")))  return r2;
    function r1(n)  {sys.$params(arguments.length, 1);  return math.toIso(n, 1);};
-  if (sys.asBool(sys.asBool(!sys.asBool(str.ends(r1(n1), "0"))) || sys.asBool(!sys.asBool(str.ends(r1(n2), "0")))))  return r1;
+  if (!sys.asBool(str.ends(r1(n1), "0")) || !sys.asBool(str.ends(r1(n2), "0")))  return r1;
    return function(n)  {sys.$params(arguments.length, 1);  return math.toIso(n, 0);};
 };
 
@@ -33,7 +33,7 @@ export  function valueColor(max, min)  {sys.$params(arguments.length, 2);
 
 export  function format00(n)  {sys.$params(arguments.length, 1);
   const r =sys.$checkNull( math.toStr(n));
-  return sys.asBool( str.len(r) < 2) ? "0" + r : r;
+   return str.len(r) < 2 ? "0" + r : r;
 };
 
 

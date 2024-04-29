@@ -12,16 +12,16 @@ const II =sys.$checkNull( i18n.tlt);
 
 export  function toIx(m)  {sys.$params(arguments.length, 1);
   const rOp =sys.$checkNull( math.fromStr(m));
-  if (sys.asBool(rOp)) {
+  if (!sys.asBool(!sys.asBool(rOp))) {
     const r =sys.$checkNull( math.toInt(rOp[0]));
-    if (sys.asBool(sys.asBool(r >= 1) && sys.asBool(r <= 12)))  return r;
+    if (r >= 1 && r <= 12)  return r;
   }
    return time.month(time.now());
 };
 
 
 
-export  function format(m)  {sys.$params(arguments.length, 1); return sys.asBool( m < 10) ? "0" + m : "" + m;};
+export  function format(m)  {sys.$params(arguments.length, 1);  return m < 10 ? "0" + m : "" + m;};
 
 
 

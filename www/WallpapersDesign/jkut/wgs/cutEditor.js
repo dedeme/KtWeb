@@ -15,7 +15,7 @@ const II =sys.$checkNull( i18n.tlt);
 
 export  function mk(ImgDiv, Image, onChange)  {sys.$params(arguments.length, 3);
   const Cut =sys.$checkNull( Image.Cut);
-  const IsActivated =sys.$checkNull( [sys.asBool(Cut) ? true : false]);
+  const IsActivated =sys.$checkNull( [!sys.asBool(Cut) ? false: true]);
 
   
    function mkIn(id, nextId, value)  {sys.$params(arguments.length, 3);  return ui.changePoint(ui.field(nextId)
@@ -25,10 +25,10 @@ export  function mk(ImgDiv, Image, onChange)  {sys.$params(arguments.length, 3);
     );};
 
   const df =sys.$checkNull( cts.pixelsCut);
-  const Top =sys.$checkNull( mkIn("top", "right",sys.asBool( IsActivated[0]) ? Cut[0].top : df));
-  const Left =sys.$checkNull( mkIn("left", "top",sys.asBool( IsActivated[0]) ? Cut[0].left : df));
-  const Bottom =sys.$checkNull( mkIn("bottom", "left",sys.asBool( IsActivated[0]) ? Cut[0].bottom : df));
-  const Right =sys.$checkNull( mkIn("right", "bottom",sys.asBool( IsActivated[0]) ? Cut[0].right : df));
+  const Top =sys.$checkNull( mkIn("top", "right", IsActivated[0] ? Cut[0].top : df));
+  const Left =sys.$checkNull( mkIn("left", "top", IsActivated[0] ? Cut[0].left : df));
+  const Bottom =sys.$checkNull( mkIn("bottom", "left", IsActivated[0] ? Cut[0].bottom : df));
+  const Right =sys.$checkNull( mkIn("right", "bottom", IsActivated[0] ? Cut[0].right : df));
 
   const EditorDiv =sys.$checkNull( Q("div"));
 
@@ -45,13 +45,13 @@ export  function mk(ImgDiv, Image, onChange)  {sys.$params(arguments.length, 3);
   
    function restore(ev)  {sys.$params(arguments.length, 1);
     const Cut =sys.$checkNull( Image.Cut);
-    const IsActivated =sys.$checkNull( [sys.asBool(Cut) ? true : false]);
+    const IsActivated =sys.$checkNull( [!sys.asBool(Cut) ? false : true]);
 
     const df =sys.$checkNull( cts.pixelsCut);
-    Top.value(sys.asBool(IsActivated[0]) ? Cut[0].top : df);
-    Left.value(sys.asBool(IsActivated[0]) ? Cut[0].left : df);
-    Bottom.value(sys.asBool(IsActivated[0]) ? Cut[0].bottom : df);
-    Right.value(sys.asBool(IsActivated[0]) ? Cut[0].right : df);
+    Top.value(IsActivated[0] ? Cut[0].top : df);
+    Left.value(IsActivated[0] ? Cut[0].left : df);
+    Bottom.value(IsActivated[0] ? Cut[0].bottom : df);
+    Right.value(IsActivated[0] ? Cut[0].right : df);
 
     onChange(Image);
     MkEditor[0](EditorDiv);
@@ -62,13 +62,13 @@ export  function mk(ImgDiv, Image, onChange)  {sys.$params(arguments.length, 3);
     
      function value(I)  {sys.$params(arguments.length, 1);
       const R =sys.$checkNull( math.fromStr(I.getValue()));
-      if (sys.asBool(!sys.asBool(R))) {
+      if (!sys.asBool(R)) {
         arr.push(R, cts.pixelsCut);
         I.value("" + R[0]);
       }
        return R[0];
     };
-    const Cut =sys.$checkNull(sys.asBool( IsActivated[0])
+    const Cut =sys.$checkNull( IsActivated[0]
       ? [ imgCut.mk(
             value(Left), value(Top), value(Right), value(Bottom)
           )]
@@ -98,7 +98,7 @@ export  function mk(ImgDiv, Image, onChange)  {sys.$params(arguments.length, 3);
         .add(Q("tr")
           .add(Q("td")
             .att("colspan", 3)
-            .add(sys.asBool(IsActivated[0])
+            .add(IsActivated[0]
                 ? ui.link(function(ev)  {sys.$params(arguments.length, 1); activate(false);})
                     .klass("link")
                     .text(II("Deactivate"))

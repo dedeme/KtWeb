@@ -5,11 +5,15 @@ import * as math from '../../../_js/math.js';import * as js from '../../../_js/j
 
 import * as modalBox from  "../../../libdm/modalBox.js";
 import * as diary from  "../../../data/diary.js";
+import * as dann from  "../../../data/dann.js";
 import * as budget from  "../../../data/budget.js";
 import * as plan from  "../../../data/plan.js";
+import * as planEntry from  "../../../data/planEntry.js";
 import * as month from  "../../../data/month.js";
-import * as cts from  "../../../data/cts.js";
-import * as budgetEntry from  "../../../data/budgetEntry.js";
+import * as global from  "../../../global.js";
+import * as cts from  "../../../cts.js";
+import * as budgetWgEntry from  "../../../data/budgetWgEntry.js";
+import * as diaryEntry from  "../../../data/diaryEntry.js";
 import * as i18n from  "../../../i18n.js";
 
 const Q =sys.$checkNull( ui.q);
@@ -17,16 +21,6 @@ const II =sys.$checkNull( i18n.tlt);
 
 
 
-const mkBudgetEntry =sys.$checkNull( budgetEntry.mk);
-
-
-const sumBudget =sys.$checkNull( budgetEntry.sumBudget);
-
-
-const sumReal =sys.$checkNull( budgetEntry.sumReal);
-
-
-const sumDif =sys.$checkNull( budgetEntry.sumDif);
 
 
 
@@ -34,20 +28,18 @@ const sumDif =sys.$checkNull( budgetEntry.sumDif);
 
 
 
+export  function mk(wg, selectedYear, isUntil, selectedMonth,
+   Plan,  Diary,  Budget)  {sys.$params(arguments.length, 7);
 
+  const start =sys.$checkNull( isUntil ? 0 : selectedMonth -1);
+   const DiaryEntries =sys.$checkNull( diary.filterReverse(Diary, start, selectedMonth));
 
-
-export  function mk(wg, selectedYear, isUntil, selectedMonth, Plan, Diary, Budget)  {sys.$params(arguments.length, 7);
-
-  const start =sys.$checkNull(sys.asBool( isUntil) ? 0 : selectedMonth -1);
-  const DiaryEntries =sys.$checkNull( diary.filterReverse(Diary, start, selectedMonth));
-
-  const BudgetModel =sys.$checkNull( []); 
-  for (const Pe  of sys.$forObject( Plan.entries)) {
-    arr.push(BudgetModel, mkBudgetEntry(
-      Pe.isIncome, Pe.id,
-      budget.accAmount(Budget, Pe.id, start, selectedMonth),
-      diary.accAmount(Diary, Pe.id, start, selectedMonth)
+   const BudgetModel =sys.$checkNull( []); 
+  for (const  pe  of sys.$forObject( Plan)) {
+    arr.push(BudgetModel,budgetWgEntry.mk(
+      pe[planEntry.isIncome], pe[planEntry.id],
+      budget.accAmount(Budget, pe[planEntry.id], start, selectedMonth),
+      diary.accAmount(Diary, pe[planEntry.id], start, selectedMonth)
     ));
   }
 
@@ -58,21 +50,22 @@ export  function mk(wg, selectedYear, isUntil, selectedMonth, Plan, Diary, Budge
 
   
    async  function updateDiary()  {sys.$params(arguments.length, 0);
-    await client.ssend({
+    await client.send({
       prg: cts.appName,
       source: "BudgetView",
       rq: "updateDiary",
+      dbKey: global.dbKeyV[0],
       year: selectedYear,
-      diary: diary.toJs(Diary)
+      diary: arr.map(Diary,diaryEntry.toJs)
     });
     window.location.reload();
   };
 
   
-   function del(Ann)  {sys.$params(arguments.length, 1);
-    if (sys.asBool(!sys.asBool(ui.confirm(i18n.fmt(II("Delete '%0'?"), [Ann[1].desc]))))) return;
+   function del(ix,  e)  {sys.$params(arguments.length, 2);
+    if (!sys.asBool(ui.confirm(i18n.fmt(II("Delete '%0'?"), [e[diaryEntry.desc]])))) return;
 
-    diary.del(Diary, Ann[0]);
+    diary.del(Diary, ix);
     updateDiary();
   };
 
@@ -80,21 +73,21 @@ export  function mk(wg, selectedYear, isUntil, selectedMonth, Plan, Diary, Budge
 
   
    function account(id)  {sys.$params(arguments.length, 1);
-    const BudgetMs =sys.$checkNull( []); 
-    const BudgetSs =sys.$checkNull( []); 
+     const BudgetMs =sys.$checkNull( []); 
+     const BudgetSs =sys.$checkNull( []); 
     const budgetSumV =sys.$checkNull( [0]);
-    const RealMs =sys.$checkNull( []); 
-    const RealSs =sys.$checkNull( []); 
+     const RealMs =sys.$checkNull( []); 
+     const RealSs =sys.$checkNull( []); 
     const realSumV =sys.$checkNull( [0]);
     for (let i = 0;i < 12; ++i) {
       const b =sys.$checkNull( budget.accAmount(Budget, id, i, i + 1));
       budgetSumV[0] +=sys.$checkExists(budgetSumV[0],sys.$checkNull( b));
-      arr.push(BudgetMs, b);
-      arr.push(BudgetSs, budgetSumV[0]);
+      arr.push(BudgetMs,b);
+      arr.push(BudgetSs,budgetSumV[0]);
       const r =sys.$checkNull( diary.accAmount(Diary, id, i, i + 1));
       realSumV[0] +=sys.$checkExists(realSumV[0],sys.$checkNull( r));
-      arr.push(RealMs, r);
-      arr.push(RealSs, realSumV[0]);
+      arr.push(RealMs,r);
+      arr.push(RealSs,realSumV[0]);
     }
 
     accWg
@@ -177,31 +170,34 @@ export  function mk(wg, selectedYear, isUntil, selectedMonth, Plan, Diary, Budge
           .add(Q("td")
             .klass("frameNm")
             .style("background-color:#f9f9f9")
-            .text(math.toIso(BudgetMs[i] - RealMs[i], 2)))
+            .text(math.toIso(RealMs[i] - BudgetMs[i], 2)))
           .add(Q("td")
             .klass("frameNm")
             .style("background-color:#f9f9f9")
-            .text(math.toIso(BudgetSs[i] - RealSs[i], 2)));})))
+            .text(math.toIso(RealSs[i] - BudgetSs[i], 2)));})))
       .add(Q("div")
         .klass("head")
         .add(Q("button")
           .text(II("Accept"))
-          .on("click", function(ev)  {sys.$params(arguments.length, 1); modalBox.show(accBox, false);})))
+          .on("click", function(ev)  {sys.$params(arguments.length, 1); modalBox.show(accBox,false);})))
     ;
 
-    modalBox.show(accBox, true);
+    modalBox.show(accBox,true);
   };
 
 
-  const Incomes =sys.$checkNull( arr.filter(BudgetModel, function(E)  {sys.$params(arguments.length, 1);  return E.isIncome;}));
-  arr.sort(Incomes, function(E1, E2)  {sys.$params(arguments.length, 2);  return E1.accId < E2.accId;});
-  const Expenses =sys.$checkNull( arr.filter(BudgetModel, function(E)  {sys.$params(arguments.length, 1);  return !sys.asBool(E.isIncome);}));
-  arr.sort(Expenses, function(E1, E2)  {sys.$params(arguments.length, 2);  return E1.accId < E2.accId;});
-  const sz =sys.$checkNull(sys.asBool( arr.size(Incomes) > arr.size(Expenses))
-    ? arr.size(Incomes)
-    : arr.size(Expenses))
-  ;
+   const Incomes0 =sys.$checkNull( arr.filter(BudgetModel,function( e)  {sys.$params(arguments.length, 1);  return e[budgetWgEntry.isIncome];}));
+  arr.sort(Incomes0,function( e1 ,  e2)  {sys.$params(arguments.length, 2);
+     return e1[budgetWgEntry.accId] < e2[budgetWgEntry.accId];});
+   const Expenses0 =sys.$checkNull( arr.filter(BudgetModel,function( e)  {sys.$params(arguments.length, 1);  return !sys.asBool(e[budgetWgEntry.isIncome]);}));
+  arr.sort(Expenses0,function( e1 ,  e2)  {sys.$params(arguments.length, 2);
+     return e1[budgetWgEntry.accId] < e2[budgetWgEntry.accId];});
+  const isize =sys.$checkNull( arr.size(Incomes0));
+  const esize =sys.$checkNull( arr.size(Expenses0));
+  const sz =sys.$checkNull( isize > esize ? isize : esize);
 
+   const Incomes =sys.$checkNull( Incomes0);
+   const Expenses =sys.$checkNull( Expenses0);
   wg
     .removeAll()
     .add(Q("div")
@@ -257,8 +253,11 @@ export  function mk(wg, selectedYear, isUntil, selectedMonth, Plan, Diary, Budge
             .klass("frameNm")
             .style("background-color:#d9d9d9")
             .text(II("Dif. (B - A))"))))
-        .adds(iter.map(iter.$range(0,sz), function(i)  {sys.$params(arguments.length, 1);  return Q("tr")
-            .adds(sys.asBool(i >= arr.size(Incomes))
+        .adds(iter.map(iter.$range(0,sz), function(i)  {sys.$params(arguments.length, 1);
+           const ie =sys.$checkNull( i >= isize ? [] : Incomes[i]);
+           const ee =sys.$checkNull( i >= esize ? [] : Expenses[i]);
+           return Q("tr")
+            .adds(i >= isize
               ? iter.map(iter.$range(0,4), function(j)  {sys.$params(arguments.length, 1);  return Q("td")
                   .klass("frameTx")
                   .style("background-color:#f9f9f9")
@@ -267,26 +266,26 @@ export  function mk(wg, selectedYear, isUntil, selectedMonth, Plan, Diary, Budge
                   Q("td")
                     .klass("frameTx")
                     .style("background-color:#d9d9d9")
-                    .add(ui.link(function(ev)  {sys.$params(arguments.length, 1); account(Incomes[i].accId);})
+                    .add(ui.link(function(ev)  {sys.$params(arguments.length, 1); account(ie[budgetWgEntry.accId]);})
                       .klass("link")
-                      .att("title", plan.desc(Plan, Incomes[i].accId))
-                      .text(Incomes[i].accId)),
+                      .att("title", plan.desc(Plan, ie[budgetWgEntry.accId]))
+                      .text(ie[budgetWgEntry.accId])),
                   Q("td")
                     .klass("frameNm")
                     .style("background-color:#f9f9f9")
-                    .text(math.toIso(Incomes[i].budget, 2)),
+                    .text(math.toIso(ie[budgetWgEntry.budget], 2)),
                   Q("td")
                     .klass("frameNm")
                     .style("background-color:#f9f9f9")
-                    .text(math.toIso(Incomes[i].real, 2)),
+                    .text(math.toIso(ie[budgetWgEntry.real], 2)),
                   Q("td")
                     .klass("frameNm")
                     .style("background-color:#f9f9f9")
-                    .text(math.toIso(Incomes[i].dif, 2))
+                    .text(math.toIso(ie[budgetWgEntry.dif], 2))
                 ])
             .add(Q("td")
               .klass("frameTx"))
-            .adds(sys.asBool(i >= arr.size(Expenses))
+            .adds(i >= esize
               ? iter.map(iter.$range(0,4), function(j)  {sys.$params(arguments.length, 1);  return Q("td")
                   .klass("frameTx")
                   .style("background-color:#f9f9f9")
@@ -295,22 +294,22 @@ export  function mk(wg, selectedYear, isUntil, selectedMonth, Plan, Diary, Budge
                   Q("td")
                     .klass("frameTx")
                     .style("background-color:#d9d9d9")
-                    .add(ui.link(function(ev)  {sys.$params(arguments.length, 1); account(Expenses[i].accId);})
+                    .add(ui.link(function(ev)  {sys.$params(arguments.length, 1); account(ee[budgetWgEntry.accId]);})
                       .klass("link")
-                      .att("title", plan.desc(Plan, Expenses[i].accId))
-                      .text(Expenses[i].accId)),
+                      .att("title", plan.desc(Plan, ee[budgetWgEntry.accId]))
+                      .text(ee[budgetWgEntry.accId])),
                   Q("td")
                     .klass("frameNm")
                     .style("background-color:#f9f9f9")
-                    .text(math.toIso(Expenses[i].budget, 2)),
+                    .text(math.toIso(ee[budgetWgEntry.budget], 2)),
                   Q("td")
                     .klass("frameNm")
                     .style("background-color:#f9f9f9")
-                    .text(math.toIso(Expenses[i].real, 2)),
+                    .text(math.toIso(ee[budgetWgEntry.real], 2)),
                   Q("td")
                     .klass("frameNm")
                     .style("background-color:#f9f9f9")
-                    .text(math.toIso(Expenses[i].dif, 2))
+                    .text(math.toIso(ee[budgetWgEntry.dif], 2))
                 ])
           ;}))
         .add(Q("tr")
@@ -324,15 +323,15 @@ export  function mk(wg, selectedYear, isUntil, selectedMonth, Plan, Diary, Budge
           .add(Q("td")
             .klass("frameNm")
             .style("background-color:#f9f9f9")
-            .text(math.toIso(sumBudget(Incomes), 2)))
+            .text(math.toIso(budgetWgEntry.sumBudget(Incomes), 2)))
           .add(Q("td")
             .klass("frameNm")
             .style("background-color:#f9f9f9")
-            .text(math.toIso(sumReal(Incomes), 2)))
+            .text(math.toIso(budgetWgEntry.sumReal(Incomes), 2)))
           .add(Q("td")
             .klass("frameNm")
             .style("background-color:#f9f9f9")
-            .text(math.toIso(sumDif(Incomes), 2)))
+            .text(math.toIso(budgetWgEntry.sumDif(Incomes), 2)))
           .add(Q("td")
             .klass("frameTx"))
           .add(Q("td")
@@ -342,15 +341,15 @@ export  function mk(wg, selectedYear, isUntil, selectedMonth, Plan, Diary, Budge
           .add(Q("td")
             .klass("frameNm")
             .style("background-color:#f9f9f9")
-            .text(math.toIso(sumBudget(Expenses), 2)))
+            .text(math.toIso(budgetWgEntry.sumBudget(Expenses), 2)))
           .add(Q("td")
             .klass("frameNm")
             .style("background-color:#f9f9f9")
-            .text(math.toIso(sumReal(Expenses), 2)))
+            .text(math.toIso(budgetWgEntry.sumReal(Expenses), 2)))
           .add(Q("td")
             .klass("frameNm")
             .style("background-color:#f9f9f9")
-            .text(math.toIso(sumDif(Expenses), 2)))))
+            .text(math.toIso(budgetWgEntry.sumDif(Expenses), 2)))))
 
     
 
@@ -374,14 +373,16 @@ export  function mk(wg, selectedYear, isUntil, selectedMonth, Plan, Diary, Budge
             .klass("frameNm")
             .style("background-color:#d9d9d9")
             .text(II("Amount"))))
-        .adds(arr.map(DiaryEntries, function(Tp)  {sys.$params(arguments.length, 1);  return Q("tr")
+        .adds(arr.map(DiaryEntries,function(Tp)  {sys.$params(arguments.length, 1);
+          const [ix,  e] = Tp;
+           return Q("tr")
             .add(Q("td")
-              .add(ui.link(function(ev)  {sys.$params(arguments.length, 1); del(Tp);})
+              .add(ui.link(function(ev)  {sys.$params(arguments.length, 1); del(ix, e);})
                 .add(ui.img("delete"))))
             .add(Q("td")
               .klass("frameTx")
               .style("background-color:#f9f9f9")
-              .text(Tp[1].month))
+              .text(e[diaryEntry.month]))
             .add(Q("td")
               .klass("frameTx")
               .style("background-color:#f9f9f9")
@@ -389,26 +390,26 @@ export  function mk(wg, selectedYear, isUntil, selectedMonth, Plan, Diary, Budge
                 .add(Q("tr")
                   .add(Q("td")
                     .att("colspan", "2")
-                    .text(Tp[1].desc)))
-                .adds(arr.map(Tp[1].anns, function(A)  {sys.$params(arguments.length, 1);  return Q("tr")
+                    .text(e[diaryEntry.desc])))
+                .adds(arr.map(e[diaryEntry.Anns], function( a)  {sys.$params(arguments.length, 1);  return Q("tr")
                     .add(Q("td")
                       .klass("frameTx")
-                      .att("title", plan.desc(Plan, diary.annId(A)))
-                      .text(diary.annId(A)))
+                      .att("title", plan.desc(Plan, a[dann.id]))
+                      .text(a[dann.id]))
                     .add(Q("td")
                       .klass("frameNm")
-                      .text(math.toIso(diary.annAm(A), 2)))
+                      .text(math.toIso(a[dann.am], 2)))
                   ;}))
                 ))
             .add(Q("td")
               .klass("frameNm")
               .style("background-color:#f9f9f9")
-              .text(math.toIso(Tp[1].am, 2)))
+              .text(math.toIso(e[diaryEntry.am], 2)))
           ;})))
 
     
 
-    .add(accBox.wg)
+    .add(modalBox.mkWg(accBox))
   ;
 
 };

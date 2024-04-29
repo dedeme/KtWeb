@@ -3,11 +3,6 @@ import * as math from '../_js/math.js';import * as js from '../_js/js.js';import
 
 
 
-export const all =sys.$checkNull(  -1);
-
-
-
-export const withFees =sys.$checkNull(  -2);
 
 
 
@@ -15,27 +10,4 @@ export const withFees =sys.$checkNull(  -2);
 
 
 
-
-export  function mk(cost, profits, fees, summary, anns)  {sys.$params(arguments.length, 5);
-   return {cost:cost, profits:profits, fees:fees, summary:summary, anns:anns};};
-
-
-
-
-
-
-
-export  function mkSummary(nick, stocks, price, total)  {sys.$params(arguments.length, 4);  return {nick:nick, stocks:stocks, price:price, total:total};};
-
-
-
-
-
-
-
-
-
-
-
-export  function mkAnn(date, nick, stocks, price, total, profits, fees)  {sys.$params(arguments.length, 7);
-   return {date:date, nick:nick, stocks:stocks, price:price, total:total, profits:profits, fees:fees};};
+export function mk (cost,profits,feesOp,Summary,Anns) { sys.$params(arguments.length, 5); return [ cost, profits, feesOp, Summary, Anns];}export const cost = 0;export const profits = 1;export const feesOp = 2;export const Summary = 3;export const Anns = 4;

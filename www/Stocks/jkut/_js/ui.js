@@ -283,20 +283,11 @@ export function upTop (image) {
   ;
 }
 
-// \-> <dic>[s...]
+// \-> [s...]
 export function url () {
   sys.$params(arguments.length, 0);
   const search = location.search;
-  if (search === "") return {};
-
-  let i = 0;
-  return arr.reduce(search.substring(1).split("&"), {}, (r, e) => {
-    const ix = e.indexOf("=");
-    if (ix === -1) r["" + i] = decodeURI(e);
-    else r[decodeURI(e.substring(0, ix))] = decodeURI(e.substring(ix + 1));
-    ++i;
-    return r;
-  });
+  if (search === "") return [];
+  return arr.map(search.substring(1).split("&"), decodeURI);
 }
-
 

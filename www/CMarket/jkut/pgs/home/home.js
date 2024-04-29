@@ -13,7 +13,39 @@ const II =sys.$checkNull( i18n.tlt);
 
 
 export  async  function mk(wg)  {sys.$params(arguments.length, 1);
+  const Rp =sys.$checkNull( await  client.send({
+    prg: cts.appName,
+    module: "Home",
+    source: "Home",
+    rq: "idata"
+  }));
+
+  const isActive =sys.$checkNull( Rp.isActive);
+
   const logDiv =sys.$checkNull( Q("div"));
+
+  
+
+  
+   async  function activate(ev)  {sys.$params(arguments.length, 1);
+    logDiv
+      .removeAll()
+      .add(Q("table")
+        .att("align", "center")
+        .add(Q("tr")
+          .add(Q("td")
+            .add(ui.img("wait.gif")))))
+    ;
+    await client.send({
+      prg: cts.appName,
+      module: "Home",
+      source: "Home",
+      rq: "activate"
+    });
+    window.location.reload(true);
+  };
+
+  
 
   
    async  function load(fn)  {sys.$params(arguments.length, 1);
@@ -38,8 +70,8 @@ export  async  function mk(wg)  {sys.$params(arguments.length, 1);
   };
 
   
-   function tlt(tx)  {sys.$params(arguments.length, 1);    
-    return sys.$eq(tx,"All log entries will be deleted.\nContinue?")?
+   function tlt(tx)  {sys.$params(arguments.length, 1); return (   
+    sys.$eq(tx,"All log entries will be deleted.\nContinue?")?
       II("All log entries will be deleted.\nContinue?"):
     sys.$eq(tx,"2 Days")? II("2 Days"):
     sys.$eq(tx,"All")? II("All"):
@@ -48,12 +80,35 @@ export  async  function mk(wg)  {sys.$params(arguments.length, 1);
     sys.$eq(tx,"Errors")? II("Errors"):
     sys.$eq(tx,"Log")? II("Log"):
      tx
-  ;};
+  );};
 
   log.mk(logDiv, load, reset, tlt, true, 100, 25);
 
   wg
     .removeAll()
+    .add(Q("div")
+      .klass("head")
+      .text(II("Server")))
+    .add(Q("table")
+      .att("align", "center")
+      .add(Q("tr")
+        .add(Q("td")
+          .klass("frame")
+          .att("colspan", 3)
+          .style("text-align: center")
+          .text(isActive
+            ? II("Active")
+            : II("Stopped"))))
+      .add(Q("tr")
+        .add(Q("td")
+          .style("width:100px;text-align:center")
+          .add(isActive
+            ? Q("span")
+              .text("* * *")
+            : ui.link(activate)
+              .klass("link")
+              .text(II("Activate"))))))
+    .add(Q("hr"))
     .add(logDiv)
   ;
 };

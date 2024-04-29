@@ -36,6 +36,6 @@ export  function mk(wg, msg, withReload)  {sys.$params(arguments.length, 3);
             .add(Q("tr")
               .add(Q("td")
                 .style("padding:0px 10px 0px 10px;")
-                .html(str.fmt("<p>%v<p>%v", [msg,sys.asBool( withReload) ? reload : ""]))
+                .html(str.fmt("<p>%v<p>%v", [msg, withReload ? reload : ""]))
               ))))));
 };

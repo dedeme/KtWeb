@@ -14,9 +14,7 @@ const Q =sys.$checkNull( ui.q);
 const II =sys.$checkNull( i18n.tlt);
 
 
-export  async  function mk(wg)  {sys.$params(arguments.length, 1);
-  const Url =sys.$checkNull( ui.url());
-  const model =sys.$checkNull(sys.asBool( dic.hasKey(Url, "2")) ? Url["2"] : "");
+export  async  function mk(wg, model)  {sys.$params(arguments.length, 2);
   const Rp =sys.$checkNull( await  client.send({
     prg: cts.appName,
     module: "MMarket",
@@ -42,10 +40,10 @@ export  async  function mk(wg)  {sys.$params(arguments.length, 1);
     const nfmt0 =sys.$checkNull( fns.paramFormatter(PsEvs[0][0][0], PsEvs[cols][0][0]));
     const nfmt1 =sys.$checkNull( fns.paramFormatter(PsEvs[0][0][1], PsEvs[1][0][1]));
     const max =sys.$checkNull( arr.reduce(
-      PsEvs, PsEvs[0][1], function(r, PsE)  {sys.$params(arguments.length, 2); return sys.asBool( PsE[1] > r) ? PsE[1] : r;}
+      PsEvs, PsEvs[0][1], function(r, PsE)  {sys.$params(arguments.length, 2);  return PsE[1] > r ? PsE[1] : r;}
     ));
     const min =sys.$checkNull( arr.reduce(
-      PsEvs, PsEvs[0][1], function(r, PsE)  {sys.$params(arguments.length, 2); return sys.asBool( PsE[1] < r) ? PsE[1] : r;}
+      PsEvs, PsEvs[0][1], function(r, PsE)  {sys.$params(arguments.length, 2);  return PsE[1] < r ? PsE[1] : r;}
     ));
     const color =sys.$checkNull( fns.valueColor(max, min));
 
@@ -77,10 +75,10 @@ export  async  function mk(wg)  {sys.$params(arguments.length, 1);
    function oneChart(PsEvs)  {sys.$params(arguments.length, 1);
     const nfmt =sys.$checkNull( fns.paramFormatter(PsEvs[0][0][0], PsEvs[1][0][0]));
     const max =sys.$checkNull( arr.reduce(
-      PsEvs, PsEvs[0][1], function(r, PsE)  {sys.$params(arguments.length, 2); return sys.asBool( PsE[1] > r) ? PsE[1] : r;}
+      PsEvs, PsEvs[0][1], function(r, PsE)  {sys.$params(arguments.length, 2);  return PsE[1] > r ? PsE[1] : r;}
     ));
     const min =sys.$checkNull( arr.reduce(
-      PsEvs, PsEvs[0][1], function(r, PsE)  {sys.$params(arguments.length, 2); return sys.asBool( PsE[1] < r) ? PsE[1] : r;}
+      PsEvs, PsEvs[0][1], function(r, PsE)  {sys.$params(arguments.length, 2);  return PsE[1] < r ? PsE[1] : r;}
     ));
     const color =sys.$checkNull( fns.valueColor(max, min));
 
@@ -123,7 +121,7 @@ export  async  function mk(wg)  {sys.$params(arguments.length, 1);
           .text(time.toIso(time.fromStr(date)[0]))))
       .add(Q("tr")
         .add(Q("td")
-          .add(sys.asBool(sys.$eq(arr.size(ParamsEvals[0][0]) , 1))
+          .add(sys.$eq(arr.size(ParamsEvals[0][0]) , 1)
             ? oneChart(ParamsEvals)
             : twoChart(ParamsEvals))))
     );
@@ -133,7 +131,7 @@ export  async  function mk(wg)  {sys.$params(arguments.length, 1);
    function rowGroups(start, end)  {sys.$params(arguments.length, 2);
     const Tds =sys.$checkNull( []);
     for (let i = start;i < end; ++i) arr.push(Tds, Q("td"));
-    for (let i = start;i < end; ++i) mapChart(Tds[i], DateGroups[i]);
+    for (let i = start;i < end; ++i) mapChart(Tds[i - start], DateGroups[i]);
      return Q("table")
       .att("align", "center")
       .add(Q("tr").adds(Tds))
@@ -141,7 +139,7 @@ export  async  function mk(wg)  {sys.$params(arguments.length, 1);
   };
 
   const Lopts =sys.$checkNull( []);
-  for (let M  of sys.$forObject( Models)) {
+  for (const M  of sys.$forObject( Models)) {
     arr.push(Lopts, menu.separator());
     arr.push(Lopts, menu.tlink(M, M, ["mmarket&hotmaps"]));
   }
@@ -153,26 +151,26 @@ export  async  function mk(wg)  {sys.$params(arguments.length, 1);
   wg
     .removeAll()
     .add(menuWg)
-    .add(rowGroups(0,sys.asBool( groups >= 4) ? 4 : groups))
+    .add(rowGroups(0, groups >= 4 ? 4 : groups))
   ;
 
-  if (sys.asBool(groups >= 4))
+  if (groups >= 4)
     wg
-      .add(rowGroups(4,sys.asBool( groups >= 8) ? 8 : groups))
+      .add(rowGroups(4, groups >= 8 ? 8 : groups))
     ;
 
-  if (sys.asBool(groups >= 8))
+  if (groups >= 8)
     wg
       .add(Q("hr"))
-      .add(rowGroups(8,sys.asBool( groups >= 13) ? 13 : groups))
+      .add(rowGroups(8, groups >= 13 ? 13 : groups))
     ;
 
-  if (sys.asBool(groups >= 13))
+  if (groups >= 13)
     wg
-      .add(rowGroups(13,sys.asBool( groups >= 18) ? 18 : groups))
+      .add(rowGroups(13, groups >= 18 ? 18 : groups))
     ;
 
-  if (sys.asBool(groups >= 18))
+  if (groups >= 18)
     wg
       .add(Q("hr"))
       .add(rowGroups(18, groups))

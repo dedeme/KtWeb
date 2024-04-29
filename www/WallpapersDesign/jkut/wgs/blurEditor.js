@@ -15,7 +15,7 @@ const II =sys.$checkNull( i18n.tlt);
 
 export  function mk(ImgDiv, Image, onChange)  {sys.$params(arguments.length, 3);
   const Blur =sys.$checkNull( Image.Blur);
-  const IsActivated =sys.$checkNull( [sys.asBool(Blur) ? true : false]);
+  const IsActivated =sys.$checkNull( [!sys.asBool(Blur) ? false : true]);
 
   
    function mkIn(id, nextId, value)  {sys.$params(arguments.length, 3);  return ui.changePoint(ui.field(nextId)
@@ -24,7 +24,7 @@ export  function mk(ImgDiv, Image, onChange)  {sys.$params(arguments.length, 3);
       .value(value)
     );};
 
-  const Ratio =sys.$checkNull( mkIn("ratio", "ratio",sys.asBool( IsActivated[0]) ? Blur[0].ratio : cts.ratioBlur));
+  const Ratio =sys.$checkNull( mkIn("ratio", "ratio", IsActivated[0] ? Blur[0].ratio : cts.ratioBlur));
 
   const EditorDiv =sys.$checkNull( Q("div"));
 
@@ -41,9 +41,9 @@ export  function mk(ImgDiv, Image, onChange)  {sys.$params(arguments.length, 3);
   
    function restore(ev)  {sys.$params(arguments.length, 1);
     const Blur =sys.$checkNull( Image.Blur);
-    const IsActivated =sys.$checkNull( [sys.asBool(Blur) ? true : false]);
+    const IsActivated =sys.$checkNull( [!sys.asBool(Blur) ? false : true]);
 
-    Ratio.value(sys.asBool(IsActivated[0]) ? Blur.ratio : cts.ratioBlur);
+    Ratio.value(IsActivated[0] ? Blur.ratio : cts.ratioBlur);
 
     onChange(Image);
     MkEditor[0](EditorDiv);
@@ -54,13 +54,13 @@ export  function mk(ImgDiv, Image, onChange)  {sys.$params(arguments.length, 3);
     
      function value(I)  {sys.$params(arguments.length, 1);
       const R =sys.$checkNull( math.fromStr(I.getValue()));
-      if (sys.asBool(!sys.asBool(R))) {
+      if (!sys.asBool(R)) {
         arr.push(R, cts.ratioBlur);
         I.value("" + R[0]);
       }
        return R[0];
     };
-    const Blur =sys.$checkNull(sys.asBool( IsActivated[0])
+    const Blur =sys.$checkNull( IsActivated[0]
       ? [imgBlur.mk(value(Ratio))]
       : [])
     ;
@@ -84,7 +84,7 @@ export  function mk(ImgDiv, Image, onChange)  {sys.$params(arguments.length, 3);
         .add(Q("tr")
           .add(Q("td")
             .att("colspan", 3)
-            .add(sys.asBool(IsActivated[0])
+            .add(IsActivated[0]
                 ? ui.link(function(ev)  {sys.$params(arguments.length, 1); activate(false);})
                     .klass("link")
                     .text(II("Deactivate"))

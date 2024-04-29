@@ -3,7 +3,7 @@ import * as math from '../_js/math.js';import * as js from '../_js/js.js';import
 
 
 
-import * as cts from  "../data/cts.js";
+import * as cts from  "../cts.js";
 import * as conf from  "../data/conf.js";
 import * as acc from  "../data/acc.js";
 
@@ -41,32 +41,33 @@ export  function isLastYear()  {sys.$params(arguments.length, 0);  return sys.$e
 
 
 export  async  function send()  {sys.$params(arguments.length, 0);
-  const Rp =sys.$checkNull( await  client.send({
+   const {timeStamp} = await  client.send({
     prg: cts.appName,
     source: "Main",
     rq: "write",
     timeStamp: timeStampV[0],
     year: currentYearV[0],
     data: js.w(acc.toJs())
-  }));
-  if (sys.asBool(sys.$eq(Rp.timeStamp , "")))  return new  Promise(function(resolve, reject)  {sys.$params(arguments.length, 2); resolve(false);});
-  timeStampV[0] =sys.$checkExists(timeStampV[0],sys.$checkNull( Rp.timeStamp));
+  });
+  if (sys.$eq(timeStamp , ""))  return new  Promise(function(resolve, reject)  {sys.$params(arguments.length, 2); resolve(false);});
+  timeStampV[0] =sys.$checkExists(timeStampV[0],sys.$checkNull( timeStamp));
    return new  Promise(function(resolve, reject)  {sys.$params(arguments.length, 2); resolve(true);});
 };
 
 
 
 export  async  function request()  {sys.$params(arguments.length, 0);
-  const Rp =sys.$checkNull( await  client.send({
+  const {timeStamp, year, Years, data} 
+  = await  client.send({
     prg: cts.appName,
     source: "Main",
     rq: "read"
-  }));
+  });
 
-  timeStampV[0] =sys.$checkExists(timeStampV[0],sys.$checkNull( Rp.timeStamp));
-  YearsV[0] =sys.$checkExists(YearsV[0],sys.$checkNull( Rp.years));
-  currentYearV[0] =sys.$checkExists(currentYearV[0],sys.$checkNull( Rp.year));
-  acc.fromJs(js.r(Rp.data));
+  timeStampV[0] =sys.$checkExists(timeStampV[0],sys.$checkNull( timeStamp));
+  YearsV[0] =sys.$checkExists(YearsV[0],sys.$checkNull( Years));
+  currentYearV[0] =sys.$checkExists(currentYearV[0],sys.$checkNull( year));
+  acc.fromJs(js.r(data));
 
    return new  Promise(function(resolve, reject)  {sys.$params(arguments.length, 2); resolve(true);});
 };

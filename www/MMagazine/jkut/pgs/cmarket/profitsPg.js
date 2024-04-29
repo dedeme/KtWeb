@@ -3,7 +3,7 @@ import * as math from '../../_js/math.js';import * as js from '../../_js/js.js';
 
 
 
-import * as lineChart from  "../../libdm/lineChart.js";
+import * as oldChart from  "../../libdm/oldChart.js";
 import * as cts from  "../../data/cts.js";
 import * as profitsEntry from  "../../data/profitsEntry.js";
 import * as i18n from  "../../i18n.js";
@@ -19,15 +19,15 @@ export  async  function mk(wg)  {sys.$params(arguments.length, 1);
     source: "ProfitsPg",
     rq: "idata"
   }));
-  const invs =sys.$checkNull( Rp.investors); 
   const Profits =sys.$checkNull( arr.map(Rp.profits, profitsEntry.fromJs));
 
-  if (sys.asBool(!sys.asBool(Profits))) {
-    arr.push(Profits, [new  ProfitsEntry(
-      time.toStr(time.mkDate(1, 1, time.year(time.now()))), [0, 0, 0]
-    )]);
+  if (!sys.asBool(Profits)) {
+    arr.push(Profits, profitsEntry.mk(
+      time.toStr(time.mkDate(1, 1, time.year(time.now()))), 0
+    ));
   }
-  if (sys.asBool(sys.$eq(arr.size(Profits) , 1))) arr.push(Profits, Profits[0]);
+
+  if (sys.$eq(arr.size(Profits) , 1)) arr.push(Profits, Profits[0]);
 
   
 
@@ -36,46 +36,35 @@ export  async  function mk(wg)  {sys.$params(arguments.length, 1);
      return Q("table")
       .klass("frame")
       .att("align", "center")
-      .adds(iter.map(iter.$range(0,invs), function(i)  {sys.$params(arguments.length, 1);
-         return Q("tr")
-          .add(Q("td")
-            .style("width:30px")
-            .add(ui.led(cts.ToSellColors[i], 6)))
-          .add(Q("td")
-            .style("vertical-align: middle")
-            .text(II("Investor") + "-" + i))
-        ;}))
+      .add(Q("tr")
+        .add(Q("td")
+          .style("width:30px")
+          .add(ui.led(cts.ToSellColors[0], 6)))
+        .add(Q("td")
+          .style("vertical-align: middle")
+          .text(II("Investor"))))
     ;};
-
-  if (sys.asBool(sys.$neq(arr.size(Profits[0].Profits) , invs)))
-    throw new Error( ("Investor number is not " + invs));
 
   
   const Labels =sys.$checkNull( []);
   
-  const Sets =sys.$checkNull( []);
-  for (let i  of sys.$forObject( iter.$range(0,invs))) arr.push(Sets, []);
-  for (let E  of sys.$forObject( Profits)) {
+  const Sets =sys.$checkNull( [[]]);
+  for (const E  of sys.$forObject( Profits)) {
     arr.push(Labels, sys.$slice(E.date,6,null) + "/" + sys.$slice(E.date,4,6));
-    const Pfs =sys.$checkNull( E.Profits);
-    for (let i  of sys.$forObject( iter.$range(0,invs))) arr.push(Sets[i], [Pfs[i]]);
+    arr.push(Sets[0], [E.profits]);
   }
-  const SetAtts =sys.$checkNull( [
-    lineChart.mkLineExample(),
-    lineChart.mkLineExample(),
-    lineChart.mkLineExample()
-  ]);
-  for (let i  of sys.$forObject( iter.$range(0,invs))) SetAtts[i].color =sys.$checkExists(SetAtts[i].color,sys.$checkNull( cts.ToSellColors[i]));
-  const Chart =sys.$checkNull( lineChart.mkExample());
+  const SetAtts =sys.$checkNull( [oldChart.mkLineExample()]);
+  SetAtts[0].color =sys.$checkExists(SetAtts[0].color,sys.$checkNull( cts.ToSellColors[0]));
+  const Chart =sys.$checkNull( oldChart.mkExample());
   Chart.ExArea.width =sys.$checkExists(Chart.ExArea.width,sys.$checkNull( 600));
   Chart.ExArea.height =sys.$checkExists(Chart.ExArea.height,sys.$checkNull( 400));
-  Chart.InPadding =sys.$checkExists(Chart.InPadding,sys.$checkNull( lineChart.mkPadding(25, 25, 30, 100)));
+  Chart.InPadding =sys.$checkExists(Chart.InPadding,sys.$checkNull( oldChart.mkPadding(25, 25, 30, 100)));
 
-  const Data =sys.$checkNull( lineChart.mkData(Labels, Sets, SetAtts));
+  const Data =sys.$checkNull( oldChart.mkData(Labels, Sets, SetAtts));
   const lenGroup =sys.$checkNull( math.toInt(arr.size(Labels) / 10) + 1);
-  Data.drawLabel =sys.$checkExists(Data.drawLabel, function(l, i)  {sys.$params(arguments.length, 2);  return sys.asBool(i > 0) && sys.asBool(sys.$eq(i % lenGroup , 0));});
+  Data.drawLabel =sys.$checkExists(Data.drawLabel, function(l, i)  {sys.$params(arguments.length, 2);  return i > 0 && sys.$eq(i % lenGroup , 0);});
   Data.drawGrid =sys.$checkExists(Data.drawGrid, function(l, i)  {sys.$params(arguments.length, 2);
-     return sys.asBool(sys.asBool(i > 0) && sys.asBool(sys.$eq(i % lenGroup , 0))) && sys.asBool(i < arr.size(Labels) - 1);});
+     return i > 0 && sys.$eq(i % lenGroup , 0) && i < arr.size(Labels) - 1;});
 
   wg
     .removeAll()
@@ -87,6 +76,6 @@ export  async  function mk(wg)  {sys.$params(arguments.length, 1);
             .add(caption())))
         .add(Q("tr")
           .add(Q("td")
-            .add(lineChart.mkWg(Chart, Data)))))
+            .add(oldChart.mkWg(Chart, Data)))))
   ;
 };

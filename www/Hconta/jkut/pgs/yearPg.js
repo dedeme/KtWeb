@@ -5,8 +5,9 @@ import * as math from '../_js/math.js';import * as js from '../_js/js.js';import
 
 import * as all from  "../data/all.js";
 import * as acc from  "../data/acc.js";
-import * as cts from  "../data/cts.js";
+import * as cts from  "../cts.js";
 import * as diaryEntry from  "../data/diaryEntry.js";
+import * as msgPg from  "../pgs/msgPg.js";
 import * as fns from  "../fns.js";
 import * as i18n from  "../i18n.js";
 
@@ -21,16 +22,16 @@ export  function mk(wg)  {sys.$params(arguments.length, 1);
 
     
      async  function changeYear(y)  {sys.$params(arguments.length, 1);
-      if (sys.asBool(arr.any(all.years(), function(year)  {sys.$params(arguments.length, 1);  return sys.$eq(year , y);}))) {
-        const Rp =sys.$checkNull( await  client.send({
+      if (arr.any(all.years(), function(year)  {sys.$params(arguments.length, 1);  return sys.$eq(year , y);})) {
+         const {timeStamp} = await  client.send({
           prg: cts.appName,
           source: "Main",
           rq: "changeYear",
           timeStamp: all.timeStamp(),
           year: y
-        }));
-        if (sys.asBool(sys.$eq(Rp.timeStamp , "")))
-          ui.alert(II("Fail trying to change current year."));
+        });
+        if (sys.$eq(timeStamp , ""))
+          msgPg.mk(wg, II("Data base out of date."), true);
         else
           window.location.assign("?" + y);
       } else {
@@ -44,7 +45,11 @@ export  function mk(wg)  {sys.$params(arguments.length, 1);
       const newYear =sys.$checkNull( math.toInt(math.fromStr(arr.peek(years))[0] + 1));
       acc.close(newYear);
       all.setCurrentYear("" + newYear);
-      await all.send();
+      const ok =sys.$checkNull( await  all.send());
+      if (!sys.asBool(ok)) {
+        msgPg.mk(wg, II("Data base out of date."), true);
+        return;
+      }
       window.location.assign("?" + newYear);
     };
 
@@ -54,8 +59,8 @@ export  function mk(wg)  {sys.$params(arguments.length, 1);
    function years()  {sys.$params(arguments.length, 0);
     
      function td(y)  {sys.$params(arguments.length, 1);  return Q("td")
-      .add(sys.asBool(
-        sys.$eq(y , year))
+      .add(
+        sys.$eq(y , year)
           ? Q("span")
             .klass("frame")
             .html("·" + y + "·")
@@ -83,9 +88,9 @@ export  function mk(wg)  {sys.$params(arguments.length, 1);
         .add(Q("button")
           .html(II("Close year"))
           .on("click", function(e)  {sys.$params(arguments.length, 1);
-            if (sys.asBool(ui.confirm(
+            if (ui.confirm(
               II("This operation only can be manually undone.\nContinue?")
-            ))) {
+            )) {
               closeYear();
             }
           })))

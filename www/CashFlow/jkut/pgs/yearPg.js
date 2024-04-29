@@ -3,7 +3,7 @@ import * as math from '../_js/math.js';import * as js from '../_js/js.js';import
 
 
 
-import * as cts from  "../data/cts.js";
+import * as cts from  "../cts.js";
 import * as i18n from  "../i18n.js";
 
 const Q =sys.$checkNull( ui.q);
@@ -14,20 +14,19 @@ const II =sys.$checkNull( i18n.tlt);
 
 
 export  async  function mk(wg, selectedYear)  {sys.$params(arguments.length, 2);
-  const Rp =sys.$checkNull( await  client.send({
+    const {Years} 
+  = await  client.send({
     prg: cts.appName,
     source: "YearPg",
     rq: "idata"
-  }));
-  
-  const Years =sys.$checkNull( Rp.years);
-  arr.sort(Years, function(y1, y2)  {sys.$params(arguments.length, 2);  return y1 < y2;});
+  });
+  arr.sort(Years,function(y1, y2)  {sys.$params(arguments.length, 2);  return y1 < y2;});
 
   
    function td(y)  {sys.$params(arguments.length, 1);  return Q("td")
     .style("text-align:center")
-    .add(sys.asBool(
-      sys.$eq(y , selectedYear))
+    .add(
+      sys.$eq(y , selectedYear)
         ? Q("span")
           .klass("frame")
           .html("·" + y + "·")
@@ -43,6 +42,6 @@ export  async  function mk(wg, selectedYear)  {sys.$params(arguments.length, 2);
       .html(II("Change of Year")))
     .add(Q("table")
       .att("align", "center")
-      .adds(arr.map(Years, function(y)  {sys.$params(arguments.length, 1);  return Q("tr").add(td(y));})))
+      .adds(arr.map(Years,function(y)  {sys.$params(arguments.length, 1);  return Q("tr").add(td(y));})))
   ;
 };

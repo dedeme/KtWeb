@@ -21,14 +21,14 @@ export  async  function mk(wg, modelId)  {sys.$params(arguments.length, 2);
   
   const Params =sys.$checkNull( []);
   const Url =sys.$checkNull( ui.url());
-  const Uparams =sys.$checkNull( dic.get(Url, "2"));
-  if (sys.asBool(Uparams)) {
+  const uparamsOp =sys.$checkNull( arr.size(Url) > 2 ? [Url[2]] : []);
+  if (!sys.asBool(!sys.asBool(uparamsOp))) {
     try{ {
-      const A =sys.$checkNull( js.r(Uparams[0]));
+      const A =sys.$checkNull( js.r(uparamsOp[0]));
       const ok =sys.$checkNull( arr.reduce(
-        A, true, function(r, e)  {sys.$params(arguments.length, 2);  return sys.asBool(sys.asBool(r) && sys.asBool(sys.$eq(sys.type(e) , "number"))) && sys.asBool(e >= 0);}
+        A, true, function(r, e)  {sys.$params(arguments.length, 2);  return r && sys.$eq(sys.type(e) , "number") && e >= 0;}
       ));
-      if (sys.asBool(ok)) arr.push(Params, A);
+      if (ok) arr.push(Params, A);
     }} catch (e){ {}}
   }
 
@@ -39,7 +39,7 @@ export  async  function mk(wg, modelId)  {sys.$params(arguments.length, 2);
     modelId:modelId,
     params: Params 
   }));
-  if (sys.asBool(!sys.asBool(Rp.ok))) {
+  if (!sys.asBool(Rp.ok)) {
     ui.alert(i18n.fmt(II("%0%1 not found."), [modelId, sys.toStr(Params)]));
     window.location.assign("?");
     return;
@@ -84,7 +84,7 @@ export  async  function mk(wg, modelId)  {sys.$params(arguments.length, 2);
 
   const Assets =sys.$checkNull( [0]);
   const Trs =sys.$checkNull( []); 
-  if (sys.asBool(arr.size(Orders) > 0)) {
+  if (arr.size(Orders) > 0) {
     const LastDate =sys.$checkNull( [""]);
     const Cash =sys.$checkNull( [cts.initialCapital]);
     const Buys =sys.$checkNull( []); 
@@ -94,15 +94,10 @@ export  async  function mk(wg, modelId)  {sys.$params(arguments.length, 2);
 
     for (const O  of sys.$forObject( Orders)) {
       const date =sys.$checkNull( O.date);
-      const QRemoves =sys.$checkNull( []); 
-      for (const [nk, d]  of sys.$forObject2( Quarantine))
-        if (sys.asBool(d <= date)) arr.push(QRemoves, nk);
 
-      for (const nk  of sys.$forObject( QRemoves)) dic.remove(Quarantine, nk);
-
-      if (sys.asBool(!sys.asBool(LastDate[0]))) {
+      if (sys.$eq(LastDate[0] , "")) {
         LastDate[0] =sys.$checkExists(LastDate[0],sys.$checkNull( date));
-      } else if (sys.asBool(sys.$neq(date , LastDate[0]))) {
+      } else if (sys.$neq(date , LastDate[0])) {
         arr.push(
           Trs,
           mkTr(
@@ -114,6 +109,13 @@ export  async  function mk(wg, modelId)  {sys.$params(arguments.length, 2);
         arr.clear(Sells);
         LastDate[0] =sys.$checkExists(LastDate[0],sys.$checkNull( date));
       }
+
+      const QRemoves =sys.$checkNull( []); 
+      for (const [nk, d]  of sys.$forObject2( Quarantine))
+        if (d <= date) arr.push(QRemoves, nk);
+
+      for (const nk  of sys.$forObject( QRemoves)) dic.remove(Quarantine, nk);
+
       const nk =sys.$checkNull( O.nick);
       switch (O.type) {
         case order.sell:{ {
@@ -122,11 +124,12 @@ export  async  function mk(wg, modelId)  {sys.$params(arguments.length, 2);
           dic.remove(Portfolio, nk);
           Cash[0] +=sys.$checkExists(Cash[0],sys.$checkNull( broker.sell(O.stocks, O.price)));
           const dt0 =sys.$checkNull( time.fromStr(date)[0]);
-          const dt =sys.$checkNull( time.addDays(dt0,sys.asBool( (O.price >= pr * cts.noLossMultiplicator))
+          const dt =sys.$checkNull( time.addDays(dt0, (O.price >= pr * cts.noLossMultiplicator)
             ? cts.daysWin
             : cts.daysLoss
           ));
-          dic.put(Quarantine, nk, time.toStr(dt)); 
+          if (dt > dt0)
+            dic.put(Quarantine, nk, time.toStr(dt)); 
         }break;}
         case order.buy:{ {
           arr.push(Buys, nk);

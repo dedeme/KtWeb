@@ -3,7 +3,7 @@ import * as math from '../../_js/math.js';import * as js from '../../_js/js.js';
 
 
 
-import * as lineChart from  "../../libdm/lineChart.js";
+import * as oldChart from  "../../libdm/oldChart.js";
 import * as i18n from  "../../i18n.js";
 
 const Q =sys.$checkNull( ui.q);
@@ -13,7 +13,7 @@ const II =sys.$checkNull( i18n.tlt);
 export  function mk(Labels, Values)  {sys.$params(arguments.length, 2);
   const back =sys.$checkNull( "#fafafa");
 
-  const Chart =sys.$checkNull( lineChart.mkExample());
+  const Chart =sys.$checkNull( oldChart.mkExample());
   Chart.ExArea.width =sys.$checkExists(Chart.ExArea.width,sys.$checkNull( 610));
   Chart.ExArea.height =sys.$checkExists(Chart.ExArea.height,sys.$checkNull( 160));
   Chart.ExArea.Atts.Border.width =sys.$checkExists(Chart.ExArea.Atts.Border.width,sys.$checkNull( 0));
@@ -28,18 +28,17 @@ export  function mk(Labels, Values)  {sys.$params(arguments.length, 2);
   Chart.InAtts.background =sys.$checkExists(Chart.InAtts.background,sys.$checkNull( "#e9e9e9"));
 
   const Atts =sys.$checkNull( [
-    lineChart.mkLine(1, "#000080", false),
-    lineChart.mkLine(1, "#008000", false),
-    lineChart.mkLine(1, "#800000", false)
+    oldChart.mkLine(1, "#000080", false),
+    oldChart.mkLine(1, "#008000", false)
   ]);
 
-  const Data =sys.$checkNull( lineChart.mkData(Labels, Values, Atts));
-  Data.UnarySets =sys.$checkExists(Data.UnarySets,sys.$checkNull( [lineChart.mkUnarySet(
-    II("Dif. 0"), 0, lineChart.mkLine(1, "#000000", false)
+  const Data =sys.$checkNull( oldChart.mkData(Labels, Values, Atts));
+  Data.UnarySets =sys.$checkExists(Data.UnarySets,sys.$checkNull( [oldChart.mkUnarySet(
+    II("Dif. 0"), 0, oldChart.mkLine(1, "#000000", false)
   )]));
   Data.round =sys.$checkExists(Data.round,sys.$checkNull( 2));
   Data.drawGrid =sys.$checkExists(Data.drawGrid, function(lb, i)  {sys.$params(arguments.length, 2);
-    if (sys.asBool(sys.$eq(i , 0)))  return false;
+    if (sys.$eq(i , 0))  return false;
      return sys.$neq(Labels[i - 1] , lb);
   });
   Data.drawLabel =sys.$checkExists(Data.drawLabel,sys.$checkNull( Data.drawGrid));
@@ -51,6 +50,6 @@ export  function mk(Labels, Values)  {sys.$params(arguments.length, 2);
       .add(Q("td")
         .klass("frame0")
         .style("background-color:" + back)
-        .add(lineChart.mkWg(Chart, Data))))
+        .add(oldChart.mkWg(Chart, Data))))
   ;
 };

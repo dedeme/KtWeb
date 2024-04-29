@@ -23,11 +23,13 @@ export  function entryFromJs(A)  {sys.$params(arguments.length, 1);  return mkEn
 
 
 
-export  function mk(doc, Functions, Values)  {sys.$params(arguments.length, 3);  return { doc:doc, Functions:Functions, Values:Values };};
+export  function mk(doc, Indexeds, Functions, Values)  {sys.$params(arguments.length, 4);
+   return { doc:doc, Indexeds:Indexeds, Functions:Functions, Values:Values };};
 
 
 export  function toJs(D)  {sys.$params(arguments.length, 1);  return [
     D.doc,
+    arr.map(D.Indexeds, entryToJs),
     arr.map(D.Functions, entryToJs),
     arr.map(D.Values, entryToJs)
   ];};
@@ -36,5 +38,6 @@ export  function toJs(D)  {sys.$params(arguments.length, 1);  return [
 export  function fromJs(A)  {sys.$params(arguments.length, 1);  return mk(
     A[0],
     arr.map(A[1], entryFromJs),
-    arr.map(A[2], entryFromJs)
+    arr.map(A[2], entryFromJs),
+    arr.map(A[3], entryFromJs)
   );};
