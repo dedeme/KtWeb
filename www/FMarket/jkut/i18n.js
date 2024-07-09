@@ -2,7 +2,7 @@ import * as math from './_js/math.js';import * as js from './_js/js.js';import *
 
 
 
-const esDic =sys.$checkNull( {
+const esDic = {
   "2 Days": "2 días",
   "Active": "Activo",
   "All": "Todo",
@@ -34,11 +34,11 @@ const esDic =sys.$checkNull( {
   "Summary": "Resumen",
   "Worst": "Peor",
   "here": "aquí"
-});
+};
 
-export  function es() {sys.$params(arguments.length, 0); Lang[0] =sys.$checkExists(Lang[0],sys.$checkNull( "es"));};
+export  function es() {sys.$params(arguments.length, 0); Lang[0] =sys.$checkExists(Lang[0], "es");};
 
-const enDic =sys.$checkNull( {
+const enDic = {
   "2 Days": "2 Days",
   "Active": "Active",
   "All": "All",
@@ -70,9 +70,9 @@ const enDic =sys.$checkNull( {
   "Summary": "Summary",
   "Worst": "Worst",
   "here": "here"
-});
+};
 
-export  function en() {sys.$params(arguments.length, 0); Lang[0] =sys.$checkExists(Lang[0],sys.$checkNull( "en"));};
+export  function en() {sys.$params(arguments.length, 0); Lang[0] =sys.$checkExists(Lang[0], "en");};
 
 
  function dicByKey(s)  {sys.$params(arguments.length, 1); return (   
@@ -81,7 +81,7 @@ export  function en() {sys.$params(arguments.length, 0); Lang[0] =sys.$checkExis
    "Unreachable"
 );};
 
-const Lang =sys.$checkNull( ["es"]);
+const Lang = ["es"];
 
 export  function getLang() {sys.$params(arguments.length, 0);  return Lang[0];};
 
@@ -93,7 +93,7 @@ export  function tlt(s)  {sys.$params(arguments.length, 1);
 
 
 export  function fmt(tp, Rpls)  {sys.$params(arguments.length, 2);
-  const R =sys.$checkNull( [tp]);
+  const R = [tp];
   for (let i = 0;i < arr.size(Rpls); ++i) R[0] =sys.$checkExists(R[0],sys.$checkNull( str.replace(R[0], "%" + sys.toStr(i), Rpls[i])));
    return R[0];
 };

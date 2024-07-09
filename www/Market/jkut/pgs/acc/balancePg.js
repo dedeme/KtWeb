@@ -54,15 +54,15 @@ export  async  function mk(wg)  {sys.$params(arguments.length, 1);
     return;
   }
 
-  const orderV =sys.$checkNull( [refOrder]);
+  const orderV = [refOrder];
 
-  const showV =sys.$checkNull( [[]]);
+  const showV = [[]];
 
   
 
   
    function setOrder(order)  {sys.$params(arguments.length, 1);
-    orderV[0] =sys.$checkExists(orderV[0],sys.$checkNull( order));
+    orderV[0] =sys.$checkExists(orderV[0], order);
     showV[0]();
   };
 
@@ -70,7 +70,7 @@ export  async  function mk(wg)  {sys.$params(arguments.length, 1);
 
   
   showV[0] =sys.$checkExists(showV[0], function()  {sys.$params(arguments.length, 0);
-     const D =sys.$checkNull( {
+     const D = {
       currentProfits: 0,
       accountProfits: 0,
       withdraw: 0,
@@ -84,12 +84,12 @@ export  async  function mk(wg)  {sys.$params(arguments.length, 1);
       differences: 0,
       cash: 0,
       accountStocks: 0
-    });
+    };
 
-    const Rows =sys.$checkNull( {}); 
-     const L =sys.$checkNull( ledger);
-     const P =sys.$checkNull( Portfolio);
-     const J =sys.$checkNull( Jails);
+    const Rows = {}; 
+     const L = ledger;
+     const P = Portfolio;
+     const J = Jails;
 
     D.equity -=sys.$checkExists(D.equity,sys.$checkNull( L[ldg.equity]));
     D.sales -=sys.$checkExists(D.sales,sys.$checkNull( L[ldg.sales]));
@@ -116,8 +116,8 @@ export  async  function mk(wg)  {sys.$params(arguments.length, 1);
       const Row =sys.$checkNull( !sys.asBool(!sys.asBool(RowOp))
         ? function()  {sys.$params(arguments.length, 0);
             const R =sys.$checkNull( RowOp[0]);
-            const stocks2 =sys.$checkNull( R.stocks + stocks);
-            const price2 =sys.$checkNull( (R.stocks * R.price + stocks * price) / stocks2);
+            const stocks2 = R.stocks + stocks;
+            const price2 = (R.stocks * R.price + stocks * price) / stocks2;
              return {
               stocks: stocks2,
               price: price2,
@@ -157,20 +157,20 @@ export  async  function mk(wg)  {sys.$params(arguments.length, 1);
           ? sys.$eq(P2.tpRef[0] , "*")
             ? P1.tpRef[1] < P2.tpRef[1]
             : false
-          : sys.$eq(P1.tpRef[0] , "*")
+          : sys.$eq(P2.tpRef[0] , "*")
             ? true
             : P1.tpRef[1] < P2.tpRef[1]
       );
     });
 
-    D.accountProfits =sys.$checkExists(D.accountProfits,sys.$checkNull( D.cash + D.accountStocks - D.equity));
+    D.accountProfits =sys.$checkExists(D.accountProfits, D.cash + D.accountStocks - D.equity);
     D.currentStocks =sys.$checkExists(D.currentStocks,sys.$checkNull( arr.reduce(Rs,0, function(r, Tp)  {sys.$params(arguments.length, 2);  return r + Tp[1].value;})));
     D.profitsStocks =sys.$checkExists(D.profitsStocks,sys.$checkNull( arr.reduce(Rs,0, function(r, Tp)  {sys.$params(arguments.length, 2);  return r + Tp[1].profits;})));
-    D.currentProfits =sys.$checkExists(D.currentProfits,sys.$checkNull( D.accountProfits + D.profitsStocks));
+    D.currentProfits =sys.$checkExists(D.currentProfits, D.accountProfits + D.profitsStocks);
     D.withdraw =sys.$checkExists(D.withdraw,sys.$checkNull( function()  {sys.$params(arguments.length, 0);
-        const assets =sys.$checkNull( D.equity + D.currentProfits);
+        const assets = D.equity + D.currentProfits;
         if (assets > cts.initialCapital + cts.bet + cts.bet) {
-          const dif =sys.$checkNull( assets - cts.initialCapital - cts.bet);
+          const dif = assets - cts.initialCapital - cts.bet;
           if (D.cash > dif + 1000)  return dif;
           if (D.cash > cts.bet + 1000)
              return math.toInt((D.cash - 1000) / cts.bet) * cts.bet;
@@ -371,7 +371,7 @@ export  async  function mk(wg)  {sys.$params(arguments.length, 1);
               .html(math.toIso(R[1].profits, 2))))
           .add(Q("td")
             .klass("number")
-            .setStyle("color", sys.$eq(R[1].tpRef[0] , "*") ? "#400000" : "")
+            .setStyle("color", sys.$eq(R[1].tpRef[0] , "*") ? ("#" + fcolor( -1)) : "")
             .add(Q("span")
               .html(math.toIso(R[1].tpRef[1], 2))))
           ;}))

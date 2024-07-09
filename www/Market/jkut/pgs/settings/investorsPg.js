@@ -28,13 +28,13 @@ export  async  function mk(wg)  {sys.$params(arguments.length, 1);
     source: "InvestorsPg",
     rq: "idata"
   });
-  global.dbKeyV[0] =sys.$checkExists(global.dbKeyV[0],sys.$checkNull( dbKey));
+  global.dbKeyV[0] =sys.$checkExists(global.dbKeyV[0], dbKey);
 
   const waitBox =sys.$checkNull( modalBox.mk(ui.img("wait2.gif"), false));
   const editorDiv =sys.$checkNull( Q("div"));
   const paramsDiv =sys.$checkNull( Q("div"));
 
-  const editorViewV =sys.$checkNull( [[]]);
+  const editorViewV = [[]];
 
   
 
@@ -48,7 +48,7 @@ export  async  function mk(wg)  {sys.$params(arguments.length, 1);
       rq: "updateAll",
       dbKey: global.dbKeyV[0]
     });
-    global.dbKeyV[0] =sys.$checkExists(global.dbKeyV[0],sys.$checkNull( dbKey));
+    global.dbKeyV[0] =sys.$checkExists(global.dbKeyV[0], dbKey);
 
     modalBox.show(waitBox, false);
     if (ok) {
@@ -79,7 +79,7 @@ export  async  function mk(wg)  {sys.$params(arguments.length, 1);
       Params:Params,
       dbKey: global.dbKeyV[0]
     });
-    global.dbKeyV[0] =sys.$checkExists(global.dbKeyV[0],sys.$checkNull( dbKey));
+    global.dbKeyV[0] =sys.$checkExists(global.dbKeyV[0], dbKey);
 
     mk(wg);
   };
@@ -127,7 +127,7 @@ export  async  function mk(wg)  {sys.$params(arguments.length, 1);
                           return;
                         }
                         const v =sys.$checkNull( V[0]);
-                        Params[i] =sys.$checkExists(Params[i],sys.$checkNull( v));
+                        Params[i] =sys.$checkExists(Params[i], v);
                       })
                     .value(math.toIso(Params[i], 6)))
                   ;
@@ -200,17 +200,21 @@ export  async  function mk(wg)  {sys.$params(arguments.length, 1);
     ;
   });
 
-  const Ropts =sys.$checkNull( [menu.toption("update", II("Update"), update)]);
+  const Ropts = [menu.toption("update", II("Update"), update)];
   const menuWg =sys.$checkNull( menu.mk([], Ropts, ""));
 
    const base =sys.$checkNull( inv[investor.base]);
-   const md =sys.$checkNull( arr.find(Models,function( m)  {sys.$params(arguments.length, 1);  return sys.$eq(m[model.id] , base[istrategy.modelId]);})[0]);
+  const baseId =sys.$checkNull( base[istrategy.modelId]);
+   const md =sys.$checkNull( arr.find(Models,function( m)  {sys.$params(arguments.length, 1);  return sys.$eq(m[model.id] , baseId);})[0]);
    const NickStrs =sys.$checkNull( dic.toArr(inv[investor.Nicks]));
   arr.sort(NickStrs,function(N1, N2)  {sys.$params(arguments.length, 2);  return N1[0] < N2[0];});
-  const maxNParams =sys.$checkNull( arr.reduce(NickStrs,0, function(r, NS)  {sys.$params(arguments.length, 2);
+  const [noBaseN, maxNParams] = arr.reduce(NickStrs,[0, 0], function(r, NS)  {sys.$params(arguments.length, 2);
      const is =sys.$checkNull( NS[1]);
-     return arr.size(is[istrategy.Params]) > r ? arr.size(is[istrategy.Params]) : r;
-  }));
+     return [
+      sys.$eq(is[istrategy.modelId] ,  baseId) ? r[0] : r[0] + 1,
+      arr.size(is[istrategy.Params]) > r[1] ? arr.size(is[istrategy.Params]) : r[1]
+    ];
+  });
   wg
     .removeAll()
     .add(modalBox.mkWg(waitBox))
@@ -294,6 +298,16 @@ export  async  function mk(wg)  {sys.$params(arguments.length, 1);
               .klass("border")
               .add(ui.img(istrategy.eq(base, is) ? "blank" : "warning")))
           ;
-        })))
+        }))
+        .add(Q("tr")
+          .add(Q("td")
+            .att("colspan", 4)
+            .klass("border")
+            .style("text-align:left")
+            .text(II("Different to base")))
+          .add(Q("td")
+            .klass("border")
+            .text(noBaseN)
+          )))
   ;
 };

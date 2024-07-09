@@ -8,7 +8,7 @@ const Q =sys.$checkNull( ui.q);
 
 export const appName =sys.$checkNull( "Hconta");
 
-export const version =sys.$checkNull( "202308");
+export const version =sys.$checkNull( "202404");
 
 export const foot =sys.$checkNull( Q("table")
   .klass("main")

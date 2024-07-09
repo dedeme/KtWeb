@@ -37,9 +37,9 @@ const II =sys.$checkNull( i18n.tlt);
   const menuWg =sys.$checkNull( menu.mk(
     [ menu.tlink("summary", II("Summary")),
       menu.separator(),
-      menu.tlink("fleas", II("Fleas")),
-      menu.separator(),
       menu.tlink("rankings", II("Rankings")),
+      menu.separator(),
+      menu.tlink("fleas", II("Fleas")),
       menu.separator(),
       menu.tlink("log", II("Log"))
     ],

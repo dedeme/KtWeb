@@ -20,7 +20,7 @@ export  function mkEntry(Id, wg)  {sys.$params(arguments.length, 2);  return {Id
 
 
 
-export  function mk(Lopts, Ropts, selected, withSeparator)  {sys.$params(arguments.length, 4);
+ function mk0(Lopts, Ropts, selected, withSeparator)  {sys.$params(arguments.length, 4);
    function setId(o)  {sys.$params(arguments.length, 1);
     if (!sys.asBool(!sys.asBool(o.Id)))
       o.wg.style(sys.$eq(o.Id[0] , selected)
@@ -58,6 +58,24 @@ export  function mk(Lopts, Ropts, selected, withSeparator)  {sys.$params(argumen
 
 
 
+
+
+
+
+export  function mk(Lopts, Ropts, selected)  {sys.$params(arguments.length, 3);  return mk0(Lopts, Ropts, selected, false);};
+
+
+
+
+
+
+
+export 
+  function mkWithSeparator(Lopts, Ropts, selected)  {sys.$params(arguments.length, 3);  return mk0(Lopts, Ropts, selected, true);};
+
+
+
+
 export  function separator() {sys.$params(arguments.length, 0);  return mkEntry([], Q("span").text(" · "));};
 
 
@@ -91,14 +109,10 @@ export  function ioption(id, img, fn)  {sys.$params(arguments.length, 3);  retur
 
 
 
-
-
-
-
-export  function tlink(id, tx, Module)  {sys.$params(arguments.length, 3);  return mkEntry(
+export  function tlink(id, tx)  {sys.$params(arguments.length, 2);  return mkEntry(
     [id],
     Q("a")
-      .att("href", "?" + (!sys.asBool(Module) ? "" : Module[0] + "&") + id)
+      .att("href", "?" + id)
       .html(tx)
   );};
 
@@ -109,14 +123,10 @@ export  function tlink(id, tx, Module)  {sys.$params(arguments.length, 3);  retu
 
 
 
-
-
-
-
-export  function ilink(id, img, Module)  {sys.$params(arguments.length, 3);  return mkEntry(
+export  function ilink(id, img)  {sys.$params(arguments.length, 2);  return mkEntry(
     [id],
     Q("a")
-      .att("href", "?" + (!sys.asBool(Module) ? "" : Module[0] + "&") + id)
+      .att("href", "?" + id)
       .add(ui.img(img)
         .style("vertical-align:top"))
   );};

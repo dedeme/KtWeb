@@ -5,4 +5,4 @@ import * as math from './_js/math.js';import * as js from './_js/js.js';import *
 
 
 
-export const dbKeyV =sys.$checkNull( [""]);
+export const dbKeyV = [""];

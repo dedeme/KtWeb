@@ -25,19 +25,19 @@ const II =sys.$checkNull( i18n.tlt);
 
 export  function mk(tr,  hcEntry,  entry, ix, activated,
         deactivateAllFn, updateFn)  {sys.$params(arguments.length, 7);
-  const activatedV =sys.$checkNull( [activated]);
+  const activatedV = [activated];
 
   const imgDiv =sys.$checkNull( Q("div"));
   const annsDiv =sys.$checkNull( Q("div"));
 
-  const showV =sys.$checkNull( [[]]);
+  const showV = [[]];
 
   
 
   
    function activate()  {sys.$params(arguments.length, 0);
     deactivateAllFn();
-    activatedV[0] =sys.$checkExists(activatedV[0],sys.$checkNull( true));
+    activatedV[0] =sys.$checkExists(activatedV[0], true);
     showV[0]();
   };
 
@@ -50,7 +50,7 @@ export  function mk(tr,  hcEntry,  entry, ix, activated,
 
   
    function deactivate()  {sys.$params(arguments.length, 0);
-    activatedV[0] =sys.$checkExists(activatedV[0],sys.$checkNull( false));
+    activatedV[0] =sys.$checkExists(activatedV[0], false);
     showV[0]();
   };
 

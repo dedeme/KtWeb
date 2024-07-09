@@ -30,7 +30,7 @@ export  async  function mk(wg)  {sys.$params(arguments.length, 1);
   ));
    const Dates =sys.$checkNull( dic.keys(Rks));
   arr.sort(Dates,function(d1, d2)  {sys.$params(arguments.length, 2);  return d1 > d2;});
-  const page =sys.$checkNull( "rankings&" + mdId);
+  const page = "rankings&" + mdId;
 
    const Lopts =sys.$checkNull( arr.reduce(Models,
     [],
@@ -45,8 +45,8 @@ export  async  function mk(wg)  {sys.$params(arguments.length, 1);
   const menuWg =sys.$checkNull( menu.mk(Lopts, [], page));
 
   const size =sys.$checkNull( arr.size(Dates));
-  const iV =sys.$checkNull( [0]);
-  const Trs =sys.$checkNull( []); 
+  const iV = [0];
+  const Trs = []; 
   while (true) {
     if (sys.$eq(iV[0] , size)) break;
     const tr =sys.$checkNull( Q("tr"));
@@ -61,7 +61,7 @@ export  async  function mk(wg)  {sys.$params(arguments.length, 1);
       const Nxt =sys.$checkNull( sys.$eq(iV[0] , 0) ? [] : Rks[Dates[iV[0]-1]]);
       tr.add(Q("td").add(mkRk(Lst, Prv, Nxt, d, Rks[d])));
       arr.push(Trs,tr);
-      iV[0] +=sys.$checkExists(iV[0],sys.$checkNull( 1));
+      iV[0] +=sys.$checkExists(iV[0], 1);
     }
   }
 
@@ -93,7 +93,7 @@ export  async  function mk(wg)  {sys.$params(arguments.length, 1);
     function(m)  {sys.$params(arguments.length, 1);  return sys.$eq(m , rk0[flea.mdId]);}
   ));
 
-  const Trs =sys.$checkNull( []); 
+  const Trs = []; 
   for (let i = 0;i < arr.size(Rk); ++i) {
      const f =sys.$checkNull( Rk[i]);
     arr.push(Trs,
@@ -158,7 +158,7 @@ export  async  function mk(wg)  {sys.$params(arguments.length, 1);
 
  function mkSym( Prv, id, i)  {sys.$params(arguments.length, 3);
   const ix =sys.$checkNull( arr.index(Prv,function( f)  {sys.$params(arguments.length, 1);  return sys.$eq(f[flea.id] , id);}));
-  const d =sys.$checkNull( ix - i);
+  const d = ix - i;
    return ui.img(
     sys.$eq(ix ,  -1)
       ? "rk-new"

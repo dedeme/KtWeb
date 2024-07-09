@@ -9,38 +9,37 @@ import * as math from '../_js/math.js';import * as js from '../_js/js.js';import
 export  function mk(Data)  {sys.$params(arguments.length, 1);  return {Data:Data};};
 
 
-export  function dates(Is)  {sys.$params(arguments.length, 1);  return arr.map(Is.Data, function(e)  {sys.$params(arguments.length, 1);  return e[0];});};
+export  function dates(Is)  {sys.$params(arguments.length, 1);  return arr.map(Is.Data, function(E)  {sys.$params(arguments.length, 1);  return E[0];});};
 
 
-export  function values(Is)  {sys.$params(arguments.length, 1);  return arr.map(Is.Data, function(e)  {sys.$params(arguments.length, 1);  return e[1];});};
+export  function values(Is)  {sys.$params(arguments.length, 1);  return arr.map(Is.Data, function(E)  {sys.$params(arguments.length, 1);  return E[1];});};
 
 
 
 export  function ratios(Is)  {sys.$params(arguments.length, 1);
-  const D =sys.$checkNull( Is.Data);
+   const D =sys.$checkNull( Is.Data);
   if (sys.$eq(arr.size(D) , 0))  return [];
   const base =sys.$checkNull( D[0][1]);
-   return arr.map(D, function(e)  {sys.$params(arguments.length, 1);  return (e[1] - base) / base;});
+   return arr.map(D,function(E)  {sys.$params(arguments.length, 1);  return (E[1] - base) / base;});
 };
 
 
 
 export  function add(Is, date, value)  {sys.$params(arguments.length, 3);
   const day =sys.$checkNull( time.toStr(date));
-  const D =sys.$checkNull( Is.Data);
-  if (!sys.asBool(arr.any(D, function(e)  {sys.$params(arguments.length, 1);  return sys.$eq(time.toStr(e[0]) , day);})))
-    arr.push(D, [date, value]);
+   const D =sys.$checkNull( Is.Data);
+  if (!sys.asBool(arr.any(D,function(E)  {sys.$params(arguments.length, 1);  return sys.$eq(time.toStr(E[0]) , day);})))
+    arr.push(D,[date, value]);
 };
 
 
 export  function toJs(Is)  {sys.$params(arguments.length, 1);
    return arr.map(
     Is.Data,
-    function(e)  {sys.$params(arguments.length, 1);  return [time.toStr(e[0]), math.toStr(e[1])];}
+    function(E)  {sys.$params(arguments.length, 1);  return [time.toStr(E[0]), math.toStr(E[1])];}
   );};
 
 
-export  function fromJs(A)  {sys.$params(arguments.length, 1);  return mk(arr.map(
-    A,
+export  function fromJs( A)  {sys.$params(arguments.length, 1);  return mk(arr.map(A,
     function(E)  {sys.$params(arguments.length, 1);  return [time.fromStr(E[0])[0], math.fromStr(E[1])[0]];}
   ));};

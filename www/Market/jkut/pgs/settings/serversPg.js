@@ -27,7 +27,7 @@ export  async  function mk(wg, selected)  {sys.$params(arguments.length, 2);
     rq: "idata",
     selected:selected
   });
-  global.dbKeyV[0] =sys.$checkExists(global.dbKeyV[0],sys.$checkNull( dbKey));
+  global.dbKeyV[0] =sys.$checkExists(global.dbKeyV[0], dbKey);
 
   const svSelectedOp =sys.$checkNull( arr.find(Svs,function( sv)  {sys.$params(arguments.length, 1);  return sys.$eq(sv[server.id] , selected);}));
    const svSelected =sys.$checkNull( !sys.asBool(svSelectedOp)
@@ -37,12 +37,12 @@ export  async  function mk(wg, selected)  {sys.$params(arguments.length, 2);
 
   const dailyTestImg =sys.$checkNull( Q("span"));
   const historicTestImg =sys.$checkNull( Q("span"));
-  const CodeFields =sys.$checkNull( []);
-  const TestSpans =sys.$checkNull( []);
+  const CodeFields = [];
+  const TestSpans = [];
   const msgWait =sys.$checkNull( Q("div"));
-  const showWaitV =sys.$checkNull( [[]]);
+  const showWaitV = [[]];
 
-  const showV =sys.$checkNull( [[]]);
+  const showV = [[]];
 
   
 
@@ -82,8 +82,8 @@ export  async  function mk(wg, selected)  {sys.$params(arguments.length, 2);
      const NksCds =sys.$checkNull( dic.toArr(Codes));
     arr.sort(NksCds,function(Tp1, Tp2)  {sys.$params(arguments.length, 2);  return Tp1[0] > Tp2[0];});
 
-    const withErrorsV =sys.$checkNull( [false]);
-    const withWarningsV =sys.$checkNull( [false]);
+    const withErrorsV = [false];
+    const withWarningsV = [false];
      async  function test2(NksCds)  {sys.$params(arguments.length, 1);
       if (!sys.asBool(NksCds)) {
         showWaitV[0]("");
@@ -109,8 +109,8 @@ export  async  function mk(wg, selected)  {sys.$params(arguments.length, 2);
         nick:nick,
         code:code
       });
-      withErrorsV[0] ||=sys.$checkExists(withErrorsV[0],sys.$checkNull( withErrors));
-      withWarningsV[0] ||=sys.$checkExists(withWarningsV[0],sys.$checkNull( withWarnings));
+      withErrorsV[0] ||=sys.$checkExists(withErrorsV[0], withErrors);
+      withWarningsV[0] ||=sys.$checkExists(withWarningsV[0], withWarnings);
       test2(NksCds);
     };
     test2(NksCds);
@@ -160,7 +160,7 @@ export  async  function mk(wg, selected)  {sys.$params(arguments.length, 2);
   
    async  function modify()  {sys.$params(arguments.length, 0);
     
-    const Codes =sys.$checkNull( {});
+    const Codes = {};
     for (const field  of sys.$forObject( CodeFields))
       dic.put(Codes, field.getAtt("id"), str.trim(field.getValue()));
      const {dbKey} = await  client.send({
@@ -172,14 +172,14 @@ export  async  function mk(wg, selected)  {sys.$params(arguments.length, 2);
       svId: svSelected[server.id],
       Codes: Codes
     });
-    global.dbKeyV[0] =sys.$checkExists(global.dbKeyV[0],sys.$checkNull( dbKey));
+    global.dbKeyV[0] =sys.$checkExists(global.dbKeyV[0], dbKey);
     mk(wg, svSelected[server.id]);
   };
 
   
 
   showV[0] =sys.$checkExists(showV[0], function()  {sys.$params(arguments.length, 0);
-    const Opts =sys.$checkNull( [vmenu.title(II("Servers")), vmenu.separator()]);
+    const Opts = [vmenu.title(II("Servers")), vmenu.separator()];
     for (const  sv  of sys.$forObject( Svs)) {
        function dailyWg() {sys.$params(arguments.length, 0);  return sv[server.withDaily]
         ? sys.$eq(sv[server.id] , dailySv)
@@ -236,8 +236,8 @@ export  async  function mk(wg, selected)  {sys.$params(arguments.length, 2);
 
     const vmenuWg =sys.$checkNull( vmenu.mk(Opts, svSelected[server.id]));
 
-    const Rows =sys.$checkNull( []);
-    const cols =sys.$checkNull( 4);
+    const Rows = [];
+    const cols = 4;
     if (sys.$neq(svSelected[server.id] , "")) {
       arr.push(Rows,
         Q("tr")
@@ -315,13 +315,13 @@ export  async  function mk(wg, selected)  {sys.$params(arguments.length, 2);
               .on("click", function(e)  {sys.$params(arguments.length, 1); modify();})))
       );
 
-      const Tds =sys.$checkNull( []);
+      const Tds = [];
       const len =sys.$checkNull( dic.size(Codes));
        const Nicks =sys.$checkNull( dic.keys(Codes));
       arr.sort(Nicks,str.less);
       for (let i = 0;i < len; ++i) {
         const nk =sys.$checkNull( Nicks[i]);
-        const i1 =sys.$checkNull( i + 1);
+        const i1 = i + 1;
         const nextNk =sys.$checkNull( i1 < len ? Nicks[i1] : Nicks[0]);
 
         const field =sys.$checkNull( ui.field(nextNk)
@@ -353,9 +353,9 @@ export  async  function mk(wg, selected)  {sys.$params(arguments.length, 2);
         arr.push(Rows,Q("tr").add(Q("td").text(II("Without Nicks"))));
       } else {
         for (let i = 0;i < rowsLen; ++i) {
-          const RowTds =sys.$checkNull( []);
+          const RowTds = [];
           for (let j = 0;j < cols; ++j) {
-            const tdix =sys.$checkNull( i + j * rowsLen);
+            const tdix = i + j * rowsLen;
             arr.push(RowTds,
               tdix < len
                 ? sys.$eq(j , 0)

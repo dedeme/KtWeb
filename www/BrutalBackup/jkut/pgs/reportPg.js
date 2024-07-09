@@ -4,7 +4,7 @@ import * as math from '../_js/math.js';import * as js from '../_js/js.js';import
 
 
 import * as modalBox from  "../libdm/modalBox.js";
-import * as cts from  "../data/cts.js";
+import * as cts from  "../cts.js";
 import * as fromServer from  "../data/fromServer.js";
 import * as fromClient from  "../data/fromClient.js";
 import * as progressBar from  "../wgs/progressBar.js";

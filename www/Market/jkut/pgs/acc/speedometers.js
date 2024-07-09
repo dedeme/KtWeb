@@ -15,14 +15,14 @@ const II =sys.$checkNull( i18n.tlt);
 
 
  function acumulatorAvg(value, price)  {sys.$params(arguments.length, 2);
-  const profits =sys.$checkNull( value - price);
-  const rV =sys.$checkNull( [0.5 - profits / (2 * profits + 4 * price)]);
+  const profits = value - price;
+  const rV = [0.5 - profits / (2 * profits + 4 * price)];
   if (rV[0] > 0.5) {
-    rV[0] =sys.$checkExists(rV[0],sys.$checkNull( 0.5 + (rV[0] - 0.5) * 4));
-    if (rV[0] > 1) rV[0] =sys.$checkExists(rV[0],sys.$checkNull( 1));
+    rV[0] =sys.$checkExists(rV[0], 0.5 + (rV[0] - 0.5) * 4);
+    if (rV[0] > 1) rV[0] =sys.$checkExists(rV[0], 1);
   } else if (rV[0] < 0.5) {
-    rV[0] =sys.$checkExists(rV[0],sys.$checkNull( 0.5 - (0.5 - rV[0]) * 4));
-    if (rV[0] < 0) rV[0] =sys.$checkExists(rV[0],sys.$checkNull( 0));
+    rV[0] =sys.$checkExists(rV[0], 0.5 - (0.5 - rV[0]) * 4);
+    if (rV[0] < 0) rV[0] =sys.$checkExists(rV[0], 0);
   }
    return rV[0];
 };
@@ -37,7 +37,7 @@ export  async  function mk(wg)  {sys.$params(arguments.length, 1);
   });
 
    const Cos =sys.$checkNull( dic.toArr(Cs)); 
-  const equity2 =sys.$checkNull(  -equity);
+  const equity2 =  -equity;
 
    const Stocks =sys.$checkNull( arr.reduce(Cos,
     [0, 0, 0],
@@ -50,12 +50,12 @@ export  async  function mk(wg)  {sys.$params(arguments.length, 1);
   const values =sys.$checkNull( Stocks[1]);
   const refs =sys.$checkNull( Stocks[2]);
 
-  const assets =sys.$checkNull( values + cash);
-  const rassets =sys.$checkNull( refs + cash);
+  const assets = values + cash;
+  const rassets = refs + cash;
 
-  const orderV =sys.$checkNull( ["+nick"]);
+  const orderV = ["+nick"];
 
-  const showV =sys.$checkNull( [[]]);
+  const showV = [[]];
 
   
   showV[0] =sys.$checkExists(showV[0], function()  {sys.$params(arguments.length, 0);

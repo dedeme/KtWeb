@@ -53,21 +53,21 @@ export  function mk(wg,  Cos,  Closes,  rs)  {sys.$params(arguments.length, 4);
     ;
   };
 
-  const assetsV =sys.$checkNull( [0]);
-  const Trs =sys.$checkNull( []); 
+  const assetsV = [0];
+  const Trs = []; 
   if (arr.size(Orders) > 0) {
-    const lastDateV =sys.$checkNull( [""]);
-    const cashV =sys.$checkNull( [global.initialCapitalV[0]]);
-    const Buys =sys.$checkNull( []); 
-    const Sells =sys.$checkNull( []); 
-    const Quarantine =sys.$checkNull( {}); 
-    const Portfolio =sys.$checkNull( {}); 
+    const lastDateV = [""];
+    const cashV = [global.initialCapitalV[0]];
+    const Buys = []; 
+    const Sells = []; 
+    const Quarantine = {}; 
+    const Portfolio = {}; 
 
     for (const  o  of sys.$forObject( Orders)) {
       const date =sys.$checkNull( o[order.date]);
 
       if (sys.$eq(lastDateV[0] , "")) {
-        lastDateV[0] =sys.$checkExists(lastDateV[0],sys.$checkNull( date));
+        lastDateV[0] =sys.$checkExists(lastDateV[0], date);
       } else if (sys.$neq(date , lastDateV[0])) {
         arr.push(Trs,
           mkTr(
@@ -77,10 +77,10 @@ export  function mk(wg,  Cos,  Closes,  rs)  {sys.$params(arguments.length, 4);
         );
         arr.clear(Buys);
         arr.clear(Sells);
-        lastDateV[0] =sys.$checkExists(lastDateV[0],sys.$checkNull( date));
+        lastDateV[0] =sys.$checkExists(lastDateV[0], date);
       }
 
-      const QRemoves =sys.$checkNull( []); 
+      const QRemoves = []; 
       for (const [nk, d]  of sys.$forObject2( Quarantine)) if (d <= date) arr.push(QRemoves,nk);
 
       for (const nk  of sys.$forObject( QRemoves)) dic.remove(Quarantine,nk);

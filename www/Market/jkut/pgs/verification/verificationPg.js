@@ -14,9 +14,9 @@ const II =sys.$checkNull( i18n.tlt);
 
 export  function mk(wg)  {sys.$params(arguments.length, 1); mk2 (wg, time.now());};
 
-const wgV =sys.$checkNull( [Q("div")]);
+const wgV = [Q("div")];
 
-const dateV =sys.$checkNull( [time.now()]);
+const dateV = [time.now()];
 
 
 
@@ -78,8 +78,8 @@ const dateV =sys.$checkNull( [time.now()]);
 
 
  function nickEntry(cMarketEntry, stocksEntry)  {sys.$params(arguments.length, 2);
-  const ok =sys.$checkNull( sys.$eq(cMarketEntry[1] , stocksEntry[1]) &&
-    sys.$eq(cMarketEntry[2] , stocksEntry[2]))
+  const ok = sys.$eq(cMarketEntry[1] , stocksEntry[1]) &&
+    sys.$eq(cMarketEntry[2] , stocksEntry[2])
   ;
 
    return mkStocksEntry([
@@ -92,7 +92,7 @@ const dateV =sys.$checkNull( [time.now()]);
 
 
  async  function mk2(wg, date)  {sys.$params(arguments.length, 2);
-  wgV[0] =sys.$checkExists(wgV[0],sys.$checkNull( wg));
+  wgV[0] =sys.$checkExists(wgV[0], wg);
   const now =sys.$checkNull( time.now());
   dateV[0] =sys.$checkExists(dateV[0],sys.$checkNull( sys.$eq(time.year(date) , time.year(now)) ? date : now));
   const {ok, marketCash, hcontaCash, 
@@ -175,7 +175,7 @@ const dateV =sys.$checkNull( [time.now()]);
         .add(Q("td")
           .klass("border")
           .style("width:100px;text-align:right")
-          .text("CMarket"))
+          .text("Market"))
         .add(Q("td")
           .klass("border")
           .style("width:100px;text-align:right")
@@ -199,9 +199,9 @@ const dateV =sys.$checkNull( [time.now()]);
  function mkStocks(div,  MarketStocks,  StocksStocks, stocksSum, hcontaSum)  {sys.$params(arguments.length, 5);
   
    function entries()  {sys.$params(arguments.length, 0);
-    const R =sys.$checkNull( []); 
-    const mmIxV =sys.$checkNull( [0]);
-    const stIxV =sys.$checkNull( [0]);
+    const R = []; 
+    const mmIxV = [0];
+    const stIxV = [0];
     const sizeMarket =sys.$checkNull( arr.size(MarketStocks));
     const sizeStocks =sys.$checkNull( arr.size(StocksStocks));
     while (true) {
@@ -211,13 +211,13 @@ const dateV =sys.$checkNull( [time.now()]);
 
       if (mmIxV[0] >= sizeMarket) {
         arr.push(R,missingCMarket(StocksStocks[stIxV[0]]));
-        stIxV[0] +=sys.$checkExists(stIxV[0],sys.$checkNull( 1));
+        stIxV[0] +=sys.$checkExists(stIxV[0], 1);
         continue;
       }
 
       if (stIxV[0] >= sizeStocks) {
         arr.push(R,missingStocks(MarketStocks[mmIxV[0]]));
-        mmIxV[0] +=sys.$checkExists(mmIxV[0],sys.$checkNull( 1));
+        mmIxV[0] +=sys.$checkExists(mmIxV[0], 1);
         continue;
       }
 
@@ -226,14 +226,14 @@ const dateV =sys.$checkNull( [time.now()]);
 
       if (sys.$eq(mmNick , stNick)) {
         arr.push(R,nickEntry(MarketStocks[mmIxV[0]], StocksStocks[stIxV[0]]));
-        mmIxV[0] +=sys.$checkExists(mmIxV[0],sys.$checkNull( 1));
-        stIxV[0] +=sys.$checkExists(stIxV[0],sys.$checkNull( 1));
+        mmIxV[0] +=sys.$checkExists(mmIxV[0], 1);
+        stIxV[0] +=sys.$checkExists(stIxV[0], 1);
       } else if (mmNick < stNick) {
         arr.push(R,missingStocks(MarketStocks[mmIxV[0]]));
-        mmIxV[0] +=sys.$checkExists(mmIxV[0],sys.$checkNull( 1));
+        mmIxV[0] +=sys.$checkExists(mmIxV[0], 1);
       } else {
         arr.push(R,missingCMarket(StocksStocks[stIxV[0]]));
-        stIxV[0] +=sys.$checkExists(stIxV[0],sys.$checkNull( 1));
+        stIxV[0] +=sys.$checkExists(stIxV[0], 1);
       }
     }
 
@@ -289,7 +289,7 @@ const dateV =sys.$checkNull( [time.now()]);
           .klass("border")
           .att("colspan", "2")
           .style("text-align:center")
-          .text("CMarket"))
+          .text("Market"))
 
         .add(Q("td"))
 

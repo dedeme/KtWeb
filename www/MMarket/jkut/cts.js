@@ -6,9 +6,9 @@ import * as math from './_js/math.js';import * as js from './_js/js.js';import *
 const Q =sys.$checkNull( ui.q);
 
 
-export const appName =sys.$checkNull( "MMarket");
+export const appName = "MMarket";
 
-export const version =sys.$checkNull( "2024.03");
+export const version = "2024.03";
 
 export const foot =sys.$checkNull( Q("table")
   .klass("main")
@@ -21,4 +21,4 @@ export const foot =sys.$checkNull( Q("table")
       .html(str.fmt("- © ºDeme. %v (%v) -", [appName, version])))))
 ;
 
-export const mainModel =sys.$checkNull( "APRX");
+export const mainModel = "SSBB0";

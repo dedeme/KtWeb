@@ -3,11 +3,19 @@ import * as math from './_js/math.js';import * as js from './_js/js.js';import *
 
 
 const esDic =sys.$checkNull( {
+  "2 Days": "2 Días",
+  "All": "Todo",
+  "All log entries will be deleted.\nContinue?": "Todas las entradas del registro será borradas.\n¿Continuar?",
   "Click %0 to continue.": "Click %0 para continuar.",
+  "Data base is out of date.": "La base de datos está obsoleta.",
+  "Delete": "Eliminar",
   "Download '%0'?": "¿Descargar '%0'?",
-  "KtWeb session is closed.\nAuthenticating from KtWeb:Main.": "La sesión de KtWeb ha sido cerrada.\nHay que autenticarse en KtWeb:Main.",
+  "Errors": "Errores",
+  "Log": "Registro",
+  "Reload": "Recargar",
   "Remove '%0'?": "¿Eliminar '%0'?",
   "Restore '%0'?": "¿Restaurar '%0'?",
+  "Session is closed.\nAuthenticating from Main.": "La sesión ha sido cerrada.\nHay que autenticarse en Main.",
   "Session is expired.": "Las sesión ha expirado.",
   "Witout Notes": "Sin notas",
   "here": "aquí"
@@ -16,11 +24,19 @@ const esDic =sys.$checkNull( {
 export  function es() {sys.$params(arguments.length, 0); Lang[0] =sys.$checkExists(Lang[0],sys.$checkNull( "es"));};
 
 const enDic =sys.$checkNull( {
+  "2 Days": "2 Days",
+  "All": "All",
+  "All log entries will be deleted.\nContinue?": "All log entries will be deleted.\nContinue?",
   "Click %0 to continue.": "Click %0 to continue.",
+  "Data base is out of date.": "Data base is out of date.",
+  "Delete": "Delete",
   "Download '%0'?": "Download '%0'?",
-  "KtWeb session is closed.\nAuthenticating from KtWeb:Main.": "KtWeb session is closed.\nAuthenticating from KtWeb:Main.",
+  "Errors": "Errors",
+  "Log": "Log",
+  "Reload": "Reload",
   "Remove '%0'?": "Remove '%0'?",
   "Restore '%0'?": "Restore '%0'?",
+  "Session is closed.\nAuthenticating from Main.": "Session is closed.\nAuthenticating from Main.",
   "Session is expired.": "Session is expired.",
   "Witout Notes": "Witout Notes",
   "here": "here"

@@ -10,8 +10,4 @@ import * as math from '../_js/math.js';import * as js from '../_js/js.js';import
 
 
 
-export  function mk(level, speed, id, shortPlays, longPlays)  {sys.$params(arguments.length, 5);
-   return {level:level, speed:speed, id:id, shortPlays:shortPlays, longPlays:longPlays};};
-
-
-export  function fromJs(A)  {sys.$params(arguments.length, 1);  return mk(A[0], A[1], A[2], A[3], A[4]);};
+export function mk (level,speed,id,shortPlays,longPlays) { sys.$params(arguments.length, 5); return [ level, speed, id, shortPlays, longPlays];}export const level = 0;export const speed = 1;export const id = 2;export const shortPlays = 3;export const longPlays = 4;

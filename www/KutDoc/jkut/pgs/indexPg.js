@@ -13,25 +13,26 @@ const II =sys.$checkNull( i18n.tlt);
 
 
 export  async  function mk(wg, pack)  {sys.$params(arguments.length, 2);
-  const Rp =sys.$checkNull( await  client.send({
+  
+   const {treeOp} = await  client.send({
     prg: "KutDoc",
     source: "IndexPg",
     rq: "index",
-    pack: pack
-  }));
+    pack:pack
+  });
 
-  if (!sys.asBool(Rp.index)) {
+  if (!sys.asBool(treeOp)) {
     msgPg.mk(wg, II("Library path not found o not valid."), true);
     return;
   }
 
-  const Tree =sys.$checkNull( indexTree.fromJs(Rp.index[0]));
+   const tree =sys.$checkNull( treeOp[0]);
   const linkPrefix =sys.$checkNull( "?" + pack + "@");
 
   Q("@title").text(cts.appName + " - " + pack);
 
   const Trs =sys.$checkNull( []);
-  add(Trs, Tree.Trees, "", 0, linkPrefix);
+  add(Trs, tree[indexTree.Trees], "", 0, linkPrefix);
 
   wg
     .removeAll()
@@ -44,40 +45,40 @@ export  async  function mk(wg, pack)  {sys.$params(arguments.length, 2);
 };
 
 
- function add(Trs, Trees, ppath, space, linkPrefix)  {sys.$params(arguments.length, 5);
+ function add(Trs,  Trees, ppath, space, linkPrefix)  {sys.$params(arguments.length, 5);
   const path =sys.$checkNull( sys.$neq(ppath , "") ? ppath + "/" : ppath);
 
-  arr.sort(Trees, function(T1, T2)  {sys.$params(arguments.length, 2);
-     return !sys.asBool(!sys.asBool(T1.Doc))
-      ? !sys.asBool(!sys.asBool(T2.Doc))
-        ? str.less(str.toUpper(T1.id), str.toUpper(T2.id))
-        : false
-      : !sys.asBool(!sys.asBool(T2.Doc))
-        ? true
-        : str.less(str.toUpper(T1.id), str.toUpper(T2.id))
+  arr.sort(Trees,function( t1,  t2)  {sys.$params(arguments.length, 2);
+     return !sys.asBool(t1[indexTree.docOp])
+      ? !sys.asBool(t2[indexTree.docOp])
+        ? str.less(str.toUpper(t1[indexTree.id]), str.toUpper(t2[indexTree.id]))
+        : true
+      : !sys.asBool(t2[indexTree.docOp])
+        ? false
+        : str.less(str.toUpper(t1[indexTree.id]), str.toUpper(t2[indexTree.id]))
     ;}
   );
-  for (const T  of sys.$forObject( Trees)) {
-    if (!sys.asBool(!sys.asBool(T.Doc))) {
-      arr.push(Trs, Q("tr")
+  for (const  t  of sys.$forObject( Trees)) {
+    if (!sys.asBool(!sys.asBool(t[indexTree.docOp]))) {
+      Trs.push(Q("tr")
         .add(Q("td")
           .style('width:10px;padding-left:' + space + 'px')
           .html(str.fmt(
               '<a href="%v%v%v">%v</a>',
-              [linkPrefix, path, T.id, T.id]
+              [linkPrefix, path, t[indexTree.id], t[indexTree.id]]
             )))
         .add(Q("td")
           .style("padding-left:10px")
-          .text(T.Doc[0]))
+          .text(t[indexTree.docOp][0]))
       );
     } else {
-      arr.push(Trs, Q("tr")
+      Trs.push(Q("tr")
         .add(Q("td")
           .style('padding-left:' + space + 'px')
-          .html('<b>' + T.id + '</b>'))
+          .html('<b>' + t[indexTree.id] + '</b>'))
         .add(Q("td"))
       );
-      add(Trs, T.Trees, path + T.id, space + 20, linkPrefix);
+      add(Trs, t[indexTree.Trees], path + t[indexTree.id], space + 20, linkPrefix);
     }
   }
 };

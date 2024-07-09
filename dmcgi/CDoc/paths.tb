@@ -1,1 +1,1 @@
-[["*libmkt","/dm/dmC/lib/libmkt",true,true],["jkut","/dm/dmC/app/jkut",true,true],["kut","/dm/dmC/app/kut",true,true],["*libkut","/dm/dmC/lib/libkut",true,true],["libmktHelper","/dm/dmC/app/libmktHelper",true,false]]
+[["*libmkt","/dm/dmC/lib/libmkt",true,true],["jkut","/dm/dmC/app/jkut",false,true],["kut","/dm/dmC/app/kut",true,true],["*libkut","/dm/dmC/lib/libkut",true,true],["libmktHelper","/dm/dmC/app/libmktHelper",false,true],["tkut","/dm/dmC/app/tkut",true,true]]

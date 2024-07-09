@@ -3,7 +3,8 @@ import * as math from './_js/math.js';import * as js from './_js/js.js';import *
 
 
 
-import * as info from  "./wgs/info.js";
+import * as pict from  "./data/pict.js";
+import * as infoWg from  "./wgs/infoWg.js";
 import * as i18n from  "./i18n.js";
 
 const Q =sys.$checkNull( ui.q);
@@ -123,8 +124,8 @@ export  function visuals()  {sys.$params(arguments.length, 0);
 
 
 
-export  function changePict(div, img, Info, group, Pict)  {sys.$params(arguments.length, 5);
-  const url =sys.$checkNull( "img/fondosEscritorio/" + group + "/" + Pict.id);
+export  function changePict(div, img, Info, group,  pic)  {sys.$params(arguments.length, 5);
+  const url =sys.$checkNull( "img/fondosEscritorio/" + group + "/" + pic[pict.id]);
   div
     .setStyle(
       "background-image",
@@ -135,7 +136,7 @@ export  function changePict(div, img, Info, group, Pict)  {sys.$params(arguments
       .setStyle("opacity", "0")
     ;
     timer.delay(8000, function()  {sys.$params(arguments.length, 0);
-      Info.changeContent(info.pictureWg(group, Pict));
+      Info.changeContent(infoWg.pictureWg(group, pic));
       img
         .att("src", url)
         .setStyle("opacity", "1")

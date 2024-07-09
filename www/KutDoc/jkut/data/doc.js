@@ -9,35 +9,4 @@ import * as math from '../_js/math.js';import * as js from '../_js/js.js';import
 
 
 
-export  function mkEntry(name, doc, code, link)  {sys.$params(arguments.length, 4);
-   return { name:name, doc:doc, code:code, link:link };};
-
-
-export  function entryToJs(D)  {sys.$params(arguments.length, 1);  return [D.name, D.doc, D.code, D.link];};
-
-
-export  function entryFromJs(A)  {sys.$params(arguments.length, 1);  return mkEntry(A[0], A[1], A[2], A[3]);};
-
-
-
-
-
-
-export  function mk(doc, Indexeds, Functions, Values)  {sys.$params(arguments.length, 4);
-   return { doc:doc, Indexeds:Indexeds, Functions:Functions, Values:Values };};
-
-
-export  function toJs(D)  {sys.$params(arguments.length, 1);  return [
-    D.doc,
-    arr.map(D.Indexeds, entryToJs),
-    arr.map(D.Functions, entryToJs),
-    arr.map(D.Values, entryToJs)
-  ];};
-
-
-export  function fromJs(A)  {sys.$params(arguments.length, 1);  return mk(
-    A[0],
-    arr.map(A[1], entryFromJs),
-    arr.map(A[2], entryFromJs),
-    arr.map(A[3], entryFromJs)
-  );};
+export function mk (docTx,Indexeds,Functions,Values) { sys.$params(arguments.length, 4); return [ docTx, Indexeds, Functions, Values];}export const docTx = 0;export const Indexeds = 1;export const Functions = 2;export const Values = 3;

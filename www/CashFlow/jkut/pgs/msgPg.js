@@ -14,11 +14,11 @@ const II =sys.$checkNull( i18n.tlt);
 
 
 export  function mk(wg, msg, withReload)  {sys.$params(arguments.length, 3);
-  const tx =sys.$checkNull( "<a href=''>" + II("here") + "</a>");
-  const reload =sys.$checkNull(
+  const tx = "<a href=''>" + II("here") + "</a>";
+  const reload =
     "<p><b>" +
     i18n.fmt(II("Click %0 to continue."), [tx]) +
-    "</b></p>");
+    "</b></p>";
   wg
     .removeAll()
     .add(Q("div")

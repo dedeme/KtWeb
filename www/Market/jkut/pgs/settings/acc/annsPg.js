@@ -52,7 +52,7 @@ export  async  function mk(wg, year0)  {sys.$params(arguments.length, 2);
     rq: "idata",
     year: year0
   });
-  global.dbKeyV[0] =sys.$checkExists(global.dbKeyV[0],sys.$checkNull( dbKey));
+  global.dbKeyV[0] =sys.$checkExists(global.dbKeyV[0], dbKey);
 
   if (!sys.asBool(ok))
     msg.error(II("Some error was found.<br>See Log."), function(){sys.$params(arguments.length, 0);});
@@ -68,7 +68,7 @@ export  async  function mk(wg, year0)  {sys.$params(arguments.length, 2);
   const editor =sys.$checkNull( Q("div"));
   const dtPck =sys.$checkNull( datePicker.mk(true, time.now(), function(d){sys.$params(arguments.length, 1);}));
 
-  const showSelectorV =sys.$checkNull( [[]]);
+  const showSelectorV = [[]];
 
   
 
@@ -82,7 +82,7 @@ export  async  function mk(wg, year0)  {sys.$params(arguments.length, 2);
       rq: "new",
       annotation: ann.toJs(a)
     });
-    global.dbKeyV[0] =sys.$checkExists(global.dbKeyV[0],sys.$checkNull( dbKey));
+    global.dbKeyV[0] =sys.$checkExists(global.dbKeyV[0], dbKey);
     mk(wg, year);
   };
 
@@ -103,7 +103,7 @@ export  async  function mk(wg, year0)  {sys.$params(arguments.length, 2);
         dbKey: global.dbKeyV[0],
         annId:annId
       });
-      global.dbKeyV[0] =sys.$checkExists(global.dbKeyV[0],sys.$checkNull( dbKey));
+      global.dbKeyV[0] =sys.$checkExists(global.dbKeyV[0], dbKey);
       mk(wg, year);
     }
   };
@@ -194,7 +194,7 @@ pegar dichos archivos a los nuevos creados.</p>
     ui.changePoint(prf);
     
      function f()  {sys.$params(arguments.length, 0);
-      const R =sys.$checkNull( [checkEmpty(II("Date"), v(dtf))]);
+      const R = [checkEmpty(II("Date"), v(dtf))];
       if (sys.$eq(R[0] , "")) R[0] =sys.$checkExists(R[0],sys.$checkNull( checkEmpty(II("Nick"), v(nkf))));
       if (sys.$eq(R[0] , "")) R[0] =sys.$checkExists(R[0],sys.$checkNull( checkInt(II("Stocks"), v(stf))));
       if (sys.$eq(R[0] , "")) R[0] =sys.$checkExists(R[0],sys.$checkNull( checkFloat(II("Price"), v(prf))));
@@ -230,7 +230,7 @@ pegar dichos archivos a los nuevos creados.</p>
     ui.changePoint(prf);
     
      function f()  {sys.$params(arguments.length, 0);
-      const R =sys.$checkNull( [checkEmpty(II("Date"), v(dtf))]);
+      const R = [checkEmpty(II("Date"), v(dtf))];
       if (sys.$eq(R[0] , "")) R[0] =sys.$checkExists(R[0],sys.$checkNull( checkEmpty(II("Nick"), v(nkf))));
       if (sys.$eq(R[0] , "")) R[0] =sys.$checkExists(R[0],sys.$checkNull( checkInt(II("Stocks"), v(stf))));
       if (sys.$eq(R[0] , "")) R[0] =sys.$checkExists(R[0],sys.$checkNull( checkFloat(II("Price"), v(prf))));
@@ -264,7 +264,7 @@ pegar dichos archivos a los nuevos creados.</p>
     ui.changePoint(amf);
     
      function f()  {sys.$params(arguments.length, 0);
-      const R =sys.$checkNull( [checkEmpty(II("Date"), v(dtf))]);
+      const R = [checkEmpty(II("Date"), v(dtf))];
       if (sys.$eq(R[0] , "")) R[0] =sys.$checkExists(R[0],sys.$checkNull( checkFloat(II("Amount"), v(amf))));
       if (sys.$eq(R[0] , ""))
         sendAnn(ann.mk(dt2s(v(dtf)), opr.mkIn(
@@ -294,7 +294,7 @@ pegar dichos archivos a los nuevos creados.</p>
     ui.changePoint(amf);
     
      function f()  {sys.$params(arguments.length, 0);
-      const R =sys.$checkNull( [checkEmpty(II("Date"), v(dtf))]);
+      const R = [checkEmpty(II("Date"), v(dtf))];
       if (sys.$eq(R[0] , "")) R[0] =sys.$checkExists(R[0],sys.$checkNull( checkFloat(II("Amount"), v(amf))));
       if (sys.$eq(R[0] , ""))
         sendAnn(ann.mk(dt2s(v(dtf)), opr.mkWi(
@@ -325,7 +325,7 @@ pegar dichos archivos a los nuevos creados.</p>
     const def =sys.$checkNull( Q("input").att("type", "text"));
     
      function f()  {sys.$params(arguments.length, 0);
-      const R =sys.$checkNull( [checkEmpty(II("Date"), v(dtf))]);
+      const R = [checkEmpty(II("Date"), v(dtf))];
       if (sys.$eq(R[0] , "")) R[0] =sys.$checkExists(R[0],sys.$checkNull( checkFloat(II("Amount"), v(amf))));
       if (sys.$eq(R[0] , "")) R[0] =sys.$checkExists(R[0],sys.$checkNull( checkEmpty(II("Description"), v(def))));
       if (sys.$eq(R[0] , ""))
@@ -358,7 +358,7 @@ pegar dichos archivos a los nuevos creados.</p>
     const def =sys.$checkNull( Q("input").att("type", "text"));
     
      function f()  {sys.$params(arguments.length, 0);
-      const R =sys.$checkNull( [checkEmpty(II("Date"), v(dtf))]);
+      const R = [checkEmpty(II("Date"), v(dtf))];
       if (sys.$eq(R[0] , "")) R[0] =sys.$checkExists(R[0],sys.$checkNull( checkFloat(II("Amount"), v(amf))));
       if (sys.$eq(R[0] , "")) R[0] =sys.$checkExists(R[0],sys.$checkNull( checkEmpty(II("Description"), v(def))));
       if (sys.$eq(R[0] , ""))
@@ -391,7 +391,7 @@ pegar dichos archivos a los nuevos creados.</p>
     const def =sys.$checkNull( Q("input").att("type", "text"));
     
      function f()  {sys.$params(arguments.length, 0);
-      const R =sys.$checkNull( [checkEmpty(II("Date"), v(dtf))]);
+      const R = [checkEmpty(II("Date"), v(dtf))];
       if (sys.$eq(R[0] , "")) R[0] =sys.$checkExists(R[0],sys.$checkNull( checkFloat(II("Amount"), v(amf))));
       if (sys.$eq(R[0] , "")) R[0] =sys.$checkExists(R[0],sys.$checkNull( checkEmpty(II("Diff. +"), v(def))));
       if (sys.$eq(R[0] , ""))
@@ -424,7 +424,7 @@ pegar dichos archivos a los nuevos creados.</p>
     const def =sys.$checkNull( Q("input").att("type", "text"));
     
      function f()  {sys.$params(arguments.length, 0);
-      const R =sys.$checkNull( [checkEmpty(II("Date"), v(dtf))]);
+      const R = [checkEmpty(II("Date"), v(dtf))];
       if (sys.$eq(R[0] , "")) R[0] =sys.$checkExists(R[0],sys.$checkNull( checkFloat(II("Amount"), v(amf))));
       if (sys.$eq(R[0] , "")) R[0] =sys.$checkExists(R[0],sys.$checkNull( checkEmpty(II("Description"), v(def))));
       if (sys.$eq(R[0] , ""))
@@ -474,12 +474,12 @@ pegar dichos archivos a los nuevos creados.</p>
     ;
   });
 
-  const Lopts =sys.$checkNull( []);
+  const Lopts = [];
   arr.eachIx(Years, function(y, i)  {sys.$params(arguments.length, 2);
     if (i > 0) arr.push(Lopts, menu.separator());
     arr.push(Lopts, menu.toption(y, y, function()  {sys.$params(arguments.length, 0); changeYear(y);}));
   });
-  const Ropts =sys.$checkNull( [menu.toption("close", II("Close Year Help"), closeYear)]);
+  const Ropts = [menu.toption("close", II("Close Year Help"), closeYear)];
   const menuWg =sys.$checkNull( menu.mk(Lopts, Ropts, year));
 
   const annsWg =sys.$checkNull( Q("div"));

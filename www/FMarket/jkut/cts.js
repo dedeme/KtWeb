@@ -6,9 +6,9 @@ import * as math from './_js/math.js';import * as js from './_js/js.js';import *
 const Q =sys.$checkNull( ui.q);
 
 
-export const appName =sys.$checkNull( "FMarket");
+export const appName = "FMarket";
 
-export const version =sys.$checkNull( "202207");
+export const version = "202207";
 
 export const foot =sys.$checkNull( Q("table")
   .klass("main")
@@ -22,16 +22,16 @@ export const foot =sys.$checkNull( Q("table")
 ;
 
 
-export const initialCapital =sys.$checkNull( 250000.0);
+export const initialCapital = 250000.0;
 
 
-export const assetsRatio =sys.$checkNull( 0.6);
+export const assetsRatio = 0.6;
 
 
-export const profitsAvgRatio =sys.$checkNull( 1.0 - assetsRatio);
+export const profitsAvgRatio = 1.0 - assetsRatio;
 
 
-export const maxProfitsAvgRatio =sys.$checkNull( 3.0);
+export const maxProfitsAvgRatio = 3.0;
 
 
-export const maxAssets =sys.$checkNull( initialCapital * maxProfitsAvgRatio);
+export const maxAssets = initialCapital * maxProfitsAvgRatio;

@@ -44,58 +44,58 @@ const II =sys.$checkNull( i18n.tlt);
     rq: "idata"
   });
 
-  global.initialCapitalV[0] =sys.$checkExists(global.initialCapitalV[0],sys.$checkNull( initialCapital));
-  global.evalStepsV[0] =sys.$checkExists(global.evalStepsV[0],sys.$checkNull( evalSteps));
-  global.minSalesV[0] =sys.$checkExists(global.minSalesV[0],sys.$checkNull( minSales));
+  global.initialCapitalV[0] =sys.$checkExists(global.initialCapitalV[0], initialCapital);
+  global.evalStepsV[0] =sys.$checkExists(global.evalStepsV[0], evalSteps);
+  global.minSalesV[0] =sys.$checkExists(global.minSalesV[0], minSales);
   for (const [k, v]  of sys.$forObject2( ParamBases)) dic.put(global.ParamBases, k, v);
   for (const [k, v]  of sys.$forObject2( ParamBaseIncs)) dic.put(global.ParamBaseIncs, k, v);
   for (const [k, v]  of sys.$forObject2( ParamEnvIncs)) dic.put(global.ParamEnvIncs, k, v);
   for (const m  of sys.$forObject( Models)) arr.push(global.Models, m);
-  global.orderBuyV[0] =sys.$checkExists(global.orderBuyV[0],sys.$checkNull( orderBuy));
-  global.orderSellV[0] =sys.$checkExists(global.orderSellV[0],sys.$checkNull( orderSell));
-  global.daysLossV[0] =sys.$checkExists(global.daysLossV[0],sys.$checkNull( math.toInt(daysLoss / 5) * 7)); 
-  global.noLossMultiplicatorV[0] =sys.$checkExists(global.noLossMultiplicatorV[0],sys.$checkNull( noLossMultiplicator));
+  global.orderBuyV[0] =sys.$checkExists(global.orderBuyV[0], orderBuy);
+  global.orderSellV[0] =sys.$checkExists(global.orderSellV[0], orderSell);
+  global.daysLossV[0] =sys.$checkExists(global.daysLossV[0], math.toInt(daysLoss / 5) * 7); 
+  global.noLossMultiplicatorV[0] =sys.$checkExists(global.noLossMultiplicatorV[0], noLossMultiplicator);
   for (const p  of sys.$forObject( Periods)) arr.push(global.Periods, p);
-  global.datesInPeriodV[0] =sys.$checkExists(global.datesInPeriodV[0],sys.$checkNull( datesInPeriod));
+  global.datesInPeriodV[0] =sys.$checkExists(global.datesInPeriodV[0], datesInPeriod);
 
    const Url =sys.$checkNull( ui.url());
   const page =sys.$checkNull( !sys.asBool(Url) ? "summary" : Url[0]);
-  const optV =sys.$checkNull( [page]);
+  const optV = [page];
 
-  const optSummaryV =sys.$checkNull( ["summary"]);
-  const optDescriptionV =sys.$checkNull( ["description"]);
-  const optResultsV =sys.$checkNull( ["results"]);
-  const optMapsV =sys.$checkNull( ["maps"]);
-  const optChartsV =sys.$checkNull( ["charts"]);
+  const optSummaryV = ["summary"];
+  const optDescriptionV = ["description"];
+  const optResultsV = ["results"];
+  const optMapsV = ["maps"];
+  const optChartsV = ["charts"];
 
   if (arr.size(Url) > 1) {
-    optV[0] +=sys.$checkExists(optV[0],sys.$checkNull( "&" + Url[1]));
-    optSummaryV[0] +=sys.$checkExists(optSummaryV[0],sys.$checkNull( "&" + Url[1]));
-    optResultsV[0] +=sys.$checkExists(optResultsV[0],sys.$checkNull( "&" + Url[1]));
-    optMapsV[0] +=sys.$checkExists(optMapsV[0],sys.$checkNull( "&" + Url[1]));
-    optChartsV[0] +=sys.$checkExists(optChartsV[0],sys.$checkNull( "&" + Url[1]));
-    optDescriptionV[0] +=sys.$checkExists(optDescriptionV[0],sys.$checkNull( "&" + Url[1]));
+    optV[0] +=sys.$checkExists(optV[0], "&" + Url[1]);
+    optSummaryV[0] +=sys.$checkExists(optSummaryV[0], "&" + Url[1]);
+    optResultsV[0] +=sys.$checkExists(optResultsV[0], "&" + Url[1]);
+    optMapsV[0] +=sys.$checkExists(optMapsV[0], "&" + Url[1]);
+    optChartsV[0] +=sys.$checkExists(optChartsV[0], "&" + Url[1]);
+    optDescriptionV[0] +=sys.$checkExists(optDescriptionV[0], "&" + Url[1]);
   }
   if (arr.size(Url) > 2) {
-    optV[0] +=sys.$checkExists(optV[0],sys.$checkNull( "&" + Url[2]));
-    optSummaryV[0] +=sys.$checkExists(optSummaryV[0],sys.$checkNull( "&" + Url[2]));
-    optResultsV[0] +=sys.$checkExists(optResultsV[0],sys.$checkNull( "&" + Url[2]));
-    optMapsV[0] +=sys.$checkExists(optMapsV[0],sys.$checkNull( "&" + Url[2]));
-    optChartsV[0] +=sys.$checkExists(optChartsV[0],sys.$checkNull( "&" + Url[2]));
-    optDescriptionV[0] +=sys.$checkExists(optDescriptionV[0],sys.$checkNull( "&" + Url[2]));
+    optV[0] +=sys.$checkExists(optV[0], "&" + Url[2]);
+    optSummaryV[0] +=sys.$checkExists(optSummaryV[0], "&" + Url[2]);
+    optResultsV[0] +=sys.$checkExists(optResultsV[0], "&" + Url[2]);
+    optMapsV[0] +=sys.$checkExists(optMapsV[0], "&" + Url[2]);
+    optChartsV[0] +=sys.$checkExists(optChartsV[0], "&" + Url[2]);
+    optDescriptionV[0] +=sys.$checkExists(optDescriptionV[0], "&" + Url[2]);
   }
   if (arr.size(Url) > 3) {
-    optV[0] +=sys.$checkExists(optV[0],sys.$checkNull( "&" + Url[3]));
-    optSummaryV[0] +=sys.$checkExists(optSummaryV[0],sys.$checkNull( "&" + Url[3]));
-    optResultsV[0] +=sys.$checkExists(optResultsV[0],sys.$checkNull( "&" + Url[3]));
-    optMapsV[0] +=sys.$checkExists(optMapsV[0],sys.$checkNull( "&" + Url[3]));
-    optChartsV[0] +=sys.$checkExists(optChartsV[0],sys.$checkNull( "&" + Url[3]));
-    optDescriptionV[0] +=sys.$checkExists(optDescriptionV[0],sys.$checkNull( "&" + Url[3]));
+    optV[0] +=sys.$checkExists(optV[0], "&" + Url[3]);
+    optSummaryV[0] +=sys.$checkExists(optSummaryV[0], "&" + Url[3]);
+    optResultsV[0] +=sys.$checkExists(optResultsV[0], "&" + Url[3]);
+    optMapsV[0] +=sys.$checkExists(optMapsV[0], "&" + Url[3]);
+    optChartsV[0] +=sys.$checkExists(optChartsV[0], "&" + Url[3]);
+    optDescriptionV[0] +=sys.$checkExists(optDescriptionV[0], "&" + Url[3]);
   }
 
   
 
-  const Lopts =sys.$checkNull( [
+  const Lopts = [
     menu.tlink(optSummaryV[0], II("Summary")),
     menu.separator2(),
     menu.tlink(optResultsV[0], II("Results")),
@@ -105,7 +105,7 @@ const II =sys.$checkNull( i18n.tlt);
     menu.tlink(optChartsV[0], II("Charts")),
     menu.separator(),
     menu.tlink(optDescriptionV[0], II("Description"))
-  ]);
+  ];
   const menuWg =sys.$checkNull( menu.mk(Lopts, [], optV[0]));
 
   const body =sys.$checkNull( Q("div"));

@@ -128,6 +128,12 @@ export function assert (v) {
     throw new Error('Assert failed');
 }
 
+// \* -> ()
+export function printError (v) {
+  $params(arguments.length, 1);
+  console.error(v);
+}
+
 // \*, * -> ()
 export function test (actual, expected) {
   $params(arguments.length, 2);

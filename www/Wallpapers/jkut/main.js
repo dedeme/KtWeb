@@ -4,17 +4,18 @@ import * as math from './_js/math.js';import * as js from './_js/js.js';import *
 
 
 import * as menu from  "./libdm/menu.js";
-import * as cts from  "./data/cts.js";
+import * as cts from  "./cts.js";
+import * as global from  "./global.js";
 import * as msgPg from  "./pgs/msgPg.js";
-import * as danceSelector from  "./pgs/danceSelector.js";
-import * as pictures from  "./pgs/pictures.js";
-import * as songs from  "./pgs/songs.js";
-import * as radio from  "./pgs/radio.js";
-import * as standBy from  "./pgs/standBy.js";
-import * as danceManagement from  "./pgs/danceManagement.js";
-import * as songsManagement from  "./pgs/songsManagement.js";
-import * as pictsManagement from  "./pgs/pictsManagement.js";
-import * as times from  "./pgs/times.js";
+import * as danceSelectorPg from  "./pgs/danceSelectorPg.js";
+import * as picturesPg from  "./pgs/picturesPg.js";
+import * as songsPg from  "./pgs/songsPg.js";
+import * as radioPg from  "./pgs/radioPg.js";
+import * as standByPg from  "./pgs/standByPg.js";
+import * as danceManagementPg from  "./pgs/danceManagementPg.js";
+import * as songsManagementPg from  "./pgs/songsManagementPg.js";
+import * as pictsManagementPg from  "./pgs/pictsManagementPg.js";
+import * as timesPg from  "./pgs/timesPg.js";
 import * as i18n from  "./i18n.js";
 
 const Q =sys.$checkNull( ui.q);
@@ -24,23 +25,36 @@ const II =sys.$checkNull( i18n.tlt);
  async  function mk(wg)  {sys.$params(arguments.length, 1);
   const ok =sys.$checkNull( await  client.connect());
   if (!sys.asBool(ok)) {
-    ui.alert(II("KtWeb session is closed.\nAuthenticating from KtWeb:Main."));
+    ui.alert(II("Session is closed.\nAuthenticating from Main."));
     window.location.assign("http://" + window.location.host + "/Main");
     return;
   }
 
-  const rp =sys.$checkNull( await  client.send({
+  
+   const {lang} = await  client.send({
     prg: "Main", 
     source: "Main",
     rq: "lang"
-  }));
-  if (sys.$eq(rp.lang , "en")) i18n.en();
-
-  client.send({
-    prg: cts.appName,
-    source: "Main",
-    rq: "update"
   });
+  if (sys.$eq(lang , "en")) i18n.en();
+
+   const {dbKey} = await  client.send({
+    prg: cts.appName,
+    source: "MainPg",
+    rq: "idata"
+  });
+  global.dbKeyV[0] =sys.$checkExists(global.dbKeyV[0],sys.$checkNull( dbKey));
+
+   async  function fastUpdate()  {sys.$params(arguments.length, 0);
+     const {dbKey} = await  client.send({
+      prg: cts.appName,
+      source: "MainPg",
+      rq: "update",
+      dbKey: global.dbKeyV[0]
+    });
+    global.dbKeyV[0] =sys.$checkExists(global.dbKeyV[0],sys.$checkNull( dbKey));
+  };
+  fastUpdate();
 
   const wallpapersBt =sys.$checkNull( Q("button").text(II("Wallpapers")));
   const songsBt =sys.$checkNull( Q("button").text(II("Wallpapers with Music")));
@@ -88,22 +102,22 @@ const II =sys.$checkNull( i18n.tlt);
             .add(Q("td")
               .add(Q("button")
                 .text(II("Pictures Management"))
-                .on("click", function(e)  {sys.$params(arguments.length, 1); pictsManagement.mk(wg, reload);}))),
+                .on("click", function(e)  {sys.$params(arguments.length, 1); pictsManagementPg.mk(wg, reload);}))),
           Q("tr")
             .add(Q("td")
               .add(Q("button")
                 .text(II("Songs Management"))
-                .on("click", function(e)  {sys.$params(arguments.length, 1); songsManagement.mk(wg, reload);}))),
+                .on("click", function(e)  {sys.$params(arguments.length, 1); songsManagementPg.mk(wg, reload);}))),
           Q("tr")
             .add(Q("td")
               .add(Q("button")
                 .text(II("Dance Management"))
-                .on("click", function(e)  {sys.$params(arguments.length, 1); danceManagement.mk(wg, reload);}))),
+                .on("click", function(e)  {sys.$params(arguments.length, 1); danceManagementPg.mk(wg, reload);}))),
           Q("tr")
             .add(Q("td")
               .add(Q("button")
                 .text(II("Times Management"))
-                .on("click", function(e)  {sys.$params(arguments.length, 1); times.mk(wg, reload);})))
+                .on("click", function(e)  {sys.$params(arguments.length, 1); timesPg.mk(wg, reload);})))
         ]
       : [Q("tr")
             .add(Q("td")
@@ -118,27 +132,27 @@ const II =sys.$checkNull( i18n.tlt);
   showV[0] =sys.$checkExists(showV[0], function()  {sys.$params(arguments.length, 0);
     wallpapersBt
       .on("keydown", function(e)  {sys.$params(arguments.length, 1); keyInButton(e, [], [songsBt]);})
-      .on("click", function(e)  {sys.$params(arguments.length, 1); pictures.mk(wg, reload);})
+      .on("click", function(e)  {sys.$params(arguments.length, 1); picturesPg.mk(wg, reload);})
     ;
     songsBt
       .on("keydown", function(e)  {sys.$params(arguments.length, 1); keyInButton(e, [wallpapersBt], [radioBt]);})
-      .on("click", function(e)  {sys.$params(arguments.length, 1); songs.mk(wg, reload);})
+      .on("click", function(e)  {sys.$params(arguments.length, 1); songsPg.mk(wg, reload);})
     ;
     radioBt
       .on("keydown", function(e)  {sys.$params(arguments.length, 1); keyInButton(e, [songsBt], [shortDanceBt]);})
-      .on("click", function(e)  {sys.$params(arguments.length, 1); radio.mk(wg, reload);})
+      .on("click", function(e)  {sys.$params(arguments.length, 1); radioPg.mk(wg, reload);})
     ;
     shortDanceBt
       .on("keydown", function(e)  {sys.$params(arguments.length, 1); keyInButton(e, [songsBt], [longDanceBt]);})
-      .on("click", function(e)  {sys.$params(arguments.length, 1); danceSelector.mk(wg, true, reload);})
+      .on("click", function(e)  {sys.$params(arguments.length, 1); danceSelectorPg.mk(wg, true, reload);})
     ;
     longDanceBt
       .on("keydown", function(e)  {sys.$params(arguments.length, 1); keyInButton(e, [shortDanceBt], [standByBt]);})
-      .on("click", function(e)  {sys.$params(arguments.length, 1); danceSelector.mk(wg, false, reload);})
+      .on("click", function(e)  {sys.$params(arguments.length, 1); danceSelectorPg.mk(wg, false, reload);})
     ;
     standByBt
       .on("keydown", function(e)  {sys.$params(arguments.length, 1); keyInButton(e, [longDanceBt], []);})
-      .on("click", function(e)  {sys.$params(arguments.length, 1); standBy.mk(wg, reload);})
+      .on("click", function(e)  {sys.$params(arguments.length, 1); standByPg.mk(wg, reload);})
     ;
 
     wg
@@ -178,8 +192,8 @@ const II =sys.$checkNull( i18n.tlt);
     timer.delay(100, function()  {sys.$params(arguments.length, 0);
       const mainButtonOp =sys.$checkNull( sys.$null((wallpapersBt)));
       if (!sys.asBool(!sys.asBool(mainButtonOp))) {
-        const EOp =sys.$checkNull( sys.$null((mainButtonOp[0].e)));
-        if (!sys.asBool(!sys.asBool(EOp))) EOp[0].focus();
+        const eOp =sys.$checkNull( sys.$null((mainButtonOp[0].e)));
+        if (!sys.asBool(!sys.asBool(eOp))) eOp[0].focus();
       }
     });
   });
@@ -196,9 +210,14 @@ export  function load()  {sys.$params(arguments.length, 0);
   mk(wg);
 };
 
-client.init(true, "KtWeb", function()  {sys.$params(arguments.length, 0);
+
+client.init(true, "KtWeb", function(isExpired)  {sys.$params(arguments.length, 1);
+  const message =sys.$checkNull( isExpired
+    ? II("Session is expired.")
+    : II("Data base is out of date."))
+  ;
   const msgWg =sys.$checkNull( Q("div"));
-  msgPg.mk(msgWg, II("Session is expired."), true);
+  msgPg.mk(msgWg, message, true);
   Q("@body")
     .removeAll()
     .add(msgWg)

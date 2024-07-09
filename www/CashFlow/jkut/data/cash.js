@@ -8,7 +8,7 @@ import * as cashEntry from  "../data/cashEntry.js";
 
 
 export  function previous(Cash, ix)  {sys.$params(arguments.length, 2);
-  const start0 =sys.$checkNull( ix - 5);
+  const start0 = ix - 5;
   const start =sys.$checkNull( start0 < 0 ? 0 : start0);
    return sys.$slice(Cash,start,ix);
 };
@@ -17,7 +17,7 @@ export  function previous(Cash, ix)  {sys.$params(arguments.length, 2);
 
 export  function next( Cash, ix)  {sys.$params(arguments.length, 2);
   const sz =sys.$checkNull( arr.size(Cash));
-  const end0 =sys.$checkNull( ix + 6);
+  const end0 = ix + 6;
   const end =sys.$checkNull( end0 > sz ? sz : end0);
    return sys.$slice(Cash,ix + 1,end);
 };

@@ -3,12 +3,18 @@ import * as math from './_js/math.js';import * as js from './_js/js.js';import *
 
 
 const esDic =sys.$checkNull( {
+  "2 Days": "2 Días",
+  "All": "Todo",
+  "All log entries will be deleted.\nContinue?": "Todas las entradas del registro será borradas.\n¿Continuar?",
   "Click %0 to continue.": "Hacer click %0 para continuar.",
+  "Data base is out of date.": "La base de datos está obsoleta.",
+  "Delete": "Eliminar",
   "Delete %0?": "¿Eliminar %0?",
+  "Errors": "Errores",
   "File": "Archivo",
-  "KtWeb session is closed.\nAuthenticating from KtWeb:Main.": "La sesión de KtWeb ha sido cerrada.\nHay que autenticarse en KtWeb:Main.",
   "Libraries": "Librerías",
   "Library path not found o not valid.": "La ruta de la librería no existe o no es válida.",
+  "Log": "Registro",
   "Name": "Nombre",
   "Name '%0' contains '%1'": "El nombre '%0' contiene '%1'",
   "Name '%0' contains blanks": "El nombre '%0' contiene espacios en blanco",
@@ -19,22 +25,30 @@ const esDic =sys.$checkNull( {
   "Path '%0' does not start with '/'": "El path '%0' no comienza con '/'",
   "Path is '/'": "El path es '/'",
   "Path is missing": "Falta la ruta",
+  "Reload": "Recargar",
+  "Session is closed.\nAuthenticating from Main.": "La sesión ha sido cerrada.\nHay que autenticarse en Main.",
   "Session is expired.": "La sesión ha expirado.",
   "There are no libraries": "No hay librerías",
   "This source can not be selected, because it does not exist": "Esta librería no puede seleccionarse por que no existe",
-  "[%0] Kut file not found.": "[%0] El archivo kut no existe.",
+  "[%0] Jkut file not found.": "[%0] El archivo Jkut no existe.",
   "here": "aquí"
 });
 
 export  function es() {sys.$params(arguments.length, 0); Lang[0] =sys.$checkExists(Lang[0],sys.$checkNull( "es"));};
 
 const enDic =sys.$checkNull( {
+  "2 Days": "2 Days",
+  "All": "All",
+  "All log entries will be deleted.\nContinue?": "All log entries will be deleted.\nContinue?",
   "Click %0 to continue.": "Click %0 to continue.",
+  "Data base is out of date.": "Data base is out of date.",
+  "Delete": "Delete",
   "Delete %0?": "Delete %0?",
+  "Errors": "Errors",
   "File": "File",
-  "KtWeb session is closed.\nAuthenticating from KtWeb:Main.": "KtWeb session is closed.\nAuthenticating from KtWeb:Main.",
   "Libraries": "Libraries",
   "Library path not found o not valid.": "Library path not found o not valid.",
+  "Log": "Log",
   "Name": "Name",
   "Name '%0' contains '%1'": "Name '%0' contains '%1'",
   "Name '%0' contains blanks": "Name '%0' contains blanks",
@@ -45,10 +59,12 @@ const enDic =sys.$checkNull( {
   "Path '%0' does not start with '/'": "Path '%0' does not start with '/'",
   "Path is '/'": "Path is '/'",
   "Path is missing": "Path is missing",
+  "Reload": "Reload",
+  "Session is closed.\nAuthenticating from Main.": "Session is closed.\nAuthenticating from Main.",
   "Session is expired.": "Session is expired.",
   "There are no libraries": "There are no libraries",
   "This source can not be selected, because it does not exist": "This source can not be selected, because it does not exist",
-  "[%0] Kut file not found.": "[%0] Kut file not found.",
+  "[%0] Jkut file not found.": "[%0] Kut file not found.",
   "here": "here"
 });
 

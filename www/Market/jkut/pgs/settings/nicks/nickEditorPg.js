@@ -14,7 +14,7 @@ import * as i18n from  "../../../i18n.js";
 const Q =sys.$checkNull( ui.q);
 const II =sys.$checkNull( i18n.tlt);
 
-const updatingServerV =sys.$checkNull( [false]);
+const updatingServerV = [false];
 
 
 export  async  function mk(wg,  Nicks, mainNick, nick)  {sys.$params(arguments.length, 4);
@@ -27,7 +27,7 @@ export  async  function mk(wg,  Nicks, mainNick, nick)  {sys.$params(arguments.l
     mainNick:mainNick,
     nick:nick
   });
-  global.dbKeyV[0] =sys.$checkExists(global.dbKeyV[0],sys.$checkNull( dbKey));
+  global.dbKeyV[0] =sys.$checkExists(global.dbKeyV[0], dbKey);
   if (!sys.asBool(ok)) {
     msg.error(cts.failMsg, function()  {sys.$params(arguments.length, 0);});
     return;
@@ -66,7 +66,7 @@ export  async  function mk(wg,  Nicks, mainNick, nick)  {sys.$params(arguments.l
   ;
   const msgWait =sys.$checkNull( Q("div"));
 
-  const showWaitV =sys.$checkNull( [[]]);
+  const showWaitV = [[]];
 
   
 
@@ -95,7 +95,7 @@ export  async  function mk(wg,  Nicks, mainNick, nick)  {sys.$params(arguments.l
       nick: nick,
       qts: str.trim(leftArea.getValue())
     });
-    global.dbKeyV[0] =sys.$checkExists(global.dbKeyV[0],sys.$checkNull( dbKey));
+    global.dbKeyV[0] =sys.$checkExists(global.dbKeyV[0], dbKey);
     if (ok) {
       msg.ok(II("Quotes were successfully modified"), function(){sys.$params(arguments.length, 0);});
       mk(wg, Nicks, mainNick, nick);
@@ -116,6 +116,7 @@ export  async  function mk(wg,  Nicks, mainNick, nick)  {sys.$params(arguments.l
       mainNick: mainNick,
       nick: nick
     });
+    global.dbKeyV[0] =sys.$checkExists(global.dbKeyV[0], dbKey);
     showWaitV[0]("");
 
     switch (result) {
@@ -149,7 +150,7 @@ export  async  function mk(wg,  Nicks, mainNick, nick)  {sys.$params(arguments.l
     if (sys.$eq(code , ""))
       msg.error(i18n.fmt(II("Nick code of %0 is missing"), [sId]), function()  {sys.$params(arguments.length, 0);});
     else {
-      updatingServerV[0] =sys.$checkExists(updatingServerV[0],sys.$checkNull( true));
+      updatingServerV[0] =sys.$checkExists(updatingServerV[0], true);
        const {dbKey} = await  client.send({
         prg: cts.appName,
         module: "Settings",
@@ -160,7 +161,7 @@ export  async  function mk(wg,  Nicks, mainNick, nick)  {sys.$params(arguments.l
         svId: sId,
         code: code
       });
-      global.dbKeyV[0] =sys.$checkExists(global.dbKeyV[0],sys.$checkNull( dbKey));
+      global.dbKeyV[0] =sys.$checkExists(global.dbKeyV[0], dbKey);
       mk(wg, Nicks, mainNick, nick);
     }
   };
@@ -170,12 +171,12 @@ export  async  function mk(wg,  Nicks, mainNick, nick)  {sys.$params(arguments.l
     await timer.delay(timer.mk(100), function()  {sys.$params(arguments.length, 0);});
     if (updatingServerV[0]) {
       ui.alert("Updating server. Try again.");
-      updatingServerV[0] =sys.$checkExists(updatingServerV[0],sys.$checkNull( false));
+      updatingServerV[0] =sys.$checkExists(updatingServerV[0], false);
       return;
     }
 
-    const withErrorsV =sys.$checkNull( [false]);
-    const withWarningsV =sys.$checkNull( [false]);
+    const withErrorsV = [false];
+    const withWarningsV = [false];
      async  function test( SICs)  {sys.$params(arguments.length, 1);
       if (!sys.asBool(SICs)) {
         showWaitV[0]("");
@@ -202,8 +203,8 @@ export  async  function mk(wg,  Nicks, mainNick, nick)  {sys.$params(arguments.l
           server: SIC.id,
           code: SIC.code
         });
-        withErrorsV[0] ||=sys.$checkExists(withErrorsV[0],sys.$checkNull( withErrors));
-        withWarningsV[0] ||=sys.$checkExists(withWarningsV[0],sys.$checkNull( withWarnings));
+        withErrorsV[0] ||=sys.$checkExists(withErrorsV[0], withErrors);
+        withWarningsV[0] ||=sys.$checkExists(withWarningsV[0], withWarnings);
       }
       test(SICs);
     };
@@ -257,13 +258,13 @@ export  async  function mk(wg,  Nicks, mainNick, nick)  {sys.$params(arguments.l
     };
 
     const sz =sys.$checkNull( arr.size(SIdCodes));
-    const cols =sys.$checkNull( 4);
+    const cols = 4;
     const rows =sys.$checkNull( Math.ceil(sz / cols));
-    const Trs =sys.$checkNull( []); 
+    const Trs = []; 
     for (let r = 0;r < rows; ++r) {
       const tr =sys.$checkNull( Q("tr"));
       for (let c = 0;c < cols; ++c) {
-        const i =sys.$checkNull( r * cols + c);
+        const i = r * cols + c;
         tr.add(i < sz
           ? svTd(SIdCodes[i])
           : Q("td")
@@ -295,14 +296,14 @@ export  async  function mk(wg,  Nicks, mainNick, nick)  {sys.$params(arguments.l
 
   
    function leftMenu()  {sys.$params(arguments.length, 0);
-    const Lopts =sys.$checkNull( [
+    const Lopts = [
       menu.mkEntry([], editBt)
-    ]);
-    const Ropts =sys.$checkNull( [
+    ];
+    const Ropts = [
       menu.mkEntry([], cancelBt),
       menu.mkEntry([], Q("span").html("&nbsp;")),
       menu.mkEntry([], modifyBt)
-    ]);
+    ];
      return menu.mk(Lopts, Ropts, "");
   };
 
@@ -313,9 +314,9 @@ export  async  function mk(wg,  Nicks, mainNick, nick)  {sys.$params(arguments.l
     )));
     const selEl =sys.$checkNull( sel.e);
     sel.on("change", function(e)  {sys.$params(arguments.length, 1); setRightArea(Nicks[selEl.selectedIndex]);});
-    const Lopts =sys.$checkNull( [
+    const Lopts = [
       menu.mkEntry([], sel)
-    ]);
+    ];
      return menu.mk(Lopts, [], "");
   };
 

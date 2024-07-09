@@ -70,7 +70,7 @@ export  async  function mk(wg)  {sys.$params(arguments.length, 1);
     source: "TradingPg",
     rq: "idata"
   });
-  global.dbKeyV[0] =sys.$checkExists(global.dbKeyV[0],sys.$checkNull( dbKey));
+  global.dbKeyV[0] =sys.$checkExists(global.dbKeyV[0], dbKey);
 
   if (!sys.asBool(ok)) {
     msg.error(cts.failMsg, function(){sys.$params(arguments.length, 0);});
@@ -116,7 +116,7 @@ export  async  function mk(wg)  {sys.$params(arguments.length, 1);
       rq: "update",
       dbKey: global.dbKeyV[0]
     });
-    global.dbKeyV[0] =sys.$checkExists(global.dbKeyV[0],sys.$checkNull( dbKey));
+    global.dbKeyV[0] =sys.$checkExists(global.dbKeyV[0], dbKey);
 
     modalBox.show(box, false);
     mk(wg);
@@ -132,7 +132,7 @@ export  async  function mk(wg)  {sys.$params(arguments.length, 1);
       return;
     }
     const b =sys.$checkNull( bOp[0]);
-    const b2 =sys.$checkNull( b + b - broker.buy(1, b));
+    const b2 = b + b - broker.buy(1, b);
 
     const pOp =sys.$checkNull( math.fromIso(ps));
     if (!sys.asBool(pOp)) {
@@ -146,7 +146,7 @@ export  async  function mk(wg)  {sys.$params(arguments.length, 1);
     }
 
     const rs =sys.$checkNull( math.toInt(b2 / p));
-    const p2 =sys.$checkNull( p * 0.99);
+    const p2 = p * 0.99;
     const rs2 =sys.$checkNull( math.toInt(b2 / p2));
 
     price2.text(math.toIso(p2, 2));
@@ -287,9 +287,9 @@ export  async  function mk(wg)  {sys.$params(arguments.length, 1);
           .html(II("Without operations")))
       ]
     : function()  {sys.$params(arguments.length, 0);
-      const Trs =sys.$checkNull( []);
-      const iV =sys.$checkNull([0]);
-      const trV =sys.$checkNull( [Q("tr")]);
+      const Trs = [];
+      const iV =[0];
+      const trV = [Q("tr")];
       while (iV[0] < arr.size(RebuysArr)) {
         const Tp =sys.$checkNull( RebuysArr[iV[0]]);
         trV[0]
@@ -301,7 +301,7 @@ export  async  function mk(wg)  {sys.$params(arguments.length, 1);
         ;
         if (sys.$neq(iV[0] % 3 , 2))
           trV[0].add(Q("td").klass("separator"));
-        iV[0] +=sys.$checkExists(iV[0],sys.$checkNull( 1));
+        iV[0] +=sys.$checkExists(iV[0], 1);
         if (sys.$eq(iV[0] % 3 , 0)) {
           arr.push(Trs,trV[0]);
           trV[0] =sys.$checkExists(trV[0],sys.$checkNull( Q("tr")));
@@ -349,7 +349,7 @@ export  async  function mk(wg)  {sys.$params(arguments.length, 1);
         function( o)  {sys.$params(arguments.length, 1);
           const pr =sys.$checkNull( Portfolio[o[invOperation.nick]][1]);
           const cl =sys.$checkNull( Closes[o[invOperation.nick]]);
-          const dif =sys.$checkNull( (cl - pr) * 100 / pr);
+          const dif = (cl - pr) * 100 / pr;
           const color =sys.$checkNull( dif >= 0 ? "#d0d9f0" : dif >=  -5 ? "#f0f0d9" : "#ffffff");
            return Q("tr")
             .add(ciaTd(o[invOperation.nick]).setStyle("background", color))

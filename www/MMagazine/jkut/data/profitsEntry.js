@@ -5,13 +5,4 @@ import * as math from '../_js/math.js';import * as js from '../_js/js.js';import
 
 
 
-export  function mk(date, profits)  {sys.$params(arguments.length, 2);  return {
-  date:date,
-  profits:profits
-};};
-
-
-export  function toJs(Pe)  {sys.$params(arguments.length, 1);  return [Pe.date, Pe.profits];};
-
-
-export  function fromJs(A)  {sys.$params(arguments.length, 1);  return mk(A[0], A[1]);};
+export function mk (date,profits) { sys.$params(arguments.length, 2); return [ date, profits];}export const date = 0;export const profits = 1;

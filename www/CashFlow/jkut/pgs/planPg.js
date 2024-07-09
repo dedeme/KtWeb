@@ -28,12 +28,12 @@ export  async  function mk(wg, selectedYear)  {sys.$params(arguments.length, 2);
     rq: "idata",
     year: selectedYear
   });
-  global.dbKeyV[0] =sys.$checkExists(global.dbKeyV[0],sys.$checkNull( dbKey));
+  global.dbKeyV[0] =sys.$checkExists(global.dbKeyV[0], dbKey);
    const Diary =sys.$checkNull( arr.map(CDiary,diaryEntry.fromJs)); 
 
-  const oldEntryOp =sys.$checkNull( []); 
+  const oldEntryOp = []; 
 
-  const showOp =sys.$checkNull( [[]]);
+  const showOp = [[]];
 
   
 
@@ -47,7 +47,7 @@ export  async  function mk(wg, selectedYear)  {sys.$params(arguments.length, 2);
       year: selectedYear,
       plan: Plan
     });
-    global.dbKeyV[0] =sys.$checkExists(global.dbKeyV[0],sys.$checkNull( dbKey));
+    global.dbKeyV[0] =sys.$checkExists(global.dbKeyV[0], dbKey);
   };
 
   
@@ -61,7 +61,7 @@ export  async  function mk(wg, selectedYear)  {sys.$params(arguments.length, 2);
       plan: Plan,
       diary: Diary
     });
-    global.dbKeyV[0] =sys.$checkExists(global.dbKeyV[0],sys.$checkNull( dbKey));
+    global.dbKeyV[0] =sys.$checkExists(global.dbKeyV[0], dbKey);
   };
 
   
@@ -258,7 +258,7 @@ export  async  function mk(wg, selectedYear)  {sys.$params(arguments.length, 2);
     if (!sys.asBool(Es)) {
       div.add(withoutAccountsTable());
     } else {
-       const Trs =sys.$checkNull( []); 
+       const Trs = []; 
       for (const e  of sys.$forObject( Es)) arr.push(Trs,mkTr(e));
       div.add(Q("table")
         .att("align", "center")

@@ -18,7 +18,7 @@ export  function mk(value, wgRatio, borderOp, backOp)  {sys.$params(arguments.le
   const w =sys.$checkNull( math.toInt(300 * ratio));
   const h =sys.$checkNull( math.toInt(170 * ratio));
 
-  const styleV =sys.$checkNull( [""]);
+  const styleV = [""];
   styleV[0] +=sys.$checkExists(styleV[0],sys.$checkNull( !sys.asBool(borderOp) ? "" : "border:1px solid " + borderOp[0] + ";"));
   styleV[0] +=sys.$checkExists(styleV[0],sys.$checkNull( !sys.asBool(backOp) ? "" :  "background:" + backOp[0] + ";"));
 
@@ -32,7 +32,7 @@ export  function mk(value, wgRatio, borderOp, backOp)  {sys.$params(arguments.le
 
   
    function mkPt(x, y)  {sys.$params(arguments.length, 2);
-     const R =sys.$checkNull( {x:x, y:y});
+     const R = {x:x, y:y};
     dic.put(R, "rotate", function(angle)  {sys.$params(arguments.length, 1);
       const cos =sys.$checkNull( Math.cos(angle));
       const sin =sys.$checkNull( Math.sin(angle));
@@ -105,7 +105,7 @@ export  function mk(value, wgRatio, borderOp, backOp)  {sys.$params(arguments.le
 
   
    function mkNeedle()  {sys.$params(arguments.length, 0);
-    const angle =sys.$checkNull( Math.PI * value);
+    const angle = Math.PI * value;
 
     const dx =sys.$checkNull( math.toInt(150 * ratio));
     const dy =sys.$checkNull( math.toInt(150 * ratio));
@@ -118,10 +118,10 @@ export  function mk(value, wgRatio, borderOp, backOp)  {sys.$params(arguments.le
     const P2 =sys.$checkNull( mkPt(0,  -16 * ratio).rotate(angle));
     const P3 =sys.$checkNull( mkPt(0, 16 * ratio).rotate(angle));
 
-    ctx.lineJoin =sys.$checkExists(ctx.lineJoin,sys.$checkNull( "round"));
-    ctx.lineWidth =sys.$checkExists(ctx.lineWidth,sys.$checkNull( 4 * ratio));
+    ctx.lineJoin =sys.$checkExists(ctx.lineJoin, "round");
+    ctx.lineWidth =sys.$checkExists(ctx.lineWidth, 4 * ratio);
     ctx.strokeStyle =sys.$checkExists(ctx.strokeStyle,sys.$checkNull( !sys.asBool(backOp) ? "black" : backOp[0]));
-    ctx.fillStyle =sys.$checkExists(ctx.fillStyle,sys.$checkNull( "black"));
+    ctx.fillStyle =sys.$checkExists(ctx.fillStyle, "black");
 
     ctx.beginPath();
     ctx.moveTo(getX(P1), getY(P1));
@@ -131,14 +131,14 @@ export  function mk(value, wgRatio, borderOp, backOp)  {sys.$params(arguments.le
     ctx.stroke();
     ctx.fill();
 
-    ctx.lineJoin =sys.$checkExists(ctx.lineJoin,sys.$checkNull( "miter"));
+    ctx.lineJoin =sys.$checkExists(ctx.lineJoin, "miter");
   };
 
   
    function mkArc()  {sys.$params(arguments.length, 0);
     ctx.lineWidth =sys.$checkExists(ctx.lineWidth,sys.$checkNull( math.toInt(6 * ratio)));
-    ctx.strokeStyle =sys.$checkExists(ctx.strokeStyle,sys.$checkNull( "#406080"));
-    ctx.fillStyle   =sys.$checkExists(ctx.fillStyle,sys.$checkNull( "black"));
+    ctx.strokeStyle =sys.$checkExists(ctx.strokeStyle, "#406080");
+    ctx.fillStyle   =sys.$checkExists(ctx.fillStyle, "black");
 
     ctx.beginPath();
     ctx.arc(math.toInt(150 * ratio), math.toInt(150 * ratio),

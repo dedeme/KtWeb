@@ -27,8 +27,8 @@ export  async  function mk(wg)  {sys.$params(arguments.length, 1);
   arr.sort(Dates,function(d1, d2)  {sys.$params(arguments.length, 2);  return d1 > d2;});
 
   const size =sys.$checkNull( arr.size(Dates));
-  const iV =sys.$checkNull( [0]);
-  const Trs =sys.$checkNull( []); 
+  const iV = [0];
+  const Trs = []; 
   while (true) {
     if (sys.$eq(iV[0] , size)) break;
     const tr =sys.$checkNull( Q("tr"));
@@ -38,9 +38,12 @@ export  async  function mk(wg)  {sys.$params(arguments.length, 1);
         break;
       }
       const d =sys.$checkNull( Dates[iV[0]]);
-      tr.add(Q("td").add(mkDay(d, Summary[d])));
+      tr
+        .add(Q("td")
+          .style("vertical-align:top")
+          .add(mkDay(d, Summary[d])));
       arr.push(Trs,tr);
-      iV[0] +=sys.$checkExists(iV[0],sys.$checkNull( 1));
+      iV[0] +=sys.$checkExists(iV[0], 1);
     }
   }
 
@@ -59,20 +62,11 @@ export  async  function mk(wg)  {sys.$params(arguments.length, 1);
 
 
  function mkDay(date,  Summary)  {sys.$params(arguments.length, 2);
-  const BRows =sys.$checkNull( []); 
-  const WRows =sys.$checkNull( []); 
-  const ARows =sys.$checkNull( []); 
+  const Rows = []; 
 
-  for ( const [mdId, S]  of sys.$forObject2( Summary)) {
-     const B =sys.$checkNull( S[0]);
-    arr.unshift(B,mdId);
-    arr.push(BRows,B);
-     const W =sys.$checkNull( S[1]);
-    arr.unshift(W,mdId);
-    arr.push(WRows,W);
-     const A =sys.$checkNull( S[2]);
-    arr.unshift(A,mdId);
-    arr.push(ARows,A);
+  for (const [mdId, Fjs]  of sys.$forObject2( Summary)) {
+    const fl =sys.$checkNull( flea.fromJs(Fjs));
+    arr.push(Rows,[mdId, fl[flea.assets], fl[flea.profits], fl[flea.points], fl[flea.Params], fl[flea.sales]]);
   }
 
    return Q("table")
@@ -81,26 +75,9 @@ export  async  function mk(wg)  {sys.$params(arguments.length, 1);
       .add(Q("td")
         .att("colspan", 4)
         .klass("borderWhite")
-        .style("text-align:center")
+        .style("text-align:center;background:#c9c9c9;")
         .text(time.toIso(time.fromStr(date)[0]))))
-    .add(Q("tr")
-      .add(Q("td")
-        .att("colspan", 4)
-        .klass("header")
-        .text(II("Best"))))
-    .adds(mkResults(BRows))
-    .add(Q("tr")
-      .add(Q("td")
-        .att("colspan", 4)
-        .klass("header")
-        .text(II("Average"))))
-    .adds(mkResults(ARows))
-    .add(Q("tr")
-      .add(Q("td")
-        .att("colspan", 4)
-        .klass("header")
-        .text(II("Worst"))))
-    .adds(mkResults(WRows))
+    .adds(mkResults(Rows))
   ;
 };
 
@@ -109,11 +86,18 @@ export  async  function mk(wg)  {sys.$params(arguments.length, 1);
 
  function mkResults( Rs)  {sys.$params(arguments.length, 1);
   arr.sort(Rs,function(R1, R2)  {sys.$params(arguments.length, 2);  return R1[3] > R2[3];});
-  const Trs =sys.$checkNull( []); 
+  const Trs = []; 
   for (const R  of sys.$forObject( Rs)) {
     arr.push(Trs,Q("tr")
       .add(Q("td")
-        .klass("borderWhite")
+        .klass("link")
+        .style("text-align:right;background:#fafafa;cursor:pointer")
+        .att(
+            "title",
+            II("Params") + ": [" + R[4] + "]\n" +
+            II("Sales") + " : " + R[5]
+          )
+        .on("click", function(ev)  {sys.$params(arguments.length, 1); window.location=sys.$checkExists(window.location,"?rankings&" + R[0]);})
         .text(R[0]))
       .add(fns.mkTdN(R[1], 2))
       .add(fns.mkTdN(R[2], 4))

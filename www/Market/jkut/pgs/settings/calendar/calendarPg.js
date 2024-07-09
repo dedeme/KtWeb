@@ -27,14 +27,14 @@ export  async  function mk(wg)  {sys.$params(arguments.length, 1);
     source: "CalendarPg",
     rq: "idata"
   });
-  global.dbKeyV[0] =sys.$checkExists(global.dbKeyV[0],sys.$checkNull( dbKey));
+  global.dbKeyV[0] =sys.$checkExists(global.dbKeyV[0], dbKey);
 
   const generalDiv =sys.$checkNull( Q("div").style("padding-bottom:15px"));
   const holidaysDiv =sys.$checkNull( Q("div"));
   const specialDaysDiv =sys.$checkNull( Q("div"));
 
-  const openGroupV =sys.$checkNull( [[]]);
-  const closeGroupV =sys.$checkNull( [[]]);
+  const openGroupV = [[]];
+  const closeGroupV = [[]];
 
   
 
@@ -51,7 +51,7 @@ export  async  function mk(wg)  {sys.$params(arguments.length, 1);
       dbKey: global.dbKeyV[0],
       tt:tt
     });
-    global.dbKeyV[0] =sys.$checkExists(global.dbKeyV[0],sys.$checkNull( dbKey));
+    global.dbKeyV[0] =sys.$checkExists(global.dbKeyV[0], dbKey);
   };
 
   
@@ -64,7 +64,7 @@ export  async  function mk(wg)  {sys.$params(arguments.length, 1);
       dbKey: global.dbKeyV[0],
       Holidays: Hs
     });
-    global.dbKeyV[0] =sys.$checkExists(global.dbKeyV[0],sys.$checkNull( dbKey));
+    global.dbKeyV[0] =sys.$checkExists(global.dbKeyV[0], dbKey);
     mk(wg);
   };
 
@@ -129,8 +129,8 @@ export  async  function mk(wg)  {sys.$params(arguments.length, 1);
    const gral =sys.$checkNull( cal[calendar.general]);
   const openGroup =sys.$checkNull( hourWg.mk(gral[timetable.hopen], gral[timetable.mopen], generalChange));
   const closeGroup =sys.$checkNull( hourWg.mk(gral[timetable.hclose], gral[timetable.mclose], generalChange));
-  openGroupV[0] =sys.$checkExists(openGroupV[0],sys.$checkNull( openGroup));
-  closeGroupV[0] =sys.$checkExists(closeGroupV[0],sys.$checkNull( closeGroup));
+  openGroupV[0] =sys.$checkExists(openGroupV[0], openGroup);
+  closeGroupV[0] =sys.$checkExists(closeGroupV[0], closeGroup);
 
   
    function generalWg()  {sys.$params(arguments.length, 0); generalDiv

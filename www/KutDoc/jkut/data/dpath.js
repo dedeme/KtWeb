@@ -9,10 +9,4 @@ import * as math from '../_js/math.js';import * as js from '../_js/js.js';import
 
 
 
-export  function mk(id, path, isShown, isValid)  {sys.$params(arguments.length, 4);  return {id:id, path:path, isShown:isShown, isValid:isValid};};
-
-
-export  function toJs(Dp)  {sys.$params(arguments.length, 1);  return [Dp.id, Dp.path, Dp.isShown, Dp.isValid];};
-
-
-export  function fromJs(JS)  {sys.$params(arguments.length, 1);  return mk (JS[0], JS[1], JS[2], JS[3]);};
+export function mk (id,path,isShown,isValid) { sys.$params(arguments.length, 4); return [ id, path, isShown, isValid];}export const id = 0;export const path = 1;export const isShown = 2;export const isValid = 3;

@@ -31,10 +31,10 @@ export  async  function mk(wg)  {sys.$params(arguments.length, 1);
     rq: "idata"
   });
 
-  const sourceV =sys.$checkNull( [sPond]);
-  const orderV =sys.$checkNull( [oCavg]);
+  const sourceV = [sPond];
+  const orderV = [oAvg];
 
-  const showV =sys.$checkNull( [[]]);
+  const showV = [[]];
   const percentChk =sys.$checkNull( Q("input")
     .att("type", "checkbox")
     .checked(false)
@@ -45,13 +45,13 @@ export  async  function mk(wg)  {sys.$params(arguments.length, 1);
 
   
    function changeSource(source)  {sys.$params(arguments.length, 1);
-    sourceV[0] =sys.$checkExists(sourceV[0],sys.$checkNull( source));
+    sourceV[0] =sys.$checkExists(sourceV[0], source);
     showV[0]();
   };
 
   
    function changeOrder(order)  {sys.$params(arguments.length, 1);
-    orderV[0] =sys.$checkExists(orderV[0],sys.$checkNull( order));
+    orderV[0] =sys.$checkExists(orderV[0], order);
     showV[0]();
   };
 
@@ -95,29 +95,29 @@ export  async  function mk(wg)  {sys.$params(arguments.length, 1);
            II("Final amount from initial one of 100 €")
         ));
 
-     const Data =sys.$checkNull((  
+     const Data =(  
       sys.$eq(sourceV[0],sPond)? summary[sm.Pon]:
       sys.$eq(sourceV[0],sReal)? summary[sm.Real]:
       sys.$eq(sourceV[0],sAcc)? summary[sm.Acc]:
        summary[sm.Prof]
-    ));
+    );
 
     switch (orderV[0]) {
-      case oCavg:{ arr.sort(Data,
-              function( e1,  e2)  {sys.$params(arguments.length, 2);  return !sys.asBool(smVal.less(e1[smE.cavg], e2[smE.cavg]));}
+      case oAvg:{ arr.sort(Data,
+              function( e1,  e2)  {sys.$params(arguments.length, 2);  return !sys.asBool(smVal.less(e1[smE.avg], e2[smE.avg]));}
              );break;}
       case oLast:{ arr.sort(Data,
               function( e1,  e2)  {sys.$params(arguments.length, 2);  return !sys.asBool(smVal.less(e1[smE.last], e2[smE.last]));}
              );break;}
-      case oAvg:{ arr.sort(Data,
-              function( e1,  e2)  {sys.$params(arguments.length, 2);  return !sys.asBool(smVal.less(e1[smE.avg], e2[smE.avg]));}
+      case oCavg:{ arr.sort(Data,
+              function( e1,  e2)  {sys.$params(arguments.length, 2);  return !sys.asBool(smVal.less(e1[smE.cavg], e2[smE.cavg]));}
              );break;}
       default:{ arr.sort(Data,
               function( e1,  e2)  {sys.$params(arguments.length, 2);  return smVal.less(e1[smE.dev], e2[smE.dev]);}
              );}
     }
 
-    const Rows =sys.$checkNull( []);
+    const Rows = [];
     for (const  r  of sys.$forObject( Data)) {
       const tr =sys.$checkNull( Q("tr"));
       tr.add(Q("td")
@@ -128,7 +128,7 @@ export  async  function mk(wg)  {sys.$params(arguments.length, 1);
           .text(r[smE.mdId]))
       );
       {
-         const v =sys.$checkNull( r[smE.cavg]);
+         const v =sys.$checkNull( r[smE.avg]);
         tr.add(Q("td")
           .klass("rframe")
           .style("width:100px")
@@ -158,7 +158,7 @@ export  async  function mk(wg)  {sys.$params(arguments.length, 1);
                   : fns.nfmt(v[smVal.val] * global.initialCapitalV[0], 0)))
         );
       }{
-         const v =sys.$checkNull( r[smE.avg]);
+         const v =sys.$checkNull( r[smE.cavg]);
         tr.add(Q("td")
           .klass("rframe")
           .style("width:100px")
@@ -207,9 +207,9 @@ export  async  function mk(wg)  {sys.$params(arguments.length, 1);
                   .add(percentChk)
                   .add(Q("span")
                     .html("&nbsp;%")))
-                .add(mkTh(oCavg, II("Corrected<br>Average")))
-                .add(mkTh(oLast, II("Last<br>Value")))
                 .add(mkTh(oAvg, "<br>" + II("Average")))
+                .add(mkTh(oLast, II("Last<br>Value")))
+                .add(mkTh(oCavg, II("Corrected<br>Average")))
                 .add(mkTh(oDev, II("Deviation<br>%"))))
               .adds(Rows))
         )))

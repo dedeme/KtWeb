@@ -23,7 +23,7 @@ export  function setId(a, id)  {sys.$params(arguments.length, 2);  return mk0(id
 
 
 export  function toJs(An)  {sys.$params(arguments.length, 1);
-  const R =sys.$checkNull( [An[id], An[date]]);
+  const R = [An[id], An[date]];
   arr.cat(R, opr.toJs(An[op]));
    return R;
 };

@@ -39,7 +39,7 @@ export  function cleanAndComplete(Budget, Plan)  {sys.$params(arguments.length, 
 
 
 export  function accAmount(Budget, accId, fromMonthIx, toMonthIx)  {sys.$params(arguments.length, 4);
-  const sumV =sys.$checkNull( [0]);
+  const sumV = [0];
   for (let i = fromMonthIx;i < toMonthIx; ++i)
     for (const  e  of sys.$forObject( Budget[i])) if (sys.$eq(e[budgetEntry.accId] , accId)) sumV[0] +=sys.$checkExists(sumV[0],sys.$checkNull( e[budgetEntry.am]));
 
@@ -50,7 +50,7 @@ export  function accAmount(Budget, accId, fromMonthIx, toMonthIx)  {sys.$params(
 
 
 export  function totalAmount(Budget, Plan, fromMonthIx, toMonthIx)  {sys.$params(arguments.length, 4);
-  const sumV =sys.$checkNull( [0]);
+  const sumV = [0];
   for (let i = fromMonthIx;i < toMonthIx; ++i)
     for (const  e  of sys.$forObject( Budget[i]))
       if (plan.isIncome(Plan, e[budgetEntry.accId])) sumV[0] +=sys.$checkExists(sumV[0],sys.$checkNull( e[budgetEntry.am]));

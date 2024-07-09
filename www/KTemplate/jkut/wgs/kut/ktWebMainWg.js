@@ -25,11 +25,11 @@ import "pgs/homePg";
 help = \ -> return "-""
   Use {PRG} [help | version | init | key rq]
   where
-    help: Shows this message.
+    help   : Shows this message.
     version: Shows program version.
-    init: Initializes program.
-          Must be called only the first time that the program is run.
-    key rq: Requests 'rq' with 'key'. (Sent by browser)
+    init   : Initializes program.
+             Must be called only the first time that the program is run.
+    key rq : Requests 'rq' with 'key'. (Sent by browser)
   "-"";;
 
 :arr Args = sys.args();

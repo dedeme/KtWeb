@@ -22,22 +22,22 @@ console.log( entry);
   const am =sys.$checkNull( entry[diaryEntry.am]);
    const Anns =sys.$checkNull( entry[diaryEntry.Anns]);
 
-  const activatedV =sys.$checkNull( [false]);
+  const activatedV = [false];
 
-  const showV =sys.$checkNull( [[]]);
+  const showV = [[]];
 
   
 
   
    function active(value)  {sys.$params(arguments.length, 1);
-    activatedV[0] =sys.$checkExists(activatedV[0],sys.$checkNull( value));
+    activatedV[0] =sys.$checkExists(activatedV[0], value);
     showV[0]();
   };
 
   
    function ok(ev)  {sys.$params(arguments.length, 1);
-    const sumV =sys.$checkNull( [0]);
-    const ixV =sys.$checkNull( [1]);
+    const sumV = [0];
+    const ixV = [1];
     for (const  a  of sys.$forObject( Anns)) {
       if (sys.$eq(a[dann.id] , "")) {
         ui.alert(i18n.fmt(
@@ -46,7 +46,7 @@ console.log( entry);
         return;
       }
       sumV[0] +=sys.$checkExists(sumV[0],sys.$checkNull( a[dann.am]));
-      ixV[0] +=sys.$checkExists(ixV[0],sys.$checkNull( 1));
+      ixV[0] +=sys.$checkExists(ixV[0], 1);
     }
 
     if (!sys.asBool(math.eq(sumV[0], am, 0.0001))) {

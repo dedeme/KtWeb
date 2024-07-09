@@ -3,6 +3,9 @@ import * as math from '../_js/math.js';import * as js from '../_js/js.js';import
 
 
 
+import * as dpath from  "../data/dpath.js";
+import * as conf from  "../data/conf.js";
+import * as global from  "../global.js";
 import * as i18n from  "../i18n.js";
 import * as main from  "../main.js";
 
@@ -10,7 +13,7 @@ const Q =sys.$checkNull( ui.q);
 const II =sys.$checkNull( i18n.tlt);
 
 
-export  function mk(wg, Cf, AllPaths)  {sys.$params(arguments.length, 3);
+export  function mk(wg,  cf,  AllPaths)  {sys.$params(arguments.length, 3);
 
   
    function validateChar(chars, id)  {sys.$params(arguments.length, 2);
@@ -67,16 +70,17 @@ export  function mk(wg, Cf, AllPaths)  {sys.$params(arguments.length, 3);
       return;
     }
 
-    const Path =sys.$checkNull( [path]);
-    while (str.len(Path[0]) > 1 && str.ends(Path[0], "/"))
-      Path[0] =sys.$checkExists(Path[0],sys.$checkNull( sys.$slice(Path[0],null, -1)));
+    const pathV =sys.$checkNull( [path]);
+    while (str.len(pathV[0]) > 1 && str.ends(pathV[0], "/"))
+      pathV[0] =sys.$checkExists(pathV[0],sys.$checkNull( sys.$slice(pathV[0],null, -1)));
 
     await client.send({
       prg: "JkutDoc",
       source: "PathsPg",
       rq: "new",
+      dbKey: global.dbKeyV[0],
       id: id,
-      path: Path[0]
+      pth: pathV[0]
     });
     main.load();
   };
@@ -86,7 +90,8 @@ export  function mk(wg, Cf, AllPaths)  {sys.$params(arguments.length, 3);
     await client.send({
       prg: "JkutDoc",
       source: "PathsPg",
-      rq: "changeShowAll"
+      rq: "changeShowAll",
+      dbKey: global.dbKeyV[0]
     });
     main.load();
   };
@@ -110,9 +115,10 @@ export  function mk(wg, Cf, AllPaths)  {sys.$params(arguments.length, 3);
       prg: "JkutDoc",
       source: "PathsPg",
       rq: "modify",
+      dbKey: global.dbKeyV[0],
       id: id,
       newId: newId,
-      path: Path[0]
+      pth: Path[0]
     });
 
     main.load();
@@ -128,6 +134,7 @@ export  function mk(wg, Cf, AllPaths)  {sys.$params(arguments.length, 3);
       prg: "JkutDoc",
       source: "PathsPg",
       rq: "changeShown",
+      dbKey: global.dbKeyV[0],
       id: id
     });
     main.load();
@@ -140,6 +147,7 @@ export  function mk(wg, Cf, AllPaths)  {sys.$params(arguments.length, 3);
       prg: "JkutDoc",
       source: "PathsPg",
       rq: "delete",
+      dbKey: global.dbKeyV[0],
       id: id
     });
     main.load();
@@ -147,9 +155,12 @@ export  function mk(wg, Cf, AllPaths)  {sys.$params(arguments.length, 3);
 
 
 
-  const Paths =sys.$checkNull( Cf.showAll ? AllPaths : arr.filter(AllPaths, function(p)  {sys.$params(arguments.length, 1);  return p.isShown;}));
-  arr.sort(Paths, function(p1, p2)  {sys.$params(arguments.length, 2);
-     return str.less(str.toUpper(p1.id), str.toUpper(p2.id));}
+   const Paths =sys.$checkNull( cf[conf.showAll]
+    ? AllPaths
+    : arr.filter(AllPaths,function( p)  {sys.$params(arguments.length, 1);  return p[dpath.isShown];}))
+  ;
+  arr.sort(Paths,function( p1,  p2)  {sys.$params(arguments.length, 2);
+     return str.less(str.toUpper(p1[dpath.id]), str.toUpper(p2[dpath.id]));}
   );
 
   
@@ -165,13 +176,13 @@ export  function mk(wg, Cf, AllPaths)  {sys.$params(arguments.length, 3);
     Q("#pathIn").value("").disabled(true);
     Q("#titleInOut")
       .removeAll()
-      .add(ui.lightImg(Cf.showAll ? "out" : "in"))
+      .add(ui.lightImg(cf[conf.showAll] ? "out" : "in"))
     ;
 
-    for (const p  of sys.$forObject( Paths)) {
-      const pId =sys.$checkNull( p.id);
-      const path =sys.$checkNull( p.path);
-      const isShown =sys.$checkNull( p.isShown);
+    for (const  p  of sys.$forObject( Paths)) {
+      const pId =sys.$checkNull( p[dpath.id]);
+      const path =sys.$checkNull( p[dpath.path]);
+      const isShown =sys.$checkNull( p[dpath.isShown]);
 
       if (sys.$eq(pId , id)) {
         Q("#" + pId + ":InOut")
@@ -261,7 +272,7 @@ export  function mk(wg, Cf, AllPaths)  {sys.$params(arguments.length, 3);
             .att("id", "titleInOut")
             .att("width", "18px")
             .add(ui.link(changeShowAll)
-              .add(ui.img(Cf.showAll ? "out" : "in"))))
+              .add(ui.img(cf[conf.showAll] ? "out" : "in"))))
           .add(Q("td")
             .add(ui.img("blank"))
             .att("width", "18px"))
@@ -275,12 +286,12 @@ export  function mk(wg, Cf, AllPaths)  {sys.$params(arguments.length, 3);
           .add(Q("td")
             .add(ui.img("blank"))))
         .adds(
-          Paths.length > 0
-            ? arr.map(Paths, function(entry)  {sys.$params(arguments.length, 1);
-                const id =sys.$checkNull( entry.id);
-                const path =sys.$checkNull( entry.path);
-                const sel =sys.$checkNull( entry.isShown);
-                const error =sys.$checkNull( !sys.asBool(entry.isValid));
+          arr.size(Paths) > 0
+            ? arr.map(Paths,function( entry)  {sys.$params(arguments.length, 1);
+                const id =sys.$checkNull( entry[dpath.id]);
+                const path =sys.$checkNull( entry[dpath.path]);
+                const sel =sys.$checkNull( entry[dpath.isShown]);
+                const error =sys.$checkNull( !sys.asBool(entry[dpath.isValid]));
 
                  return Q("tr")
                   .add(Q("td")

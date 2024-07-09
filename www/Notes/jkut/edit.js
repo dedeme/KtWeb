@@ -6,6 +6,7 @@ import * as math from './_js/math.js';import * as js from './_js/js.js';import *
 import * as cts from  "./cts.js";
 import * as msgPg from  "./msgPg.js";
 import * as edit from  "./edit.js";
+import * as global from  "./global.js";
 import * as i18n from  "./i18n.js";
 
 const Q =sys.$checkNull( ui.q);
@@ -13,16 +14,16 @@ const II =sys.$checkNull( i18n.tlt);
 
 
 export  async  function mk(wg, isTrash)  {sys.$params(arguments.length, 2);
-  const Rp =sys.$checkNull( await  client.send({
+  const {dbKey, List, text} 
+  = await  client.send({
     prg: cts.appName,
     source: "Edit",
     rq: "idata",
     isTrash:isTrash
-  }));
+  });
+  global.dbKeyV[0] =sys.$checkExists(global.dbKeyV[0],sys.$checkNull( dbKey));
 
-  const List =sys.$checkNull( Rp.list); 
-
-  const textV =sys.$checkNull( [Rp.text]); 
+  const textV =sys.$checkNull( [text]); 
   const selV =sys.$checkNull( [!sys.asBool(List) ? "" : List[0]]);
 
   const tm =sys.$checkNull( timer.mk(1000));
@@ -47,6 +48,7 @@ export  async  function mk(wg, isTrash)  {sys.$params(arguments.length, 2);
     await client.send({
       prg: cts.appName,
       source: "Edit",
+      dbKey: global.dbKeyV[0],
       rq: "new"
     });
 
@@ -56,18 +58,20 @@ export  async  function mk(wg, isTrash)  {sys.$params(arguments.length, 2);
   
    async  function download(id, name)  {sys.$params(arguments.length, 2);
     if (!sys.asBool(ui.confirm(i18n.fmt(II("Download '%0'?"), [name])))) return;
-    const Rp =sys.$checkNull( await  client.send({
+    const {dbKey, text} 
+    = await  client.send({
       prg: cts.appName,
       source: "Edit",
       rq: "download",
       name:name,
       id:id
-    }));
+    });
+    global.dbKeyV[0] =sys.$checkExists(global.dbKeyV[0],sys.$checkNull( dbKey));
 
-    const text =sys.$checkNull( window.encodeURIComponent(Rp.text));
+    const text2 =sys.$checkNull( window.encodeURIComponent(text));
 
     const link =sys.$checkNull( Q("a")
-      .att("href", "data:text/plain;charset=utf-8," + text)
+      .att("href", "data:text/plain;charset=utf-8," + text2)
       .att("download", name)
       .setStyle("display", "none"))
     ;
@@ -81,10 +85,12 @@ export  async  function mk(wg, isTrash)  {sys.$params(arguments.length, 2);
   
    async  function remove(id, name)  {sys.$params(arguments.length, 2);
     if (!sys.asBool(ui.confirm(i18n.fmt(II("Remove '%0'?"), [name])))) return;
+    timer.stop(tm);
     await client.send({
       prg: cts.appName,
       source: "Edit",
       rq: "remove",
+      dbKey: global.dbKeyV[0],
       id:id
     });
 
@@ -98,6 +104,7 @@ export  async  function mk(wg, isTrash)  {sys.$params(arguments.length, 2);
       prg: cts.appName,
       source: "Edit",
       rq: "rescue",
+      dbKey: global.dbKeyV[0],
       id:id
     });
 
@@ -106,16 +113,18 @@ export  async  function mk(wg, isTrash)  {sys.$params(arguments.length, 2);
 
   
    async  function select(E)  {sys.$params(arguments.length, 1);
-    const Rp =sys.$checkNull( await  client.send({
+    const {dbKey, text} 
+    = await  client.send({
       prg: cts.appName,
       source: "Edit",
       rq: "getText",
       isTrash:isTrash,
       id: E.id
-    }));
+    });
+    global.dbKeyV[0] =sys.$checkExists(global.dbKeyV[0],sys.$checkNull( dbKey));
     selV[0] =sys.$checkExists(selV[0],sys.$checkNull( E));
-    bodyEd.value(Rp.text);
-    textV[0] =sys.$checkExists(textV[0],sys.$checkNull( Rp.text));
+    bodyEd.value(text);
+    textV[0] =sys.$checkExists(textV[0],sys.$checkNull( text));
     showV[0]();
   };
 
@@ -124,14 +133,18 @@ export  async  function mk(wg, isTrash)  {sys.$params(arguments.length, 2);
     const text =sys.$checkNull( bodyEd.getValue());
     if (sys.$neq(text , textV[0])) {
       const E =sys.$checkNull( selV[0]);
-      const Rp =sys.$checkNull( await  client.send({
+      const {dbKey, name} 
+      = await  client.send({
         prg: cts.appName,
         source: "Edit",
         rq: "setText",
+        dbKey: global.dbKeyV[0],
         id: E.id,
         text:text
-      }));
-      const name =sys.$checkNull( Rp.name);
+      });
+      global.dbKeyV[0] =sys.$checkExists(global.dbKeyV[0],sys.$checkNull( dbKey));
+      textV[0] =sys.$checkExists(textV[0],sys.$checkNull( text));
+
       if (sys.$neq(name , E.name)) {
         E.name =sys.$checkExists(E.name,sys.$checkNull( name));
         show2V[0]();
@@ -252,5 +265,5 @@ export  async  function mk(wg, isTrash)  {sys.$params(arguments.length, 2);
   });
 
   showV[0]();
-  if (!sys.asBool(isTrash)) timer.run(tm, refresh);
+  if (!sys.asBool(isTrash)) timer.run(tm,refresh);
 };

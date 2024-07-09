@@ -11,4 +11,4 @@ export function mk (nick,isSelected) { sys.$params(arguments.length, 2); return 
 
 
 
-export  function setSelected(c, value)  {sys.$params(arguments.length, 2); c[isSelected] =sys.$checkExists(c[isSelected],sys.$checkNull( value));};
+export  function setSelected(c, value)  {sys.$params(arguments.length, 2); c[isSelected] =sys.$checkExists(c[isSelected], value);};

@@ -36,11 +36,11 @@ export  async  function mk(wg, selectedYear, isUntil, selectedMonth)  {sys.$para
     rq: "idata",
     year: selectedYear
   });
-  global.dbKeyV[0] =sys.$checkExists(global.dbKeyV[0],sys.$checkNull( dbKey));
+  global.dbKeyV[0] =sys.$checkExists(global.dbKeyV[0], dbKey);
   const CDiary =sys.$checkNull( arr.map(CFDiary,diaryEntry.fromJs));
-  const cBalanceV =sys.$checkNull( [cBalance]);
+  const cBalanceV = [cBalance];
 
-  const showOp =sys.$checkNull( [[]]);
+  const showOp = [[]];
 
   
 
@@ -50,7 +50,7 @@ export  async  function mk(wg, selectedYear, isUntil, selectedMonth)  {sys.$para
     const c =sys.$checkNull( math.toIso(cBalanceV[0], 2));
     ui.alert(i18n.fmt(II("fixBalance hc(%0) c(%1)"), [hc, c]));
 
-    cBalanceV[0] =sys.$checkExists(cBalanceV[0],sys.$checkNull( hcBalance));
+    cBalanceV[0] =sys.$checkExists(cBalanceV[0], hcBalance);
      const {dbKey} = await  client.send({
       prg: cts.appName,
       source: "BudgetPg",
@@ -59,7 +59,7 @@ export  async  function mk(wg, selectedYear, isUntil, selectedMonth)  {sys.$para
       year: selectedYear,
       value: cBalanceV[0]
     });
-    global.dbKeyV[0] =sys.$checkExists(global.dbKeyV[0],sys.$checkNull( dbKey));
+    global.dbKeyV[0] =sys.$checkExists(global.dbKeyV[0], dbKey);
 
     showOp[0]();
   };

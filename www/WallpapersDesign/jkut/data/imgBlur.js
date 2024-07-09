@@ -6,10 +6,4 @@ import * as math from '../_js/math.js';import * as js from '../_js/js.js';import
 
 
 
-export  function mk(ratio)  {sys.$params(arguments.length, 1);  return {ratio:ratio};};
-
-
-export  function toJs(IB)  {sys.$params(arguments.length, 1);  return IB.ratio;};
-
-
-export  function fromJs(j)  {sys.$params(arguments.length, 1);  return mk(j);};
+export function mk (ratio) { sys.$params(arguments.length, 1); return [ ratio];}export const ratio = 0;

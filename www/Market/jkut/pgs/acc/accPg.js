@@ -28,7 +28,7 @@ export  function mk(wg, dbMenu, LcPath)  {sys.$params(arguments.length, 3);
 
   
 
-  const Lopts =sys.$checkNull( [
+  const Lopts = [
     dmenu.mkHiddenButton(dbMenu),
     menu.separator2(),
     menu.tlink("acc&companies", II("Companies")),
@@ -42,7 +42,7 @@ export  function mk(wg, dbMenu, LcPath)  {sys.$params(arguments.length, 3);
     menu.tlink("acc&ibex", "Ibex"),
     menu.separator(),
     menu.tlink("acc&speedometers", II("Speedometers"))
-  ]);
+  ];
   dmenu.setDownMenu(dbMenu, menu.mk(Lopts, [], "acc&" + mSel));
 
   switch (mSel) {

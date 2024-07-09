@@ -26,18 +26,18 @@ export  function mk(Labels, Values, isRebuy, withRef, ref)  {sys.$params(argumen
   ;
 
    const Chart =sys.$checkNull( lineChart.mkExample());
-  Chart.exArea.width =sys.$checkExists(Chart.exArea.width,sys.$checkNull( 305));
-  Chart.exArea.height =sys.$checkExists(Chart.exArea.height,sys.$checkNull( 160));
-  Chart.exArea.atts.border.width =sys.$checkExists(Chart.exArea.atts.border.width,sys.$checkNull( 0));
-  Chart.inPadding.left =sys.$checkExists(Chart.inPadding.left,sys.$checkNull( 45));
-  Chart.xAxis.fontSize =sys.$checkExists(Chart.xAxis.fontSize,sys.$checkNull( 10));
-  Chart.yAxis.fontSize =sys.$checkExists(Chart.yAxis.fontSize,sys.$checkNull( 10));
+  Chart.exArea.width =sys.$checkExists(Chart.exArea.width, 305);
+  Chart.exArea.height =sys.$checkExists(Chart.exArea.height, 160);
+  Chart.exArea.atts.border.width =sys.$checkExists(Chart.exArea.atts.border.width, 0);
+  Chart.inPadding.left =sys.$checkExists(Chart.inPadding.left, 45);
+  Chart.xAxis.fontSize =sys.$checkExists(Chart.xAxis.fontSize, 10);
+  Chart.yAxis.fontSize =sys.$checkExists(Chart.yAxis.fontSize, 10);
 
-  Chart.exArea.atts.background =sys.$checkExists(Chart.exArea.atts.background,sys.$checkNull( back));
+  Chart.exArea.atts.background =sys.$checkExists(Chart.exArea.atts.background, back);
 
-  const Atts =sys.$checkNull( [
+  const Atts = [
     lineChart.mkLine(1.2, isRebuy ? "#a9a9a9" : "#202020", false)
-  ]);
+  ];
    const Data =sys.$checkNull( lineChart.mkData(Labels, Values, Atts));
   Data.drawGrid =sys.$checkExists(Data.drawGrid, function(lb, i)  {sys.$params(arguments.length, 2);
     if (sys.$eq(i , 0))  return false;
@@ -46,30 +46,30 @@ export  function mk(Labels, Values, isRebuy, withRef, ref)  {sys.$params(argumen
   Data.drawLabel =sys.$checkExists(Data.drawLabel,sys.$checkNull( Data.drawGrid));
   Data.maxMinRound =sys.$checkExists(Data.maxMinRound, function(mx, mn)  {sys.$params(arguments.length, 2);
     if (mn > 10) {
-      Data.round =sys.$checkExists(Data.round,sys.$checkNull( 2));
+      Data.round =sys.$checkExists(Data.round, 2);
         return -2;
     } else if (mn > 1) {
-      Data.round =sys.$checkExists(Data.round,sys.$checkNull( 3));
+      Data.round =sys.$checkExists(Data.round, 3);
         return -3;
     } else {
-      Data.round =sys.$checkExists(Data.round,sys.$checkNull( 4));
+      Data.round =sys.$checkExists(Data.round, 4);
         return -4;
     }
   });
   if (withRef > 0)
-    Data.UnarySets =sys.$checkExists(Data.UnarySets,sys.$checkNull( [
+    Data.UnarySets =sys.$checkExists(Data.UnarySets, [
         lineChart.mkUnarySet(
           II("Reference"), ref,
           lineChart.mkLine(1.5, isRebuy ? "#a9a9a9" : "#00aaff", false
         ))
-      ]));
+      ]);
   else if (withRef < 0)
-    Data.UnarySets =sys.$checkExists(Data.UnarySets,sys.$checkNull( [
+    Data.UnarySets =sys.$checkExists(Data.UnarySets, [
         lineChart.mkUnarySet(
           II("Reference"), ref,
           lineChart.mkLine(1.5, isRebuy ? "#a9a9a9" : "#ff8100", false
         ))
-      ]));
+      ]);
 
    return Q("table")
     .att("align", "center")

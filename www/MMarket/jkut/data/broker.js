@@ -21,7 +21,7 @@ export  function buyFees(amount)  {sys.$params(arguments.length, 1);
 
 
 export  function buy(stocks, price)  {sys.$params(arguments.length, 2);
-  const amount =sys.$checkNull( stocks * price);
+  const amount = stocks * price;
    return amount + buyFees(amount);
 };
 
@@ -43,6 +43,6 @@ export  function sellFees(amount)  {sys.$params(arguments.length, 1);
 
 
 export  function sell(stocks, price)  {sys.$params(arguments.length, 2);
-  const amount =sys.$checkNull( stocks * price);
+  const amount = stocks * price;
    return amount - sellFees(amount);
 };

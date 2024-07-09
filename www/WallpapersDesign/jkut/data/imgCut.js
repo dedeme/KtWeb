@@ -9,10 +9,4 @@ import * as math from '../_js/math.js';import * as js from '../_js/js.js';import
 
 
 
-export  function mk(left, top, right, bottom)  {sys.$params(arguments.length, 4);  return {left:left, top:top, right:right, bottom:bottom};};
-
-
-export  function toJs(IC)  {sys.$params(arguments.length, 1);  return [IC.left, IC.top, IC.right, IC.bottom];};
-
-
-export  function fromJs(A)  {sys.$params(arguments.length, 1);  return mk(A[0], A[1], A[2], A[3]);};
+export function mk (left,top,right,bottom) { sys.$params(arguments.length, 4); return [ left, top, right, bottom];}export const left = 0;export const top = 1;export const right = 2;export const bottom = 3;

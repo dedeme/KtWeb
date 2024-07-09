@@ -10,32 +10,32 @@ const Q =sys.$checkNull( ui.q);
 
 export  function mk(Labels, Values)  {sys.$params(arguments.length, 2);
    const Chart =sys.$checkNull( lineChart.mkExample());
-  Chart.exArea.width =sys.$checkExists(Chart.exArea.width,sys.$checkNull( 610));
-  Chart.exArea.height =sys.$checkExists(Chart.exArea.height,sys.$checkNull( 320));
-  Chart.exArea.atts.border.width =sys.$checkExists(Chart.exArea.atts.border.width,sys.$checkNull( 0));
-  Chart.inPadding.top =sys.$checkExists(Chart.inPadding.top,sys.$checkNull( 10));
-  Chart.inPadding.right =sys.$checkExists(Chart.inPadding.right,sys.$checkNull( 10));
-  Chart.inPadding.bottom =sys.$checkExists(Chart.inPadding.bottom,sys.$checkNull( 20));
-  Chart.inPadding.left =sys.$checkExists(Chart.inPadding.left,sys.$checkNull( 85));
-  Chart.chartPadding.top =sys.$checkExists(Chart.chartPadding.top,sys.$checkNull( 18));
-  Chart.chartPadding.right =sys.$checkExists(Chart.chartPadding.right,sys.$checkNull( 4));
-  Chart.chartPadding.bottom =sys.$checkExists(Chart.chartPadding.bottom,sys.$checkNull( 18));
-  Chart.chartPadding.left =sys.$checkExists(Chart.chartPadding.left,sys.$checkNull( 4));
+  Chart.exArea.width =sys.$checkExists(Chart.exArea.width, 610);
+  Chart.exArea.height =sys.$checkExists(Chart.exArea.height, 320);
+  Chart.exArea.atts.border.width =sys.$checkExists(Chart.exArea.atts.border.width, 0);
+  Chart.inPadding.top =sys.$checkExists(Chart.inPadding.top, 10);
+  Chart.inPadding.right =sys.$checkExists(Chart.inPadding.right, 10);
+  Chart.inPadding.bottom =sys.$checkExists(Chart.inPadding.bottom, 20);
+  Chart.inPadding.left =sys.$checkExists(Chart.inPadding.left, 85);
+  Chart.chartPadding.top =sys.$checkExists(Chart.chartPadding.top, 18);
+  Chart.chartPadding.right =sys.$checkExists(Chart.chartPadding.right, 4);
+  Chart.chartPadding.bottom =sys.$checkExists(Chart.chartPadding.bottom, 18);
+  Chart.chartPadding.left =sys.$checkExists(Chart.chartPadding.left, 4);
 
-  const dif =sys.$checkNull( arr.peek(Values[0])[0] - Values[0][0]);
+  const dif = arr.peek(Values[0])[0] - Values[0][0];
   const back =sys.$checkNull( dif > 0
     ? "#e9e9f2"
     : dif < 0
       ? "#f2e9e9"
       : "#e9e9e9")
     ;
-  Chart.exArea.atts.background =sys.$checkExists(Chart.exArea.atts.background,sys.$checkNull( back));
+  Chart.exArea.atts.background =sys.$checkExists(Chart.exArea.atts.background, back);
 
-  const Atts =sys.$checkNull( [
+  const Atts = [
     lineChart.mkLine(1.2, "#414141", false)
-  ]);
+  ];
    const Data =sys.$checkNull( lineChart.mkData(Labels, Values, Atts));
-  Data.round =sys.$checkExists(Data.round,sys.$checkNull( 0));
+  Data.round =sys.$checkExists(Data.round, 0);
   Data.drawGrid =sys.$checkExists(Data.drawGrid, function(lb, i)  {sys.$params(arguments.length, 2);
     if (sys.$eq(i , 0))  return false;
      return sys.$neq(Labels[i - 1] , lb);

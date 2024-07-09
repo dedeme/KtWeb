@@ -16,7 +16,7 @@ indent_mode=2
 name=Hconta
 base_path=./
 description=
-file_patterns=*.kut\;*.jkut;
+file_patterns=
 
 [long line marker]
 long_line_behaviour=1
@@ -28,7 +28,6 @@ NF_00_CM=firefox "http://localhost:8008/Hconta"
 EX_00_LB=Language
 EX_00_CM=jkutI18n "es:en" jkut
 EX_00_WD=%p
-filetypes=C;Kut;JKut;
 EX_01_LB=
 EX_01_CM=
 EX_01_WD=
@@ -42,36 +41,24 @@ NF_02_WD=
 NF_03_LB=Geany Keywords
 NF_03_CM=kgeanyWords ./
 NF_03_WD=%p
-CFT_00_LB=_Compilar
-CFT_00_CM=makemake --prg MMarket --main mmarket --libs dmc ; make > /dev/null
-CFT_00_WD=%p/c
-CFT_01_LB=Tests
-CFT_01_CM=makemake --prg MMarket --main mmarket --libs dmc ; make > /dev/null;cd tests;makemake --libs local:dmc;make > /dev/null;bin/tests
-CFT_01_WD=%p/c
-CFT_02_LB=Template
-CFT_02_CM=ctemplate c
-CFT_02_WD=%p
 KutFT_00_LB=Check
-KutFT_00_CM=kut2 -c main
-KutFT_00_WD=%p/kut
-JKutFT_00_LB=Check
-JKutFT_00_CM=jkut2 -c jkut/main
-JKutFT_00_WD=%p
-JKutFT_01_LB=Run
-JKutFT_01_CM=jkut2 jkut/main www
-JKutFT_01_WD=%p
-JKutFT_02_LB=
-JKutFT_02_CM=
-JKutFT_02_WD=
+KutFT_00_CM=kut -c kut/main
+KutFT_00_WD=%p
 KutFT_01_LB=Run
-KutFT_01_CM=kut2 -c kut/main; jkut2 jkut/main www
+KutFT_01_CM=kut -c kut/main; jkut jkut/main www
 KutFT_01_WD=%p
+JkutFT_00_LB=Check
+JkutFT_00_CM=jkut -c jkut/main
+JkutFT_00_WD=%p
+JkutFT_01_LB=Run
+JkutFT_01_CM=jkut jkut/main www
+JkutFT_01_WD=%p
+filetypes=Jkut;Kut;
 
 [files]
-current_page=2
-FILE_NAME_0=4792;JKut;0;EUTF-8;0;1;0;%2Fdm%2FKtWeb%2Fprgs%2FHconta%2Fjkut%2Fpgs%2FsummaryPg.jkut;0;2
-FILE_NAME_1=253;None;0;EUTF-8;0;1;0;%2Fdm%2FKtWeb%2Fprgs%2FHconta%2Fjkut%2Fi18n%2Fen.txt;0;2
-FILE_NAME_2=284;None;0;EUTF-8;0;1;0;%2Fdm%2FKtWeb%2Fprgs%2FHconta%2Fjkut%2Fi18n%2Fes.txt;0;2
+current_page=1
+FILE_NAME_0=0;Jkut;0;EUTF-8;0;1;0;%2Fdm%2FKtWeb%2Fprgs%2FHconta%2Fjkut%2Fmain.jkut;0;2
+FILE_NAME_1=0;Kut;0;EUTF-8;0;1;0;%2Fdm%2FKtWeb%2Fprgs%2FHconta%2Fkut%2Fmain.kut;0;2
 
 [editor]
 line_wrapping=false
@@ -80,12 +67,3 @@ auto_continue_multiline=false
 
 [VTE]
 last_dir=/home/deme/.local/share/Trash/files
-
-[prjorg]
-source_patterns=.hx;
-header_patterns=.hx;
-ignored_dirs_patterns=.*;CVS;bin;www;i18n;
-ignored_file_patterns=*.hxml;*.sh;*.geany;dep;
-generate_tag_prefs=1
-show_empty_dirs=true
-external_dirs=

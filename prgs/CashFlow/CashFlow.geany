@@ -16,7 +16,7 @@ indent_mode=2
 name=CashFlow
 base_path=./
 description=
-file_patterns=*.kut\;*.jkut;
+file_patterns=
 
 [long line marker]
 long_line_behaviour=1
@@ -28,7 +28,6 @@ NF_00_CM=firefox "http://localhost:8008/CashFlow"
 EX_00_LB=Language
 EX_00_CM=jkutI18n "es:en" jkut
 EX_00_WD=%p
-filetypes=C;Kut;JKut;
 EX_01_LB=
 EX_01_CM=
 EX_01_WD=
@@ -52,24 +51,32 @@ CFT_02_LB=Template
 CFT_02_CM=ctemplate c
 CFT_02_WD=%p
 KutFT_00_LB=Check
-KutFT_00_CM=kut2 -c main
-KutFT_00_WD=%p/kut
+KutFT_00_CM=kut -c kut/main
+KutFT_00_WD=%p
 JKutFT_00_LB=Check
-JKutFT_00_CM=jkut2 -c jkut/main
+JKutFT_00_CM=jkut -c jkut/main
 JKutFT_00_WD=%p
 JKutFT_01_LB=Run
-JKutFT_01_CM=jkut2 jkut/main www
+JKutFT_01_CM=jkut jkut/main www
 JKutFT_01_WD=%p
 JKutFT_02_LB=
 JKutFT_02_CM=
 JKutFT_02_WD=
 KutFT_01_LB=Run
-KutFT_01_CM=kut2 -c kut/main; jkut2 jkut/main www
+KutFT_01_CM=kut -c kut/main; jkut jkut/main www
 KutFT_01_WD=%p
+JkutFT_00_LB=Check
+JkutFT_00_CM=jkut -c jkut/main
+JkutFT_00_WD=%p
+JkutFT_01_LB=Run
+JkutFT_01_CM=jkut jkut/main www
+JkutFT_01_WD=%p
+filetypes=Jkut;Kut;
 
 [files]
-current_page=0
-FILE_NAME_0=151;JKut;0;EUTF-8;0;1;0;%2Fhome%2Fdeme%2Fdm%2FdmJkut%2Fapp%2FKtWeb%2FCashFlow%2Fmain.jkut;0;2
+current_page=1
+FILE_NAME_0=318;Jkut;0;EUTF-8;0;1;0;%2Fhome%2Fdeme%2Fdm%2FdmJkut%2Fapp%2FKtWeb%2FCashFlow%2Fmain.jkut;0;2
+FILE_NAME_1=214;Kut;0;EUTF-8;0;1;0;%2Fdm%2FKtWeb%2Fprgs%2FCashFlow%2Fkut%2Fmain.kut;0;2
 
 [editor]
 line_wrapping=false

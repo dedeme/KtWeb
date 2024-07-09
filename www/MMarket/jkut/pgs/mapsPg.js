@@ -22,15 +22,15 @@ const [pCavg, pLast, pAvg] =[0, 1, 2];
 
 export  function mk(wg)  {sys.$params(arguments.length, 1);
    const Url =sys.$checkNull( ui.url());
-  const mdV =sys.$checkNull( [
+  const mdV = [
     arr.size(Url) > 1 && fns.existsModel(Url[1])
       ? fns.getModel(Url[1])
       : fns.getModel(cts.mainModel)
-  ]);
+  ];
    const md =sys.$checkNull( mdV[0]);
 
-  const showV =sys.$checkNull( [[]]);
-  const cavgRd =sys.$checkNull( Q("input")
+  const showV = [[]];
+  const avgRd =sys.$checkNull( Q("input")
     .att("type", "radio")
     .att("name", "period")
     .checked(true)
@@ -42,7 +42,7 @@ export  function mk(wg)  {sys.$params(arguments.length, 1);
     .checked(false)
     .on("change", function(e)  {sys.$params(arguments.length, 1); showV[0]();}))
   ;
-  const avgRd =sys.$checkNull( Q("input")
+  const cavgRd =sys.$checkNull( Q("input")
     .att("type", "radio")
     .att("name", "period")
     .checked(false)
@@ -126,7 +126,7 @@ export  function mk(wg)  {sys.$params(arguments.length, 1);
       const steps =sys.$checkNull( global.evalStepsV[0]);
       const max =sys.$checkNull( arr.reduce(Vals,Vals[0], function(r, v)  {sys.$params(arguments.length, 2);  return v > r ? v : r;}));
       const min =sys.$checkNull( arr.reduce(Vals,max, function(r, v)  {sys.$params(arguments.length, 2);  return v < r && v >  -1.0 ? v : r;}));
-      const df =sys.$checkNull( max - min);
+      const df = max - min;
 
       
        function color(value)  {sys.$params(arguments.length, 1);
@@ -136,7 +136,7 @@ export  function mk(wg)  {sys.$params(arguments.length, 1);
          return "rgb(" + red + ",80," + blue + ")";
       };
 
-      const Trs =sys.$checkNull( []);
+      const Trs = [];
       if (sys.$eq(arr.size(Vals) , steps)) {
         for (let i = 0;i < steps; ++i)
           arr.push(Trs,Q("tr")
@@ -146,6 +146,7 @@ export  function mk(wg)  {sys.$params(arguments.length, 1);
                   fns.pfmt(md[model.id], i) + "\n" + fns.rsFmt(vsource, Vals[i])
                 )
               .style(
+                  "padding:0px;" +
                   "background:" + color(Vals[i]) +
                   ";width:100px;height:5px;" +
                   "cursor:pointer"
@@ -156,15 +157,16 @@ export  function mk(wg)  {sys.$params(arguments.length, 1);
           );
       } else {
         for (let r = 0;r < steps; ++r) {
-          const Tds =sys.$checkNull( []);
+          const Tds = [];
           for (let c = 0;c < steps; ++c) {
-            const i =sys.$checkNull( r * steps + c);
+            const i = r * steps + c;
             arr.push(Tds,Q("td")
               .att(
                   "title",
                   fns.pfmt(md[model.id], i) + "\n" + fns.rsFmt(vsource, Vals[i])
                 )
               .style(
+                  "padding:0px;" +
                   "background:" + color(Vals[i]) +
                   ";width:5px;height:5px;" +
                   "cursor:pointer"
@@ -210,9 +212,9 @@ export  function mk(wg)  {sys.$params(arguments.length, 1);
           : upRs.prof)
     ;
     const datesInPeriod =sys.$checkNull( global.datesInPeriodV[0]);
-    const Tds =sys.$checkNull( []);
+    const Tds = [];
     for (const p  of sys.$forObject( global.Periods)) {
-      const Itds =sys.$checkNull( []);
+      const Itds = [];
       for (let i = 0;i < datesInPeriod; ++i)
         arr.push(Itds,mkMapTd());
       arr.push(Tds,Itds);
@@ -226,9 +228,9 @@ export  function mk(wg)  {sys.$params(arguments.length, 1);
           .style("align:left")
           .add(Q("table")
             .add(Q("tr")
-              .add(mkOpt(cavgRd, II("Corrected<br>Average")))
-              .add(mkOpt(lastRd, II("Last<br>Value")))
               .add(mkOpt(avgRd, II("Average")))
+              .add(mkOpt(lastRd, II("Last<br>Value")))
+              .add(mkOpt(cavgRd, II("Corrected<br>Average")))
             )))
          .add(Q("td"))
          .add(Q("td")
@@ -245,10 +247,10 @@ export  function mk(wg)  {sys.$params(arguments.length, 1);
 
      const md =sys.$checkNull( mdV[0]);
 
-    const Ops =sys.$checkNull( [
+    const Ops = [
       vmenu.title(II("Models")),
       vmenu.separator()
-    ]);
+    ];
     for (const  md  of sys.$forObject( global.Models))
       arr.push(Ops,vmenu.option(md[model.id], md[model.id], function()  {sys.$params(arguments.length, 0); changeModel(md[model.id]);}));
     const vmenuWg =sys.$checkNull( vmenu.mk(Ops, md[model.id]));
@@ -279,7 +281,7 @@ export  function mk(wg)  {sys.$params(arguments.length, 1);
     ;
 
      function mkPeriodMaps(i)  {sys.$params(arguments.length, 1);
-      const lastIx =sys.$checkNull( arr.size(global.Periods) - 1);
+      const lastIx = arr.size(global.Periods) - 1;
       const period =sys.$checkNull( global.Periods[i]);
       arr.eachSync(
         Tds[i],

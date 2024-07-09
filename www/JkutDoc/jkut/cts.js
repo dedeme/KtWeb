@@ -8,7 +8,7 @@ const Q =sys.$checkNull( ui.q);
 
 export const appName =sys.$checkNull( "JkutDoc");
 
-export const version =sys.$checkNull( "202203");
+export const version =sys.$checkNull( "2024.04");
 
 export const foot =sys.$checkNull( Q("table")
   .klass("main")

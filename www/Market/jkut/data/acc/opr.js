@@ -4,23 +4,23 @@ import * as math from '../../_js/math.js';import * as js from '../../_js/js.js';
 
 
 
-export const seT =sys.$checkNull( "se");
+export const seT = "se";
 
-export const buT =sys.$checkNull( "bu");
+export const buT = "bu";
 
-export const stT =sys.$checkNull( "st");
+export const stT = "st";
 
-export const inT =sys.$checkNull( "in");
+export const inT = "in";
 
-export const wiT =sys.$checkNull( "wi");
+export const wiT = "wi";
 
-export const prT =sys.$checkNull( "pr");
+export const prT = "pr";
 
-export const feT =sys.$checkNull( "fe");
+export const feT = "fe";
 
-export const pdT =sys.$checkNull( "pd");
+export const pdT = "pd";
 
-export const ndT =sys.$checkNull( "nd");
+export const ndT = "nd";
 
 
 

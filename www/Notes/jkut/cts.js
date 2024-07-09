@@ -8,7 +8,7 @@ const Q =sys.$checkNull( ui.q);
 
 export const appName =sys.$checkNull( "Notes");
 
-export const version =sys.$checkNull( "202309");
+export const version =sys.$checkNull( "2024.05");
 
 export const foot =sys.$checkNull( Q("table")
   .klass("main")

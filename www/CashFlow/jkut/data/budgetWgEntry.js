@@ -25,21 +25,21 @@ export  function mk(isIncome, accId, budget, real)  {sys.$params(arguments.lengt
 
 
 export  function sumBudget( Entries)  {sys.$params(arguments.length, 1);
-  const sumV =sys.$checkNull( [0]);
+  const sumV = [0];
   for (const  e  of sys.$forObject( Entries)) sumV[0] +=sys.$checkExists(sumV[0],sys.$checkNull( e[budget]));
    return sumV[0];
 };
 
 
 export  function sumReal( Entries)  {sys.$params(arguments.length, 1);
-  const sumV =sys.$checkNull( [0]);
+  const sumV = [0];
   for (const  e  of sys.$forObject( Entries)) sumV[0] +=sys.$checkExists(sumV[0],sys.$checkNull( e[real]));
    return sumV[0];
 };
 
 
 export  function sumDif( Entries)  {sys.$params(arguments.length, 1);
-  const sumV =sys.$checkNull( [0]);
+  const sumV = [0];
   for (const  e  of sys.$forObject( Entries)) sumV[0] +=sys.$checkExists(sumV[0],sys.$checkNull( e[dif]));
    return sumV[0];
 };

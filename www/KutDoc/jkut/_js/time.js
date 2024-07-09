@@ -35,13 +35,13 @@ export function eqDay (t1, t2) {
   return dfDays(t1, t2) === 0;
 }
 
-// \s, n -> s
-export function fmt (template, t) {
+// \n, s -> s
+export function format (t, template) {
   sys.$params(arguments.length, 2);
 
   function f2 (n) {
     const s = "" + n;
-    return s.length == 2 ? s : "0" + s;
+    return s.length === 2 ? s : "0" + s;
   }
 
   if (template.length === 0) return "";
@@ -123,6 +123,11 @@ export function fromClock (t1, s) {
   return [dt.getTime()];
 }
 
+// \<Date> -> n
+export function fromDate (d) {
+  return d.getTime();
+}
+
 // \s, s -> [n] | []
 export function fromEn (s, sep) {
   sys.$params(arguments.length, 2);
@@ -197,22 +202,27 @@ export function second (t) {
   return new Date(t).getSeconds();
 }
 
+// \n -> <Date>
+export function toDate (t) {
+  return new Date(t);
+}
+
 // \n -> s
 export function toEn (t) {
   sys.$params(arguments.length, 1);
-  return fmt("%M-%D-%Y", t);
+  return format(t, "%M-%D-%Y");
 }
 
 // \n -> s
 export function toIso (t) {
   sys.$params(arguments.length, 1);
-  return fmt("%D/%M/%Y", t);
+  return format(t, "%D/%M/%Y");
 }
 
 // \n -> s
 export function toStr (t) {
   sys.$params(arguments.length, 1);
-  return fmt("%Y%M%D", t);
+  return format(t, "%Y%M%D");
 }
 
 // \n -> n

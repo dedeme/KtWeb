@@ -21,7 +21,7 @@ const II =sys.$checkNull( i18n.tlt);
 export  function mk(wg,  entry, fnOk)  {sys.$params(arguments.length, 3);
   const am =sys.$checkNull( entry[diaryEntry.am]);
    const Anns =sys.$checkNull( entry[diaryEntry.Anns]);
-   const Sels =sys.$checkNull( []); 
+   const Sels = []; 
   for (let i = 0;i < arr.size(Anns); ++i)
     arr.push(Sels,Q("input")
       .att("type", "radio")
@@ -30,25 +30,25 @@ export  function mk(wg,  entry, fnOk)  {sys.$params(arguments.length, 3);
     );
   Sels[0].checked(true);
 
-  const activatedV =sys.$checkNull( [false]);
+  const activatedV = [false];
 
-  const showV =sys.$checkNull( [[]]);
+  const showV = [[]];
 
   
 
   
    function active(value)  {sys.$params(arguments.length, 1);
-    activatedV[0] =sys.$checkExists(activatedV[0],sys.$checkNull( value));
+    activatedV[0] =sys.$checkExists(activatedV[0], value);
     showV[0]();
   };
 
   
    function updateAccount(acc)  {sys.$params(arguments.length, 1);
-    const ixV =sys.$checkNull( [0]);
+    const ixV = [0];
     for ( const [i, a]  of sys.$forObject2( Anns))
         if (Sels[i].isChecked()) {
           Anns[i] =sys.$checkExists(Anns[i],sys.$checkNull( dann.mk(acc, a[dann.am])));
-          ixV[0] =sys.$checkExists(ixV[0],sys.$checkNull( i));
+          ixV[0] =sys.$checkExists(ixV[0], i);
         }
 
     showV[0]();
@@ -70,7 +70,7 @@ export  function mk(wg,  entry, fnOk)  {sys.$params(arguments.length, 3);
         II("Sum of account values (%0) is greater than cash value (%1)"),
         [math.toIso(sum, 2), math.toIso(am, 2)]
       ));
-      Anns[i] =sys.$checkExists(Anns[i],sys.$checkNull( oldAnn));
+      Anns[i] =sys.$checkExists(Anns[i], oldAnn);
       showV[0]();
       Q("#" + fieldId).e.focus();
       return;
@@ -112,8 +112,8 @@ export  function mk(wg,  entry, fnOk)  {sys.$params(arguments.length, 3);
 
   
    function ok(ev)  {sys.$params(arguments.length, 1);
-    const sumV =sys.$checkNull( [0]);
-    const ixV =sys.$checkNull( [1]);
+    const sumV = [0];
+    const ixV = [1];
     for (const  a  of sys.$forObject( Anns)) {
       if (sys.$eq(a[dann.id] , "")) {
         ui.alert(i18n.fmt(
@@ -122,7 +122,7 @@ export  function mk(wg,  entry, fnOk)  {sys.$params(arguments.length, 3);
         return;
       }
       sumV[0] +=sys.$checkExists(sumV[0],sys.$checkNull( a[dann.am]));
-      ixV[0] +=sys.$checkExists(ixV[0],sys.$checkNull( 1));
+      ixV[0] +=sys.$checkExists(ixV[0], 1);
     }
 
     if (!sys.asBool(math.eq(sumV[0], am, 0.0001))) {

@@ -3,9 +3,9 @@ import * as math from './_js/math.js';import * as js from './_js/js.js';import *
 
 
 
-import * as cts from  "./data/cts.js";
+import * as cts from  "./cts.js";
 import * as msgPg from  "./pgs/msgPg.js";
-import * as home from  "./pgs/home.js";
+import * as homePg from  "./pgs/homePg.js";
 import * as i18n from  "./i18n.js";
 
 const Q =sys.$checkNull( ui.q);
@@ -15,17 +15,18 @@ const II =sys.$checkNull( i18n.tlt);
  async  function mk(wg)  {sys.$params(arguments.length, 1);
   const ok =sys.$checkNull( await  client.connect());
   if (!sys.asBool(ok)) {
-    ui.alert(II("KtWeb session is closed.\nAuthenticating from KtWeb:Main."));
+    ui.alert(II("Session is closed.\nAuthenticating from Main."));
     window.location.assign("http://" + window.location.host + "/Main");
     return;
   }
 
-  const Rp =sys.$checkNull( await  client.send({
+  
+   const {lang} = await  client.send({
     prg: "Main", 
     source: "Main",
     rq: "lang"
-  }));
-  if (sys.$eq(Rp.lang , "en")) i18n.en();
+  });
+  if (sys.$eq(lang , "en")) i18n.en();
 
   const body =sys.$checkNull( Q("div"));
   wg
@@ -33,7 +34,7 @@ const II =sys.$checkNull( i18n.tlt);
     .add(body)
   ;
 
-  home.mk(body);
+  homePg.mk(body);
 };
 
 
@@ -45,9 +46,14 @@ export  function load()  {sys.$params(arguments.length, 0);
   mk(wg);
 };
 
-client.init(true, "KtWeb", function()  {sys.$params(arguments.length, 0);
+
+client.init(true, "KtWeb", function(isExpired)  {sys.$params(arguments.length, 1);
+  const message =sys.$checkNull( isExpired
+    ? II("Session is expired.")
+    : II("Data base is out of date."))
+  ;
   const msgWg =sys.$checkNull( Q("div"));
-  msgPg.mk(msgWg, II("Session is expired."), true);
+  msgPg.mk(msgWg, message, true);
   Q("@body")
     .removeAll()
     .add(msgWg)

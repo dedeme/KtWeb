@@ -24,20 +24,20 @@ const II =sys.$checkNull( i18n.tlt);
 export  function mk(wg, selectedYear,  Plan,  Diary,  prob, fnReload)  {sys.$params(arguments.length, 6);
   const [delTr, newTr, modifyTr] =[0, 1, 2];
 
-  const trs =sys.$checkNull( [Q("tr"), Q("tr"), Q("tr")]);
+  const trs = [Q("tr"), Q("tr"), Q("tr")];
   
-  const trWgs =sys.$checkNull( [[], [], []]); 
+  const trWgs = [[], [], []]; 
 
-  const updateLockedV =sys.$checkNull( [false]);
+  const updateLockedV = [false];
 
-  const showOp =sys.$checkNull( [[]]);
+  const showOp = [[]];
 
   
 
   
    async  function updateServer()  {sys.$params(arguments.length, 0);
     if (updateLockedV[0]) return;
-    updateLockedV[0] =sys.$checkExists(updateLockedV[0],sys.$checkNull( true));
+    updateLockedV[0] =sys.$checkExists(updateLockedV[0], true);
 
      const {dbKey} = await  client.send({
       prg: cts.appName,
@@ -47,7 +47,7 @@ export  function mk(wg, selectedYear,  Plan,  Diary,  prob, fnReload)  {sys.$par
       year: selectedYear,
       diary: arr.map(Diary,diaryEntry.toJs)
     });
-    global.dbKeyV[0] =sys.$checkExists(global.dbKeyV[0],sys.$checkNull( dbKey));
+    global.dbKeyV[0] =sys.$checkExists(global.dbKeyV[0], dbKey);
     fnReload();
   };
 
@@ -79,7 +79,7 @@ export  function mk(wg, selectedYear,  Plan,  Diary,  prob, fnReload)  {sys.$par
 
   
    function modifyDiaryEntry(ix, e)  {sys.$params(arguments.length, 2);
-    Diary[ix] =sys.$checkExists(Diary[ix],sys.$checkNull( e));
+    Diary[ix] =sys.$checkExists(Diary[ix], e);
     updateServer();
   };
 
@@ -221,19 +221,19 @@ export  function mk(wg, selectedYear,  Plan,  Diary,  prob, fnReload)  {sys.$par
 console.log( prob);
     if (!sys.asBool(prob[problem.hcErrOp])) {
       if (!sys.asBool(!sys.asBool(prob[problem.cErrOp]))) {
-        trWgs[delTr] =sys.$checkExists(trWgs[delTr],sys.$checkNull( [del.mk(
+        trWgs[delTr] =sys.$checkExists(trWgs[delTr], [del.mk(
           trs[delTr],
           Diary[prob[problem.ix]],
           prob[problem.ix],
           true,
           deactivateAll, deleteDiaryEntry
-        )]));
+        )]);
       }
 console.log( "here");
     } else {
        const hce =sys.$checkNull( prob[problem.hcErrOp][0]);
       if (!sys.asBool(prob[problem.cErrOp])) {
-        trWgs[newTr] =sys.$checkExists(trWgs[newTr],sys.$checkNull( [newEntry.mk(
+        trWgs[newTr] =sys.$checkExists(trWgs[newTr], [newEntry.mk(
           trs[newTr],
           hce,
           diaryEntry.mk(hce[cashEntry.month], hce[cashEntry.desc], hce[cashEntry.isIncome], [
@@ -242,16 +242,16 @@ console.log( "here");
           prob[problem.ix],
           true,
           deactivateAll, addDiaryEntry
-        )]));
+        )]);
       } else {
-        trWgs[delTr] =sys.$checkExists(trWgs[delTr],sys.$checkNull( [del.mk(
+        trWgs[delTr] =sys.$checkExists(trWgs[delTr], [del.mk(
           trs[delTr],
           Diary[prob[problem.ix]],
           prob[problem.ix],
           false,
           deactivateAll, deleteDiaryEntry
-        )]));
-        trWgs[newTr] =sys.$checkExists(trWgs[newTr],sys.$checkNull( [newEntry.mk(
+        )]);
+        trWgs[newTr] =sys.$checkExists(trWgs[newTr], [newEntry.mk(
           trs[newTr],
           hce,
           diaryEntry.mk(hce[cashEntry.month], hce[cashEntry.desc], hce[cashEntry.isIncome], [
@@ -260,8 +260,8 @@ console.log( "here");
           prob[problem.ix],
           false,
           deactivateAll, addDiaryEntry
-        )]));
-        trWgs[modifyTr] =sys.$checkExists(trWgs[modifyTr],sys.$checkNull( [modify.mk(
+        )]);
+        trWgs[modifyTr] =sys.$checkExists(trWgs[modifyTr], [modify.mk(
           trs[modifyTr],
           diaryEntry.mk(hce[cashEntry.month], hce[cashEntry.desc], hce[cashEntry.isIncome],
             js.r(js.w(Diary[prob[problem.ix]][diaryEntry.Anns]))
@@ -269,7 +269,7 @@ console.log( "here");
           prob[problem.ix],
           false,
           deactivateAll, modifyDiaryEntry
-        )]));
+        )]);
       }
     }
 

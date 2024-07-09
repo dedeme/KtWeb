@@ -9,7 +9,4 @@ import * as math from '../_js/math.js';import * as js from '../_js/js.js';import
 
 
 
-export  function mk(level, sights, lapse, id)  {sys.$params(arguments.length, 4);  return {level:level, sights:sights, lapse:lapse, id:id};};
-
-
-export  function fromJs(A)  {sys.$params(arguments.length, 1);  return mk(A[0], A[1], A[2], A[3]);};
+export function mk (level,sights,id,lapse) { sys.$params(arguments.length, 4); return [ level, sights, id, lapse];}export const level = 0;export const sights = 1;export const id = 2;export const lapse = 3;

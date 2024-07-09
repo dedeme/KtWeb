@@ -23,11 +23,11 @@ export const [oP0, oP1, oPon, oReal, oAcc, oProf, oSales] =[0, 1, 2, 3, 4, 5, 6]
 
 export  async  function mk(wg)  {sys.$params(arguments.length, 1);
    const Url =sys.$checkNull( ui.url());
-  const mdV =sys.$checkNull( [
+  const mdV = [
     arr.size(Url) > 1 && fns.existsModel(Url[1])
       ? fns.getModel(Url[1])
       : fns.getModel(cts.mainModel)
-  ]);
+  ];
    const md =sys.$checkNull( mdV[0]);
 
   
@@ -38,13 +38,13 @@ export  async  function mk(wg)  {sys.$params(arguments.length, 1);
     mdId: md[model.id]
   });
 
-  const MdIxEvs =sys.$checkNull( []);
+  const MdIxEvs = [];
   for (const [i, ev]  of sys.$forObject2( MdEvals)) arr.push(MdIxEvs,[i, ev]);
 
-  const orderV =sys.$checkNull( [oPon]);
+  const orderV = [oPon];
 
-  const showV =sys.$checkNull( [[]]);
-  const cavgRd =sys.$checkNull( Q("input")
+  const showV = [[]];
+  const avgRd =sys.$checkNull( Q("input")
     .att("type", "radio")
     .att("name", "source")
     .checked(true)
@@ -56,7 +56,7 @@ export  async  function mk(wg)  {sys.$params(arguments.length, 1);
     .checked(false)
     .on("change", function(e)  {sys.$params(arguments.length, 1); showV[0]();}))
   ;
-  const avgRd =sys.$checkNull( Q("input")
+  const cavgRd =sys.$checkNull( Q("input")
     .att("type", "radio")
     .att("name", "source")
     .checked(false)
@@ -86,7 +86,7 @@ export  async  function mk(wg)  {sys.$params(arguments.length, 1);
 
   
    function changeOrder(order)  {sys.$params(arguments.length, 1);
-    orderV[0] =sys.$checkExists(orderV[0],sys.$checkNull( order));
+    orderV[0] =sys.$checkExists(orderV[0], order);
     showV[0]();
   };
 
@@ -119,11 +119,11 @@ export  async  function mk(wg)  {sys.$params(arguments.length, 1);
      const md =sys.$checkNull( mdV[0]);
     const isPerc =sys.$checkNull( percentChk.isChecked());
 
-    const parTds =sys.$checkNull( [
+    const parTds = [
       Q("td")
         .klass("rframe")
         .text(fns.pfmt1(md[model.ParamTypes][0], fns.ixToParams(md, pIx)[0]))
-    ]);
+    ];
     if (arr.size(md[model.ParamTypes]) > 1)
       arr.push(parTds,Q("td")
         .klass("rframe")
@@ -181,9 +181,9 @@ export  async  function mk(wg)  {sys.$params(arguments.length, 1);
           .klass("frame")
           .add(Q("table")
             .add(Q("tr")
-              .add(mkOpt(cavgRd, II("Corrected<br>Average")))
-              .add(mkOpt(lastRd, II("Last<br>Value")))
               .add(mkOpt(avgRd, II("Average")))
+              .add(mkOpt(lastRd, II("Last<br>Value")))
+              .add(mkOpt(cavgRd, II("Corrected<br>Average")))
               .add(mkOpt(devRd, II("Deviation<br>%")))
             )))
          .add(mkOpt(allChk, II("All<br>Data"))
@@ -194,10 +194,10 @@ export  async  function mk(wg)  {sys.$params(arguments.length, 1);
 
      const md =sys.$checkNull( mdV[0]);
 
-    const Ops =sys.$checkNull( [
+    const Ops = [
       vmenu.title(II("Models")),
       vmenu.separator()
-    ]);
+    ];
     for (const  md  of sys.$forObject( global.Models))
       arr.push(Ops,vmenu.option(md[model.id], md[model.id], function()  {sys.$params(arguments.length, 0); changeModel(md[model.id]);}));
     const vmenuWg =sys.$checkNull( vmenu.mk(Ops, md[model.id]));
@@ -228,14 +228,14 @@ export  async  function mk(wg)  {sys.$params(arguments.length, 1);
        E1[1][upRs.sales] < E2[1][upRs.sales]
     );});
 
-    const headTds =sys.$checkNull( [
+    const headTds = [
       Q("td").klass("chead"),
       mkTh(oPon, II("Points")).style("width:80px"),
       mkTh(oReal, II("Real")).style("width:80px"),
       mkTh(oAcc, II("Acc.")).style("width:80px"),
       mkTh(oProf, II("Prof.")).style("width:80px"),
       mkTh(oSales, II("Sales")).style("width:50px")
-    ]);
+    ];
     if (arr.size(md[model.ParamNames]) > 1)
       arr.unshift(headTds,mkTh(oP1, md[model.ParamNames][1]));
     arr.unshift(headTds,mkTh(oP0, md[model.ParamNames][0]));
@@ -243,7 +243,7 @@ export  async  function mk(wg)  {sys.$params(arguments.length, 1);
     arr.unshift(headTds,Q("td").klass("chead").text(II("N.")));
     arr.unshift(headTds,Q("td"));
 
-    const Rows =sys.$checkNull( []);
+    const Rows = [];
     for (const [i, E]  of sys.$forObject2( RowData))
       arr.push(Rows,mkRow(i, E[0], E[1]));
 

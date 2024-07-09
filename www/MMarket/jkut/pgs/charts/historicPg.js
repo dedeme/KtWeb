@@ -29,11 +29,11 @@ export  async  function mk(wg,  Dates,  rs,  BuyCos,  QuarantineCos)  {sys.$para
     const Labels =sys.$checkNull( arr.map(Dates, function(d)  {sys.$params(arguments.length, 1);  return sys.$slice(d,6,null) + "/" + sys.$slice(d,4,6);}));
 
      const Ch =sys.$checkNull( lineChart.mkExample());
-    Ch.exArea.width =sys.$checkExists(Ch.exArea.width,sys.$checkNull( 600));
+    Ch.exArea.width =sys.$checkExists(Ch.exArea.width, 600);
     Ch.exArea.height =sys.$checkExists(Ch.exArea.height,sys.$checkNull( sys.$eq(type , isAssets) ? 300 : 150));
-    Ch.inPadding.left =sys.$checkExists(Ch.inPadding.left,sys.$checkNull( 100));
-    Ch.exArea.atts.background =sys.$checkExists(Ch.exArea.atts.background,sys.$checkNull( "#ffffff"));
-    Ch.inAtts.background =sys.$checkExists(Ch.inAtts.background,sys.$checkNull( "#e9e9e9"));
+    Ch.inPadding.left =sys.$checkExists(Ch.inPadding.left, 100);
+    Ch.exArea.atts.background =sys.$checkExists(Ch.exArea.atts.background, "#ffffff");
+    Ch.inAtts.background =sys.$checkExists(Ch.inAtts.background, "#e9e9e9");
 
      const Data =sys.$checkNull( lineChart.mkData(
       Labels,(
@@ -62,23 +62,23 @@ export  async  function mk(wg,  Dates,  rs,  BuyCos,  QuarantineCos)  {sys.$para
           [lineChart.mkLine(1, "#000000", false)]
       )
     ));
-    Data.round =sys.$checkExists(Data.round,sys.$checkNull( 0));
-    const prevLabelV =sys.$checkNull( [sys.$slice(Labels[0], -2,null)]);
+    Data.round =sys.$checkExists(Data.round, 0);
+    const prevLabelV = [sys.$slice(Labels[0], -2,null)];
     Data.drawLabel =sys.$checkExists(Data.drawLabel, function(lb, i)  {sys.$params(arguments.length, 2);
-      const l =sys.$checkNull( sys.$slice(lb, -2,null));
+      const l = sys.$slice(lb, -2,null);
       if (sys.$eq(i , 0))  return false;
       if (sys.$neq(l , prevLabelV[0]) && (sys.$eq(l , "01") || sys.$eq(l , "04") || sys.$eq(l , "07")|| sys.$eq(l , "10"))) {
-        prevLabelV[0] =sys.$checkExists(prevLabelV[0],sys.$checkNull( l));
+        prevLabelV[0] =sys.$checkExists(prevLabelV[0], l);
          return true;
       }
        return false;
     });
-    const prevLabel2V =sys.$checkNull( [sys.$slice(Labels[0], -2,null)]);
+    const prevLabel2V = [sys.$slice(Labels[0], -2,null)];
     Data.drawGrid =sys.$checkExists(Data.drawGrid, function(lb, i)  {sys.$params(arguments.length, 2);
-      const l =sys.$checkNull( sys.$slice(lb, -2,null));
+      const l = sys.$slice(lb, -2,null);
       if (sys.$eq(i , 0))  return false;
       if (sys.$neq(l , prevLabel2V[0]) && (sys.$eq(l , "01") || sys.$eq(l , "04") || sys.$eq(l , "07")|| sys.$eq(l , "10"))) {
-        prevLabel2V[0] =sys.$checkExists(prevLabel2V[0],sys.$checkNull( l));
+        prevLabel2V[0] =sys.$checkExists(prevLabel2V[0], l);
          return true;
       }
        return false;

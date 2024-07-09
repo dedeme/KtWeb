@@ -7,6 +7,7 @@ import * as i18n from  "../i18n.js";
 import * as cts from  "../cts.js";
 import * as msgPg from  "../pgs/msgPg.js";
 import * as doc from  "../data/doc.js";
+import * as docEntry from  "../data/docEntry.js";
 
 const Q =sys.$checkNull( ui.q);
 const II =sys.$checkNull( i18n.tlt);
@@ -15,33 +16,43 @@ const tab =sys.$checkNull( "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;");
 
 
 export  async  function mk(wg, pack, path)  {sys.$params(arguments.length, 3);
-  const Rp =sys.$checkNull( await  client.send({
+  
+   const {docOp} = await  client.send({
     prg: "JkutDoc",
     source: "ModulePg",
     rq: "doc",
     pack: pack,
-    path: path
-  }));
+    pth: path
+  });
 
-  if (!sys.asBool(Rp.doc)) {
+  if (!sys.asBool(docOp)) {
     msgPg.mk(wg, i18n.fmt(II("[%0] Jkut file not found."), [path]), true);
     return;
   }
 
-  const Doc =sys.$checkNull( doc.fromJs(Rp.doc[0]));
+   const d =sys.$checkNull( docOp[0]);
 
-  arr.sort(Doc.Indexeds, function(E1, E2)  {sys.$params(arguments.length, 2);  return str.less(E1.name, E2.name);});
-  arr.sort(Doc.Functions, function(E1, E2)  {sys.$params(arguments.length, 2);  return str.less(E1.name, E2.name);});
-  arr.sort(Doc.Values, function(E1, E2)  {sys.$params(arguments.length, 2);  return str.less(E1.name, E2.name);});
+  arr.sort(
+    d[doc.Indexeds],
+    function( e1,  e2)  {sys.$params(arguments.length, 2);  return str.less(e1[docEntry.name], e2[docEntry.name]);}
+  );
+  arr.sort(
+    d[doc.Functions],
+    function( e1,  e2)  {sys.$params(arguments.length, 2);  return str.less(e1[docEntry.name], e2[docEntry.name]);}
+  );
+  arr.sort(
+    d[doc.Values],
+    function( e1,  e2)  {sys.$params(arguments.length, 2);  return str.less(e1[docEntry.name], e2[docEntry.name]);}
+  );
 
   
    function index() {sys.$params(arguments.length, 0);
     
-     function block(Entries, name)  {sys.$params(arguments.length, 2);
+     function block( Entries, name)  {sys.$params(arguments.length, 2);
       if (!sys.asBool(Entries))  return [];
 
       const R =sys.$checkNull( []);
-      arr.push(R, Q("tr")
+      arr.push(R,Q("tr")
         .add(Q("td")
           .att("colspan", "3")
           .html("<i>" + name + "</i>"))
@@ -49,15 +60,15 @@ export  async  function mk(wg, pack, path)  {sys.$params(arguments.length, 3);
       const size =sys.$checkNull( arr.size(Entries));
       const h =sys.$checkNull( Math.floor((size - 1) / 3) + 1);
       for (let y = 0;y < h; ++y) {
-        arr.push(R, Q("tr")
+        arr.push(R,Q("tr")
           .adds(iter.map(iter.$range(0,3), function(x)  {sys.$params(arguments.length, 1);
               const pos =sys.$checkNull( x * h + y);
               if (pos < size) {
-                const E =sys.$checkNull( Entries[pos]);
+                 const e =sys.$checkNull( Entries[pos]);
                  return Q("td")
                   .add(Q("a")
-                    .att("href", "#hp:" + E.name)
-                    .html(tab + E.name))
+                    .att("href", "#hp:" + e[docEntry.name])
+                    .html(tab + e[docEntry.name]))
                 ;
               } else {
                  return Q("td");
@@ -74,9 +85,9 @@ export  async  function mk(wg, pack, path)  {sys.$params(arguments.length, 3);
         .html("<b>" + path + "</b>"))
       .add(Q("table")
         .klass("main")
-        .adds(block(Doc.Values, "Values"))
-        .adds(block(Doc.Indexeds, "Indexeds"))
-        .adds(block(Doc.Functions, "Functions")))
+        .adds(block(d[doc.Values], "Values"))
+        .adds(block(d[doc.Indexeds], "Indexeds"))
+        .adds(block(d[doc.Functions], "Functions")))
     ;
   };
 
@@ -86,7 +97,7 @@ export  async  function mk(wg, pack, path)  {sys.$params(arguments.length, 3);
       .add(Q("p")
         .klass("frame")
         .html("<b>" + II("Overview") + "</b>"))
-      .adds(mkHelp(Doc.doc))
+      .adds(mkHelp(d[doc.docTx]))
       .add(Q("p")
         .html("<b>" + II("File") + "</b>")
         .add(Q("br"))
@@ -100,56 +111,56 @@ export  async  function mk(wg, pack, path)  {sys.$params(arguments.length, 3);
   
    function body()  {sys.$params(arguments.length, 0);
     
-     function block(Entries, name, isFunction)  {sys.$params(arguments.length, 3);  
+     function block( Entries, name, isFunction)  {sys.$params(arguments.length, 3);
       
-       function endEntry(E)  {sys.$params(arguments.length, 1);
-        const IsNewLine =sys.$checkNull( [true]);
-        const Bf2 =sys.$checkNull( [""]);
-        const code =sys.$checkNull( E.code);
+       function endEntry( e)  {sys.$params(arguments.length, 1);
+        const isNewLineV =sys.$checkNull( [true]);
+        const bfV =sys.$checkNull( [""]);
+        const code =sys.$checkNull( e[docEntry.code]);
         for (let i = 0;i < str.len(code); ++i) {
           const ch =sys.$checkNull( code[i]);
-          if (IsNewLine[0] && sys.$neq(ch , "\n")) {
+          if (isNewLineV[0] && sys.$neq(ch , "\n")) {
             if (ch <= " ") {
-              Bf2[0] +=sys.$checkExists(Bf2[0],sys.$checkNull( "&nbsp;"));
+              bfV[0] +=sys.$checkExists(bfV[0],sys.$checkNull( "&nbsp;"));
             } else {
-              Bf2[0] +=sys.$checkExists(Bf2[0],sys.$checkNull( ch));
-              IsNewLine[0] =sys.$checkExists(IsNewLine[0],sys.$checkNull( false));
+              bfV[0] +=sys.$checkExists(bfV[0],sys.$checkNull( ch));
+              isNewLineV[0] =sys.$checkExists(isNewLineV[0],sys.$checkNull( false));
             }
           } else if (sys.$eq(ch , "\n")) {
-            Bf2[0] +=sys.$checkExists(Bf2[0],sys.$checkNull( "<br>"));
-            IsNewLine[0] =sys.$checkExists(IsNewLine[0],sys.$checkNull( true));
+            bfV[0] +=sys.$checkExists(bfV[0],sys.$checkNull( "<br>"));
+            isNewLineV[0] =sys.$checkExists(isNewLineV[0],sys.$checkNull( true));
           } else {
-            Bf2[0] +=sys.$checkExists(Bf2[0],sys.$checkNull( ch));
+            bfV[0] +=sys.$checkExists(bfV[0],sys.$checkNull( ch));
           }
         }
          return Q("div")
           .add(Q("p")
-            .html("<tt>" + Bf2[0] + "</tt>"))
-          .adds(mkHelp(E.doc))
+            .html("<tt>" + bfV[0] + "</tt>"))
+          .adds(mkHelp(e[docEntry.docTx]))
           .add(Q("hr"))
         ;
       };
 
-       return arr.map(Entries, function(E)  {sys.$params(arguments.length, 1);
+       return arr.map(Entries,function( e)  {sys.$params(arguments.length, 1);
          return Q("div")
           .add(Q("h3")
-            .att("id", "hp:" + E.name)
+            .att("id", "hp:" + e[docEntry.name])
             .add(Q("span")
               .text(name + " "))
             .add(Q("a")
               .att(
                 "href",
-                "?" + pack + "@" + path + "&hp:" + E.link
-              ).text(E.name)))
-          .add(endEntry(E))
+                "?" + pack + "@" + path + "&hp:" + e[docEntry.link]
+              ).text(e[docEntry.name])))
+          .add(endEntry(e))
         ;}
       );
     };
 
      return Q("div")
-      .adds(block(Doc.Values, "Value", false))
-      .adds(block(Doc.Indexeds, "Indexed", false))
-      .adds(block(Doc.Functions, "Function", true))
+      .adds(block(d[doc.Values], "Value", false))
+      .adds(block(d[doc.Indexeds], "Indexed", false))
+      .adds(block(d[doc.Functions], "Function", true))
     ;
   };
 
@@ -170,8 +181,8 @@ export  async  function mk(wg, pack, path)  {sys.$params(arguments.length, 3);
   if (sys.$neq(ix ,  -1)) {
     const tg =sys.$checkNull( sys.$slice(lc,ix,null));
     if (sys.$neq(tg , "#")) {
-      const E =sys.$checkNull( sys.$null((Q(tg).e)));
-      if (!sys.asBool(!sys.asBool(E))) E[0].scrollIntoView(true);
+      const eOp =sys.$checkNull( sys.$null((Q(tg).e)));
+      if (!sys.asBool(!sys.asBool(eOp))) eOp[0].scrollIntoView(true);
     }
   }
 
@@ -182,8 +193,8 @@ export  async  function mk(wg, pack, path)  {sys.$params(arguments.length, 3);
   if (sys.$eq(str.trim(tx) , ""))  return [];
 
   const html =sys.$checkNull( str.replace(str.replace(tx, "&", "&amp;"), "<", "&lt;"));
-  const R =sys.$checkNull( []);
-  arr.push(R, Q("table")
+  const r =sys.$checkNull( []);
+  arr.push(r,Q("table")
     .add(Q("tr")
       .add(Q("td")
         .klass("frame")
@@ -192,5 +203,5 @@ export  async  function mk(wg, pack, path)  {sys.$params(arguments.length, 3);
           .style("font-size: 14px;")
           .html(html))))
   );
-   return R;
+   return r;
 };

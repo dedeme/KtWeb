@@ -22,15 +22,31 @@ export  async  function mk(wg)  {sys.$params(arguments.length, 1);
     source: "CompaniesPg",
     rq: "idata"
   });
-  const List =sys.$checkNull( arr.map(Lst,function(E)  {sys.$params(arguments.length, 1);  return {nick: E[0], bought: E[1], url: E[2]};}));
+  const List =sys.$checkNull( arr.map(Lst,function(E)  {sys.$params(arguments.length, 1);
+     return {nick: E[0], sel: E[1], bought: E[2], url: E[3]};}
+  ));
 
-  const showAllV =sys.$checkNull( [false]);
-  const showV =sys.$checkNull( [[]]);
+  const showAllV = [false];
+  const showSelV = [false];
+  const showV = [[]];
 
   
 
-   function changeShowAll()  {sys.$params(arguments.length, 0);
-    showAllV[0] =sys.$checkExists(showAllV[0],sys.$checkNull( !sys.asBool(showAllV[0])));
+   function showAll()  {sys.$params(arguments.length, 0);
+    showAllV[0] =sys.$checkExists(showAllV[0], true);
+    showSelV[0] =sys.$checkExists(showSelV[0], false);
+    showV[0]();
+  };
+
+   function showSel()  {sys.$params(arguments.length, 0);
+    showAllV[0] =sys.$checkExists(showAllV[0], false);
+    showSelV[0] =sys.$checkExists(showSelV[0], true);
+    showV[0]();
+  };
+
+   function showPortfolio()  {sys.$params(arguments.length, 0);
+    showAllV[0] =sys.$checkExists(showAllV[0], false);
+    showSelV[0] =sys.$checkExists(showSelV[0], false);
     showV[0]();
   };
 
@@ -101,25 +117,25 @@ export  async  function mk(wg)  {sys.$params(arguments.length, 1);
     
      function mkSmallGr()  {sys.$params(arguments.length, 0);
        const Ch =sys.$checkNull( lineChart.mkExample());
-      Ch.exArea.width =sys.$checkExists(Ch.exArea.width,sys.$checkNull( 300));
-      Ch.exArea.height =sys.$checkExists(Ch.exArea.height,sys.$checkNull( 150));
-      Ch.exArea.atts.background =sys.$checkExists(Ch.exArea.atts.background,sys.$checkNull( back));
-      Ch.exArea.atts.border.width =sys.$checkExists(Ch.exArea.atts.border.width,sys.$checkNull( 0));
-      Ch.inPadding.top =sys.$checkExists(Ch.inPadding.top,sys.$checkNull( 5));
-      Ch.inPadding.right =sys.$checkExists(Ch.inPadding.right,sys.$checkNull( 4));
-      Ch.inPadding.bottom =sys.$checkExists(Ch.inPadding.bottom,sys.$checkNull( 4));
-      Ch.inPadding.left =sys.$checkExists(Ch.inPadding.left,sys.$checkNull( 50));
-      Ch.chartPadding.top =sys.$checkExists(Ch.chartPadding.top,sys.$checkNull( 2));
-      Ch.chartPadding.right =sys.$checkExists(Ch.chartPadding.right,sys.$checkNull( 2));
-      Ch.chartPadding.bottom =sys.$checkExists(Ch.chartPadding.bottom,sys.$checkNull( 2));
-      Ch.chartPadding.left =sys.$checkExists(Ch.chartPadding.left,sys.$checkNull( 2));
-      Ch.labels.show =sys.$checkExists(Ch.labels.show,sys.$checkNull( false));
+      Ch.exArea.width =sys.$checkExists(Ch.exArea.width, 300);
+      Ch.exArea.height =sys.$checkExists(Ch.exArea.height, 150);
+      Ch.exArea.atts.background =sys.$checkExists(Ch.exArea.atts.background, back);
+      Ch.exArea.atts.border.width =sys.$checkExists(Ch.exArea.atts.border.width, 0);
+      Ch.inPadding.top =sys.$checkExists(Ch.inPadding.top, 5);
+      Ch.inPadding.right =sys.$checkExists(Ch.inPadding.right, 4);
+      Ch.inPadding.bottom =sys.$checkExists(Ch.inPadding.bottom, 4);
+      Ch.inPadding.left =sys.$checkExists(Ch.inPadding.left, 50);
+      Ch.chartPadding.top =sys.$checkExists(Ch.chartPadding.top, 2);
+      Ch.chartPadding.right =sys.$checkExists(Ch.chartPadding.right, 2);
+      Ch.chartPadding.bottom =sys.$checkExists(Ch.chartPadding.bottom, 2);
+      Ch.chartPadding.left =sys.$checkExists(Ch.chartPadding.left, 2);
+      Ch.labels.show =sys.$checkExists(Ch.labels.show, false);
 
-      const Lbs =sys.$checkNull( []);
-      const Vals =sys.$checkNull( [[], [], []]);
-       const Dates2 =sys.$checkNull( sys.$slice(Dates, -250,null));
-       const Closes2 =sys.$checkNull( sys.$slice(Closes, -250,null));
-       const Refs2 =sys.$checkNull( sys.$slice(Refs[0], -250,null));
+      const Lbs = [];
+      const Vals = [[], [], []];
+       const Dates2 = sys.$slice(Dates, -250,null);
+       const Closes2 = sys.$slice(Closes, -250,null);
+       const Refs2 = sys.$slice(Refs[0], -250,null);
       for (let i = 0;i < arr.size(Dates2); ++i) {
         const cl =sys.$checkNull( Closes2[i]);
         const rf =sys.$checkNull( Refs2[i]);
@@ -128,30 +144,30 @@ export  async  function mk(wg)  {sys.$params(arguments.length, 1);
         arr.push(Vals[1], cl > rf ? [rf] : []);
         arr.push(Vals[2], cl < rf ? [rf] : []);
       }
-      const Atts =sys.$checkNull( [
+      const Atts = [
         lineChart.mkLine(1.2, "#414141", false),
         lineChart.mkLine(1.2, "#aa4100", false),
         lineChart.mkLine(1.2, "#0041aa", false)
-      ]);
+      ];
        const Data =sys.$checkNull( lineChart.mkData(Lbs, Vals, Atts));
-      Data.Labels =sys.$checkExists(Data.Labels,sys.$checkNull( Lbs));
-      Data.SetValues =sys.$checkExists(Data.SetValues,sys.$checkNull( [Vals[0], Vals[1], Vals[2]]));
+      Data.Labels =sys.$checkExists(Data.Labels, Lbs);
+      Data.SetValues =sys.$checkExists(Data.SetValues, [Vals[0], Vals[1], Vals[2]]);
       if (price >= 0)
-        Data.UnarySets =sys.$checkExists(Data.UnarySets,sys.$checkNull( [lineChart.mkUnarySet(
+        Data.UnarySets =sys.$checkExists(Data.UnarySets, [lineChart.mkUnarySet(
             II("Price"),
             price,
             lineChart.mkLine(1.2, "#c9c9c9", false)
-          )]));
-      Data.SetAtts =sys.$checkExists(Data.SetAtts,sys.$checkNull( Atts));
+          )]);
+      Data.SetAtts =sys.$checkExists(Data.SetAtts, Atts);
       Data.maxMinRound =sys.$checkExists(Data.maxMinRound, function(mx, mn)  {sys.$params(arguments.length, 2);
         if (mn > 10) {
-          Data.round =sys.$checkExists(Data.round,sys.$checkNull( 1));
+          Data.round =sys.$checkExists(Data.round, 1);
             return -2;
         } else if (mn > 1) {
-          Data.round =sys.$checkExists(Data.round,sys.$checkNull( 2));
+          Data.round =sys.$checkExists(Data.round, 2);
             return -3;
         } else {
-          Data.round =sys.$checkExists(Data.round,sys.$checkNull( 3));
+          Data.round =sys.$checkExists(Data.round, 3);
             return -4;
         }
       });
@@ -170,24 +186,24 @@ export  async  function mk(wg)  {sys.$params(arguments.length, 1);
     
      function mkBigGr()  {sys.$params(arguments.length, 0);
        const Ch =sys.$checkNull( lineChart.mkExample());
-      Ch.exArea.width =sys.$checkExists(Ch.exArea.width,sys.$checkNull( 600));
-      Ch.exArea.height =sys.$checkExists(Ch.exArea.height,sys.$checkNull( 300));
-      Ch.exArea.atts.background =sys.$checkExists(Ch.exArea.atts.background,sys.$checkNull( back));
-      Ch.exArea.atts.border.width =sys.$checkExists(Ch.exArea.atts.border.width,sys.$checkNull( 0));
-      Ch.exArea.atts.background =sys.$checkExists(Ch.exArea.atts.background,sys.$checkNull( back));
-      Ch.inPadding.top =sys.$checkExists(Ch.inPadding.top,sys.$checkNull( 10));
-      Ch.inPadding.right =sys.$checkExists(Ch.inPadding.right,sys.$checkNull( 5));
-      Ch.inPadding.bottom =sys.$checkExists(Ch.inPadding.bottom,sys.$checkNull( 20));
-      Ch.inPadding.left =sys.$checkExists(Ch.inPadding.left,sys.$checkNull( 80));
-      Ch.chartPadding.top =sys.$checkExists(Ch.chartPadding.top,sys.$checkNull( 2));
-      Ch.chartPadding.right =sys.$checkExists(Ch.chartPadding.right,sys.$checkNull( 4));
-      Ch.chartPadding.bottom =sys.$checkExists(Ch.chartPadding.bottom,sys.$checkNull( 2));
-      Ch.chartPadding.left =sys.$checkExists(Ch.chartPadding.left,sys.$checkNull( 2));
-      Ch.labels.onPopup =sys.$checkExists(Ch.labels.onPopup,sys.$checkNull( true));
+      Ch.exArea.width =sys.$checkExists(Ch.exArea.width, 600);
+      Ch.exArea.height =sys.$checkExists(Ch.exArea.height, 300);
+      Ch.exArea.atts.background =sys.$checkExists(Ch.exArea.atts.background, back);
+      Ch.exArea.atts.border.width =sys.$checkExists(Ch.exArea.atts.border.width, 0);
+      Ch.exArea.atts.background =sys.$checkExists(Ch.exArea.atts.background, back);
+      Ch.inPadding.top =sys.$checkExists(Ch.inPadding.top, 10);
+      Ch.inPadding.right =sys.$checkExists(Ch.inPadding.right, 5);
+      Ch.inPadding.bottom =sys.$checkExists(Ch.inPadding.bottom, 20);
+      Ch.inPadding.left =sys.$checkExists(Ch.inPadding.left, 80);
+      Ch.chartPadding.top =sys.$checkExists(Ch.chartPadding.top, 2);
+      Ch.chartPadding.right =sys.$checkExists(Ch.chartPadding.right, 4);
+      Ch.chartPadding.bottom =sys.$checkExists(Ch.chartPadding.bottom, 2);
+      Ch.chartPadding.left =sys.$checkExists(Ch.chartPadding.left, 2);
+      Ch.labels.onPopup =sys.$checkExists(Ch.labels.onPopup, true);
 
        function mk0(chartDiv, zoomDiv, zoom)  {sys.$params(arguments.length, 3);
-        const Lbs =sys.$checkNull( []);
-        const Vals =sys.$checkNull( [[], [], []]); 
+        const Lbs = [];
+        const Vals = [[], [], []]; 
          const Dates2 =sys.$checkNull( zoom ? sys.$slice(Dates, -30,null) : Dates);
          const Closes2 =sys.$checkNull( zoom ? sys.$slice(Closes, -30,null) : Closes);
          const Refs2 =sys.$checkNull( zoom ? sys.$slice(Refs[0], -30,null) : Refs[0]);
@@ -201,30 +217,30 @@ export  async  function mk(wg)  {sys.$params(arguments.length, 1);
           arr.push(Vals[2], cl < rf ? [rf] : []);
         }
         const wln =sys.$checkNull( zoom ? 1.8 : 1);
-        const Atts =sys.$checkNull( [
+        const Atts = [
           lineChart.mkLine(wln, "#414141", false),
           lineChart.mkLine(wln, "#aa4100", false),
           lineChart.mkLine(wln, "#0041aa", false)
-        ]);
+        ];
          const Data =sys.$checkNull( lineChart.mkData(Lbs, Vals, Atts));
-        Data.Labels =sys.$checkExists(Data.Labels,sys.$checkNull( Lbs));
-        Data.SetValues =sys.$checkExists(Data.SetValues,sys.$checkNull( [Vals[0], Vals[1], Vals[2]]));
+        Data.Labels =sys.$checkExists(Data.Labels, Lbs);
+        Data.SetValues =sys.$checkExists(Data.SetValues, [Vals[0], Vals[1], Vals[2]]);
         if (price >= 0 && !sys.asBool(zoom))
-          Data.UnarySets =sys.$checkExists(Data.UnarySets,sys.$checkNull( [lineChart.mkUnarySet(
+          Data.UnarySets =sys.$checkExists(Data.UnarySets, [lineChart.mkUnarySet(
               II("Price"),
               price,
               lineChart.mkLine(1.2, "#c9c9c9", false)
-            )]));
-        Data.SetAtts =sys.$checkExists(Data.SetAtts,sys.$checkNull( Atts));
+            )]);
+        Data.SetAtts =sys.$checkExists(Data.SetAtts, Atts);
         Data.maxMinRound =sys.$checkExists(Data.maxMinRound, function(mx, mn)  {sys.$params(arguments.length, 2);
           if (mn > 10) {
-            Data.round =sys.$checkExists(Data.round,sys.$checkNull( 1));
+            Data.round =sys.$checkExists(Data.round, 1);
               return -2;
           } else if (mn > 1) {
-            Data.round =sys.$checkExists(Data.round,sys.$checkNull( 2));
+            Data.round =sys.$checkExists(Data.round, 2);
               return -3;
           } else {
-            Data.round =sys.$checkExists(Data.round,sys.$checkNull( 3));
+            Data.round =sys.$checkExists(Data.round, 3);
               return -4;
           }
         });
@@ -305,7 +321,9 @@ export  async  function mk(wg)  {sys.$params(arguments.length, 1);
   showV[0] =sys.$checkExists(showV[0], function()  {sys.$params(arguments.length, 0);
      const Ls =sys.$checkNull( showAllV[0]
       ? List
-      : arr.filter(List,function(E)  {sys.$params(arguments.length, 1);  return E.bought;}))
+      : showSelV[0]
+        ? arr.filter(List,function(E)  {sys.$params(arguments.length, 1);  return E.sel;})
+        : arr.filter(List,function(E)  {sys.$params(arguments.length, 1);  return E.bought;}))
     ;
     arr.sort(Ls,function(E1, E2)  {sys.$params(arguments.length, 2);  return E1.nick < E2.nick;});
 
@@ -313,9 +331,10 @@ export  async  function mk(wg)  {sys.$params(arguments.length, 1);
       .att("align", "center")
       .klass("frame"))
     ;
-    const TrV =sys.$checkNull( [Q("tr")]);
+    const TrV = [Q("tr")];
     chs.add(TrV[0]);
-    const n1 =sys.$checkNull( arr.size(Ls) - 1);
+    const n1 = arr.size(Ls) - 1;
+
     arr.eachSync (Ls,
       async  function(i, e)  {sys.$params(arguments.length, 2);
         const chart =sys.$checkNull( Q("div"));
@@ -345,17 +364,26 @@ export  async  function mk(wg)  {sys.$params(arguments.length, 1);
       }
     );
 
-
     wg
       .removeAll()
-      .add(Q("div")
-        .style("text-align:center")
-        .add(ui.link(function(e)  {sys.$params(arguments.length, 1); changeShowAll();})
-          .klass("link")
-          .html(showAllV[0]
-              ? II("Portfolio")
-              : II("All Companies")
-            )))
+      .add(Q("table")
+        .att("align", "center")
+        .add(Q("tr")
+          .add(Q("td")
+            .add(menu.mk(
+              [ menu.toption("pf", II("Portfolio"), showPortfolio),
+                menu.separator2(),
+                menu.toption("sel", II("Selected"), showSel),
+                menu.separator2(),
+                menu.toption("all", II("All Companies"), showAll)
+              ],
+              [],
+              showAllV[0]
+                ? "all"
+                : showSelV[0]
+                  ? "sel"
+                  : "pf"
+              )))))
       .add(chs)
     ;
   });

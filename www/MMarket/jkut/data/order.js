@@ -17,7 +17,7 @@ export function mk (date,nick,type,stocks,price) { sys.$params(arguments.length,
 
 
 export  function sales(Os)  {sys.$params(arguments.length, 1);
-  const sumV =sys.$checkNull( [0]);
-  for (const O  of sys.$forObject( Os)) if (sys.$eq(O[type] , global.orderSellV[0])) sumV[0] +=sys.$checkExists(sumV[0],sys.$checkNull( 1));
+  const sumV = [0];
+  for (const O  of sys.$forObject( Os)) if (sys.$eq(O[type] , global.orderSellV[0])) sumV[0] +=sys.$checkExists(sumV[0], 1);
    return sumV[0];
 };

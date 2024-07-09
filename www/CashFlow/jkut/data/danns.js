@@ -9,7 +9,7 @@ import * as dann from  "../data/dann.js";
 
 export  function setAnnId( Anns, ix, id)  {sys.$params(arguments.length, 3);
   const R =sys.$checkNull( arr.copy(Anns));
-  R[ix] =sys.$checkExists(R[ix],sys.$checkNull( [id, R[ix][dann.am]]));
+  R[ix] =sys.$checkExists(R[ix], [id, R[ix][dann.am]]);
    return R;
 };
 
@@ -21,12 +21,12 @@ export  function setAnnId( Anns, ix, id)  {sys.$params(arguments.length, 3);
 
 export  function setAnnAm( Anns, ix, am)  {sys.$params(arguments.length, 3);
    const R =sys.$checkNull( arr.copy(Anns));
-  R[ix] =sys.$checkExists(R[ix],sys.$checkNull( [R[ix][0], am]));
+  R[ix] =sys.$checkExists(R[ix], [R[ix][0], am]);
   const oldSum =sys.$checkNull( arr.reduce(Anns,0, function(r,  e)  {sys.$params(arguments.length, 2);  return r + e[dann.am];}));
   const newSum =sys.$checkNull( arr.reduce(R,0, function(r,  e)  {sys.$params(arguments.length, 2);  return r + e[dann.am];}));
-  const lastValue =sys.$checkNull( arr.peek(R)[dann.am] + oldSum - newSum);
+  const lastValue = arr.peek(R)[dann.am] + oldSum - newSum;
   if (lastValue < 0)  return [];
-  arr.peek(R)[dann.am] =sys.$checkExists(arr.peek(R)[dann.am],sys.$checkNull( lastValue));
+  arr.peek(R)[dann.am] =sys.$checkExists(arr.peek(R)[dann.am], lastValue);
    return R;
 };
 

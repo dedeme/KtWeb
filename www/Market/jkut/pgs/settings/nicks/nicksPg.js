@@ -29,10 +29,10 @@ export  async  function mk(wg)  {sys.$params(arguments.length, 1);
     source: "NicksPg",
     rq: "idata"
   });
-  global.dbKeyV[0] =sys.$checkExists(global.dbKeyV[0],sys.$checkNull( dbKey));
+  global.dbKeyV[0] =sys.$checkExists(global.dbKeyV[0], dbKey);
 
-  const mainNickV =sys.$checkNull( [mainNick]);
-  const optionV =sys.$checkNull( ["*v"]);
+  const mainNickV = [mainNick];
+  const optionV = ["*v"];
   const cosSize =sys.$checkNull( arr.size(Cos));
 
   const selectedsSize =sys.$checkNull( arr.reduce(Cos,0, function(r,  c)  {sys.$params(arguments.length, 2);  return c[co.isSelected] ? r + 1 : r;}));
@@ -41,18 +41,18 @@ export  async  function mk(wg)  {sys.$params(arguments.length, 1);
         II("Total: %0. Selected: %1."),
         [cosSize, selectedsSize])))
   ;
-  const showWaitV =sys.$checkNull( [[]]);
-  const showV =sys.$checkNull( [[]]);
+  const showWaitV = [[]];
+  const showV = [[]];
 
   
 
    function showVolume()  {sys.$params(arguments.length, 0);
-    optionV[0] =sys.$checkExists(optionV[0],sys.$checkNull( "*v"));
+    optionV[0] =sys.$checkExists(optionV[0], "*v");
     showV[0]();
   };
 
    function showList()  {sys.$params(arguments.length, 0);
-    optionV[0] =sys.$checkExists(optionV[0],sys.$checkNull( "*l"));
+    optionV[0] =sys.$checkExists(optionV[0], "*l");
     showV[0]();
   };
 
@@ -65,8 +65,8 @@ export  async  function mk(wg)  {sys.$params(arguments.length, 1);
       dbKey: global.dbKeyV[0],
       nick: nk
     });
-    global.dbKeyV[0] =sys.$checkExists(global.dbKeyV[0],sys.$checkNull( dbKey));
-    mainNickV[0] =sys.$checkExists(mainNickV[0],sys.$checkNull( nk));
+    global.dbKeyV[0] =sys.$checkExists(global.dbKeyV[0], dbKey);
+    mainNickV[0] =sys.$checkExists(mainNickV[0], nk);
     showV[0]();
   };
 
@@ -84,7 +84,7 @@ export  async  function mk(wg)  {sys.$params(arguments.length, 1);
         nick: nk,
         value: !sys.asBool(c[co.isSelected])
       });
-      global.dbKeyV[0] =sys.$checkExists(global.dbKeyV[0],sys.$checkNull( dbKey));
+      global.dbKeyV[0] =sys.$checkExists(global.dbKeyV[0], dbKey);
 
       co.setSelected(c,!sys.asBool(c[co.isSelected]));
       const selectedsSize =sys.$checkNull(
@@ -100,13 +100,13 @@ export  async  function mk(wg)  {sys.$params(arguments.length, 1);
   };
 
    function edit(nk)  {sys.$params(arguments.length, 1);
-    optionV[0] =sys.$checkExists(optionV[0],sys.$checkNull( nk));
+    optionV[0] =sys.$checkExists(optionV[0], nk);
     showV[0]();
   };
 
    function download()  {sys.$params(arguments.length, 0);
-    const withErrorsV =sys.$checkNull( [false]);
-    const withWarningsV =sys.$checkNull( [false]);
+    const withErrorsV = [false];
+    const withWarningsV = [false];
      async  function download2( Nks)  {sys.$params(arguments.length, 1);
       if (!sys.asBool(Nks)) {
         showWaitV[0]("");
@@ -122,29 +122,32 @@ export  async  function mk(wg)  {sys.$params(arguments.length, 1);
       }
       const nk =sys.$checkNull( arr.pop(Nks));
       showWaitV[0](nk);
-       const {result} = await  client.send({
+      const {dbKey, result} = await  client.send({
         prg: cts.appName,
         module: "Settings",
-        source: "Nicks/Editor", 
+        source: "NickEditorPg", 
+        dbKey: global.dbKeyV[0],
         rq: "download",
         mainNick: mainNickV[0],
         nick: nk
       });
-      if (sys.$eq(result , "error")) withErrorsV[0] =sys.$checkExists(withErrorsV[0],sys.$checkNull( true));
-      else if (sys.$eq(result , "warnings")) withWarningsV[0] =sys.$checkExists(withWarningsV[0],sys.$checkNull( true));
+      global.dbKeyV[0] =sys.$checkExists(global.dbKeyV[0], dbKey);
+      if (sys.$eq(result , "error")) withErrorsV[0] =sys.$checkExists(withErrorsV[0], true);
+      else if (sys.$eq(result , "warnings")) withWarningsV[0] =sys.$checkExists(withWarningsV[0], true);
       download2(Nks);
     };
     const Nicks =sys.$checkNull( arr.filter(
       arr.map(Cos,function( c)  {sys.$params(arguments.length, 1);  return c[co.nick];}),
-      function(nk)  {sys.$params(arguments.length, 1);  return sys.$neq(nk , mainNick[0]);}
+      function(nk)  {sys.$params(arguments.length, 1);  return sys.$neq(nk , mainNickV[0]);}
     ));
-    arr.unshift(Nicks,mainNick[0]);
+
+    arr.unshift(Nicks,mainNickV[0]);
     download2(arr.reverse(Nicks));
   };
 
    function test()  {sys.$params(arguments.length, 0);
-    const withErrorsV =sys.$checkNull( [false]);
-    const withWarningsV =sys.$checkNull( [false]);
+    const withErrorsV = [false];
+    const withWarningsV = [false];
      async  function test2( Cs)  {sys.$params(arguments.length, 1);
       if (!sys.asBool(Cs)) {
         showWaitV[0]("");
@@ -168,8 +171,8 @@ export  async  function mk(wg)  {sys.$params(arguments.length, 1);
         rq: "test",
         nick: c[co.nick]
       });
-      withErrorsV[0] ||=sys.$checkExists(withErrorsV[0],sys.$checkNull( withErrors));
-      withWarningsV[0] ||=sys.$checkExists(withWarningsV[0],sys.$checkNull( withWarnings));
+      withErrorsV[0] ||=sys.$checkExists(withErrorsV[0], withErrors);
+      withWarningsV[0] ||=sys.$checkExists(withWarningsV[0], withWarnings);
       test2(Cs);
     };
     test2(arr.reverse(Cos));
@@ -214,13 +217,13 @@ export  async  function mk(wg)  {sys.$params(arguments.length, 1);
     if (sys.$eq(optionV[0] , "*l")) arr.sort(Cos,function( c1,  c2)  {sys.$params(arguments.length, 2);  return c1[co.nick] < c2[co.nick];});
     else arr.sort(Cos,function( c1,  c2)  {sys.$params(arguments.length, 2);  return Volumes[c1[co.nick]] > Volumes[c2[co.nick]];});
 
-    const Rows =sys.$checkNull( []);
-    const ncols =sys.$checkNull( 6);
+    const Rows = [];
+    const ncols = 6;
     const nrows =sys.$checkNull( math.toInt(Math.ceil(cosSize / ncols)));
     for (let i = 0;i < nrows; ++i) {
-      const Tds =sys.$checkNull( []);
+      const Tds = [];
       for (let j = 0;j < ncols; ++j) {
-        const ico =sys.$checkNull( j * nrows + i);
+        const ico = j * nrows + i;
         arr.push(Tds,
           ico >= cosSize
             ? Q("td")
@@ -272,7 +275,7 @@ export  async  function mk(wg)  {sys.$params(arguments.length, 1);
     }
 
     if (!sys.asBool(arr.any(Cos,function( c)  {sys.$params(arguments.length, 1);  return sys.$eq(c[co.nick] , optionV[0]);})) && sys.$neq(optionV[0] , "*l"))
-      optionV[0] =sys.$checkExists(optionV[0],sys.$checkNull( "*v"));
+      optionV[0] =sys.$checkExists(optionV[0], "*v");
 
     const menuWg =sys.$checkNull( menu.mk(
       [ menu.mkEntry([], stats)],

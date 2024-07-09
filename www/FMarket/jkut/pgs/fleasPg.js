@@ -76,12 +76,12 @@ const II =sys.$checkNull( i18n.tlt);
     case "1sa":{
       arr.sort(Fleas, function( f1,  f2)  {sys.$params(arguments.length, 2);  return sys.$eq(f1[flea.sales] , f2[flea.sales])
         ? flea.greater(f1, f2)
-        : f1[flea.profits] > f2[flea.profits]
+        : f1[flea.sales] > f2[flea.sales]
       ;});break;}
     case "2sa":{
       arr.sort(Fleas, function( f1,  f2)  {sys.$params(arguments.length, 2);  return sys.$eq(f1[flea.sales] , f2[flea.sales])
         ? flea.greater(f1, f2)
-        : f1[flea.profits] < f2[flea.profits]
+        : f1[flea.sales] < f2[flea.sales]
       ;});break;}
     default:{
       arr.sort(Fleas, flea.greater);}
@@ -102,14 +102,14 @@ const II =sys.$checkNull( i18n.tlt);
 
   
 
-  const rId =sys.$checkNull( 0);
-  const rCy =sys.$checkNull( 1);
-  const rP1 =sys.$checkNull( 2);
-  const rP2 =sys.$checkNull( 3);
-  const rAs =sys.$checkNull( 4);
-  const rPr =sys.$checkNull( 5);
-  const rPo =sys.$checkNull( 6);
-  const rSa =sys.$checkNull( 7);
+  const rId = 0;
+  const rCy = 1;
+  const rP1 = 2;
+  const rP2 = 3;
+  const rAs = 4;
+  const rPr = 5;
+  const rPo = 6;
+  const rSa = 7;
   const Rows =sys.$checkNull( arr.map(Fleas, function( f)  {sys.$params(arguments.length, 1);  return [
       f[flea.id], f[flea.cycle], f[flea.Params][0],
       sys.$eq(npars , 2) ? f[flea.Params][1] :  -1,
@@ -123,7 +123,7 @@ const II =sys.$checkNull( i18n.tlt);
       .att("align", "center")
       .add(Q("tr")
         .adds(function()  {sys.$params(arguments.length, 0);
-            const Tds =sys.$checkNull( []);
+            const Tds = [];
             arr.push(Tds,fns.mkTh(II("Id."), function() {sys.$params(arguments.length, 0); setOrder("id");}));
             arr.push(Tds,fns.mkTh(II("Cy."), function() {sys.$params(arguments.length, 0); setOrder("cy");}));
             arr.push(Tds,fns.mkTh(II("P1"), function() {sys.$params(arguments.length, 0); setOrder("p1");}));
@@ -135,7 +135,7 @@ const II =sys.$checkNull( i18n.tlt);
              return Tds;
           }()))
       .adds(arr.map(Rows, function(R)  {sys.$params(arguments.length, 1);
-          const Tds =sys.$checkNull( []);
+          const Tds = [];
           arr.push(Tds,fns.mkTdN(R[rId], 0));
           arr.push(Tds,fns.mkTdN(R[rCy], 0));
           arr.push(Tds,fns.mkTdN(R[rP1], isDate ? 0 : 4));
@@ -164,7 +164,7 @@ export  async  function mk(wg)  {sys.$params(arguments.length, 1);
   });
 
   const Fleas =sys.$checkNull( arr.map(FleasJs, flea.fromJs));
-  const page =sys.$checkNull( "fleas&" + mdId);
+  const page = "fleas&" + mdId;
 
    const Lopts =sys.$checkNull( arr.reduce(Models,
     [],

@@ -33,7 +33,7 @@ export  function mk(wg, selectedYear, selectedMonth,
        Plan,  Diary,  Budget,  PreviousBudget,
       updateFinalBalanceFn)  {sys.$params(arguments.length, 8);
 
-  const showOp =sys.$checkNull( [[]]);
+  const showOp = [[]];
 
   
 
@@ -47,7 +47,7 @@ export  function mk(wg, selectedYear, selectedMonth,
       year: selectedYear,
       budget: Budget
     });
-    global.dbKeyV[0] =sys.$checkExists(global.dbKeyV[0],sys.$checkNull( dbKey));
+    global.dbKeyV[0] =sys.$checkExists(global.dbKeyV[0], dbKey);
     updateFinalBalanceFn();
     showOp[0]();
   };
@@ -107,7 +107,7 @@ export  function mk(wg, selectedYear, selectedMonth,
 
   
   showOp[0] =sys.$checkExists(showOp[0], function()  {sys.$params(arguments.length, 0);
-     const BudgetModel =sys.$checkNull( []); 
+     const BudgetModel = []; 
     for (const  pe  of sys.$forObject( Plan)) {
       arr.push(BudgetModel,budgetWgEntry.mk(
         pe[planEntry.isIncome], pe[planEntry.id],
@@ -127,8 +127,8 @@ export  function mk(wg, selectedYear, selectedMonth,
       : arr.size(Expenses0))
     ;
 
-     const Incomes =sys.$checkNull( Incomes0);
-     const Expenses =sys.$checkNull( Expenses0);
+     const Incomes = Incomes0;
+     const Expenses = Expenses0;
     wg
       .removeAll()
       .add(Q("div")

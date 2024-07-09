@@ -34,7 +34,7 @@ export  function mk(wg, selectedYear, isUntil, selectedMonth,
   const start =sys.$checkNull( isUntil ? 0 : selectedMonth -1);
    const DiaryEntries =sys.$checkNull( diary.filterReverse(Diary, start, selectedMonth));
 
-   const BudgetModel =sys.$checkNull( []); 
+   const BudgetModel = []; 
   for (const  pe  of sys.$forObject( Plan)) {
     arr.push(BudgetModel,budgetWgEntry.mk(
       pe[planEntry.isIncome], pe[planEntry.id],
@@ -73,19 +73,19 @@ export  function mk(wg, selectedYear, isUntil, selectedMonth,
 
   
    function account(id)  {sys.$params(arguments.length, 1);
-     const BudgetMs =sys.$checkNull( []); 
-     const BudgetSs =sys.$checkNull( []); 
-    const budgetSumV =sys.$checkNull( [0]);
-     const RealMs =sys.$checkNull( []); 
-     const RealSs =sys.$checkNull( []); 
-    const realSumV =sys.$checkNull( [0]);
+     const BudgetMs = []; 
+     const BudgetSs = []; 
+    const budgetSumV = [0];
+     const RealMs = []; 
+     const RealSs = []; 
+    const realSumV = [0];
     for (let i = 0;i < 12; ++i) {
       const b =sys.$checkNull( budget.accAmount(Budget, id, i, i + 1));
-      budgetSumV[0] +=sys.$checkExists(budgetSumV[0],sys.$checkNull( b));
+      budgetSumV[0] +=sys.$checkExists(budgetSumV[0], b);
       arr.push(BudgetMs,b);
       arr.push(BudgetSs,budgetSumV[0]);
       const r =sys.$checkNull( diary.accAmount(Diary, id, i, i + 1));
-      realSumV[0] +=sys.$checkExists(realSumV[0],sys.$checkNull( r));
+      realSumV[0] +=sys.$checkExists(realSumV[0], r);
       arr.push(RealMs,r);
       arr.push(RealSs,realSumV[0]);
     }
@@ -196,8 +196,8 @@ export  function mk(wg, selectedYear, isUntil, selectedMonth,
   const esize =sys.$checkNull( arr.size(Expenses0));
   const sz =sys.$checkNull( isize > esize ? isize : esize);
 
-   const Incomes =sys.$checkNull( Incomes0);
-   const Expenses =sys.$checkNull( Expenses0);
+   const Incomes = Incomes0;
+   const Expenses = Expenses0;
   wg
     .removeAll()
     .add(Q("div")

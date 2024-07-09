@@ -5,44 +5,44 @@ import * as math from './_js/math.js';import * as js from './_js/js.js';import *
 
 
 
-export const initialCapitalV =sys.$checkNull( [0]);
+export const initialCapitalV = [0];
 
 
-export const evalStepsV =sys.$checkNull( [0]);
+export const evalStepsV = [0];
 
 
-export const minSalesV =sys.$checkNull( [0]);
+export const minSalesV = [0];
 
 
-export const ParamBases =sys.$checkNull( {});
+export const ParamBases = {};
 
 
-export const ParamBaseIncs =sys.$checkNull( {});
+export const ParamBaseIncs = {};
 
 
-export const ParamEnvIncs =sys.$checkNull( {});
+export const ParamEnvIncs = {};
 
 
-export const Models =sys.$checkNull( []);
+export const Models = [];
 
 
-export const orderBuyV =sys.$checkNull( [0]);
+export const orderBuyV = [0];
 
 
-export const orderSellV =sys.$checkNull( [0]);
+export const orderSellV = [0];
 
 
-export const daysLossV =sys.$checkNull( [0]);
-
-
-
-export const noLossMultiplicatorV =sys.$checkNull( [0]);
+export const daysLossV = [0];
 
 
 
+export const noLossMultiplicatorV = [0];
 
 
-export const Periods =sys.$checkNull( []);
 
 
-export const datesInPeriodV =sys.$checkNull( [0]);
+
+export const Periods = [];
+
+
+export const datesInPeriodV = [0];

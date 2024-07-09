@@ -18,13 +18,13 @@ const II =sys.$checkNull( i18n.tlt);
 
 export  function mk(wg)  {sys.$params(arguments.length, 1);
    const Url =sys.$checkNull( ui.url());
-  const mdV =sys.$checkNull( [
+  const mdV = [
     arr.size(Url) > 1 && fns.existsModel(Url[1])
       ? fns.getModel(Url[1])
       : fns.getModel(cts.mainModel)
-  ]);
+  ];
 
-  const showV =sys.$checkNull( [[]]);
+  const showV = [[]];
 
   
 
@@ -36,10 +36,10 @@ export  function mk(wg)  {sys.$params(arguments.length, 1);
   showV[0] =sys.$checkExists(showV[0], function()  {sys.$params(arguments.length, 0);
      const md =sys.$checkNull( mdV[0]);
 
-    const Ops =sys.$checkNull( [
+    const Ops = [
       vmenu.title(II("Models")),
       vmenu.separator()
-    ]);
+    ];
     for (const  md  of sys.$forObject( global.Models))
       arr.push(Ops,vmenu.option(md[model.id], md[model.id], function()  {sys.$params(arguments.length, 0); changeModel(md[model.id]);}));
     const vmenuWg =sys.$checkNull( vmenu.mk(Ops, md[model.id]));

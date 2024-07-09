@@ -7,7 +7,4 @@ import * as math from '../_js/math.js';import * as js from '../_js/js.js';import
 
 
 
-export  function mk(path, showAll)  {sys.$params(arguments.length, 2);  return { path:path, showAll:showAll };};
-
-
-export  function fromJs(A)  {sys.$params(arguments.length, 1);  return mk(A[0], A[1]);};
+export function mk (path,showAll) { sys.$params(arguments.length, 2); return [ path, showAll];}export const path = 0;export const showAll = 1;

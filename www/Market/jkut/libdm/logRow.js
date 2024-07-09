@@ -21,18 +21,18 @@ export  function date(LgR)  {sys.$params(arguments.length, 1);  return sys.$eq(L
  function format2(msg, indent, len)  {sys.$params(arguments.length, 3);
   if (sys.$eq(str.trim(msg) , ""))  return msg;
 
-  const R =sys.$checkNull( []);
+  const R = [];
   for (const l  of sys.$forObject( str.split(msg, "\n"))) {
-    const Subr =sys.$checkNull( []);
+    const Subr = [];
 
-    const L =sys.$checkNull( [l]);
+    const L = [l];
     while (str.len(L[0]) > len) {
-      const Line =sys.$checkNull( [sys.$slice(L[0],null,len)]);
-      L[0] =sys.$checkExists(L[0],sys.$checkNull( sys.$slice(L[0],len,null)));
+      const Line = [sys.$slice(L[0],null,len)];
+      L[0] =sys.$checkExists(L[0], sys.$slice(L[0],len,null));
       const ix =sys.$checkNull( str.lastIndex(Line[0], " "));
       if (sys.$neq(ix ,  -1) && sys.$neq(str.trim(sys.$slice(Line[0],null,ix)) , "")) {
-        L[0] =sys.$checkExists(L[0],sys.$checkNull( sys.$slice(Line[0],ix + 1,null) + L[0]));
-        Line[0] =sys.$checkExists(Line[0],sys.$checkNull( sys.$slice(Line[0],null,ix)));
+        L[0] =sys.$checkExists(L[0], sys.$slice(Line[0],ix + 1,null) + L[0]);
+        Line[0] =sys.$checkExists(Line[0], sys.$slice(Line[0],null,ix));
       }
       arr.push(Subr,Line[0]);
     }
@@ -41,8 +41,8 @@ export  function date(LgR)  {sys.$params(arguments.length, 1);  return sys.$eq(L
     for (const subl  of sys.$forObject( Subr)) arr.push(R,subl);
   }
 
-  const Ind =sys.$checkNull( [""]);
-  for (let i = 0;i < indent; ++i) Ind[0] +=sys.$checkExists(Ind[0],sys.$checkNull( " "));
+  const Ind = [""];
+  for (let i = 0;i < indent; ++i) Ind[0] +=sys.$checkExists(Ind[0], " ");
    return arr.join(R,"\n" + Ind[0]);
 };
 
@@ -50,8 +50,8 @@ export  function date(LgR)  {sys.$params(arguments.length, 1);  return sys.$eq(L
 
 
 export  function format(LgR, lineWidth)  {sys.$params(arguments.length, 2);
-  const indent =sys.$checkNull( str.len(LgR[tm]) + 3);
-  const len =sys.$checkNull( lineWidth - indent);
+  const indent = str.len(LgR[tm]) + 3;
+  const len = lineWidth - indent;
   const sep =sys.$checkNull( LgR[isError] ? " = " : " - ");
    return LgR[tm] + sep + format2(LgR[msg], indent, len);
 };

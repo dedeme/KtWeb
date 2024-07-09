@@ -47,7 +47,7 @@ export  function ixToParams( md, ix)  {sys.$params(arguments.length, 2);
   }
   const steps =sys.$checkNull( global.evalStepsV[0]);
   const r =sys.$checkNull( math.toInt(ix / steps));
-  const c =sys.$checkNull( ix - r * steps);
+  const c = ix - r * steps;
    return [B[0] + Binc[0] * r, B[1] + Binc[1] * c];
 };
 

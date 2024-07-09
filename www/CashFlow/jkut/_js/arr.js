@@ -88,6 +88,25 @@ export function eachIx (a, fn) {
   a.forEach((e, i) => fn(e, i));
 }
 
+// \a, (async \n,*->()), (\->()) -> ()
+export function eachSync (a, f1, f2) {
+  sys.$params(arguments.length, 3);
+  sys.$fparams(f1, 2);
+  sys.$fparams(f2, 0);
+  let ix = 0;
+  let len = a.length;
+  async function fn () {
+    if (ix < len) {
+      await f1(ix, a[ix]);
+      ++ix;
+      fn();
+    } else {
+      f2();
+    }
+  }
+  fn();
+}
+
 // \a, (\*->()) -> ()
 export function filter (a, fn) {
   sys.$params(arguments.length, 2);

@@ -37,10 +37,10 @@ const II =sys.$checkNull( i18n.tlt);
    const LcPath =sys.$checkNull( ui.url());
   if (!sys.asBool(LcPath)) arr.push(LcPath,"home");
 
-  const target =sys.$checkNull((   
+  const target =(   
       sys.$eq(LcPath[0],"daily")|| sys.$eq(LcPath[0],"acc")|| sys.$eq(LcPath[0],"verification")|| sys.$eq(LcPath[0],"settings")? LcPath[0]:
        "home"
-    ));
+    );
   arr.shift(LcPath);
 
   const menuDiv =sys.$checkNull( Q("div"));

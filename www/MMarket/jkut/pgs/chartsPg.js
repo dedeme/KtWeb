@@ -48,14 +48,14 @@ export  async  function mk(wg)  {sys.$params(arguments.length, 1);
   });
    const Params =sys.$checkNull( fns.ixToParams(md, invIxFinal));
 
-  const chartV =sys.$checkNull( ["historic"]);
-  const showV =sys.$checkNull( [[]]);
+  const chartV = ["historic"];
+  const showV = [[]];
 
   
 
   
    function go(chart)  {sys.$params(arguments.length, 1);
-    chartV[0] =sys.$checkExists(chartV[0],sys.$checkNull( chart));
+    chartV[0] =sys.$checkExists(chartV[0], chart);
     showV[0]();
   };
 
@@ -66,26 +66,26 @@ export  async  function mk(wg)  {sys.$params(arguments.length, 1);
 
   
   showV[0] =sys.$checkExists(showV[0], function()  {sys.$params(arguments.length, 0);
-    const Ops =sys.$checkNull( [
+    const Ops = [
       vmenu.title(II("Models")),
       vmenu.separator()
-    ]);
+    ];
     for (const  md  of sys.$forObject( global.Models))
       arr.push(Ops,vmenu.option(md[model.id], md[model.id], function()  {sys.$params(arguments.length, 0); changeModel(md[model.id]);}));
     const vmenuWg =sys.$checkNull( vmenu.mk(Ops, md[model.id]));
 
-    const optTx =sys.$checkNull((  
+    const optTx =(  
       sys.$eq(chartV[0],"historic")? II("Historic"):
       sys.$eq(chartV[0],"cos")? II("Companies"):
        II("Operations")
-    ));
-    const Lopts =sys.$checkNull( [
+    );
+    const Lopts = [
       menu.toption("historic", II("Historic"), function()  {sys.$params(arguments.length, 0); go("historic");}),
       menu.separator(),
       menu.toption("cos", II("Companies"), function()  {sys.$params(arguments.length, 0); go("cos");}),
       menu.separator(),
       menu.toption("operations", II("Operations"), function()  {sys.$params(arguments.length, 0); go("operations");})
-    ]);
+    ];
     const menuWg =sys.$checkNull( menu.mk(Lopts, [], chartV[0]));
 
     const body =sys.$checkNull( Q("div"));

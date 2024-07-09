@@ -50,7 +50,7 @@ export  function modify( Plan, idEntry,  entry,  Diary)  {sys.$params(arguments.
   if (sys.$eq(idEntry , newId)) {
     for ( const [i, e]  of sys.$forObject2( Plan)) {
       if (sys.$eq(e[planEntry.id] , idEntry)) {
-        Plan[i] =sys.$checkExists(Plan[i],sys.$checkNull( entry));
+        Plan[i] =sys.$checkExists(Plan[i], entry);
         break;
       }
     }
@@ -62,7 +62,7 @@ export  function modify( Plan, idEntry,  entry,  Diary)  {sys.$params(arguments.
 
   for ( const [i, e]  of sys.$forObject2( Plan)) {
     if (sys.$eq(e[planEntry.id] , idEntry)) {
-      Plan[i] =sys.$checkExists(Plan[i],sys.$checkNull( entry));
+      Plan[i] =sys.$checkExists(Plan[i], entry);
       break;
     }
   }

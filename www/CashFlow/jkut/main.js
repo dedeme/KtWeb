@@ -60,16 +60,16 @@ const II =sys.$checkNull( i18n.tlt);
   
 
 
-  const selLink =sys.$checkNull( page + "&" + selectedYear);
+  const selLink = page + "&" + selectedYear;
    const myear =sys.$checkNull( menu.tlink("year&" + selectedYear, selectedYear));
   if (sys.$neq(selectedYear , currentYear)) myear.wg.setStyle("color", "#800000");
-  const Lopts =sys.$checkNull( [
+  const Lopts = [
     myear,
     menu.separator(),
     menu.tlink("budget&" + selectedYear, II("Budget")),
     menu.separator(),
     menu.tlink("plan&" + selectedYear, II("Plan"))
-  ]);
+  ];
   const menuWg =sys.$checkNull( menu.mk(Lopts, [], selLink));
 
   const body =sys.$checkNull( Q("div"));

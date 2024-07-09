@@ -3,7 +3,7 @@ import * as math from './_js/math.js';import * as js from './_js/js.js';import *
 
 
 
-import * as cts from  "./data/cts.js";
+import * as cts from  "./cts.js";
 import * as msgPg from  "./pgs/msgPg.js";
 import * as listEditorPg from  "./pgs/listEditorPg.js";
 import * as i18n from  "./i18n.js";

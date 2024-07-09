@@ -42,6 +42,8 @@ export  function mk( ann, fclose, faccept)  {sys.$params(arguments.length, 3);
   });
 
    return Q("table")
+    .att("align", "center")
+    .klass("frame")
     .add(Q("tr")
       .add(Q("td")
         .klass("head")

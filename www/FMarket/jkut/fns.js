@@ -18,14 +18,14 @@ export  function nFormat(value, decs)  {sys.$params(arguments.length, 2);
 
 export  function nFormat2(value, decs)  {sys.$params(arguments.length, 2);
   const point =sys.$checkNull( sys.$eq(i18n.getLang() , "es") ? "," : ".");
-  const R =sys.$checkNull( [nFormat(value, decs)]);
+  const R = [nFormat(value, decs)];
   while (true) {
-    const lg1 =sys.$checkNull( str.len(R[0]) - 1);
+    const lg1 = str.len(R[0]) - 1;
     const ch =sys.$checkNull( R[0][lg1]);
     if (sys.$eq(ch , "0")) {
-      R[0] =sys.$checkExists(R[0],sys.$checkNull( sys.$slice(R[0],null,lg1)));
+      R[0] =sys.$checkExists(R[0], sys.$slice(R[0],null,lg1));
     } else {
-      if (sys.$eq(ch , point)) R[0] =sys.$checkExists(R[0],sys.$checkNull( sys.$slice(R[0],null,lg1)));
+      if (sys.$eq(ch , point)) R[0] =sys.$checkExists(R[0], sys.$slice(R[0],null,lg1));
       break;
     }
   }
@@ -35,9 +35,9 @@ export  function nFormat2(value, decs)  {sys.$params(arguments.length, 2);
 
 
 export  function dFormat(value)  {sys.$params(arguments.length, 1);
-  const y =sys.$checkNull( sys.$slice(value,null,4));
-  const m =sys.$checkNull( sys.$slice(value,4,6));
-  const d =sys.$checkNull( sys.$slice(value,6,null));
+  const y = sys.$slice(value,null,4);
+  const m = sys.$slice(value,4,6);
+  const d = sys.$slice(value,6,null);
    return sys.$eq(i18n.getLang() , "es")
     ? d + "/" + m + "/" + y
     : m + "-" + d + "-" + y

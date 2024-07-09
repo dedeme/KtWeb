@@ -13,15 +13,13 @@ const II =sys.$checkNull( i18n.tlt);
 
 
  function mkUpMenu(selected)  {sys.$params(arguments.length, 1);
-  const lopts =sys.$checkNull( [
-    menu.tlink("home", II("Home"), []),
+  const Lopts =sys.$checkNull( [
+    menu.tlink("home", II("Home")),
     menu.separator(),
-    menu.tlink("cmarket", II("CMarket"), []),
-    menu.separator(),
-    menu.tlink("mmarket", II("MMarket"), [])
+    menu.tlink("market", II("Market"))
   ]);
 
-   return menu.mk(lopts, [], selected, false);
+   return menu.mk(Lopts, [], selected);
 };
 
 
@@ -33,17 +31,17 @@ export  function mk(wg, selected)  {sys.$params(arguments.length, 2);
   const upDiv =sys.$checkNull( Q("div").style("padding:0px"));
   const upMenu =sys.$checkNull( mkUpMenu(selected));
   const downDiv =sys.$checkNull( Q("div"));
-  const Hidden =sys.$checkNull( [false]);
+  const hiddenV =sys.$checkNull( [false]);
 
-  const Show =sys.$checkNull( [[]]);
+  const showV =sys.$checkNull( [[]]);
 
   
 
   
    function change(ev)  {sys.$params(arguments.length, 1);
-    Hidden[0] =sys.$checkExists(Hidden[0],sys.$checkNull( !sys.asBool(Hidden[0])));
+    hiddenV[0] =sys.$checkExists(hiddenV[0],sys.$checkNull( !sys.asBool(hiddenV[0])));
     upDiv.removeAll().style("padding:0px");
-    if (!sys.asBool(Hidden[0])) upDiv.add(upMenu);
+    if (!sys.asBool(hiddenV[0])) upDiv.add(upMenu);
   };
 
   
@@ -53,14 +51,14 @@ export  function mk(wg, selected)  {sys.$params(arguments.length, 2);
       .removeAll()
       .add(menuWg)
     ;
-    Hidden[0] =sys.$checkExists(Hidden[0],sys.$checkNull( true));
+    hiddenV[0] =sys.$checkExists(hiddenV[0],sys.$checkNull( true));
     upDiv.removeAll().style("padding:0px");
   };
 
   
 
   
-  Show[0] =sys.$checkExists(Show[0], function()  {sys.$params(arguments.length, 0);
+  showV[0] =sys.$checkExists(showV[0], function()  {sys.$params(arguments.length, 0);
     wg
       .removeAll()
       .add(upDiv
@@ -71,7 +69,7 @@ export  function mk(wg, selected)  {sys.$params(arguments.length, 2);
     ;
   });
 
-  Show[0]();
+  showV[0]();
 
    return {setDownMenu:setDownMenu, change:change};
 };

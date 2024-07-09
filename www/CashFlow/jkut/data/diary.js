@@ -22,7 +22,7 @@ export  function changeAcc( D, oldAcc, newAcc)  {sys.$params(arguments.length, 3
 
 
 export  function accs(D)  {sys.$params(arguments.length, 1);
-   const Dic =sys.$checkNull( {}); 
+   const Dic = {}; 
   for (const  e  of sys.$forObject( D)) for (const a  of sys.$forObject( e[diaryEntry.Anns])) dic.put(Dic,a.id, 1);
    return dic.keys(Dic);
 };
@@ -30,7 +30,7 @@ export  function accs(D)  {sys.$params(arguments.length, 1);
 
 
 export  function previous(D, ix)  {sys.$params(arguments.length, 2);
-  const start0 =sys.$checkNull( ix - 5);
+  const start0 = ix - 5;
   const start =sys.$checkNull( start0 < 0 ? 0 : start0);
    return sys.$slice(D,start,ix);
 };
@@ -38,7 +38,7 @@ export  function previous(D, ix)  {sys.$params(arguments.length, 2);
 
 
 export  function next( D, ix)  {sys.$params(arguments.length, 2);
-  const end0 =sys.$checkNull( ix + 6);
+  const end0 = ix + 6;
   const end =sys.$checkNull( end0 > arr.size(D) ? arr.size(D) : end0);
    return sys.$slice(D,ix + 1,end);
 };
@@ -50,7 +50,7 @@ export  function next( D, ix)  {sys.$params(arguments.length, 2);
 export  function filterReverse( D, fromMonthIx, toMonthIx)  {sys.$params(arguments.length, 3);
   const from =sys.$checkNull( month.format(fromMonthIx + 1));
   const to =sys.$checkNull( month.format(toMonthIx + 1));
-   const R =sys.$checkNull( []); 
+   const R = []; 
   for (let i = 0;i < arr.size(D); ++i) arr.push(R,[i, D[i]]);
   arr.filterIn(R,function(tp)  {sys.$params(arguments.length, 1);
     const month =sys.$checkNull( tp[1][diaryEntry.month]);
@@ -66,7 +66,7 @@ export  function filterReverse( D, fromMonthIx, toMonthIx)  {sys.$params(argumen
 export  function accAmount(D, accId, fromMonthIx, toMonthIx)  {sys.$params(arguments.length, 4);
   const from =sys.$checkNull( month.format(fromMonthIx + 1));
   const to =sys.$checkNull( month.format(toMonthIx + 1));
-  const sumV =sys.$checkNull( [0]);
+  const sumV = [0];
   for (const  e  of sys.$forObject( D))
     if (e[diaryEntry.month] >= from && e[diaryEntry.month] < to)
       for (const  a  of sys.$forObject( e[diaryEntry.Anns]))
@@ -83,7 +83,7 @@ export  function totalAmount(D, fromMonthIx, toMonthIx)  {sys.$params(arguments.
   const from =sys.$checkNull( month.format(fromMonthIx + 1));
   const to =sys.$checkNull( month.format(toMonthIx + 1));
 
-  const sumV =sys.$checkNull( [0]);
+  const sumV = [0];
   for (const  e  of sys.$forObject( D))
     if (e[diaryEntry.month] >= from && e[diaryEntry.month] < to)
       for (const  a  of sys.$forObject( e[diaryEntry.Anns]))

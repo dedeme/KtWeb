@@ -25,22 +25,22 @@ export  function mk(Labels, Values, inPortfolio)  {sys.$params(arguments.length,
   const line =sys.$checkNull( inPortfolio ? "#ff8100" : "#00aaff");
 
    const Chart =sys.$checkNull( lineChart.mkExample());
-  Chart.exArea.width =sys.$checkExists(Chart.exArea.width,sys.$checkNull( 140));
-  Chart.exArea.height =sys.$checkExists(Chart.exArea.height,sys.$checkNull( 70));
-  Chart.exArea.atts.border.width =sys.$checkExists(Chart.exArea.atts.border.width,sys.$checkNull( 0));
-  Chart.inPadding.left =sys.$checkExists(Chart.inPadding.left,sys.$checkNull( 32));
-  Chart.inPadding.right =sys.$checkExists(Chart.inPadding.right,sys.$checkNull( 5));
-  Chart.inPadding.bottom =sys.$checkExists(Chart.inPadding.bottom,sys.$checkNull( 5));
-  Chart.labels.show =sys.$checkExists(Chart.labels.show,sys.$checkNull( false));
-  Chart.xAxis.fontSize =sys.$checkExists(Chart.xAxis.fontSize,sys.$checkNull( 0));
-  Chart.yAxis.fontSize =sys.$checkExists(Chart.yAxis.fontSize,sys.$checkNull( 10));
-  Chart.yAxis.parts =sys.$checkExists(Chart.yAxis.parts,sys.$checkNull( 1));
+  Chart.exArea.width =sys.$checkExists(Chart.exArea.width, 140);
+  Chart.exArea.height =sys.$checkExists(Chart.exArea.height, 70);
+  Chart.exArea.atts.border.width =sys.$checkExists(Chart.exArea.atts.border.width, 0);
+  Chart.inPadding.left =sys.$checkExists(Chart.inPadding.left, 32);
+  Chart.inPadding.right =sys.$checkExists(Chart.inPadding.right, 5);
+  Chart.inPadding.bottom =sys.$checkExists(Chart.inPadding.bottom, 5);
+  Chart.labels.show =sys.$checkExists(Chart.labels.show, false);
+  Chart.xAxis.fontSize =sys.$checkExists(Chart.xAxis.fontSize, 0);
+  Chart.yAxis.fontSize =sys.$checkExists(Chart.yAxis.fontSize, 10);
+  Chart.yAxis.parts =sys.$checkExists(Chart.yAxis.parts, 1);
 
-  Chart.exArea.atts.background =sys.$checkExists(Chart.exArea.atts.background,sys.$checkNull( back));
+  Chart.exArea.atts.background =sys.$checkExists(Chart.exArea.atts.background, back);
 
-  const Atts =sys.$checkNull( [
+  const Atts = [
     lineChart.mkLine(1.2, line, false)
-  ]);
+  ];
    const Data =sys.$checkNull( lineChart.mkData(Labels, Values, Atts));
   Data.drawGrid =sys.$checkExists(Data.drawGrid, function(lb, i)  {sys.$params(arguments.length, 2);
     if (sys.$eq(i , 0))  return false;
@@ -49,7 +49,7 @@ export  function mk(Labels, Values, inPortfolio)  {sys.$params(arguments.length,
   });
   Data.drawLabel =sys.$checkExists(Data.drawLabel, function(lb, i)  {sys.$params(arguments.length, 2);  return false;});
   Data.maxMinRound =sys.$checkExists(Data.maxMinRound, function(mx, mn)  {sys.$params(arguments.length, 2);
-    Data.round =sys.$checkExists(Data.round,sys.$checkNull( 0));
+    Data.round =sys.$checkExists(Data.round, 0);
      return 0;
   });
 

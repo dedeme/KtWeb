@@ -32,26 +32,6 @@ const II =sys.$checkNull( i18n.tlt);
 
 
 
-
-
-
-export  function refProfits(modelId, params, stocks, q, ref)  {sys.$params(arguments.length, 5);
-  if (sys.$neq(modelId , "APRX")) throw new Error( "Model " + modelId + " not implemented.");
-
-  const inc =sys.$checkNull( params[1]);
-   return stocks > 0
-    ? (q < ref ? q - ref : (q - ref) * inc) * stocks
-    : (q > ref ? ref - q : (ref - q) * inc) * (cts.bet / q)
-  ;
-};
-
-
-
-
-
-
-
-
 export  async  function mk2(wg, dbmenu, mSel, order, isReverse)  {sys.$params(arguments.length, 5);
   const {dbKey,
    CosData,  IxsData, 
@@ -64,11 +44,11 @@ export  async  function mk2(wg, dbmenu, mSel, order, isReverse)  {sys.$params(ar
     source: "Daily",
     rq: "idata"
   });
-  global.dbKeyV[0] =sys.$checkExists(global.dbKeyV[0],sys.$checkNull( dbKey));
+  global.dbKeyV[0] =sys.$checkExists(global.dbKeyV[0], dbKey);
 
-  const orderV =sys.$checkNull( [order]);
-  const isReverseV =sys.$checkNull( [isReverse]);
-  const refDifV =sys.$checkNull( [true]);
+  const orderV = [order];
+  const isReverseV = [isReverse];
+  const refDifV = [true];
 
   
    const Profitss =sys.$checkNull( arr.reduce(CosData,
@@ -90,7 +70,7 @@ export  async  function mk2(wg, dbmenu, mSel, order, isReverse)  {sys.$params(ar
   const activityWg =sys.$checkNull( Q("span")
     .text(sys.$eq(activity , cts.active) ? "· · · ·" : ""))
   ;
-  const showV =sys.$checkNull( [[]]);
+  const showV = [[]];
 
   
 
@@ -143,7 +123,7 @@ export  async  function mk2(wg, dbmenu, mSel, order, isReverse)  {sys.$params(ar
 
     
      function changeRefType() {sys.$params(arguments.length, 0);
-      refDifV[0] =sys.$checkExists(refDifV[0],sys.$checkNull( !sys.asBool(refDifV[0])));
+      refDifV[0] =sys.$checkExists(refDifV[0], !sys.asBool(refDifV[0]));
       showV[0]();
     };
 
@@ -165,11 +145,11 @@ export  async  function mk2(wg, dbmenu, mSel, order, isReverse)  {sys.$params(ar
      const iDt =sys.$checkNull( d[dailyChart.invData]);
     const ref =sys.$checkNull( iDt[dailyInvestorData.ref]);
     const stocks =sys.$checkNull( iDt[dailyInvestorData.stocks]);
-    const dailyProfits =sys.$checkNull( iDt[dailyInvestorData.stocks] * (quote - (iDt[dailyInvestorData.isNew] ? iDt[dailyInvestorData.price] : close)));
-    const totalProfits =sys.$checkNull( iDt[dailyInvestorData.stocks] * (quote - iDt[dailyInvestorData.price]));
+    const dailyProfits = iDt[dailyInvestorData.stocks] * (quote - (iDt[dailyInvestorData.isNew] ? iDt[dailyInvestorData.price] : close));
+    const totalProfits = iDt[dailyInvestorData.stocks] * (quote - iDt[dailyInvestorData.price]);
     const isSel =sys.$checkNull( arr.any(CosSel,function(c)  {sys.$params(arguments.length, 1);  return sys.$eq(c , nick);}));
     const isRebuy =sys.$checkNull( arr.any(Rebuys,function(r)  {sys.$params(arguments.length, 1);  return sys.$eq(r , nick);}));
-    const dif =sys.$checkNull( (quote - close) / close);
+    const dif = (quote - close) / close;
     const rdif =sys.$checkNull( close > ref ? ref / quote : quote / ref);
 
 
@@ -231,8 +211,8 @@ export  async  function mk2(wg, dbmenu, mSel, order, isReverse)  {sys.$params(ar
 
   
    function mkSummary()  {sys.$params(arguments.length, 0);
-    const yesterdayValueV =sys.$checkNull( [0]);
-    const todayValueV =sys.$checkNull( [0]);
+    const yesterdayValueV = [0];
+    const todayValueV = [0];
      const Labels =sys.$checkNull( CosData[0][dailyChart.Hours]);
     const size =sys.$checkNull( arr.size(Labels));
     const Values =sys.$checkNull( arr.mk(size, 0));
@@ -242,15 +222,15 @@ export  async  function mk2(wg, dbmenu, mSel, order, isReverse)  {sys.$params(ar
       const quote =sys.$checkNull( arr.peek(Quotes));
        const iDt =sys.$checkNull( cD[dailyChart.invData]);
       const stocks =sys.$checkNull( iDt[dailyInvestorData.stocks]);
-      yesterdayValueV[0] +=sys.$checkExists(yesterdayValueV[0],sys.$checkNull( iDt[dailyInvestorData.stocks] * (iDt[dailyInvestorData.isNew] ? iDt[dailyInvestorData.price] : cl)));
-      const ttPrice =sys.$checkNull( iDt[dailyInvestorData.stocks] * iDt[dailyInvestorData.price]);
-      for (let i = 0;i < size; ++i) Values[i] +=sys.$checkExists(Values[i],sys.$checkNull( stocks * Quotes[i] - ttPrice));
-      todayValueV[0] +=sys.$checkExists(todayValueV[0],sys.$checkNull( stocks * quote));
+      yesterdayValueV[0] +=sys.$checkExists(yesterdayValueV[0], iDt[dailyInvestorData.stocks] * (iDt[dailyInvestorData.isNew] ? iDt[dailyInvestorData.price] : cl));
+      const ttPrice = iDt[dailyInvestorData.stocks] * iDt[dailyInvestorData.price];
+      for (let i = 0;i < size; ++i) Values[i] +=sys.$checkExists(Values[i], stocks * Quotes[i] - ttPrice);
+      todayValueV[0] +=sys.$checkExists(todayValueV[0], stocks * quote);
     }
     const yesterdayValue =sys.$checkNull( yesterdayValueV[0]);
-    const dailyProfits =sys.$checkNull( todayValueV[0] - yesterdayValue);
-    const ratio =sys.$checkNull( (dailyProfits) / yesterdayValue);
-    const CosChartValues =sys.$checkNull( [arr.map(Values,function(v)  {sys.$params(arguments.length, 1);  return [v];})]);
+    const dailyProfits = todayValueV[0] - yesterdayValue;
+    const ratio = (dailyProfits) / yesterdayValue;
+    const CosChartValues = [arr.map(Values,function(v)  {sys.$params(arguments.length, 1);  return [v];})];
 
      const meData =sys.$checkNull( IxsData[0]);
     const meYesterday =sys.$checkNull( meData[dailyChart.close]);
@@ -265,14 +245,14 @@ export  async  function mk2(wg, dbmenu, mSel, order, isReverse)  {sys.$params(ar
         const yesterDay =sys.$checkNull( data[dailyChart.close]);
         const Quotes =sys.$checkNull( data[dailyChart.Quotes]);
         const Values =sys.$checkNull( arr.mk(size, [0]));
-        const usaZeroesV =sys.$checkNull( [true]);
+        const usaZeroesV = [true];
         for (let j = 0;j < size; ++j) {
           if (sys.$eq(i , 3) && usaZeroesV[0]) {
             if (sys.$eq(Quotes[j] , Quotes[0])) {
-              Values[j] =sys.$checkExists(Values[j],sys.$checkNull( []));
+              Values[j] =sys.$checkExists(Values[j], []);
               continue;
             }
-            usaZeroesV[0] =sys.$checkExists(usaZeroesV[0],sys.$checkNull( false));
+            usaZeroesV[0] =sys.$checkExists(usaZeroesV[0], false);
           }
           Values[j] =sys.$checkExists(Values[j],sys.$checkNull( j < 3
             ? [0]
@@ -443,7 +423,7 @@ export  async  function mk2(wg, dbmenu, mSel, order, isReverse)  {sys.$params(ar
             .text(II("Signal")))
           .add(Q("span")
             .html("&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;"))
-          .add(ui.link(function(e)  {sys.$params(arguments.length, 1); isReverseV[0] =sys.$checkExists(isReverseV[0],sys.$checkNull( !sys.asBool(isReverseV[0]))); showV[0]();})
+          .add(ui.link(function(e)  {sys.$params(arguments.length, 1); isReverseV[0] =sys.$checkExists(isReverseV[0], !sys.asBool(isReverseV[0])); showV[0]();})
             .klass(isReverseV[0] ? "link frame" : "link")
             .text(II("Reverse"))))))
     ;
@@ -464,14 +444,14 @@ export  async  function mk2(wg, dbmenu, mSel, order, isReverse)  {sys.$params(ar
               .adds(iter.map(
                 iter.$range(0,3),
                 function(col)  {sys.$params(arguments.length, 1);
-                  const ix =sys.$checkNull( row * 3 + col);
+                  const ix = row * 3 + col;
                   if (ix >= size)  return Q("td");
                    const d =sys.$checkNull( CosData2[ix]);
                   const Labels =sys.$checkNull( d[dailyChart.Hours]);
-                  const Values =sys.$checkNull( [arr.map(d[dailyChart.Quotes], function(q)  {sys.$params(arguments.length, 1);  return [q];})]);
+                  const Values = [arr.map(d[dailyChart.Quotes], function(q)  {sys.$params(arguments.length, 1);  return [q];})];
                   const isRebuy =sys.$checkNull( arr.any(Rebuys,function(c)  {sys.$params(arguments.length, 1);  return sys.$eq(c , d[dailyChart.nick]);}));
                   const ref =sys.$checkNull( d[dailyChart.invData][dailyInvestorData.ref]);
-                  const isToSell =sys.$checkNull( d[dailyChart.close] > ref);
+                  const isToSell = d[dailyChart.close] > ref;
                   const limRef =sys.$checkNull( isToSell ? ref * 1.01 : ref * 0.99);
                   const withRef0 =sys.$checkNull( isToSell
                     ? arr.any(d[dailyChart.Quotes], function(q)  {sys.$params(arguments.length, 1);  return q < limRef;})
@@ -514,44 +494,35 @@ export  async  function mk2(wg, dbmenu, mSel, order, isReverse)  {sys.$params(ar
     const FreeValues =sys.$checkNull( arr.mk(size, 0));
     const SumValues =sys.$checkNull( arr.mk(size, 0));
 
-    const InPortfolio =sys.$checkNull( []); 
-    const Frees =sys.$checkNull( []); 
+    const InPortfolio = []; 
+    const Frees = []; 
     for (const  coD  of sys.$forObject( CosData)) {
       const nick =sys.$checkNull( coD[dailyChart.nick]);
        const inv =sys.$checkNull( coD[dailyChart.invData]);
-      const modelId =sys.$checkNull( inv[dailyInvestorData.modelId]);
       const stocks =sys.$checkNull( inv[dailyInvestorData.stocks]);
-      const Params =sys.$checkNull( inv[dailyInvestorData.Params]);
       const ref =sys.$checkNull( inv[dailyInvestorData.ref]);
 
       const Refs =sys.$checkNull( arr.mk(size, 0));
-      for (const [i, q]  of sys.$forObject2( coD[dailyChart.Quotes])) {
-        const prfs =sys.$checkNull( refProfits(modelId, Params, stocks, q, ref));
-        Refs[i] =sys.$checkExists(Refs[i],sys.$checkNull( prfs));
-        if (stocks > 0) {
-          SumValues[i] +=sys.$checkExists(SumValues[i],sys.$checkNull( prfs));
-          InPfValues[i] +=sys.$checkExists(InPfValues[i],sys.$checkNull( prfs));
-        }
-      }
+      for (const [i, q]  of sys.$forObject2( coD[dailyChart.Quotes]))
+        Refs[i] =sys.$checkExists(Refs[i],sys.$checkNull( stocks > 0
+            ? (q - ref) * stocks
+            : (ref - q) * (cts.bet / q)))
+          ;
+
       const newCoD =sys.$checkNull( dailyChart.mk(nick, coD[dailyChart.close], coD[dailyChart.Hours], Refs, coD[dailyChart.invData]));
       if (stocks > 0)
         arr.push(InPortfolio,newCoD);
       else if (
-        ref > coD[dailyChart.close] &&
+        coD[dailyChart.close] < ref &&
         !sys.asBool(arr.any(Rebuys,function(nk)  {sys.$params(arguments.length, 1);  return sys.$eq(nk , nick);}))
       )
         arr.push(Frees,newCoD);
     }
 
     arr.sort(InPortfolio,function( coD1,  coD2)  {sys.$params(arguments.length, 2);
-      const v1 =sys.$checkNull( arr.peek(coD1[dailyChart.Quotes]));
-      const v2 =sys.$checkNull( arr.peek(coD2[dailyChart.Quotes]));
-         return v1 < 0
-          ? v1 < v2
-          : v2 < 0
-            ? false
-            : v2 < v1
-        ;
+        const v1 =sys.$checkNull( arr.peek(coD1[dailyChart.Quotes]));
+        const v2 =sys.$checkNull( arr.peek(coD2[dailyChart.Quotes]));
+         return v1 < v2;
       });
     arr.sort(Frees,function( coD1,  coD2)  {sys.$params(arguments.length, 2);
         const v1 =sys.$checkNull( arr.peek(coD1[dailyChart.Quotes]));
@@ -559,21 +530,17 @@ export  async  function mk2(wg, dbmenu, mSel, order, isReverse)  {sys.$params(ar
          return v1 < v2;
       });
     const Frees2 =sys.$checkNull( arr.take(Frees, maxCos));
-    arr.sort(Frees2,function( coD1,  coD2)  {sys.$params(arguments.length, 2);
-      const v1 =sys.$checkNull( arr.peek(coD1[dailyChart.Quotes]));
-      const v2 =sys.$checkNull( arr.peek(coD2[dailyChart.Quotes]));
-         return v1 < 0
-          ? v1 < v2
-          : v2 < 0
-            ? false
-            : v2 < v1
-        ;
-      });
 
+    for (const  coD  of sys.$forObject( InPortfolio)) {
+      for (const [i, q]  of sys.$forObject2( coD[dailyChart.Quotes])) {
+        SumValues[i] +=sys.$checkExists(SumValues[i], q);
+        InPfValues[i] +=sys.$checkExists(InPfValues[i], q);
+      }
+    }
     for (const  coD  of sys.$forObject( Frees2)) {
       for (const [i, q]  of sys.$forObject2( coD[dailyChart.Quotes])) {
-        SumValues[i] +=sys.$checkExists(SumValues[i],sys.$checkNull( q));
-        FreeValues[i] +=sys.$checkExists(FreeValues[i],sys.$checkNull( q));
+        SumValues[i] +=sys.$checkExists(SumValues[i], q);
+        FreeValues[i] +=sys.$checkExists(FreeValues[i], q);
       }
     }
 
@@ -587,7 +554,7 @@ export  async  function mk2(wg, dbmenu, mSel, order, isReverse)  {sys.$params(ar
       const nick =sys.$checkNull( coD[dailyChart.nick]);
       const isSel =sys.$checkNull( arr.any(CosSel,function(c)  {sys.$params(arguments.length, 1);  return sys.$eq(c , nick);}));
       const val =sys.$checkNull( math.toIso(arr.peek(coD[dailyChart.Quotes]), 2));
-      const Values =sys.$checkNull( [arr.map(coD[dailyChart.Quotes], function(q)  {sys.$params(arguments.length, 1);  return [q];})]);
+      const Values = [arr.map(coD[dailyChart.Quotes], function(q)  {sys.$params(arguments.length, 1);  return [q];})];
       const chart =sys.$checkNull( refSmallChart.mk(Labels, Values, inPortfolio));
        return Q("td")
         .att("width", "16.7%")
@@ -686,8 +653,8 @@ export  async  function mk2(wg, dbmenu, mSel, order, isReverse)  {sys.$params(ar
           .add(mkSmallTd(2, false))
           .add(mkSmallTd(3, false)))
         .adds(function() {sys.$params(arguments.length, 0);
-            const Trs =sys.$checkNull( []); 
-            const iV =sys.$checkNull( [4]);
+            const Trs = []; 
+            const iV = [4];
             while(iV[0] < arr.size(InPortfolio) || iV[0] < arr.size(Frees2)) {
               arr.push(Trs,Q("tr")
                 .add(mkSmallTd(iV[0], true))
@@ -700,7 +667,7 @@ export  async  function mk2(wg, dbmenu, mSel, order, isReverse)  {sys.$params(ar
                 .add(mkSmallTd(iV[0] + 1, false))
                 .add(mkSmallTd(iV[0] + 2, false))
               );
-              iV[0] +=sys.$checkExists(iV[0],sys.$checkNull( 3));
+              iV[0] +=sys.$checkExists(iV[0], 3);
             }
              return Trs;
           }())
@@ -710,7 +677,7 @@ export  async  function mk2(wg, dbmenu, mSel, order, isReverse)  {sys.$params(ar
 
   
   showV[0] =sys.$checkExists(showV[0], function()  {sys.$params(arguments.length, 0);
-    const Lopts =sys.$checkNull( [
+    const Lopts = [
       dmenu.mkHiddenButton(dbmenu),
       menu.separator2(),
       menu.tlink("daily&summary", II("Summary")),
@@ -724,9 +691,9 @@ export  async  function mk2(wg, dbmenu, mSel, order, isReverse)  {sys.$params(ar
       menu.tlink("daily&sel", II("Selection")),
       menu.separator2(),
       menu.tlink("daily&refs", II("References"))
-    ]);
+    ];
 
-    const Ropts =sys.$checkNull( [
+    const Ropts = [
       menu.mkEntry([], activityWg),
       sys.$eq(activity , cts.active) || time.hour(time.now()) > 12
         ? sys.$eq(activity , cts.active)
@@ -751,7 +718,7 @@ export  async  function mk2(wg, dbmenu, mSel, order, isReverse)  {sys.$params(ar
       menu.mkEntry([], serverWg),
       menu.separator(),
       menu.toption(">>", ">>", newServer)
-    ]);
+    ];
     dmenu.setDownMenu(dbmenu, menu.mk(Lopts, Ropts, "daily&" + mSel));
 
     switch (mSel) {
@@ -763,7 +730,7 @@ export  async  function mk2(wg, dbmenu, mSel, order, isReverse)  {sys.$params(ar
 
   showV[0]();
 
-  const ticV =sys.$checkNull( [0]);
+  const ticV = [0];
   const tm =sys.$checkNull( timer.mk(15000));
   timer.run(tm, function()  {sys.$params(arguments.length, 0);
     const tic =sys.$checkNull( ticV[0]);
@@ -774,7 +741,7 @@ export  async  function mk2(wg, dbmenu, mSel, order, isReverse)  {sys.$params(ar
        return 0;
     }
 
-    ticV[0] +=sys.$checkExists(ticV[0],sys.$checkNull( 1));
+    ticV[0] +=sys.$checkExists(ticV[0], 1);
     if (sys.$eq(activity , cts.active)) {
       updateActivityWg(3 - tic);
     } else {

@@ -13,19 +13,19 @@ const II =sys.$checkNull( i18n.tlt);
 
 
  function mkUpMenu(selected)  {sys.$params(arguments.length, 1);
-  const Lopts =sys.$checkNull( [
+  const Lopts = [
     menu.tlink("home", II("Home")),
     menu.separator(),
     menu.tlink("acc", II("Accounting")),
     menu.separator(),
     menu.tlink("daily", II("Daily Quotes"))
-  ]);
+  ];
 
-  const Ropts =sys.$checkNull( [
+  const Ropts = [
     menu.tlink("verification", II("Verification")),
     menu.separator2(),
     menu.tlink("settings", II("Annotations & Settings"))
-  ]);
+  ];
 
    return menu.mk(Lopts, Ropts, selected);
 };
@@ -39,15 +39,15 @@ export  function mk(wg, selected)  {sys.$params(arguments.length, 2);
   const upDiv =sys.$checkNull( Q("div").style("padding:0px"));
   const upMenu =sys.$checkNull( mkUpMenu(selected));
   const downDiv =sys.$checkNull( Q("div"));
-  const hiddenV =sys.$checkNull( [false]);
+  const hiddenV = [false];
 
-  const showV =sys.$checkNull( [[]]);
+  const showV = [[]];
 
   
 
   
    function change(ev)  {sys.$params(arguments.length, 1);
-    hiddenV[0] =sys.$checkExists(hiddenV[0],sys.$checkNull( !sys.asBool(hiddenV[0])));
+    hiddenV[0] =sys.$checkExists(hiddenV[0], !sys.asBool(hiddenV[0]));
     upDiv.removeAll().style("padding:0px");
     if (!sys.asBool(hiddenV[0])) upDiv.add(upMenu);
   };
@@ -59,7 +59,7 @@ export  function mk(wg, selected)  {sys.$params(arguments.length, 2);
       .removeAll()
       .add(menuWg)
     ;
-    hiddenV[0] =sys.$checkExists(hiddenV[0],sys.$checkNull( true));
+    hiddenV[0] =sys.$checkExists(hiddenV[0], true);
     upDiv.removeAll().style("padding:0px");
   };
 

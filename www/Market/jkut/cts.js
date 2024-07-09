@@ -9,9 +9,9 @@ const Q =sys.$checkNull( ui.q);
 const II =sys.$checkNull( i18n.tlt);
 
 
-export const appName =sys.$checkNull( "Market");
+export const appName = "Market";
 
-export const version =sys.$checkNull( "2024.04");
+export const version = "2024.04";
 
 export const foot =sys.$checkNull( Q("table")
   .klass("main")
@@ -25,22 +25,22 @@ export const foot =sys.$checkNull( Q("table")
 ;
 
 
-export const meNick =sys.$checkNull( "<ME>");
+export const meNick = "<ME>";
 
-export const ibexNick =sys.$checkNull( "<IBEX>");
+export const ibexNick = "<IBEX>";
 
-export const euroNick =sys.$checkNull( "<EURO>");
+export const euroNick = "<EURO>";
 
 
-export const trading =sys.$checkNull( 1500000);
+export const trading = 1500000;
 
-export const bet =sys.$checkNull( 12000.0);
+export const bet = 12000.0;
 
-export const initialCapital =sys.$checkNull( 300000.0);
+export const initialCapital = 300000.0;
 
 export const [serverStopped, serverActive, serverSelected] =[0, 1, 2];
 
-export const accountingQuotes =sys.$checkNull( 250);
+export const accountingQuotes = 250;
 
 
 export const okMsg =sys.$checkNull( II("Operation successfully done."));
@@ -48,17 +48,17 @@ export const okMsg =sys.$checkNull( II("Operation successfully done."));
 export const failMsg =sys.$checkNull( II("Operation failed.\nSee log."));
 
 
-export const toBuyColors =sys.$checkNull( [
+export const toBuyColors = [
   "rgba(160, 0, 0)",
   "rgba(224, 160, 0)",
   "rgba(240, 224, 0)"
-]);
+];
 
-export const toSellColors =sys.$checkNull( [
+export const toSellColors = [
   "rgba(0, 0, 160)",
   "rgba(0, 160, 224)",
   "rgba(0, 160, 0)"
-]);
+];
 
 
 export const {active, sleeping} ={"active":"active", "sleeping":"sleeping"};

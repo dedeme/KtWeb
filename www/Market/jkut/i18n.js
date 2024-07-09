@@ -2,7 +2,7 @@ import * as math from './_js/math.js';import * as js from './_js/js.js';import *
 
 
 
-const esDic =sys.$checkNull( {
+const esDic = {
   "%0 Model": "Modelo %0",
   "'%0' is empty": "Falta rellenar el campo '%0'",
   "'%0' is not a number or is a negative one": "'%0' no es un número o es un número negativo",
@@ -61,6 +61,7 @@ const esDic =sys.$checkNull( {
   "Diff. +": "Dif. +",
   "Diff. -": "Dif. -",
   "Differences": "Diferencias",
+  "Different to base": "Diferente de la base",
   "Download": "Descarga",
   "Download ok.": "Descarga correcta.",
   "Downloading...": "Descargando ...",
@@ -120,6 +121,7 @@ const esDic =sys.$checkNull( {
   "Reverse": "Reverso",
   "Rf. (%)": "Rf. (%)",
   "Risk": "Riesgo",
+  "Selected": "Selección",
   "Selection": "Selección",
   "Sell": "Venta",
   "Sells": "Ventas",
@@ -161,11 +163,11 @@ const esDic =sys.$checkNull( {
   "Without dates": "Sin fechas",
   "Without operations": "Sin operaciones",
   "here": "aquí"
-});
+};
 
-export  function es() {sys.$params(arguments.length, 0); Lang[0] =sys.$checkExists(Lang[0],sys.$checkNull( "es"));};
+export  function es() {sys.$params(arguments.length, 0); Lang[0] =sys.$checkExists(Lang[0], "es");};
 
-const enDic =sys.$checkNull( {
+const enDic = {
   "%0 Model": "%0 Model",
   "'%0' is empty": "'%0' is empty",
   "'%0' is not a number or is a negative one": "'%0' is not a number or is a negative one",
@@ -224,6 +226,7 @@ const enDic =sys.$checkNull( {
   "Diff. +": "Diff. +",
   "Diff. -": "Diff. -",
   "Differences": "Differences",
+  "Different to base": "Different to base",
   "Download": "Download",
   "Download ok.": "Download ok.",
   "Downloading...": "Downloading...",
@@ -283,6 +286,7 @@ const enDic =sys.$checkNull( {
   "Reverse": "Reverse",
   "Rf. (%)": "Rf. (%)",
   "Risk": "Risk",
+  "Selected": "Selected",
   "Selection": "Selection",
   "Sell": "Sell",
   "Sells": "Sells",
@@ -324,9 +328,9 @@ const enDic =sys.$checkNull( {
   "Without dates": "Without dates",
   "Without operations": "Without operations",
   "here": "here"
-});
+};
 
-export  function en() {sys.$params(arguments.length, 0); Lang[0] =sys.$checkExists(Lang[0],sys.$checkNull( "en"));};
+export  function en() {sys.$params(arguments.length, 0); Lang[0] =sys.$checkExists(Lang[0], "en");};
 
 
  function dicByKey(s)  {sys.$params(arguments.length, 1); return (   
@@ -335,7 +339,7 @@ export  function en() {sys.$params(arguments.length, 0); Lang[0] =sys.$checkExis
    "Unreachable"
 );};
 
-const Lang =sys.$checkNull( ["es"]);
+const Lang = ["es"];
 
 export  function getLang() {sys.$params(arguments.length, 0);  return Lang[0];};
 
@@ -347,7 +351,7 @@ export  function tlt(s)  {sys.$params(arguments.length, 1);
 
 
 export  function fmt(tp, Rpls)  {sys.$params(arguments.length, 2);
-  const R =sys.$checkNull( [tp]);
+  const R = [tp];
   for (let i = 0;i < arr.size(Rpls); ++i) R[0] =sys.$checkExists(R[0],sys.$checkNull( str.replace(R[0], "%" + sys.toStr(i), Rpls[i])));
    return R[0];
 };

@@ -22,14 +22,14 @@ const II =sys.$checkNull( i18n.tlt);
 
 export  function mk(wg,  dbmenu,  LcPath)  {sys.$params(arguments.length, 3);
   if (!sys.asBool(LcPath)) arr.push(LcPath,"nicks");
-  const target =sys.$checkNull( "settings&" +(   
+  const target = "settings&" +(   
       sys.$eq(LcPath[0],"settings")|| sys.$eq(LcPath[0],"calendar")|| sys.$eq(LcPath[0],"servers")|| sys.$eq(LcPath[0],"annotations")|| sys.$eq(LcPath[0],"investors")?
         LcPath[0]:
       
         "nicks"
-    ));
+    );
 
-  const Lopts =sys.$checkNull( [
+  const Lopts = [
     dmenu.mkHiddenButton(dbmenu),
     menu.separator2(),
     menu.tlink("settings&nicks", II("Nicks")),
@@ -39,11 +39,11 @@ export  function mk(wg,  dbmenu,  LcPath)  {sys.$params(arguments.length, 3);
     menu.tlink("settings&annotations", II("Annotations")),
     menu.separator2(),
     menu.tlink("settings&investors", II("Investors"))
-  ]);
+  ];
 
-  const Ropts =sys.$checkNull( [
+  const Ropts = [
     menu.tlink("settings&calendar", II("Calendar"))
-  ]);
+  ];
 
   dmenu.setDownMenu(dbmenu,menu.mk(Lopts, Ropts, target));
 

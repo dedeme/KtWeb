@@ -57,13 +57,13 @@ export  async  function mk(wg)  {sys.$params(arguments.length, 1);
     rq: "idata"
   });
 
-  const CEs =sys.$checkNull( []); 
-  const Corrects =sys.$checkNull( []); 
-  const correctsSumV =sys.$checkNull( [0]);
-  const iV =sys.$checkNull( [0]);
+  const CEs = []; 
+  const Corrects = []; 
+  const correctsSumV = [0];
+  const iV = [0];
   for (const  e  of sys.$forObject( AllEs)) {
     const i =sys.$checkNull( iV[0]);
-    iV[0] +=sys.$checkExists(iV[0],sys.$checkNull( 1));
+    iV[0] +=sys.$checkExists(iV[0], 1);
     if (sys.$eq(i , 0)) {
       arr.push(CEs, e);
       continue;
@@ -134,28 +134,28 @@ export  async  function mk(wg)  {sys.$params(arguments.length, 1);
     ;
 
    const Chart =sys.$checkNull( lineChart.mkExample());
-  Chart.exArea.width =sys.$checkExists(Chart.exArea.width,sys.$checkNull( 600));
-  Chart.exArea.height =sys.$checkExists(Chart.exArea.height,sys.$checkNull( 200));
-  Chart.exArea.atts.border.width =sys.$checkExists(Chart.exArea.atts.border.width,sys.$checkNull( 0));
-  Chart.inPadding.top =sys.$checkExists(Chart.inPadding.top,sys.$checkNull( 10));
-  Chart.inPadding.right =sys.$checkExists(Chart.inPadding.right,sys.$checkNull( 10));
-  Chart.inPadding.bottom =sys.$checkExists(Chart.inPadding.bottom,sys.$checkNull( 20));
-  Chart.inPadding.left =sys.$checkExists(Chart.inPadding.left,sys.$checkNull( 85));
-  Chart.chartPadding.top =sys.$checkExists(Chart.chartPadding.top,sys.$checkNull( 4));
-  Chart.chartPadding.right =sys.$checkExists(Chart.chartPadding.right,sys.$checkNull( 2));
-  Chart.chartPadding.bottom =sys.$checkExists(Chart.chartPadding.bottom,sys.$checkNull( 4));
-  Chart.chartPadding.left =sys.$checkExists(Chart.chartPadding.left,sys.$checkNull( 2));
+  Chart.exArea.width =sys.$checkExists(Chart.exArea.width, 600);
+  Chart.exArea.height =sys.$checkExists(Chart.exArea.height, 200);
+  Chart.exArea.atts.border.width =sys.$checkExists(Chart.exArea.atts.border.width, 0);
+  Chart.inPadding.top =sys.$checkExists(Chart.inPadding.top, 10);
+  Chart.inPadding.right =sys.$checkExists(Chart.inPadding.right, 10);
+  Chart.inPadding.bottom =sys.$checkExists(Chart.inPadding.bottom, 20);
+  Chart.inPadding.left =sys.$checkExists(Chart.inPadding.left, 85);
+  Chart.chartPadding.top =sys.$checkExists(Chart.chartPadding.top, 4);
+  Chart.chartPadding.right =sys.$checkExists(Chart.chartPadding.right, 2);
+  Chart.chartPadding.bottom =sys.$checkExists(Chart.chartPadding.bottom, 4);
+  Chart.chartPadding.left =sys.$checkExists(Chart.chartPadding.left, 2);
 
   
 
-  const month =sys.$checkNull( sys.$slice(today,null,6));
+  const month = sys.$slice(today,null,6);
    const E00s =sys.$checkNull( arr.dropWhile(AllEs,function( e)  {sys.$params(arguments.length, 1);  return sys.$slice(e[profitsEntry.date],null,6) <  month;}));
    const E0s =sys.$checkNull( arr.size(E00s) > 1 ? E00s : sys.$slice(AllEs, -2,null));
    const ef0 =sys.$checkNull( E0s[0]);
    const el0 =sys.$checkNull( arr.peek(E0s));
-  const total0 =sys.$checkNull( el0[profitsEntry.total] - ef0[profitsEntry.total]);
-  const acc0 =sys.$checkNull( el0[profitsEntry.acc] - ef0[profitsEntry.acc]);
-  const risk0 =sys.$checkNull( el0[profitsEntry.risk] - ef0[profitsEntry.risk]);
+  const total0 = el0[profitsEntry.total] - ef0[profitsEntry.total];
+  const acc0 = el0[profitsEntry.acc] - ef0[profitsEntry.acc];
+  const risk0 = el0[profitsEntry.risk] - ef0[profitsEntry.risk];
 
   const back0 =sys.$checkNull( total0 > 0
     ? "#e9e9f2"
@@ -163,26 +163,26 @@ export  async  function mk(wg)  {sys.$params(arguments.length, 1);
       ? "#f2e9e9"
       : "#e9e9e9")
     ;
-  Chart.exArea.atts.background =sys.$checkExists(Chart.exArea.atts.background,sys.$checkNull( back0));
+  Chart.exArea.atts.background =sys.$checkExists(Chart.exArea.atts.background, back0);
 
-  const Lb0s =sys.$checkNull( []);
-  const Val0s =sys.$checkNull( [[], [], []]);
+  const Lb0s = [];
+  const Val0s = [[], [], []];
   for (const  e  of sys.$forObject( E0s)) {
     arr.push(Lb0s,time.toIso(time.fromStr(e[profitsEntry.date])[0]));
     arr.push(Val0s[0], [e[profitsEntry.total]]);
     arr.push(Val0s[1], [e[profitsEntry.acc]]);
     arr.push(Val0s[2], [e[profitsEntry.risk]]);
   }
-  const Att0s =sys.$checkNull( [
+  const Att0s = [
     lineChart.mkLine(2, "#0041aa", false),
     lineChart.mkLine(2, "#414141", false),
     lineChart.mkLine(2, "#aa4100", false)
-  ]);
+  ];
    const Data0 =sys.$checkNull( lineChart.mkData(Lb0s, Val0s, Att0s));
-  Data0.round =sys.$checkExists(Data0.round,sys.$checkNull( 0));
-  Data0.Labels =sys.$checkExists(Data0.Labels,sys.$checkNull( Lb0s));
-  Data0.SetValues =sys.$checkExists(Data0.SetValues,sys.$checkNull( [Val0s[0], Val0s[1], Val0s[2]]));
-  Data0.SetAtts =sys.$checkExists(Data0.SetAtts,sys.$checkNull( Att0s));
+  Data0.round =sys.$checkExists(Data0.round, 0);
+  Data0.Labels =sys.$checkExists(Data0.Labels, Lb0s);
+  Data0.SetValues =sys.$checkExists(Data0.SetValues, [Val0s[0], Val0s[1], Val0s[2]]);
+  Data0.SetAtts =sys.$checkExists(Data0.SetAtts, Att0s);
   Data0.drawGrid =sys.$checkExists(Data0.drawGrid, function(lb, i)  {sys.$params(arguments.length, 2);
     if (sys.$eq(i , 0))  return false;
      return sys.$eq(i % 3 , 0);
@@ -204,43 +204,43 @@ export  async  function mk(wg)  {sys.$params(arguments.length, 1);
 
   
 
-  const year =sys.$checkNull( sys.$slice(today,null,4));
+  const year = sys.$slice(today,null,4);
    const E10s =sys.$checkNull( arr.dropWhile(AllEs,function( e)  {sys.$params(arguments.length, 1);  return sys.$slice(e[profitsEntry.date],null,4) <  year;}));
    const E1s =sys.$checkNull( arr.size(E10s) > 1 ? E10s : sys.$slice(AllEs, -2,null));
    const ef1 =sys.$checkNull( E1s[0]);
     const el1 =sys.$checkNull( arr.peek(E1s));
-  const total1 =sys.$checkNull( el1[profitsEntry.total] - ef1[profitsEntry.total]);
-  const acc1 =sys.$checkNull( el1[profitsEntry.acc] - ef1[profitsEntry.acc]);
-  const risk1 =sys.$checkNull( el1[profitsEntry.risk] - ef1[profitsEntry.risk]);
+  const total1 = el1[profitsEntry.total] - ef1[profitsEntry.total];
+  const acc1 = el1[profitsEntry.acc] - ef1[profitsEntry.acc];
+  const risk1 = el1[profitsEntry.risk] - ef1[profitsEntry.risk];
 
-  Chart.chartPadding.top =sys.$checkExists(Chart.chartPadding.top,sys.$checkNull( 2));
-  Chart.chartPadding.bottom =sys.$checkExists(Chart.chartPadding.bottom,sys.$checkNull( 2));
+  Chart.chartPadding.top =sys.$checkExists(Chart.chartPadding.top, 2);
+  Chart.chartPadding.bottom =sys.$checkExists(Chart.chartPadding.bottom, 2);
   const back1 =sys.$checkNull( total1 > 0
     ? "#e9e9f2"
     : total1< 0
       ? "#f2e9e9"
       : "#e9e9e9")
     ;
-  Chart.exArea.atts.background =sys.$checkExists(Chart.exArea.atts.background,sys.$checkNull( back1));
+  Chart.exArea.atts.background =sys.$checkExists(Chart.exArea.atts.background, back1);
 
-  const Lb1s =sys.$checkNull( []);
-  const Val1s =sys.$checkNull( [[], [], []]);
+  const Lb1s = [];
+  const Val1s = [[], [], []];
   for (const  e  of sys.$forObject( E1s)) {
     arr.push(Lb1s,time.toIso(time.fromStr(e[profitsEntry.date])[0]));
     arr.push(Val1s[0], [e[profitsEntry.total]]);
     arr.push(Val1s[1], [e[profitsEntry.acc]]);
     arr.push(Val1s[2], [e[profitsEntry.risk]]);
   }
-  const Att1s =sys.$checkNull( [
+  const Att1s = [
     lineChart.mkLine(1.5, "#0041aa", false),
     lineChart.mkLine(1.5, "#414141", false),
     lineChart.mkLine(1.5, "#aa4100", false)
-  ]);
+  ];
    const Data1 =sys.$checkNull( lineChart.mkData(Lb1s, Val1s, Att1s));
-  Data1.round =sys.$checkExists(Data1.round,sys.$checkNull( 0));
-  Data1.Labels =sys.$checkExists(Data1.Labels,sys.$checkNull( Lb1s));
-  Data1.SetValues =sys.$checkExists(Data1.SetValues,sys.$checkNull( [Val1s[0], Val1s[1], Val1s[2]]));
-  Data1.SetAtts =sys.$checkExists(Data1.SetAtts,sys.$checkNull( Att1s));
+  Data1.round =sys.$checkExists(Data1.round, 0);
+  Data1.Labels =sys.$checkExists(Data1.Labels, Lb1s);
+  Data1.SetValues =sys.$checkExists(Data1.SetValues, [Val1s[0], Val1s[1], Val1s[2]]);
+  Data1.SetAtts =sys.$checkExists(Data1.SetAtts, Att1s);
   Data1.drawGrid =sys.$checkExists(Data1.drawGrid, function(lb, i)  {sys.$params(arguments.length, 2);
     if (sys.$eq(i , 0))  return false;
      return sys.$neq(sys.$slice(Lb1s[i - 1],3,5) , sys.$slice(lb,3,5)) ? true : false;
@@ -266,9 +266,9 @@ export  async  function mk(wg)  {sys.$params(arguments.length, 1);
    const E2s =sys.$checkNull( arr.size(E20s) > 1 ? E20s : sys.$slice(AllEs, -2,null));
    const ef2 =sys.$checkNull( E2s[0]);
    const el2 =sys.$checkNull( arr.peek(E2s));
-  const total2 =sys.$checkNull( el2[profitsEntry.total] - ef2[profitsEntry.total]);
-  const acc2 =sys.$checkNull( el2[profitsEntry.acc] - ef2[profitsEntry.acc]);
-  const risk2 =sys.$checkNull( el2[profitsEntry.risk] - ef2[profitsEntry.risk]);
+  const total2 = el2[profitsEntry.total] - ef2[profitsEntry.total];
+  const acc2 = el2[profitsEntry.acc] - ef2[profitsEntry.acc];
+  const risk2 = el2[profitsEntry.risk] - ef2[profitsEntry.risk];
 
   const back2 =sys.$checkNull( total2 > 0
     ? "#e9e9f2"
@@ -276,26 +276,26 @@ export  async  function mk(wg)  {sys.$params(arguments.length, 1);
       ? "#f2e9e9"
       : "#e9e9e9")
     ;
-  Chart.exArea.atts.background =sys.$checkExists(Chart.exArea.atts.background,sys.$checkNull( back2));
+  Chart.exArea.atts.background =sys.$checkExists(Chart.exArea.atts.background, back2);
 
-  const Lb2s =sys.$checkNull( []);
-  const Val2s =sys.$checkNull( [[], [], []]);
+  const Lb2s = [];
+  const Val2s = [[], [], []];
   for (const  e  of sys.$forObject( E2s)) {
     arr.push(Lb2s,time.toIso(time.fromStr(e[profitsEntry.date])[0]));
     arr.push(Val2s[0], [e[profitsEntry.total]]);
     arr.push(Val2s[1], [e[profitsEntry.acc]]);
     arr.push(Val2s[2], [e[profitsEntry.risk]]);
   }
-  const Att2s =sys.$checkNull( [
+  const Att2s = [
     lineChart.mkLine(1.5, "#0041aa", false),
     lineChart.mkLine(1.5, "#414141", false),
     lineChart.mkLine(1.5, "#aa4100", false)
-  ]);
+  ];
    const Data2 =sys.$checkNull( lineChart.mkData(Lb2s, Val2s, Att2s));
-  Data2.round =sys.$checkExists(Data2.round,sys.$checkNull( 0));
-  Data2.Labels =sys.$checkExists(Data2.Labels,sys.$checkNull( Lb2s));
-  Data2.SetValues =sys.$checkExists(Data2.SetValues,sys.$checkNull( [Val2s[0], Val2s[1], Val2s[2]]));
-  Data2.SetAtts =sys.$checkExists(Data2.SetAtts,sys.$checkNull( Att2s));
+  Data2.round =sys.$checkExists(Data2.round, 0);
+  Data2.Labels =sys.$checkExists(Data2.Labels, Lb2s);
+  Data2.SetValues =sys.$checkExists(Data2.SetValues, [Val2s[0], Val2s[1], Val2s[2]]);
+  Data2.SetAtts =sys.$checkExists(Data2.SetAtts, Att2s);
   Data2.drawGrid =sys.$checkExists(Data2.drawGrid, function(lb, i)  {sys.$params(arguments.length, 2);
     if (sys.$eq(i , 0))  return false;
      return sys.$neq(sys.$slice(Lb2s[i - 1],3,5) , sys.$slice(lb,3,5)) ? true : false;
@@ -316,11 +316,11 @@ export  async  function mk(wg)  {sys.$params(arguments.length, 1);
 
   
 
-  const prevEV =sys.$checkNull( [CEs[0]]);
+  const prevEV = [CEs[0]];
    const E30s =sys.$checkNull( arr.filter(CEs,function( e)  {sys.$params(arguments.length, 1);
      const prevE =sys.$checkNull( prevEV[0]);
-    const r =sys.$checkNull( sys.$neq(sys.$slice(e[profitsEntry.date],4,6) , sys.$slice(prevE[profitsEntry.date],4,6)));
-    prevEV[0] =sys.$checkExists(prevEV[0],sys.$checkNull( e));
+    const r = sys.$neq(sys.$slice(e[profitsEntry.date],4,6) , sys.$slice(prevE[profitsEntry.date],4,6));
+    prevEV[0] =sys.$checkExists(prevEV[0], e);
      return r;
   }));
   arr.unshift(E30s,CEs[0]);
@@ -329,9 +329,9 @@ export  async  function mk(wg)  {sys.$params(arguments.length, 1);
    const E3s =sys.$checkNull( arr.size(E30s) > 1 ? E30s : sys.$slice(AllEs, -2,null));
    const ef3 =sys.$checkNull( E3s[0]);
    const el3 =sys.$checkNull( arr.peek(E3s));
-  const total3 =sys.$checkNull( el3[profitsEntry.total] - ef3[profitsEntry.total]);
-  const acc3 =sys.$checkNull( el3[profitsEntry.acc] - ef3[profitsEntry.acc]);
-  const risk3 =sys.$checkNull( el3[profitsEntry.risk] - ef3[profitsEntry.risk]);
+  const total3 = el3[profitsEntry.total] - ef3[profitsEntry.total];
+  const acc3 = el3[profitsEntry.acc] - ef3[profitsEntry.acc];
+  const risk3 = el3[profitsEntry.risk] - ef3[profitsEntry.risk];
 
   const back3 =sys.$checkNull( total3 > 0
     ? "#e9e9f2"
@@ -339,26 +339,26 @@ export  async  function mk(wg)  {sys.$params(arguments.length, 1);
       ? "#f2e9e9"
       : "#e9e9e9")
     ;
-  Chart.exArea.atts.background =sys.$checkExists(Chart.exArea.atts.background,sys.$checkNull( back3));
+  Chart.exArea.atts.background =sys.$checkExists(Chart.exArea.atts.background, back3);
 
-  const Lb3s =sys.$checkNull( []);
-  const Val3s =sys.$checkNull( [[], [], []]);
+  const Lb3s = [];
+  const Val3s = [[], [], []];
   for (const  e  of sys.$forObject( E3s)) {
     arr.push(Lb3s,sys.$slice(time.toIso(time.fromStr(e[profitsEntry.date])[0]),3,null));
     arr.push(Val3s[0], [e[profitsEntry.total]]);
     arr.push(Val3s[1], [e[profitsEntry.acc]]);
     arr.push(Val3s[2], [e[profitsEntry.risk]]);
   }
-  const Att3s =sys.$checkNull( [
+  const Att3s = [
     lineChart.mkLine(1.5, "#0041aa", false),
     lineChart.mkLine(1.5, "#414141", false),
     lineChart.mkLine(1.5, "#aa4100", false)
-  ]);
+  ];
    const Data3 =sys.$checkNull( lineChart.mkData(Lb3s, Val3s, Att3s));
-  Data3.round =sys.$checkExists(Data3.round,sys.$checkNull( 0));
-  Data3.Labels =sys.$checkExists(Data3.Labels,sys.$checkNull( Lb3s));
-  Data3.SetValues =sys.$checkExists(Data3.SetValues,sys.$checkNull( [Val3s[0], Val3s[1], Val3s[2]]));
-  Data3.SetAtts =sys.$checkExists(Data3.SetAtts,sys.$checkNull( Att3s));
+  Data3.round =sys.$checkExists(Data3.round, 0);
+  Data3.Labels =sys.$checkExists(Data3.Labels, Lb3s);
+  Data3.SetValues =sys.$checkExists(Data3.SetValues, [Val3s[0], Val3s[1], Val3s[2]]);
+  Data3.SetAtts =sys.$checkExists(Data3.SetAtts, Att3s);
   Data3.drawGrid =sys.$checkExists(Data3.drawGrid, function(lb, i)  {sys.$params(arguments.length, 2);
     if (sys.$eq(i , 0))  return false;
      return sys.$neq(sys.$slice(Lb3s[i - 1], -2,null) , sys.$slice(lb, -2,null)) ? true : false;

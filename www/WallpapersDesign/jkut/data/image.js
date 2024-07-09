@@ -4,34 +4,22 @@ import * as math from '../_js/math.js';import * as js from '../_js/js.js';import
 
 
 import * as imgCut from  "../data/imgCut.js";
-import * as imgAdjustment from  "../data/imgAdjustment.js";
+import * as imgAdj from  "../data/imgAdj.js";
 import * as imgBlur from  "../data/imgBlur.js";
 
 
 
-export  function mk(id, Cut, Adjustment, Blur)  {sys.$params(arguments.length, 4);  return {id:id, Cut:Cut, Adjustment:Adjustment, Blur:Blur};};
 
 
-export  function setCut(I, V)  {sys.$params(arguments.length, 2);  return mk(I.id, V, I.Adjustment, I.Blur);};
 
 
-export  function setAdjustment(I, V)  {sys.$params(arguments.length, 2);  return mk(I.id, I.Cut, V, I.Blur);};
+export function mk (id,cutOp,adjOp,blurOp) { sys.$params(arguments.length, 4); return [ id, cutOp, adjOp, blurOp];}export const id = 0;export const cutOp = 1;export const adjOp = 2;export const blurOp = 3;
 
 
-export  function setBlur(I, V)  {sys.$params(arguments.length, 2);  return mk(I.id, I.Cut, I.Adjustment, V);};
+export  function setCutOp(i, vOp)  {sys.$params(arguments.length, 2);  return mk(i[id], vOp, i[adjOp], i[blurOp]);};
 
 
-export  function toJs(I)  {sys.$params(arguments.length, 1);  return [
-    I.id,
-    !sys.asBool(I.Cut) ? [] : [imgCut.toJs(I.Cut[0])],
-    !sys.asBool(I.Adjustment) ? [] : [imgAdjustment.toJs(I.Adjustment[0])],
-    !sys.asBool(I.Blur) ? [] : [imgBlur.toJs(I.Blur[0])]
-  ];};
+export  function setAdjOp(i, vOp)  {sys.$params(arguments.length, 2);  return mk(i[id], i[cutOp], vOp, i[blurOp]);};
 
 
-export  function fromJs(A)  {sys.$params(arguments.length, 1);  return mk(
-    A[0],
-    !sys.asBool(A[1]) ? [] : [imgCut.fromJs(A[1][0])],
-    !sys.asBool(A[2]) ? [] : [imgAdjustment.fromJs(A[2][0])],
-    !sys.asBool(A[3]) ? [] : [imgBlur.fromJs(A[3][0])]
-  );};
+export  function setBlurOp(i, vOp)  {sys.$params(arguments.length, 2);  return mk(i[id], i[cutOp], i[adjOp], vOp);};

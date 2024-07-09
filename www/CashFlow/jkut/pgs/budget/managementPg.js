@@ -31,12 +31,12 @@ export  function mk(wg, selectedYear, isUntil, selectedMonth,
       Plan, balance, Diary, Budget, PreviousBudget)  {sys.$params(arguments.length, 9);
 
   const monthName =sys.$checkNull( month.name(selectedMonth));
-  const isEditionV =sys.$checkNull( [false]);
+  const isEditionV = [false];
 
   const finalBalanceWg =sys.$checkNull( Q("div"));
   const budgetWg =sys.$checkNull( Q("div"));
 
-  const showOp =sys.$checkNull( [[]]);
+  const showOp = [[]];
 
   
 
@@ -52,7 +52,7 @@ export  function mk(wg, selectedYear, isUntil, selectedMonth,
 
   
    function changeEdition()  {sys.$params(arguments.length, 0);
-    isEditionV[0] =sys.$checkExists(isEditionV[0],sys.$checkNull( !sys.asBool(isEditionV[0])));
+    isEditionV[0] =sys.$checkExists(isEditionV[0], !sys.asBool(isEditionV[0]));
     showOp[0]();
   };
 
@@ -137,26 +137,26 @@ export  function mk(wg, selectedYear, isUntil, selectedMonth,
 
   
   showOp[0] =sys.$checkExists(showOp[0], function()  {sys.$params(arguments.length, 0);
-    const Lopts =sys.$checkNull( [
+    const Lopts = [
       isUntil
         ? menu.toption("", II("Monthly"), changeAccumulation)
         : menu.toption("", II("Accumulated"), changeAccumulation),
       menu.separator2()
-    ]);
-    const iV =sys.$checkNull( [0]);
+    ];
+    const iV = [0];
     for (const m  of sys.$forObject( str.split(II("months"), ","))) {
       const i =sys.$checkNull( iV[0]);
-      iV[0] +=sys.$checkExists(iV[0],sys.$checkNull( 1));
+      iV[0] +=sys.$checkExists(iV[0], 1);
       if (i > 0) arr.push(Lopts, menu.separator());
       arr.push(Lopts, menu.toption(
         month.name(i + 1), month.name(i + 1), function()  {sys.$params(arguments.length, 0); changeMonth(i + 1);}
       ));
     }
-    const Ropts =sys.$checkNull( [
+    const Ropts = [
       isEditionV[0]
         ? menu.toption("", II("View"), changeEdition)
         : menu.toption("", II("Edit"), changeEdition)
-    ]);
+    ];
     const menuWg =sys.$checkNull( menu.mk(Lopts, Ropts, monthName));
 
     finalBalance();

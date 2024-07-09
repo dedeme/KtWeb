@@ -11,32 +11,32 @@ const II =sys.$checkNull( i18n.tlt);
 
 
 export  function mk(Labels, Values)  {sys.$params(arguments.length, 2);
-  const back =sys.$checkNull( "#fafafa");
+  const back = "#fafafa";
 
    const Chart =sys.$checkNull( lineChart.mkExample());
-  Chart.exArea.width =sys.$checkExists(Chart.exArea.width,sys.$checkNull( 610));
-  Chart.exArea.height =sys.$checkExists(Chart.exArea.height,sys.$checkNull( 160));
-  Chart.exArea.atts.border.width =sys.$checkExists(Chart.exArea.atts.border.width,sys.$checkNull( 0));
-  Chart.exArea.atts.background =sys.$checkExists(Chart.exArea.atts.background,sys.$checkNull( back));
-  Chart.inPadding.right =sys.$checkExists(Chart.inPadding.right,sys.$checkNull( 6));
-  Chart.inPadding.bottom =sys.$checkExists(Chart.inPadding.bottom,sys.$checkNull( 12));
-  Chart.inPadding.left =sys.$checkExists(Chart.inPadding.left,sys.$checkNull( 85));
-  Chart.chartPadding.top =sys.$checkExists(Chart.chartPadding.top,sys.$checkNull( 4));
-  Chart.chartPadding.right =sys.$checkExists(Chart.chartPadding.right,sys.$checkNull( 4));
-  Chart.chartPadding.bottom =sys.$checkExists(Chart.chartPadding.bottom,sys.$checkNull( 4));
-  Chart.chartPadding.left =sys.$checkExists(Chart.chartPadding.left,sys.$checkNull( 4));
-  Chart.inAtts.background =sys.$checkExists(Chart.inAtts.background,sys.$checkNull( "#e9e9e9"));
+  Chart.exArea.width =sys.$checkExists(Chart.exArea.width, 610);
+  Chart.exArea.height =sys.$checkExists(Chart.exArea.height, 160);
+  Chart.exArea.atts.border.width =sys.$checkExists(Chart.exArea.atts.border.width, 0);
+  Chart.exArea.atts.background =sys.$checkExists(Chart.exArea.atts.background, back);
+  Chart.inPadding.right =sys.$checkExists(Chart.inPadding.right, 6);
+  Chart.inPadding.bottom =sys.$checkExists(Chart.inPadding.bottom, 12);
+  Chart.inPadding.left =sys.$checkExists(Chart.inPadding.left, 85);
+  Chart.chartPadding.top =sys.$checkExists(Chart.chartPadding.top, 4);
+  Chart.chartPadding.right =sys.$checkExists(Chart.chartPadding.right, 4);
+  Chart.chartPadding.bottom =sys.$checkExists(Chart.chartPadding.bottom, 4);
+  Chart.chartPadding.left =sys.$checkExists(Chart.chartPadding.left, 4);
+  Chart.inAtts.background =sys.$checkExists(Chart.inAtts.background, "#e9e9e9");
 
-  const Atts =sys.$checkNull( [
+  const Atts = [
     lineChart.mkLine(1, "#000080", false),
     lineChart.mkLine(1, "#008000", false)
-  ]);
+  ];
 
    const Data =sys.$checkNull( lineChart.mkData(Labels, Values, Atts));
-  Data.UnarySets =sys.$checkExists(Data.UnarySets,sys.$checkNull( [lineChart.mkUnarySet(
+  Data.UnarySets =sys.$checkExists(Data.UnarySets, [lineChart.mkUnarySet(
     II("Dif. 0"), 0, lineChart.mkLine(1, "#000000", false)
-  )]));
-  Data.round =sys.$checkExists(Data.round,sys.$checkNull( 2));
+  )]);
+  Data.round =sys.$checkExists(Data.round, 2);
   Data.drawGrid =sys.$checkExists(Data.drawGrid, function(lb, i)  {sys.$params(arguments.length, 2);
     if (sys.$eq(i , 0))  return false;
      return sys.$neq(Labels[i - 1] , lb);

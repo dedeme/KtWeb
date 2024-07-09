@@ -15,20 +15,20 @@ const II =sys.$checkNull( i18n.tlt);
 
 export  function mk(Labels, Values)  {sys.$params(arguments.length, 2);
    const Chart =sys.$checkNull( lineChart.mkExample());
-  Chart.exArea.width =sys.$checkExists(Chart.exArea.width,sys.$checkNull( 305));
-  Chart.exArea.height =sys.$checkExists(Chart.exArea.height,sys.$checkNull( 160));
-  Chart.exArea.atts.border.width =sys.$checkExists(Chart.exArea.atts.border.width,sys.$checkNull( 0));
-  Chart.inPadding.left =sys.$checkExists(Chart.inPadding.left,sys.$checkNull( 45));
-  Chart.xAxis.fontSize =sys.$checkExists(Chart.xAxis.fontSize,sys.$checkNull( 10));
-  Chart.yAxis.fontSize =sys.$checkExists(Chart.yAxis.fontSize,sys.$checkNull( 10));
+  Chart.exArea.width =sys.$checkExists(Chart.exArea.width, 305);
+  Chart.exArea.height =sys.$checkExists(Chart.exArea.height, 160);
+  Chart.exArea.atts.border.width =sys.$checkExists(Chart.exArea.atts.border.width, 0);
+  Chart.inPadding.left =sys.$checkExists(Chart.inPadding.left, 45);
+  Chart.xAxis.fontSize =sys.$checkExists(Chart.xAxis.fontSize, 10);
+  Chart.yAxis.fontSize =sys.$checkExists(Chart.yAxis.fontSize, 10);
 
-  Chart.exArea.atts.background =sys.$checkExists(Chart.exArea.atts.background,sys.$checkNull( "#f5f5f5"));
+  Chart.exArea.atts.background =sys.$checkExists(Chart.exArea.atts.background, "#f5f5f5");
 
-  const Atts =sys.$checkNull( [
+  const Atts = [
     lineChart.mkLine(1.2, "#ff8100", false),
     lineChart.mkLine(1.2, "#404040", false),
     lineChart.mkLine(1.2, "#00aaff", false)
-  ]);
+  ];
    const Data =sys.$checkNull( lineChart.mkData(Labels, Values, Atts));
   Data.drawGrid =sys.$checkExists(Data.drawGrid, function(lb, i)  {sys.$params(arguments.length, 2);
     if (sys.$eq(i , 0))  return false;
@@ -36,7 +36,7 @@ export  function mk(Labels, Values)  {sys.$params(arguments.length, 2);
   });
   Data.drawLabel =sys.$checkExists(Data.drawLabel,sys.$checkNull( Data.drawGrid));
   Data.maxMinRound =sys.$checkExists(Data.maxMinRound, function(mx, mn)  {sys.$params(arguments.length, 2);
-    Data.round =sys.$checkExists(Data.round,sys.$checkNull( 0));
+    Data.round =sys.$checkExists(Data.round, 0);
      return 0;
   });
 
