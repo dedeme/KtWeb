@@ -1,4 +1,4 @@
-import * as math from '../../_js/math.js';import * as js from '../../_js/js.js';import * as arr from '../../_js/arr.js';import * as client from '../../_js/client.js';import * as bytes from '../../_js/bytes.js';import * as str from '../../_js/str.js';import * as ui from '../../_js/ui.js';import * as dic from '../../_js/dic.js';import * as timer from '../../_js/timer.js';import * as time from '../../_js/time.js';import * as storage from '../../_js/storage.js';import * as b64 from '../../_js/b64.js';import * as sys from '../../_js/sys.js';import * as iter from '../../_js/iter.js';import * as domo from '../../_js/domo.js';import * as cryp from '../../_js/cryp.js';
+import * as arr from '../../_js/arr.js';import * as bytes from '../../_js/bytes.js';import * as storage from '../../_js/storage.js';import * as sys from '../../_js/sys.js';import * as client from '../../_js/client.js';import * as b64 from '../../_js/b64.js';import * as ui from '../../_js/ui.js';import * as js from '../../_js/js.js';import * as iter from '../../_js/iter.js';import * as math from '../../_js/math.js';import * as str from '../../_js/str.js';import * as timer from '../../_js/timer.js';import * as domo from '../../_js/domo.js';import * as dic from '../../_js/dic.js';import * as cryp from '../../_js/cryp.js';import * as time from '../../_js/time.js';
 
 
 
@@ -20,21 +20,23 @@ const II =sys.$checkNull( i18n.tlt);
 
 export  async  function mk(wg, selected)  {sys.$params(arguments.length, 2);
   
-  const {dbKey,  Svs, dailySv, historicSv,  Codes} = await  client.send({
+  const {dbKey,  Svs,  Codes} =
+  await  client.send({
     prg: cts.appName,
     module: "Settings",
     source: "ServersPg",
     rq: "idata",
     selected:selected
   });
-  global.dbKeyV[0] =sys.$checkExists(global.dbKeyV[0], dbKey);
+  global.dbKeyV[0] = dbKey;
 
   const svSelectedOp =sys.$checkNull( arr.find(Svs,function( sv)  {sys.$params(arguments.length, 1);  return sys.$eq(sv[server.id] , selected);}));
    const svSelected =sys.$checkNull( !sys.asBool(svSelectedOp)
-    ? server.mk("", "", false, false)
+    ? server.mk("", "", server.undef, server.undef, server.undef)
     : svSelectedOp[0])
   ;
 
+  const currentTestImg =sys.$checkNull( Q("span"));
   const dailyTestImg =sys.$checkNull( Q("span"));
   const historicTestImg =sys.$checkNull( Q("span"));
   const CodeFields = [];
@@ -48,6 +50,35 @@ export  async  function mk(wg, selected)  {sys.$params(arguments.length, 2);
 
   
    function select(svId)  {sys.$params(arguments.length, 1); mk(wg, svId);};
+
+   async  function currentTest() {sys.$params(arguments.length, 0);
+    currentTestImg
+      .removeAll()
+      .add(ui.img("wait.gif"))
+    ;
+    const {withErrors, withWarnings} = await  client.send({
+      prg: cts.appName,
+      module: "Settings",
+      source: "ServersPg",
+      rq: "testCurrent",
+      svId: svSelected[server.id]
+    });
+    if (withErrors && withWarnings)
+      msg.error(II("Errors and warnings found.<br>See log."), function(){sys.$params(arguments.length, 0);});
+    else if (withErrors)
+      msg.error(II("Errors found.<br>See log."), function(){sys.$params(arguments.length, 0);});
+    else if (withWarnings)
+      msg.error(II("Warnings found.<br>See log."), function(){sys.$params(arguments.length, 0);});
+    else
+      msg.ok(II("Test ok."), function(){sys.$params(arguments.length, 0);});
+
+    currentTestImg
+      .removeAll()
+      .add(ui.link(function(ev)  {sys.$params(arguments.length, 1); currentTest();})
+        .add(ui.img("unknown")
+        .style("vertical-align:top")))
+    ;
+  };
 
    async  function dailyTest() {sys.$params(arguments.length, 0);
     dailyTestImg
@@ -98,7 +129,7 @@ export  async  function mk(wg, selected)  {sys.$params(arguments.length, 2);
         return;
       }
 
-      const [nick, code] = arr.pop(NksCds);
+      const [nick,] = arr.pop(NksCds);
       showWaitV[0](nick);
       const {withErrors, withWarnings} = await  client.send({
         prg: cts.appName,
@@ -106,11 +137,10 @@ export  async  function mk(wg, selected)  {sys.$params(arguments.length, 2);
         source: "ServersPg",
         rq: "testCo",
         svId: svSelected[server.id],
-        nick:nick,
-        code:code
+        nick:nick
       });
-      withErrorsV[0] ||=sys.$checkExists(withErrorsV[0], withErrors);
-      withWarningsV[0] ||=sys.$checkExists(withWarningsV[0], withWarnings);
+      withErrorsV[0] ||= withErrors;
+      withWarningsV[0] ||= withWarnings;
       test2(NksCds);
     };
     test2(NksCds);
@@ -134,8 +164,7 @@ export  async  function mk(wg, selected)  {sys.$params(arguments.length, 2);
       source: "ServersPg",
       rq: "testCo",
       svId: svSelected[server.id],
-      nick: nick,
-      code: code
+      nick: nick
     });
     if (withErrors && withWarnings)
       msg.error(II("Errors and warnings found.<br>See log."), function(){sys.$params(arguments.length, 0);});
@@ -172,32 +201,41 @@ export  async  function mk(wg, selected)  {sys.$params(arguments.length, 2);
       svId: svSelected[server.id],
       Codes: Codes
     });
-    global.dbKeyV[0] =sys.$checkExists(global.dbKeyV[0], dbKey);
+    global.dbKeyV[0] = dbKey;
     mk(wg, svSelected[server.id]);
   };
 
   
 
-  showV[0] =sys.$checkExists(showV[0], function()  {sys.$params(arguments.length, 0);
-    const Opts = [vmenu.title(II("Servers")), vmenu.separator()];
+  showV[0] = function()  {sys.$params(arguments.length, 0);
+    const Opts = [
+      vmenu.title(II("Servers")),
+      vmenu.mkEntry([], Q("div").text("(C-D-H)"), Q("div")),
+      vmenu.separator()
+    ];
     for (const  sv  of sys.$forObject( Svs)) {
-       function dailyWg() {sys.$params(arguments.length, 0);  return sv[server.withDaily]
-        ? sys.$eq(sv[server.id] , dailySv)
-          ? ui.img("star")
-          : ui.led("#d0ddde", 6)
-        : ui.img("stopped")
-      ;};
-
-       function historicWg()  {sys.$params(arguments.length, 0);  return sv[server.withHistoric]
-        ? sys.$eq(sv[server.id] , historicSv)
-          ? ui.img("star")
-          : ui.led("#d0ddde", 6)
-        : ui.img("stopped")
-      ;};
+       function currentWg() {sys.$params(arguments.length, 0); return (   
+          sys.$eq(sv[server.withCurrent],server.active)  ? ui.img("star"):
+          sys.$eq(sv[server.withCurrent],server.inactive)? ui.img("star2"):
+                    ui.led("#d0ddde", 6)
+        );};
+       function dailyWg() {sys.$params(arguments.length, 0); return (   
+          sys.$eq(sv[server.withDaily],server.active)  ? ui.img("star"):
+          sys.$eq(sv[server.withDaily],server.inactive)? ui.img("star2"):
+                    ui.led("#d0ddde", 6)
+        );};
+       function historicWg() {sys.$params(arguments.length, 0); return (   
+          sys.$eq(sv[server.withHistoric],server.active)  ? ui.img("star"):
+          sys.$eq(sv[server.withHistoric],server.inactive)? ui.img("star2"):
+                    ui.led("#d0ddde", 6)
+        );};
 
       const normalWg =sys.$checkNull( Q("table")
         .klass("main")
         .add(Q("tr")
+          .add(Q("td")
+            .style("width:5px")
+            .add(currentWg().setStyle("vertical-align", "top")))
           .add(Q("td")
             .style("width:5px")
             .add(dailyWg().setStyle("vertical-align", "top")))
@@ -214,6 +252,9 @@ export  async  function mk(wg, selected)  {sys.$params(arguments.length, 2);
       const selectWg =sys.$checkNull( Q("table")
         .klass("main")
         .add(Q("tr")
+          .add(Q("td")
+            .style("width:5px")
+            .add(currentWg().setStyle("vertical-align", "top")))
           .add(Q("td")
             .style("width:5px")
             .add(dailyWg().setStyle("vertical-align", "top")))
@@ -248,6 +289,15 @@ export  async  function mk(wg, selected)  {sys.$params(arguments.length, 2);
               .text(svSelected[server.name])))
       );
 
+      currentTestImg
+        .removeAll()
+        .add(svSelected[server.withCurrent]
+          ? ui.link(function(ev)  {sys.$params(arguments.length, 1); currentTest();})
+              .add(ui.img("unknown")
+                .style("vertical-align:top"))
+          : ui.img("unknown2")
+            .style("vertical-align:top"))
+      ;
       dailyTestImg
         .removeAll()
         .add(svSelected[server.withDaily]
@@ -279,7 +329,17 @@ export  async  function mk(wg, selected)  {sys.$params(arguments.length, 2);
                 .add(Q("td")
                   .style(
                       "white-space:nowrap;text-align:right;" +
-                      "width:50%;padding-rigth:4px"
+                      "width:33%;padding-rigth:4px"
+                    )
+                  .add(Q("span")
+                    .add(currentTestImg)
+                    .add(Q("span")
+                      .style("padding-left:4px")
+                      .text(II("Current 'ticks' Test")))))
+                .add(Q("td")
+                  .style(
+                      "white-space:nowrap;text-align:center;" +
+                      "width:33%;padding-rigth:4px"
                     )
                   .add(Q("span")
                     .add(dailyTestImg)
@@ -289,7 +349,7 @@ export  async  function mk(wg, selected)  {sys.$params(arguments.length, 2);
                 .add(Q("td")
                   .style(
                       "white-space:nowrap;text-align:left;" +
-                      "width:50%;padding-left:4px"
+                      "width:33%;padding-left:4px"
                     )
                   .add(Q("span")
                     .add(historicTestImg)
@@ -389,14 +449,14 @@ export  async  function mk(wg, selected)  {sys.$params(arguments.length, 2);
             .add(body))))
       .add(msgWait)
     ;
-  });
+  };
 
   
-  showWaitV[0] =sys.$checkExists(showWaitV[0], function(nick)  {sys.$params(arguments.length, 1);
+  showWaitV[0] = function(nick)  {sys.$params(arguments.length, 1);
     msgWait.removeAll();
 
     if (sys.$neq(nick , "")) {
-      const box =sys.$checkNull( modalBox.mk(
+       const box =sys.$checkNull( modalBox.mk(
         Q("div")
           .add(Q("div")
             .style("text-align:center")
@@ -407,7 +467,7 @@ export  async  function mk(wg, selected)  {sys.$params(arguments.length, 2);
       msgWait.add(modalBox.mkWg(box));
       modalBox.show(box,true);
     }
-  });
+  };
 
   showV[0]();
 };

@@ -1,0 +1,84 @@
+[file_prefs]
+final_new_line=true
+ensure_convert_new_lines=false
+strip_trailing_spaces=true
+replace_tabs=false
+
+[indentation]
+indent_width=2
+indent_type=0
+indent_hard_tab_width=8
+detect_indent=false
+detect_indent_width=false
+indent_mode=2
+
+[project]
+name=KutDoc
+base_path=./
+description=
+file_patterns=
+
+[long line marker]
+long_line_behaviour=1
+long_line_column=80
+
+[build-menu]
+NF_00_LB=Browser
+NF_00_CM=firefox "http://localhost:8008/KuttDoc"
+EX_00_LB=Language
+EX_00_CM=jkutI18n "es:en" jkut
+EX_00_WD=%p
+EX_01_LB=
+EX_01_CM=
+EX_01_WD=
+NF_01_CM=
+NF_00_WD=
+NF_01_LB=Compilar obje_tivo personalizado...
+NF_01_WD=
+NF_02_LB=Templates
+NF_02_CM=firefox "http://localhost:8008/KTemplate"
+NF_02_WD=
+NF_03_LB=Geany Keywords
+NF_03_CM=kgeanyWords ./
+NF_03_WD=%p
+JkutFT_00_LB=Check
+JkutFT_00_CM=jkut -c jkut/main
+JkutFT_00_WD=%p
+JkutFT_01_LB=Run
+JkutFT_01_CM=jkut jkut/main www;kutt -o kutt/bin/KuttDoc kutt/src/main;
+JkutFT_01_WD=%p
+filetypes=Jkut;Kutt;
+KuttFT_00_LB=Check
+KuttFT_00_CM=kutt --clean;kutt -c kutt/src/main
+KuttFT_00_WD=%p
+KuttFT_01_LB=Compile
+KuttFT_01_CM=kutt -o kutt/bin/KuttDoc kutt/src/main;jkut jkut/main www
+KuttFT_01_WD=%p
+
+[files]
+current_page=2
+FILE_NAME_0=1703;Jkut;0;EUTF-8;0;1;0;%2Fdm%2FKtWeb%2Fprgs%2FKuttDoc%2Fjkut%2Fpgs%2FcodePg.jkut;0;2
+FILE_NAME_1=899;Kutt;0;EUTF-8;0;1;0;%2Fdm%2FKtWeb%2Fprgs%2FKuttDoc%2Fkutt%2Fsrc%2Fpgs%2FcodePg.ktt;0;2
+FILE_NAME_2=1066;Kutt;0;EUTF-8;0;1;0;%2Fdm%2FKtWeb%2Fprgs%2FKuttDoc%2Fkutt%2Fsrc%2Fpgs%2FmodulePg.ktt;0;2
+FILE_NAME_3=733;Kutt;0;EUTF-8;0;1;0;%2Fdm%2FKtWeb%2Fprgs%2FKuttDoc%2Fkutt%2Fsrc%2Fdata%2FdocCEntry.ktt;0;2
+FILE_NAME_4=290;Jkut;0;EUTF-8;0;1;0;%2Fdm%2FKtWeb%2Fprgs%2FKuttDoc%2Fjkut%2Fpgs%2FmodulePg.jkut;0;2
+FILE_NAME_5=1009;Kutt;0;EUTF-8;0;1;0;%2Fdm%2FKtWeb%2Fprgs%2FKuttDoc%2Fkutt%2Fsrc%2Flibdm%2Fsvrp.ktt;0;2
+FILE_NAME_6=0;Jkut;0;EUTF-8;0;1;0;%2Fdm%2FKtWeb%2Fprgs%2FKuttDoc%2Fjkut%2Fdata%2FdocEntry.jkut;0;2
+FILE_NAME_7=0;Kutt;0;EUTF-8;0;1;0;%2Fdm%2FKtWeb%2Fprgs%2FKuttDoc%2Fkutt%2Fsrc%2Fdata%2FdocEntry.ktt;0;2
+
+[editor]
+line_wrapping=false
+line_break_column=80
+auto_continue_multiline=false
+
+[VTE]
+last_dir=/home/deme/.local/share/Trash/files
+
+[prjorg]
+source_patterns=*.c;*.C;*.cpp;*.cxx;*.c++;*.cc;*.m;
+header_patterns=*.h;*.H;*.hpp;*.hxx;*.h++;*.hh;
+ignored_dirs_patterns=.*;CVS;
+ignored_file_patterns=*.o;*.obj;*.a;*.lib;*.so;*.dll;*.lo;*.la;*.class;*.jar;*.pyc;*.mo;*.gmo;
+generate_tag_prefs=0
+show_empty_dirs=true
+external_dirs=

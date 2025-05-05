@@ -1,4 +1,4 @@
-import * as math from '../_js/math.js';import * as js from '../_js/js.js';import * as arr from '../_js/arr.js';import * as client from '../_js/client.js';import * as bytes from '../_js/bytes.js';import * as str from '../_js/str.js';import * as ui from '../_js/ui.js';import * as dic from '../_js/dic.js';import * as timer from '../_js/timer.js';import * as time from '../_js/time.js';import * as storage from '../_js/storage.js';import * as b64 from '../_js/b64.js';import * as sys from '../_js/sys.js';import * as iter from '../_js/iter.js';import * as domo from '../_js/domo.js';import * as cryp from '../_js/cryp.js';
+import * as arr from '../_js/arr.js';import * as bytes from '../_js/bytes.js';import * as storage from '../_js/storage.js';import * as sys from '../_js/sys.js';import * as client from '../_js/client.js';import * as b64 from '../_js/b64.js';import * as ui from '../_js/ui.js';import * as js from '../_js/js.js';import * as iter from '../_js/iter.js';import * as math from '../_js/math.js';import * as str from '../_js/str.js';import * as timer from '../_js/timer.js';import * as domo from '../_js/domo.js';import * as dic from '../_js/dic.js';import * as cryp from '../_js/cryp.js';import * as time from '../_js/time.js';
 
 
 
@@ -12,7 +12,7 @@ import * as docEntry from  "../data/docEntry.js";
 const Q =sys.$checkNull( ui.q);
 const II =sys.$checkNull( i18n.tlt);
 
-const tab =sys.$checkNull( "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;");
+const tab = "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
 
 
 export  async  function mk(wg, pack, path)  {sys.$params(arguments.length, 3);
@@ -51,18 +51,18 @@ export  async  function mk(wg, pack, path)  {sys.$params(arguments.length, 3);
      function block( Entries, name)  {sys.$params(arguments.length, 2);
       if (!sys.asBool(Entries))  return [];
 
-      const R =sys.$checkNull( []);
+      const R = [];
       arr.push(R,Q("tr")
         .add(Q("td")
           .att("colspan", "3")
           .html("<i>" + name + "</i>"))
       );
       const size =sys.$checkNull( arr.size(Entries));
-      const h =sys.$checkNull( Math.floor((size - 1) / 3) + 1);
+      const h = Math.floor((size - 1) / 3) + 1;
       for (let y = 0;y < h; ++y) {
         arr.push(R,Q("tr")
           .adds(iter.map(iter.$range(0,3), function(x)  {sys.$params(arguments.length, 1);
-              const pos =sys.$checkNull( x * h + y);
+              const pos = x * h + y;
               if (pos < size) {
                  const e =sys.$checkNull( Entries[pos]);
                  return Q("td")
@@ -114,23 +114,23 @@ export  async  function mk(wg, pack, path)  {sys.$params(arguments.length, 3);
      function block( Entries, name, isFunction)  {sys.$params(arguments.length, 3);
       
        function endEntry( e)  {sys.$params(arguments.length, 1);
-        const isNewLineV =sys.$checkNull( [true]);
-        const bfV =sys.$checkNull( [""]);
+        const isNewLineV = [true];
+        const bfV = [""];
         const code =sys.$checkNull( e[docEntry.code]);
         for (let i = 0;i < str.len(code); ++i) {
           const ch =sys.$checkNull( code[i]);
           if (isNewLineV[0] && sys.$neq(ch , "\n")) {
             if (ch <= " ") {
-              bfV[0] +=sys.$checkExists(bfV[0],sys.$checkNull( "&nbsp;"));
+              bfV[0] +=sys.$checkExists(bfV[0], "&nbsp;");
             } else {
-              bfV[0] +=sys.$checkExists(bfV[0],sys.$checkNull( ch));
-              isNewLineV[0] =sys.$checkExists(isNewLineV[0],sys.$checkNull( false));
+              bfV[0] +=sys.$checkExists(bfV[0], ch);
+              isNewLineV[0] =sys.$checkExists(isNewLineV[0], false);
             }
           } else if (sys.$eq(ch , "\n")) {
-            bfV[0] +=sys.$checkExists(bfV[0],sys.$checkNull( "<br>"));
-            isNewLineV[0] =sys.$checkExists(isNewLineV[0],sys.$checkNull( true));
+            bfV[0] +=sys.$checkExists(bfV[0], "<br>");
+            isNewLineV[0] =sys.$checkExists(isNewLineV[0], true);
           } else {
-            bfV[0] +=sys.$checkExists(bfV[0],sys.$checkNull( ch));
+            bfV[0] +=sys.$checkExists(bfV[0], ch);
           }
         }
          return Q("div")
@@ -164,7 +164,7 @@ export  async  function mk(wg, pack, path)  {sys.$params(arguments.length, 3);
     ;
   };
 
-  const barIx =sys.$checkNull( str.lastIndex(path, "/") + 1);
+  const barIx = str.lastIndex(path, "/") + 1;
   Q("@title").text(cts.appName + " - " + sys.$slice(path,barIx,null));
 
   wg
@@ -179,9 +179,9 @@ export  async  function mk(wg, pack, path)  {sys.$params(arguments.length, 3);
   const lc =sys.$checkNull( window.location.href);
   const ix =sys.$checkNull( str.index(lc, "#"));
   if (sys.$neq(ix ,  -1)) {
-    const tg =sys.$checkNull( sys.$slice(lc,ix,null));
+    const tg = sys.$slice(lc,ix,null);
     if (sys.$neq(tg , "#")) {
-      const eOp =sys.$checkNull( sys.$null((Q(tg).e)));
+      const eOp = sys.$null((Q(tg).e));
       if (!sys.asBool(!sys.asBool(eOp))) eOp[0].scrollIntoView(true);
     }
   }
@@ -193,8 +193,8 @@ export  async  function mk(wg, pack, path)  {sys.$params(arguments.length, 3);
   if (sys.$eq(str.trim(tx) , ""))  return [];
 
   const html =sys.$checkNull( str.replace(str.replace(tx, "&", "&amp;"), "<", "&lt;"));
-  const r =sys.$checkNull( []);
-  arr.push(r,Q("table")
+  const R = [];
+  arr.push(R,Q("table")
     .add(Q("tr")
       .add(Q("td")
         .klass("frame")
@@ -203,5 +203,5 @@ export  async  function mk(wg, pack, path)  {sys.$params(arguments.length, 3);
           .style("font-size: 14px;")
           .html(html))))
   );
-   return r;
+   return R;
 };

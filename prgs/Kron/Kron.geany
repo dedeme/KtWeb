@@ -56,9 +56,9 @@ JkutFT_01_WD=%p
 filetypes=Jkut;Kut;
 
 [files]
-current_page=0
-FILE_NAME_0=1165;Jkut;0;EUTF-8;0;1;0;%2Fdm%2FKtWeb%2Fprgs%2FKron%2Fjkut%2Fmain.jkut;0;2
-FILE_NAME_1=0;Kut;0;EUTF-8;0;1;0;%2Fdm%2FKtWeb%2Fprgs%2FKron%2Fkut%2Fmain.kut;0;2
+current_page=1
+FILE_NAME_0=1821;Jkut;0;EUTF-8;0;1;0;%2Fdm%2FKtWeb%2Fprgs%2FKron%2Fjkut%2Fmain.jkut;0;2
+FILE_NAME_1=2792;Jkut;0;EUTF-8;0;1;0;%2Fdm%2FKtWeb%2Fprgs%2FKron%2Fjkut%2Fpgs%2FfixPg.jkut;0;2
 
 [editor]
 line_wrapping=false
@@ -67,3 +67,12 @@ auto_continue_multiline=false
 
 [VTE]
 last_dir=/home/deme/.local/share/Trash/files
+
+[prjorg]
+source_patterns=*.c;*.C;*.cpp;*.cxx;*.c++;*.cc;*.m;
+header_patterns=*.h;*.H;*.hpp;*.hxx;*.h++;*.hh;
+ignored_dirs_patterns=.*;CVS;
+ignored_file_patterns=*.o;*.obj;*.a;*.lib;*.so;*.dll;*.lo;*.la;*.class;*.jar;*.pyc;*.mo;*.gmo;
+generate_tag_prefs=0
+show_empty_dirs=true
+external_dirs=

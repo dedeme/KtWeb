@@ -1,4 +1,4 @@
-import * as math from '../_js/math.js';import * as js from '../_js/js.js';import * as arr from '../_js/arr.js';import * as client from '../_js/client.js';import * as bytes from '../_js/bytes.js';import * as str from '../_js/str.js';import * as ui from '../_js/ui.js';import * as dic from '../_js/dic.js';import * as timer from '../_js/timer.js';import * as time from '../_js/time.js';import * as storage from '../_js/storage.js';import * as b64 from '../_js/b64.js';import * as sys from '../_js/sys.js';import * as iter from '../_js/iter.js';import * as domo from '../_js/domo.js';import * as cryp from '../_js/cryp.js';
+import * as arr from '../_js/arr.js';import * as bytes from '../_js/bytes.js';import * as storage from '../_js/storage.js';import * as sys from '../_js/sys.js';import * as client from '../_js/client.js';import * as b64 from '../_js/b64.js';import * as ui from '../_js/ui.js';import * as js from '../_js/js.js';import * as iter from '../_js/iter.js';import * as math from '../_js/math.js';import * as str from '../_js/str.js';import * as timer from '../_js/timer.js';import * as domo from '../_js/domo.js';import * as dic from '../_js/dic.js';import * as cryp from '../_js/cryp.js';import * as time from '../_js/time.js';
 
 
 
@@ -19,13 +19,13 @@ export  async  function mk(wg)  {sys.$params(arguments.length, 1);
     source: "ManualPg",
     rq: "idata"
   });
-  global.dbKeyV[0] =sys.$checkExists(global.dbKeyV[0],sys.$checkNull( dbKey));
+  global.dbKeyV[0] =sys.$checkExists(global.dbKeyV[0], dbKey);
 
   
    const As =sys.$checkNull( arr.map(Anns, ann.fromJs));
-  const idV =sys.$checkNull( [ -1]);
+  const idV = [ -1];
 
-  const showV =sys.$checkNull( [[]]);
+  const showV = [[]];
 
   
 
@@ -52,13 +52,13 @@ export  async  function mk(wg)  {sys.$params(arguments.length, 1);
 
   
    function edit(id)  {sys.$params(arguments.length, 1);
-    idV[0] =sys.$checkExists(idV[0],sys.$checkNull( id));
+    idV[0] =sys.$checkExists(idV[0], id);
     showV[0]();
   };
 
   
    function editCancel()  {sys.$params(arguments.length, 0);
-    idV[0] =sys.$checkExists(idV[0],sys.$checkNull(  -1));
+    idV[0] =sys.$checkExists(idV[0],  -1);
     showV[0]();
   };
 
@@ -143,8 +143,8 @@ export  async  function mk(wg)  {sys.$params(arguments.length, 1);
 
   
    function mkTr( a)  {sys.$params(arguments.length, 1);
-    const isSel =sys.$checkNull( sys.$eq(a[ann.id] , idV[0]));
-    const isNew =sys.$checkNull( sys.$eq(idV[0] ,  -1));
+    const isSel = sys.$eq(a[ann.id] , idV[0]);
+    const isNew = sys.$eq(idV[0] ,  -1);
     const txWg =sys.$checkNull( Q("textarea")
       .att("spellcheck", false)
       .att("cols", 60)

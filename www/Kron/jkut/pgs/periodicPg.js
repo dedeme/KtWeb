@@ -1,4 +1,4 @@
-import * as math from '../_js/math.js';import * as js from '../_js/js.js';import * as arr from '../_js/arr.js';import * as client from '../_js/client.js';import * as bytes from '../_js/bytes.js';import * as str from '../_js/str.js';import * as ui from '../_js/ui.js';import * as dic from '../_js/dic.js';import * as timer from '../_js/timer.js';import * as time from '../_js/time.js';import * as storage from '../_js/storage.js';import * as b64 from '../_js/b64.js';import * as sys from '../_js/sys.js';import * as iter from '../_js/iter.js';import * as domo from '../_js/domo.js';import * as cryp from '../_js/cryp.js';
+import * as arr from '../_js/arr.js';import * as bytes from '../_js/bytes.js';import * as storage from '../_js/storage.js';import * as sys from '../_js/sys.js';import * as client from '../_js/client.js';import * as b64 from '../_js/b64.js';import * as ui from '../_js/ui.js';import * as js from '../_js/js.js';import * as iter from '../_js/iter.js';import * as math from '../_js/math.js';import * as str from '../_js/str.js';import * as timer from '../_js/timer.js';import * as domo from '../_js/domo.js';import * as dic from '../_js/dic.js';import * as cryp from '../_js/cryp.js';import * as time from '../_js/time.js';
 
 
 
@@ -22,16 +22,16 @@ export  async  function mk(wg)  {sys.$params(arguments.length, 1);
     source: "PeriodicPg",
     rq: "idata"
   });
-  global.dbKeyV[0] =sys.$checkExists(global.dbKeyV[0],sys.$checkNull( dbKey));
+  global.dbKeyV[0] =sys.$checkExists(global.dbKeyV[0], dbKey);
 
   
    const As =sys.$checkNull( arr.map(Anns, ann.fromJs));
   arr.sort(As,
     function( a1,  a2)  {sys.$params(arguments.length, 2);  return str.toUpper(a1[ann.text]) < str.toUpper(a2[ann.text]);}
   );
-  const idV =sys.$checkNull( [ -1]);
+  const idV = [ -1];
 
-  const showV =sys.$checkNull( [[]]);
+  const showV = [[]];
 
   
   
@@ -39,7 +39,7 @@ export  async  function mk(wg)  {sys.$params(arguments.length, 1);
      const Days =sys.$checkNull( DayDs.Days);
     const tx =sys.$checkNull( txWg.getValue().trim());
 
-    const errV =sys.$checkNull( [""]);
+    const errV = [""];
     if (!sys.asBool(Days)) errV[0] =sys.$checkExists(errV[0],sys.$checkNull( II("Week days is missing")));
     if (sys.$eq(tx , "")) errV[0] =sys.$checkExists(errV[0],sys.$checkNull( II("Command value is missing")));
 
@@ -48,7 +48,7 @@ export  async  function mk(wg)  {sys.$params(arguments.length, 1);
       return;
     }
 
-    const today =sys.$checkNull( time.now());
+     const today =sys.$checkNull( time.now());
     const tm =sys.$checkNull(  time.mk(
       time.day(today), time.month(today), time.year(today),
       math.fromStr(hWg.getValue())[0], math.fromStr(mWg.getValue())[0], 0
@@ -70,13 +70,13 @@ export  async  function mk(wg)  {sys.$params(arguments.length, 1);
 
   
    function edit(id)  {sys.$params(arguments.length, 1);
-    idV[0] =sys.$checkExists(idV[0],sys.$checkNull( id));
+    idV[0] =sys.$checkExists(idV[0], id);
     showV[0]();
   };
 
   
    function editCancel()  {sys.$params(arguments.length, 0);
-    idV[0] =sys.$checkExists(idV[0],sys.$checkNull(  -1));
+    idV[0] =sys.$checkExists(idV[0],  -1);
     showV[0]();
   };
 
@@ -129,7 +129,7 @@ export  async  function mk(wg)  {sys.$params(arguments.length, 1);
   
    function trsNew()  {sys.$params(arguments.length, 0);
     const dayWg =sys.$checkNull( Q("div"));
-     const DayDs =sys.$checkNull( daySelector.mk(dayWg, [], sys.$eq(idV[0] ,  -1)));
+    const DayDs =sys.$checkNull( daySelector.mk(dayWg, [], sys.$eq(idV[0] ,  -1)));
     DayDs.show();
     const hWg =sys.$checkNull( ui.select(
       "h-new", arr.fromIter(iter.map(iter.$range(0,24), function(i)  {sys.$params(arguments.length, 1);  return fns.formatN00(i);}))
@@ -181,11 +181,11 @@ export  async  function mk(wg)  {sys.$params(arguments.length, 1);
 
   
    function mkTr( a)  {sys.$params(arguments.length, 1);
-    const isSel =sys.$checkNull( sys.$eq(a[ann.id] , idV[0]));
-    const isNew =sys.$checkNull( sys.$eq(idV[0] ,  -1));
+    const isSel = sys.$eq(a[ann.id] , idV[0]);
+    const isNew = sys.$eq(idV[0] ,  -1);
 
     const dayWg =sys.$checkNull( Q("div"));
-     const DayDs =sys.$checkNull( daySelector.mk(dayWg, ann.days(a), isSel));
+    const DayDs =sys.$checkNull( daySelector.mk(dayWg, ann.days(a), isSel));
     DayDs.show();
 
     const hWg =sys.$checkNull( ui.select(

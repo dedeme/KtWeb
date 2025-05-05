@@ -1,4 +1,4 @@
-import * as math from '../../../_js/math.js';import * as js from '../../../_js/js.js';import * as arr from '../../../_js/arr.js';import * as client from '../../../_js/client.js';import * as bytes from '../../../_js/bytes.js';import * as str from '../../../_js/str.js';import * as ui from '../../../_js/ui.js';import * as dic from '../../../_js/dic.js';import * as timer from '../../../_js/timer.js';import * as time from '../../../_js/time.js';import * as storage from '../../../_js/storage.js';import * as b64 from '../../../_js/b64.js';import * as sys from '../../../_js/sys.js';import * as iter from '../../../_js/iter.js';import * as domo from '../../../_js/domo.js';import * as cryp from '../../../_js/cryp.js';
+import * as arr from '../../../_js/arr.js';import * as bytes from '../../../_js/bytes.js';import * as storage from '../../../_js/storage.js';import * as sys from '../../../_js/sys.js';import * as client from '../../../_js/client.js';import * as b64 from '../../../_js/b64.js';import * as ui from '../../../_js/ui.js';import * as js from '../../../_js/js.js';import * as iter from '../../../_js/iter.js';import * as math from '../../../_js/math.js';import * as str from '../../../_js/str.js';import * as timer from '../../../_js/timer.js';import * as domo from '../../../_js/domo.js';import * as dic from '../../../_js/dic.js';import * as cryp from '../../../_js/cryp.js';import * as time from '../../../_js/time.js';
 
 
 
@@ -27,7 +27,7 @@ export  async  function mk(wg,  Nicks, mainNick, nick)  {sys.$params(arguments.l
     mainNick:mainNick,
     nick:nick
   });
-  global.dbKeyV[0] =sys.$checkExists(global.dbKeyV[0], dbKey);
+  global.dbKeyV[0] = dbKey;
   if (!sys.asBool(ok)) {
     msg.error(cts.failMsg, function()  {sys.$params(arguments.length, 0);});
     return;
@@ -95,7 +95,7 @@ export  async  function mk(wg,  Nicks, mainNick, nick)  {sys.$params(arguments.l
       nick: nick,
       qts: str.trim(leftArea.getValue())
     });
-    global.dbKeyV[0] =sys.$checkExists(global.dbKeyV[0], dbKey);
+    global.dbKeyV[0] = dbKey;
     if (ok) {
       msg.ok(II("Quotes were successfully modified"), function(){sys.$params(arguments.length, 0);});
       mk(wg, Nicks, mainNick, nick);
@@ -116,7 +116,7 @@ export  async  function mk(wg,  Nicks, mainNick, nick)  {sys.$params(arguments.l
       mainNick: mainNick,
       nick: nick
     });
-    global.dbKeyV[0] =sys.$checkExists(global.dbKeyV[0], dbKey);
+    global.dbKeyV[0] = dbKey;
     showWaitV[0]("");
 
     switch (result) {
@@ -150,7 +150,7 @@ export  async  function mk(wg,  Nicks, mainNick, nick)  {sys.$params(arguments.l
     if (sys.$eq(code , ""))
       msg.error(i18n.fmt(II("Nick code of %0 is missing"), [sId]), function()  {sys.$params(arguments.length, 0);});
     else {
-      updatingServerV[0] =sys.$checkExists(updatingServerV[0], true);
+      updatingServerV[0] = true;
        const {dbKey} = await  client.send({
         prg: cts.appName,
         module: "Settings",
@@ -161,7 +161,7 @@ export  async  function mk(wg,  Nicks, mainNick, nick)  {sys.$params(arguments.l
         svId: sId,
         code: code
       });
-      global.dbKeyV[0] =sys.$checkExists(global.dbKeyV[0], dbKey);
+      global.dbKeyV[0] = dbKey;
       mk(wg, Nicks, mainNick, nick);
     }
   };
@@ -171,7 +171,7 @@ export  async  function mk(wg,  Nicks, mainNick, nick)  {sys.$params(arguments.l
     await timer.delay(timer.mk(100), function()  {sys.$params(arguments.length, 0);});
     if (updatingServerV[0]) {
       ui.alert("Updating server. Try again.");
-      updatingServerV[0] =sys.$checkExists(updatingServerV[0], false);
+      updatingServerV[0] = false;
       return;
     }
 
@@ -191,7 +191,7 @@ export  async  function mk(wg,  Nicks, mainNick, nick)  {sys.$params(arguments.l
         return;
       }
 
-       const SIC =sys.$checkNull( arr.pop(SICs));
+      const SIC =sys.$checkNull( arr.pop(SICs));
       if (SIC.withHistoric) {
         showWaitV[0](SIC.id);
         const {withErrors, withWarnings} = await  client.send({
@@ -200,11 +200,10 @@ export  async  function mk(wg,  Nicks, mainNick, nick)  {sys.$params(arguments.l
           source: "NickEditorPg",
           rq: "serverTest",
           nick: nick,
-          server: SIC.id,
-          code: SIC.code
+          server: SIC.id
         });
-        withErrorsV[0] ||=sys.$checkExists(withErrorsV[0], withErrors);
-        withWarningsV[0] ||=sys.$checkExists(withWarningsV[0], withWarnings);
+        withErrorsV[0] ||= withErrors;
+        withWarningsV[0] ||= withWarnings;
       }
       test(SICs);
     };
@@ -239,6 +238,7 @@ export  async  function mk(wg,  Nicks, mainNick, nick)  {sys.$params(arguments.l
    function serversDiv()  {sys.$params(arguments.length, 0);
     
      function svTd(S)  {sys.$params(arguments.length, 1);
+console.log( [S.id, S.withHistoric]);
       const color =sys.$checkNull( S.withHistoric ? "#000000" : "#909090");
       const field =sys.$checkNull( Q("input")
         .att("type", "text")
@@ -309,7 +309,7 @@ export  async  function mk(wg,  Nicks, mainNick, nick)  {sys.$params(arguments.l
 
   
    function rightMenu()  {sys.$params(arguments.length, 0);
-     const sel =sys.$checkNull( ui.select("nks", arr.map(Nicks,
+    const sel =sys.$checkNull( ui.select("nks", arr.map(Nicks,
       function(n)  {sys.$params(arguments.length, 1);  return (sys.$eq(n , mainNick) ? "+" : "") + n;}
     )));
     const selEl =sys.$checkNull( sel.e);
@@ -335,11 +335,11 @@ export  async  function mk(wg,  Nicks, mainNick, nick)  {sys.$params(arguments.l
     ;};
 
   
-  showWaitV[0] =sys.$checkExists(showWaitV[0], function(nick)  {sys.$params(arguments.length, 1);
+  showWaitV[0] = function(nick)  {sys.$params(arguments.length, 1);
     msgWait.removeAll();
 
     if (sys.$neq(nick , "")) {
-      const box =sys.$checkNull( modalBox.mk(
+       const box =sys.$checkNull( modalBox.mk(
         Q("div")
           .add(Q("div")
             .style("text-align:center")
@@ -350,7 +350,7 @@ export  async  function mk(wg,  Nicks, mainNick, nick)  {sys.$params(arguments.l
       msgWait.add(modalBox.mkWg(box));
       modalBox.show(box,true);
     }
-  });
+  };
 
   wg
     .removeAll()

@@ -69,14 +69,20 @@ JkutFT_00_LB=Check
 JkutFT_00_CM=jkut -c jkut/main
 JkutFT_00_WD=%p
 JkutFT_01_LB=Run
-JkutFT_01_CM=jkut jkut/main www
+JkutFT_01_CM=kut -c kut/main;jkut jkut/main www
 JkutFT_01_WD=%p
 filetypes=Jkut;Kut;
 
 [files]
-current_page=1
-FILE_NAME_0=318;Jkut;0;EUTF-8;0;1;0;%2Fhome%2Fdeme%2Fdm%2FdmJkut%2Fapp%2FKtWeb%2FCashFlow%2Fmain.jkut;0;2
-FILE_NAME_1=214;Kut;0;EUTF-8;0;1;0;%2Fdm%2FKtWeb%2Fprgs%2FCashFlow%2Fkut%2Fmain.kut;0;2
+current_page=7
+FILE_NAME_0=0;Jkut;0;EUTF-8;0;1;0;%2Fdm%2FKtWeb%2Fprgs%2FCashFlow%2Fjkut%2Fmain.jkut;0;2
+FILE_NAME_1=1397;Jkut;0;EUTF-8;0;1;0;%2Fdm%2FKtWeb%2Fprgs%2FCashFlow%2Fjkut%2Fpgs%2Fbudget%2Fmanagement%2FbudgetEdit.jkut;0;2
+FILE_NAME_2=444;Kut;0;EUTF-8;0;1;0;%2Fdm%2FKtWeb%2Fprgs%2FCashFlow%2Fkut%2Fpgs%2FplanPg.kut;0;2
+FILE_NAME_3=1840;Jkut;0;EUTF-8;0;1;0;%2Fdm%2FKtWeb%2Fprgs%2FCashFlow%2Fjkut%2Fpgs%2FplanPg.jkut;0;2
+FILE_NAME_4=1067;Jkut;0;EUTF-8;0;1;0;%2Fdm%2FKtWeb%2Fprgs%2FCashFlow%2Fjkut%2Fdata%2Fbudget.jkut;0;2
+FILE_NAME_5=735;Jkut;0;EUTF-8;0;1;0;%2Fdm%2FKtWeb%2Fprgs%2FCashFlow%2Fjkut%2Fdata%2FbudgetMonth.jkut;0;2
+FILE_NAME_6=0;Kut;0;EUTF-8;0;1;0;%2Fdm%2FKtWeb%2Fprgs%2FCashFlow%2Fkut%2Fdb%2FbudgetTb.kut;0;2
+FILE_NAME_7=934;Jkut;0;EUTF-8;0;1;0;%2Fdm%2FKtWeb%2Fprgs%2FCashFlow%2Fjkut%2Fwgs%2FnumberField.jkut;0;2
 
 [editor]
 line_wrapping=false

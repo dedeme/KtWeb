@@ -1,4 +1,4 @@
-import * as math from '../../_js/math.js';import * as js from '../../_js/js.js';import * as arr from '../../_js/arr.js';import * as client from '../../_js/client.js';import * as bytes from '../../_js/bytes.js';import * as str from '../../_js/str.js';import * as ui from '../../_js/ui.js';import * as dic from '../../_js/dic.js';import * as timer from '../../_js/timer.js';import * as time from '../../_js/time.js';import * as storage from '../../_js/storage.js';import * as b64 from '../../_js/b64.js';import * as sys from '../../_js/sys.js';import * as iter from '../../_js/iter.js';import * as domo from '../../_js/domo.js';import * as cryp from '../../_js/cryp.js';
+import * as arr from '../../_js/arr.js';import * as bytes from '../../_js/bytes.js';import * as storage from '../../_js/storage.js';import * as sys from '../../_js/sys.js';import * as client from '../../_js/client.js';import * as b64 from '../../_js/b64.js';import * as ui from '../../_js/ui.js';import * as js from '../../_js/js.js';import * as iter from '../../_js/iter.js';import * as math from '../../_js/math.js';import * as str from '../../_js/str.js';import * as timer from '../../_js/timer.js';import * as domo from '../../_js/domo.js';import * as dic from '../../_js/dic.js';import * as cryp from '../../_js/cryp.js';import * as time from '../../_js/time.js';
 
 
 
@@ -92,9 +92,9 @@ const dateV = [time.now()];
 
 
  async  function mk2(wg, date)  {sys.$params(arguments.length, 2);
-  wgV[0] =sys.$checkExists(wgV[0], wg);
+  wgV[0] = wg;
   const now =sys.$checkNull( time.now());
-  dateV[0] =sys.$checkExists(dateV[0],sys.$checkNull( sys.$eq(time.year(date) , time.year(now)) ? date : now));
+  dateV[0] =sys.$checkNull( sys.$eq(time.year(date) , time.year(now)) ? date : now);
   const {ok, marketCash, hcontaCash, 
    MarketStocks,  StocksStocks, 
   stocksSum, hcontaSum} 
@@ -125,7 +125,7 @@ const dateV = [time.now()];
   );
 
   
-  const StocksStocksS =sys.$checkNull( arr.map(StocksStocks,function(E)  {sys.$params(arguments.length, 1);  return [
+   const StocksStocksS =sys.$checkNull( arr.map(StocksStocks,function(E)  {sys.$params(arguments.length, 1);  return [
       E[0], 
       math.toIso(E[1], 0), 
       math.toIso(E[2], 4), 
@@ -211,13 +211,13 @@ const dateV = [time.now()];
 
       if (mmIxV[0] >= sizeMarket) {
         arr.push(R,missingCMarket(StocksStocks[stIxV[0]]));
-        stIxV[0] +=sys.$checkExists(stIxV[0], 1);
+        stIxV[0] += 1;
         continue;
       }
 
       if (stIxV[0] >= sizeStocks) {
         arr.push(R,missingStocks(MarketStocks[mmIxV[0]]));
-        mmIxV[0] +=sys.$checkExists(mmIxV[0], 1);
+        mmIxV[0] += 1;
         continue;
       }
 
@@ -226,14 +226,14 @@ const dateV = [time.now()];
 
       if (sys.$eq(mmNick , stNick)) {
         arr.push(R,nickEntry(MarketStocks[mmIxV[0]], StocksStocks[stIxV[0]]));
-        mmIxV[0] +=sys.$checkExists(mmIxV[0], 1);
-        stIxV[0] +=sys.$checkExists(stIxV[0], 1);
+        mmIxV[0] += 1;
+        stIxV[0] += 1;
       } else if (mmNick < stNick) {
         arr.push(R,missingStocks(MarketStocks[mmIxV[0]]));
-        mmIxV[0] +=sys.$checkExists(mmIxV[0], 1);
+        mmIxV[0] += 1;
       } else {
         arr.push(R,missingCMarket(StocksStocks[stIxV[0]]));
-        stIxV[0] +=sys.$checkExists(stIxV[0], 1);
+        stIxV[0] += 1;
       }
     }
 
@@ -244,7 +244,7 @@ const dateV = [time.now()];
     if (sys.$eq(d , "")) {
       mk(wgV[0]);
     } else {
-      const y =sys.$checkNull( time.format(time.now(), "%Y"));
+      const y =sys.$checkNull( time.fmt(time.now(), "%Y"));
       if (sys.$neq(sys.$slice(d,null,4) , y)) {
         ui.alert(i18n.fmt(II("Date '%0' out of year %1"), [d, y]));
         mk(wgV[0]);

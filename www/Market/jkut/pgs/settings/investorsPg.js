@@ -1,4 +1,4 @@
-import * as math from '../../_js/math.js';import * as js from '../../_js/js.js';import * as arr from '../../_js/arr.js';import * as client from '../../_js/client.js';import * as bytes from '../../_js/bytes.js';import * as str from '../../_js/str.js';import * as ui from '../../_js/ui.js';import * as dic from '../../_js/dic.js';import * as timer from '../../_js/timer.js';import * as time from '../../_js/time.js';import * as storage from '../../_js/storage.js';import * as b64 from '../../_js/b64.js';import * as sys from '../../_js/sys.js';import * as iter from '../../_js/iter.js';import * as domo from '../../_js/domo.js';import * as cryp from '../../_js/cryp.js';
+import * as arr from '../../_js/arr.js';import * as bytes from '../../_js/bytes.js';import * as storage from '../../_js/storage.js';import * as sys from '../../_js/sys.js';import * as client from '../../_js/client.js';import * as b64 from '../../_js/b64.js';import * as ui from '../../_js/ui.js';import * as js from '../../_js/js.js';import * as iter from '../../_js/iter.js';import * as math from '../../_js/math.js';import * as str from '../../_js/str.js';import * as timer from '../../_js/timer.js';import * as domo from '../../_js/domo.js';import * as dic from '../../_js/dic.js';import * as cryp from '../../_js/cryp.js';import * as time from '../../_js/time.js';
 
 
 
@@ -28,9 +28,9 @@ export  async  function mk(wg)  {sys.$params(arguments.length, 1);
     source: "InvestorsPg",
     rq: "idata"
   });
-  global.dbKeyV[0] =sys.$checkExists(global.dbKeyV[0], dbKey);
+  global.dbKeyV[0] = dbKey;
 
-  const waitBox =sys.$checkNull( modalBox.mk(ui.img("wait2.gif"), false));
+   const waitBox =sys.$checkNull( modalBox.mk(ui.img("wait2.gif"), false));
   const editorDiv =sys.$checkNull( Q("div"));
   const paramsDiv =sys.$checkNull( Q("div"));
 
@@ -48,7 +48,7 @@ export  async  function mk(wg)  {sys.$params(arguments.length, 1);
       rq: "updateAll",
       dbKey: global.dbKeyV[0]
     });
-    global.dbKeyV[0] =sys.$checkExists(global.dbKeyV[0], dbKey);
+    global.dbKeyV[0] = dbKey;
 
     modalBox.show(waitBox, false);
     if (ok) {
@@ -79,7 +79,7 @@ export  async  function mk(wg)  {sys.$params(arguments.length, 1);
       Params:Params,
       dbKey: global.dbKeyV[0]
     });
-    global.dbKeyV[0] =sys.$checkExists(global.dbKeyV[0], dbKey);
+    global.dbKeyV[0] = dbKey;
 
     mk(wg);
   };
@@ -127,7 +127,7 @@ export  async  function mk(wg)  {sys.$params(arguments.length, 1);
                           return;
                         }
                         const v =sys.$checkNull( V[0]);
-                        Params[i] =sys.$checkExists(Params[i], v);
+                        Params[i] = v;
                       })
                     .value(math.toIso(Params[i], 6)))
                   ;
@@ -177,7 +177,7 @@ export  async  function mk(wg)  {sys.$params(arguments.length, 1);
   };
 
   
-  editorViewV[0] =sys.$checkExists(editorViewV[0], function(nick)  {sys.$params(arguments.length, 1);
+  editorViewV[0] = function(nick)  {sys.$params(arguments.length, 1);
      const is =sys.$checkNull( sys.$eq(nick , "") ? inv[investor.base] : inv[investor.Nicks][nick]);
      const md =sys.$checkNull( arr.find(Models,function( m)  {sys.$params(arguments.length, 1);  return sys.$eq(m[model.id] , is[istrategy.modelId]);})[0]);
     paramsView(nick, md[model.id], is[istrategy.Params]);
@@ -198,7 +198,7 @@ export  async  function mk(wg)  {sys.$params(arguments.length, 1);
             .add(paramsDiv))))
       .add(Q("hr"))
     ;
-  });
+  };
 
   const Ropts = [menu.toption("update", II("Update"), update)];
   const menuWg =sys.$checkNull( menu.mk([], Ropts, ""));

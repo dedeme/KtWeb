@@ -1,4 +1,4 @@
-import * as math from './_js/math.js';import * as js from './_js/js.js';import * as arr from './_js/arr.js';import * as client from './_js/client.js';import * as bytes from './_js/bytes.js';import * as str from './_js/str.js';import * as ui from './_js/ui.js';import * as dic from './_js/dic.js';import * as timer from './_js/timer.js';import * as time from './_js/time.js';import * as storage from './_js/storage.js';import * as b64 from './_js/b64.js';import * as sys from './_js/sys.js';import * as iter from './_js/iter.js';import * as domo from './_js/domo.js';import * as cryp from './_js/cryp.js';
+import * as arr from './_js/arr.js';import * as bytes from './_js/bytes.js';import * as storage from './_js/storage.js';import * as sys from './_js/sys.js';import * as client from './_js/client.js';import * as b64 from './_js/b64.js';import * as ui from './_js/ui.js';import * as js from './_js/js.js';import * as iter from './_js/iter.js';import * as math from './_js/math.js';import * as str from './_js/str.js';import * as timer from './_js/timer.js';import * as domo from './_js/domo.js';import * as dic from './_js/dic.js';import * as cryp from './_js/cryp.js';import * as time from './_js/time.js';
 
 
 
@@ -6,9 +6,12 @@ import * as math from './_js/math.js';import * as js from './_js/js.js';import *
 const Q =sys.$checkNull( ui.q);
 
 
-export const appName =sys.$checkNull( "Hconta");
 
-export const version =sys.$checkNull( "202404");
+export const appName = "Hconta";
+
+
+export const version = "202404";
+
 
 export const foot =sys.$checkNull( Q("table")
   .klass("main")
@@ -22,15 +25,21 @@ export const foot =sys.$checkNull( Q("table")
 ;
 
 
-export const cash =sys.$checkNull( "57200");
 
-export const capital =sys.$checkNull( "10200");
-
-export const results =sys.$checkNull( "12000");
+export const cash = "57200";
 
 
-export const tableLen =sys.$checkNull( 20);
+export const capital = "10200";
 
-export const mostUsedLen =sys.$checkNull( 20);
 
-export const helpLen =sys.$checkNull( 35);
+export const results = "12000";
+
+
+
+export const tableLen = 20;
+
+
+export const mostUsedLen = 20;
+
+
+export const helpLen = 35;

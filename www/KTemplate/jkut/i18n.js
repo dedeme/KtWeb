@@ -1,8 +1,8 @@
-import * as math from './_js/math.js';import * as js from './_js/js.js';import * as arr from './_js/arr.js';import * as client from './_js/client.js';import * as bytes from './_js/bytes.js';import * as str from './_js/str.js';import * as ui from './_js/ui.js';import * as dic from './_js/dic.js';import * as timer from './_js/timer.js';import * as time from './_js/time.js';import * as storage from './_js/storage.js';import * as b64 from './_js/b64.js';import * as sys from './_js/sys.js';import * as iter from './_js/iter.js';import * as domo from './_js/domo.js';import * as cryp from './_js/cryp.js';
+import * as arr from './_js/arr.js';import * as bytes from './_js/bytes.js';import * as storage from './_js/storage.js';import * as sys from './_js/sys.js';import * as client from './_js/client.js';import * as b64 from './_js/b64.js';import * as ui from './_js/ui.js';import * as js from './_js/js.js';import * as iter from './_js/iter.js';import * as math from './_js/math.js';import * as str from './_js/str.js';import * as timer from './_js/timer.js';import * as domo from './_js/domo.js';import * as dic from './_js/dic.js';import * as cryp from './_js/cryp.js';import * as time from './_js/time.js';
 
 
 
-const esDic =sys.$checkNull( {
+const esDic = {
   "2 Days": "2 días",
   "Add readJs": "Añadir readJs",
   "Add writeJs": "Añadir writeJs",
@@ -55,11 +55,11 @@ const esDic =sys.$checkNull( {
   "With fromJs": "Con fromJs",
   "With toJs": "Con toJs",
   "here": "Aquí"
-});
+};
 
-export  function es() {sys.$params(arguments.length, 0); Lang[0] =sys.$checkExists(Lang[0],sys.$checkNull( "es"));};
+export  function es() {sys.$params(arguments.length, 0); Lang[0] = "es";};
 
-const enDic =sys.$checkNull( {
+const enDic = {
   "2 Days": "2 Days",
   "Add readJs": "Add readJs",
   "Add writeJs": "Add writeJs",
@@ -112,9 +112,9 @@ const enDic =sys.$checkNull( {
   "With fromJs": "With fromJs",
   "With toJs": "With toJs",
   "here": "here"
-});
+};
 
-export  function en() {sys.$params(arguments.length, 0); Lang[0] =sys.$checkExists(Lang[0],sys.$checkNull( "en"));};
+export  function en() {sys.$params(arguments.length, 0); Lang[0] = "en";};
 
 
  function dicByKey(s)  {sys.$params(arguments.length, 1); return (   
@@ -123,7 +123,7 @@ export  function en() {sys.$params(arguments.length, 0); Lang[0] =sys.$checkExis
    "Unreachable"
 );};
 
-const Lang =sys.$checkNull( ["es"]);
+const Lang = ["es"];
 
 export  function getLang() {sys.$params(arguments.length, 0);  return Lang[0];};
 
@@ -135,7 +135,7 @@ export  function tlt(s)  {sys.$params(arguments.length, 1);
 
 
 export  function fmt(tp, Rpls)  {sys.$params(arguments.length, 2);
-  const R =sys.$checkNull( [tp]);
-  for (let i = 0;i < arr.size(Rpls); ++i) R[0] =sys.$checkExists(R[0],sys.$checkNull( str.replace(R[0], "%" + sys.toStr(i), Rpls[i])));
+  const R = [tp];
+  for (let i = 0;i < arr.size(Rpls); ++i) R[0] =sys.$checkNull( str.replace(R[0], "%" + sys.toStr(i), Rpls[i]));
    return R[0];
 };

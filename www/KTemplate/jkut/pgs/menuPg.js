@@ -1,4 +1,4 @@
-import * as math from '../_js/math.js';import * as js from '../_js/js.js';import * as arr from '../_js/arr.js';import * as client from '../_js/client.js';import * as bytes from '../_js/bytes.js';import * as str from '../_js/str.js';import * as ui from '../_js/ui.js';import * as dic from '../_js/dic.js';import * as timer from '../_js/timer.js';import * as time from '../_js/time.js';import * as storage from '../_js/storage.js';import * as b64 from '../_js/b64.js';import * as sys from '../_js/sys.js';import * as iter from '../_js/iter.js';import * as domo from '../_js/domo.js';import * as cryp from '../_js/cryp.js';
+import * as arr from '../_js/arr.js';import * as bytes from '../_js/bytes.js';import * as storage from '../_js/storage.js';import * as sys from '../_js/sys.js';import * as client from '../_js/client.js';import * as b64 from '../_js/b64.js';import * as ui from '../_js/ui.js';import * as js from '../_js/js.js';import * as iter from '../_js/iter.js';import * as math from '../_js/math.js';import * as str from '../_js/str.js';import * as timer from '../_js/timer.js';import * as domo from '../_js/domo.js';import * as dic from '../_js/dic.js';import * as cryp from '../_js/cryp.js';import * as time from '../_js/time.js';
 
 
 
@@ -182,7 +182,7 @@ export  function mk(wg)  {sys.$params(arguments.length, 1);
 
   
 
-  const KutOptions =sys.$checkNull( [
+  const KutOptions = [
     [II("Constants"), constants],
     [II("Empty Module"), empty],
     [II("KtWeb Main"), ktWebMain],
@@ -192,10 +192,10 @@ export  function mk(wg)  {sys.$params(arguments.length, 1);
     [II("Database Main"), dbMain],
     [II("JSON table"), jstb],
     [II("Log"), log]
-  ]);
+  ];
   arr.sort(KutOptions,function(e1, e2)  {sys.$params(arguments.length, 2);  return str.less(e1[0], e2[0]);});
 
-  const JkutOptions =sys.$checkNull( [
+  const JkutOptions = [
     [II("Constants"), jconstants],
     [II("Global Variables"), jglobal],
     [II("Empty Page"), jempty],
@@ -205,7 +205,7 @@ export  function mk(wg)  {sys.$params(arguments.length, 1);
     [II("Log"), jlog],
     [II("Snippets"), jsnippets],
     ["I18n", i18nn]
-  ]);
+  ];
   arr.sort(JkutOptions,function(e1, e2)  {sys.$params(arguments.length, 2);  return str.less(e1[0], e2[0]);});
 
   const max =sys.$checkNull( arr.size(KutOptions) > arr.size(JkutOptions)

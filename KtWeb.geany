@@ -83,11 +83,12 @@ KutFT_00_CM=kut2 -c KtWeb
 KutFT_00_WD=%p
 
 [files]
-current_page=3
-FILE_NAME_0=4683;Kut;0;EUTF-8;0;1;0;%2Fdm%2FKtWeb%2FKtWeb.kut;0;2
+current_page=0
+FILE_NAME_0=591;Kut;0;EUTF-8;0;1;0;%2Fdm%2FKtWeb%2FKtWeb.kut;0;2
 FILE_NAME_1=4906;Kut;0;EUTF-8;0;1;0;%2Fhome%2Fdeme%2Fdm%2FdmKut%2Flibdm-2024.02%2Fcgi.kut;0;2
 FILE_NAME_2=410;Kut;0;EUTF-8;0;1;0;%2Fdm%2FKtWeb%2Flibdm%2Fcgi%2FcgiSession.kut;0;2
 FILE_NAME_3=0;Kut;0;EUTF-8;0;1;0;%2Fdm%2FKtWeb%2Frp.kut;0;2
+FILE_NAME_4=4499;Kut;0;EUTF-8;0;1;0;%2Fdm%2FKtWeb%2Flibdm%2Fwebsv.kut;0;2
 
 [editor]
 line_wrapping=false

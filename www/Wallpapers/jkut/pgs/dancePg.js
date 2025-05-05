@@ -1,4 +1,4 @@
-import * as math from '../_js/math.js';import * as js from '../_js/js.js';import * as arr from '../_js/arr.js';import * as client from '../_js/client.js';import * as bytes from '../_js/bytes.js';import * as str from '../_js/str.js';import * as ui from '../_js/ui.js';import * as dic from '../_js/dic.js';import * as timer from '../_js/timer.js';import * as time from '../_js/time.js';import * as storage from '../_js/storage.js';import * as b64 from '../_js/b64.js';import * as sys from '../_js/sys.js';import * as iter from '../_js/iter.js';import * as domo from '../_js/domo.js';import * as cryp from '../_js/cryp.js';
+import * as arr from '../_js/arr.js';import * as bytes from '../_js/bytes.js';import * as storage from '../_js/storage.js';import * as sys from '../_js/sys.js';import * as client from '../_js/client.js';import * as b64 from '../_js/b64.js';import * as ui from '../_js/ui.js';import * as js from '../_js/js.js';import * as iter from '../_js/iter.js';import * as math from '../_js/math.js';import * as str from '../_js/str.js';import * as timer from '../_js/timer.js';import * as domo from '../_js/domo.js';import * as dic from '../_js/dic.js';import * as cryp from '../_js/cryp.js';import * as time from '../_js/time.js';
 
 
 
@@ -27,39 +27,39 @@ export  async  function mk(wg, isShort, songGroup, ssong, reload)  {sys.$params(
     songGroup:songGroup,
     ssong:ssong
   });
-  global.dbKeyV[0] =sys.$checkExists(global.dbKeyV[0],sys.$checkNull( dbKey));
+  global.dbKeyV[0] = dbKey;
 
-  const groupV =sys.$checkNull( [group]);
-  const pictV =sys.$checkNull( [picture]);
+  const groupV = [group];
+  const pictV = [picture];
 
   const pictTm =sys.$checkNull( timer.mk(media.picturesTime));
 
-   const Visuals =sys.$checkNull( media.visuals());
+  const Visuals =sys.$checkNull( media.visuals());
 
   const img =sys.$checkNull( Visuals.img
     .att("src", "img/fondosEscritorio/" + group + "/" + picture[pict.id]))
   ;
 
-   const Clocks =sys.$checkNull( clocksWg.mk(Visuals.tm));
+  const Clocks =sys.$checkNull( clocksWg.mk(Visuals.tm));
 
-  const audio =sys.$checkNull( new  Audio());
-  audio.src =sys.$checkExists(audio.src,sys.$checkNull( "dance/" + songGroup + "/" + ssong));
-  audio.controls =sys.$checkExists(audio.controls,sys.$checkNull( true));
-  audio.volume =sys.$checkExists(audio.volume,sys.$checkNull( media.volume));
-  const audioLoadedV =sys.$checkNull( [false]);
+  const audio = new  Audio();
+  audio.src = "dance/" + songGroup + "/" + ssong;
+  audio.controls = true;
+  audio.volume =sys.$checkNull( media.volume);
+  const audioLoadedV = [false];
 
   timer.delay (1000, function()  {sys.$params(arguments.length, 0);
     const tm1 =sys.$checkNull( timer.mk(50));
     timer.run(tm1, function()  {sys.$params(arguments.length, 0);
-      const d =sys.$checkNull( audio.duration - 0.1);
-      audio.currentTime =sys.$checkExists(audio.currentTime,sys.$checkNull( d));
+      const d = audio.duration - 0.1;
+      audio.currentTime = d;
       if (sys.$eq(d , audio.currentTime) || sys.$eq(audio.currentTime , 0)) {
         timer.stop(tm1);
         const tm2 =sys.$checkNull( timer.mk(50));
-        const duration2 =sys.$checkNull( duration + media.fadeOutDanceTime);
-        const t =sys.$checkNull( (audio.duration - duration2 / 1000) * math.rnd());
+        const duration2 = duration + media.fadeOutDanceTime;
+        const t = (audio.duration - duration2 / 1000) * math.rnd();
         timer.run(tm2, function()  {sys.$params(arguments.length, 0);
-          audio.currentTime =sys.$checkExists(audio.currentTime,sys.$checkNull( t));
+          audio.currentTime = t;
           if (sys.$eq(t , audio.currentTime) || sys.$eq(audio.currentTime , 0)) {
             audio.play();
             timer.delay(math.toInt(duration), function()  {sys.$params(arguments.length, 0);
@@ -67,18 +67,18 @@ export  async  function mk(wg, isShort, songGroup, ssong, reload)  {sys.$params(
               media.fadeOut(true, audio, media.fadeOutDanceTime);
             });
             timer.stop(tm2);
-            audioLoadedV[0] =sys.$checkExists(audioLoadedV[0],sys.$checkNull( true));
+            audioLoadedV[0] = true;
           }
         });
       }
     });
   });
 
-   const InfoPicture =sys.$checkNull( infoWg.mk( -485, infoWg.pictureWg(group, picture)));
-   const InfoDance =sys.$checkNull( infoWg.mk( 
+  const InfoPicture =sys.$checkNull( infoWg.mk( -485, infoWg.pictureWg(group, picture)));
+  const InfoDance =sys.$checkNull( infoWg.mk( 
     -480, infoWg.danceWg(songGroup, ssong, math.toInt(duration / 60000), audio)
   ));
-   const PictTime =sys.$checkNull( pictTimeWg.mk( -480));
+  const PictTime =sys.$checkNull( pictTimeWg.mk( -480));
 
   
 
@@ -144,10 +144,10 @@ export  async  function mk(wg, isShort, songGroup, ssong, reload)  {sys.$params(
   ;
 
   div.e.requestFullscreen();
-  const firstPictureV =sys.$checkNull( [true]);
+  const firstPictureV = [true];
   timer.run (pictTm, async  function()  {sys.$params(arguments.length, 0);
     if (!sys.asBool(firstPictureV[0]) && !sys.asBool(audioLoadedV[0])) return;
-    firstPictureV[0] =sys.$checkExists(firstPictureV[0],sys.$checkNull( false));
+    firstPictureV[0] = false;
 
     const {dbKey, group,  picture} 
     = await  client.send({
@@ -155,11 +155,11 @@ export  async  function mk(wg, isShort, songGroup, ssong, reload)  {sys.$params(
       source: "PicturesPg", 
       rq: "idata"
     });
-    global.dbKeyV[0] =sys.$checkExists(global.dbKeyV[0],sys.$checkNull( dbKey));
+    global.dbKeyV[0] = dbKey;
 
     if (sys.$neq(group , groupV[0]) || sys.$neq(picture[pict.id] , pictV[0][pict.id])) {
-      groupV[0] =sys.$checkExists(groupV[0],sys.$checkNull( group));
-      pictV[0] =sys.$checkExists(pictV[0],sys.$checkNull( picture));
+      groupV[0] = group;
+      pictV[0] = picture;
       media.changePict(div, img, InfoPicture, group, picture);
     }
   });

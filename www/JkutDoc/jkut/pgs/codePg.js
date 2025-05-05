@@ -1,4 +1,4 @@
-import * as math from '../_js/math.js';import * as js from '../_js/js.js';import * as arr from '../_js/arr.js';import * as client from '../_js/client.js';import * as bytes from '../_js/bytes.js';import * as str from '../_js/str.js';import * as ui from '../_js/ui.js';import * as dic from '../_js/dic.js';import * as timer from '../_js/timer.js';import * as time from '../_js/time.js';import * as storage from '../_js/storage.js';import * as b64 from '../_js/b64.js';import * as sys from '../_js/sys.js';import * as iter from '../_js/iter.js';import * as domo from '../_js/domo.js';import * as cryp from '../_js/cryp.js';
+import * as arr from '../_js/arr.js';import * as bytes from '../_js/bytes.js';import * as storage from '../_js/storage.js';import * as sys from '../_js/sys.js';import * as client from '../_js/client.js';import * as b64 from '../_js/b64.js';import * as ui from '../_js/ui.js';import * as js from '../_js/js.js';import * as iter from '../_js/iter.js';import * as math from '../_js/math.js';import * as str from '../_js/str.js';import * as timer from '../_js/timer.js';import * as domo from '../_js/domo.js';import * as dic from '../_js/dic.js';import * as cryp from '../_js/cryp.js';import * as time from '../_js/time.js';
 
 
 
@@ -10,37 +10,37 @@ import * as msgPg from  "../pgs/msgPg.js";
 const Q =sys.$checkNull( ui.q);
 const II =sys.$checkNull( i18n.tlt);
 
-const reserved =sys.$checkNull( "async await break catch class continue default do else " +
+const reserved = "async await break catch class continue default do else " +
   "eval false finally for if import new null return switch trace throw " +
-  "true try while")
+  "true try while"
 ;
-const lib =sys.$checkNull( "arr b64 bytes client cryp dic domo iter js math regex storage " +
-  "str sys time ui")
+const lib = "arr b64 bytes client cryp dic domo iter js math regex storage " +
+  "str sys time ui"
 ;
-const special =sys.$checkNull( "Q Math window II");
+const special = "Q Math window II";
 
 
-const stCode =sys.$checkNull( 0);
-const stLong =sys.$checkNull( stCode + 1); 
-const stQ =sys.$checkNull( stLong + 1); 
+const stCode = 0;
+const stLong = stCode + 1; 
+const stQ = stLong + 1; 
 
 
 export  async  function mk(wg, pack, path, anchor)   {sys.$params(arguments.length, 4);
   const prefix =sys.$checkNull( anchor.startsWith("hp::") ? "hp::" : "hp:");
-  const leftV =sys.$checkNull( [""]);
-  const rightV =sys.$checkNull( [""]);
-  const lineCounterV =sys.$checkNull( [0]);
-  const charQuotesV =sys.$checkNull( [""]);
-  const stateV =sys.$checkNull( [stCode]);
+  const leftV = [""];
+  const rightV = [""];
+  const lineCounterV = [0];
+  const charQuotesV = [""];
+  const stateV = [stCode];
 
   
    function newLine() {sys.$params(arguments.length, 0);
-    lineCounterV[0] +=sys.$checkExists(lineCounterV[0],sys.$checkNull( 1));
-    rightV[0] +=sys.$checkExists(rightV[0],sys.$checkNull( "<br>"));
-    leftV[0] +=sys.$checkExists(leftV[0],sys.$checkNull( "<span style='font-family: monospace;font-size: 12px;" +
+    lineCounterV[0] +=sys.$checkExists(lineCounterV[0], 1);
+    rightV[0] +=sys.$checkExists(rightV[0], "<br>");
+    leftV[0] +=sys.$checkExists(leftV[0], "<span style='font-family: monospace;font-size: 12px;" +
       "background-color: rgb(215, 215, 215);color: #998866;'>" +
       formatN(lineCounterV[0]) +
-      "</span><br>"));
+      "</span><br>");
   };
 
   
@@ -53,18 +53,18 @@ export  async  function mk(wg, pack, path, anchor)   {sys.$params(arguments.leng
        return sys.$eq(ix ,  -1) ? "*" : str.trim(sys.$slice(code,null,ix));
     };
 
-    const rV =sys.$checkNull( [toHtml(l)]);
+    const rV = [toHtml(l)];
 
     for (const w  of sys.$forObject( reserved.split(" "))) {
-      const ixV =sys.$checkNull( [str.index(rV[0], w)]);
+      const ixV = [str.index(rV[0], w)];
       while (sys.$neq(ixV[0] ,  -1)) {
         const ix1 =sys.$checkNull( ixV[0]);
-        const ix2 =sys.$checkNull( ix1 + w.length);
+        const ix2 = ix1 + w.length;
         if ((sys.$eq(ix1 , 0) || isNotId(rV[0][ix1 - 1])) &&
             (sys.$eq(ix1 , str.len(rV[0])) || isNotId(rV[0][ix2]))
         ) {
-          rV[0] =sys.$checkExists(rV[0],sys.$checkNull( sys.$slice(rV[0],null,ixV[0]) + "<span==>" + w +
-            "</span>" + sys.$slice(rV[0],ixV[0] + w.length,null)));
+          rV[0] =sys.$checkExists(rV[0], sys.$slice(rV[0],null,ixV[0]) + "<span==>" + w +
+            "</span>" + sys.$slice(rV[0],ixV[0] + w.length,null));
         }
         ixV[0] =sys.$checkExists(ixV[0],sys.$checkNull( str.indexFrom(rV[0], w, ix2 + 25)));
       }
@@ -72,81 +72,81 @@ export  async  function mk(wg, pack, path, anchor)   {sys.$params(arguments.leng
     rV[0] =sys.$checkExists(rV[0],sys.$checkNull( str.replace(rV[0], "<span==>", "<span class='reserved'>")));
 
     for (const w  of sys.$forObject( lib.split(" "))) {
-      const ixV =sys.$checkNull( [str.index(rV[0], w)]);
+      const ixV = [str.index(rV[0], w)];
       while (sys.$neq(ixV[0] ,  -1)) {
         const ix1 =sys.$checkNull( ixV[0]);
-        const ix2 =sys.$checkNull( ix1 + w.length);
+        const ix2 = ix1 + w.length;
         if ((sys.$eq(ix1 , 0) || isNotId(rV[0][ix1 - 1])) &&
             (sys.$eq(ix1 , str.len(rV[0])) || isNotId(rV[0][ix2]))
         ) {
-          rV[0] =sys.$checkExists(rV[0],sys.$checkNull( sys.$slice(rV[0],null,ixV[0]) + "<span class='package'>" + w +
-            "</span>" + sys.$slice(rV[0],ixV[0] + w.length,null)));
+          rV[0] =sys.$checkExists(rV[0], sys.$slice(rV[0],null,ixV[0]) + "<span class='package'>" + w +
+            "</span>" + sys.$slice(rV[0],ixV[0] + w.length,null));
         }
         ixV[0] =sys.$checkExists(ixV[0],sys.$checkNull( str.indexFrom(rV[0], w, ix2 + 25)));
       }
     }
 
     for (const w  of sys.$forObject( str.split(special," "))) {
-      const ixV =sys.$checkNull( [str.index(rV[0], w)]);
+      const ixV = [str.index(rV[0], w)];
       while (sys.$neq(ixV[0] ,  -1)) {
         const ix1 =sys.$checkNull( ixV[0]);
-        const ix2 =sys.$checkNull( ix1 + w.length);
+        const ix2 = ix1 + w.length;
         if ((sys.$eq(ix1 , 0) || isNotId(rV[0][ix1 - 1])) &&
             (sys.$eq(ix1 , str.len(rV[0])) || isNotId(rV[0][ix2]))
         ) {
-          rV[0] =sys.$checkExists(rV[0],sys.$checkNull( sys.$slice(rV[0],null,ixV[0]) + "<span class='special'>" + w +
-            "</span>" + sys.$slice(rV[0],ixV[0] + w.length,null)));
+          rV[0] =sys.$checkExists(rV[0], sys.$slice(rV[0],null,ixV[0]) + "<span class='special'>" + w +
+            "</span>" + sys.$slice(rV[0],ixV[0] + w.length,null));
         }
         ixV[0] =sys.$checkExists(ixV[0],sys.$checkNull( str.indexFrom(rV[0], w, ix2 + 25)));
       }
     }
 
-    const upperBfV =sys.$checkNull( [""]);
-    const stV =sys.$checkNull( [0]);
+    const upperBfV = [""];
+    const stV = [0];
     rightV[0] +=sys.$checkExists(rightV[0],sys.$checkNull( arr.reduce(str.split(rV[0], ""), "", function(seed, ch)  {sys.$params(arguments.length, 2);
       if (sys.$eq(stV[0] , 0) || sys.$eq(stV[0] , 3)) { 
         if (isNumber(ch)) {
-          stV[0] =sys.$checkExists(stV[0],sys.$checkNull( 1));
+          stV[0] =sys.$checkExists(stV[0], 1);
            return seed + "<span class='number'>" + ch;
         }
         if (isUpper(ch)) {
-          upperBfV[0] =sys.$checkExists(upperBfV[0],sys.$checkNull( ch));
-          stV[0] =sys.$checkExists(stV[0],sys.$checkNull( 2));
+          upperBfV[0] =sys.$checkExists(upperBfV[0], ch);
+          stV[0] =sys.$checkExists(stV[0], 2);
            return seed;
         }
         if (isNotId(ch)) {
-          stV[0] =sys.$checkExists(stV[0],sys.$checkNull( 3));
+          stV[0] =sys.$checkExists(stV[0], 3);
            return seed + ch;
         }
-        stV[0] =sys.$checkExists(stV[0],sys.$checkNull( 4));
+        stV[0] =sys.$checkExists(stV[0], 4);
          return seed + ch;
       }
       if (sys.$eq(stV[0] , 1)) { 
         if (isNumber(ch))
            return seed + ch;
-        stV[0] =sys.$checkExists(stV[0],sys.$checkNull( 4));
+        stV[0] =sys.$checkExists(stV[0], 4);
         if (isNotId(ch)) {
-          stV[0] =sys.$checkExists(stV[0],sys.$checkNull( 3));
+          stV[0] =sys.$checkExists(stV[0], 3);
         }
          return seed + "</span>" + ch;
       }
       if (sys.$eq(stV[0] , 2)) { 
         if (isNotId(ch)) {
-          stV[0] =sys.$checkExists(stV[0],sys.$checkNull( 3));
+          stV[0] =sys.$checkExists(stV[0], 3);
           if (sys.$eq(str.index(" " + special + " ", " " + upperBfV[0] + " ") ,  -1))
              return seed + "<span class='container'>" + upperBfV[0] + "</span>" + ch;
           else
              return seed + upperBfV[0] + ch;
         }
-        upperBfV[0] +=sys.$checkExists(upperBfV[0],sys.$checkNull( ch));
+        upperBfV[0] +=sys.$checkExists(upperBfV[0], ch);
          return seed;
       } 
       if (isNotId(ch))
-        stV[0] =sys.$checkExists(stV[0],sys.$checkNull( 3));
+        stV[0] =sys.$checkExists(stV[0], 3);
        return seed + ch;
     })));
     if (sys.$eq(stV[0] , 1) || sys.$eq(stV[0] , 2)) {
-      rightV[0] +=sys.$checkExists(rightV[0],sys.$checkNull( "</span>"));
+      rightV[0] +=sys.$checkExists(rightV[0], "</span>");
     }
 
     if (str.len(l) > 0) {
@@ -155,9 +155,9 @@ export  async  function mk(wg, pack, path, anchor)   {sys.$params(arguments.leng
         sys.$neq(ch , "(") &&
         sys.$neq(ch , "}")
       ) {
-        leftV[0] +=sys.$checkExists(leftV[0],sys.$checkNull( "<span id='" + prefix +
+        leftV[0] +=sys.$checkExists(leftV[0], "<span id='" + prefix +
           makeLink(str.trim(l)) +
-          "'></span>"));
+          "'></span>");
       }
     }
 
@@ -168,8 +168,8 @@ export  async  function mk(wg, pack, path, anchor)   {sys.$params(arguments.leng
     if (sys.$eq(stateV[0] , stLong)) { 
       const ix =sys.$checkNull( l.indexOf("*/"));
       if (sys.$neq(ix ,  -1)) {
-        stateV[0] =sys.$checkExists(stateV[0],sys.$checkNull( stCode));
-        rightV[0] +=sys.$checkExists(rightV[0],sys.$checkNull( toHtml(sys.$slice(l,null,ix + 2)) + "</span>"));
+        stateV[0] =sys.$checkExists(stateV[0], stCode);
+        rightV[0] +=sys.$checkExists(rightV[0], toHtml(sys.$slice(l,null,ix + 2)) + "</span>");
         processLine(sys.$slice(l,ix + 2,null));
       } else {
         rightV[0] +=sys.$checkExists(rightV[0],sys.$checkNull( toHtml(l)));
@@ -182,15 +182,15 @@ export  async  function mk(wg, pack, path, anchor)   {sys.$params(arguments.leng
           rightV[0] +=sys.$checkExists(rightV[0],sys.$checkNull( toHtml(l)));
           newLine();
         } else {
-          rightV[0] +=sys.$checkExists(rightV[0],sys.$checkNull( toHtml(l) + "</span>"));
+          rightV[0] +=sys.$checkExists(rightV[0], toHtml(l) + "</span>");
           newLine();
-          stateV[0] =sys.$checkExists(stateV[0],sys.$checkNull( stCode));
+          stateV[0] =sys.$checkExists(stateV[0], stCode);
         }
         return;
       }
       if (sys.$eq(charQuotesV[0].length , 3)) {
-        stateV[0] =sys.$checkExists(stateV[0],sys.$checkNull( stCode));
-        rightV[0] +=sys.$checkExists(rightV[0],sys.$checkNull( toHtml(sys.$slice(l,null,qix + 3)) + "</span>"));
+        stateV[0] =sys.$checkExists(stateV[0], stCode);
+        rightV[0] +=sys.$checkExists(rightV[0], toHtml(sys.$slice(l,null,qix + 3)) + "</span>");
         processLine(sys.$slice(l,qix + 3,null));
       } else {
         const bix =sys.$checkNull( l.indexOf("\\"));
@@ -198,8 +198,8 @@ export  async  function mk(wg, pack, path, anchor)   {sys.$params(arguments.leng
           rightV[0] +=sys.$checkExists(rightV[0],sys.$checkNull( toHtml(sys.$slice(l,null,bix + 2))));
           processLine(sys.$slice(l,bix + 2,null));
         } else {
-          stateV[0] =sys.$checkExists(stateV[0],sys.$checkNull( stCode));
-          rightV[0] +=sys.$checkExists(rightV[0],sys.$checkNull( toHtml(sys.$slice(l,null,qix + 1)) + "</span>"));
+          stateV[0] =sys.$checkExists(stateV[0], stCode);
+          rightV[0] +=sys.$checkExists(rightV[0], toHtml(sys.$slice(l,null,qix + 1)) + "</span>");
           processLine(sys.$slice(l,qix + 1,null));
         }
       }
@@ -208,68 +208,68 @@ export  async  function mk(wg, pack, path, anchor)   {sys.$params(arguments.leng
         newLine();
         return;
       }
-      const rV =sys.$checkNull( [0]);
-      const Pos =sys.$checkNull( [2000]);
-      const ixV =sys.$checkNull( [l.indexOf("/*")]); 
+      const rV = [0];
+      const Pos = [2000];
+      const ixV = [l.indexOf("/*")]; 
       if (sys.$neq(ixV[0] ,  -1)) {
-        rV[0] =sys.$checkExists(rV[0],sys.$checkNull( 1));
+        rV[0] =sys.$checkExists(rV[0], 1);
         Pos[0] =sys.$checkExists(Pos[0],sys.$checkNull( ixV[0]));
       }
       ixV[0] =sys.$checkExists(ixV[0],sys.$checkNull( l.indexOf("//"))); 
       if (sys.$neq(ixV[0] ,  -1) && ixV[0] < Pos[0]) {
-        rV[0] =sys.$checkExists(rV[0],sys.$checkNull( 2));
+        rV[0] =sys.$checkExists(rV[0], 2);
         Pos[0] =sys.$checkExists(Pos[0],sys.$checkNull( ixV[0]));
       }
       ixV[0] =sys.$checkExists(ixV[0],sys.$checkNull( l.indexOf("\""))); 
       if (sys.$neq(ixV[0] ,  -1) && ixV[0] < Pos[0]) {
-        rV[0] =sys.$checkExists(rV[0],sys.$checkNull( 3));
+        rV[0] =sys.$checkExists(rV[0], 3);
         Pos[0] =sys.$checkExists(Pos[0],sys.$checkNull( ixV[0]));
       }
       ixV[0] =sys.$checkExists(ixV[0],sys.$checkNull( l.indexOf("'"))); 
       if (sys.$neq(ixV[0] ,  -1) && ixV[0] < Pos[0]) {
-        rV[0] =sys.$checkExists(rV[0],sys.$checkNull( 4));
+        rV[0] =sys.$checkExists(rV[0], 4);
         Pos[0] =sys.$checkExists(Pos[0],sys.$checkNull( ixV[0]));
       }
 
       if (sys.$eq(rV[0] , 1)) { 
         processCode(sys.$slice(l,null,Pos[0]));
-        const l2 =sys.$checkNull( sys.$slice(l,Pos[0] + 2,null));
+        const l2 = sys.$slice(l,Pos[0] + 2,null);
         if (str.starts(l2, "*")) {
-          rightV[0] +=sys.$checkExists(rightV[0],sys.$checkNull( "<span class='docComment'>/*"));
-          stateV[0] =sys.$checkExists(stateV[0],sys.$checkNull( stLong));
+          rightV[0] +=sys.$checkExists(rightV[0], "<span class='docComment'>/*");
+          stateV[0] =sys.$checkExists(stateV[0], stLong);
         } else {
-          rightV[0] +=sys.$checkExists(rightV[0],sys.$checkNull( "<span class='comment'>/*"));
-          stateV[0] =sys.$checkExists(stateV[0],sys.$checkNull( stLong));
+          rightV[0] +=sys.$checkExists(rightV[0], "<span class='comment'>/*");
+          stateV[0] =sys.$checkExists(stateV[0], stLong);
         }
         processLine(l2);
       } else if (sys.$eq(rV[0] , 2)) { 
         processCode(sys.$slice(l,null,Pos[0]));
-        const l2 =sys.$checkNull( sys.$slice(l,Pos[0] + 2,null));
+        const l2 = sys.$slice(l,Pos[0] + 2,null);
         if (str.starts(l2, "/")) {
-          rightV[0] +=sys.$checkExists(rightV[0],sys.$checkNull( "<span class='docComment'>//"));
+          rightV[0] +=sys.$checkExists(rightV[0], "<span class='docComment'>//");
         } else {
-          rightV[0] +=sys.$checkExists(rightV[0],sys.$checkNull( "<span class='docComment'>//"));
+          rightV[0] +=sys.$checkExists(rightV[0], "<span class='docComment'>//");
         }
-        rightV[0] +=sys.$checkExists(rightV[0],sys.$checkNull( toHtml(l2) + "</span>"));
+        rightV[0] +=sys.$checkExists(rightV[0], toHtml(l2) + "</span>");
         newLine();
       } else if (sys.$eq(rV[0] , 3)) { 
         processCode(sys.$slice(l,null,Pos[0]));
-        stateV[0] =sys.$checkExists(stateV[0],sys.$checkNull( stQ));
-        const l2 =sys.$checkNull( sys.$slice(l,Pos[0] + 1,null));
+        stateV[0] =sys.$checkExists(stateV[0], stQ);
+        const l2 = sys.$slice(l,Pos[0] + 1,null);
         if (str.starts(l2, "\"\"")) {
-          charQuotesV[0] =sys.$checkExists(charQuotesV[0],sys.$checkNull( "\"\"\""));
-          rightV[0] +=sys.$checkExists(rightV[0],sys.$checkNull( "<span class='quote'>\"\"\""));
+          charQuotesV[0] =sys.$checkExists(charQuotesV[0], "\"\"\"");
+          rightV[0] +=sys.$checkExists(rightV[0], "<span class='quote'>\"\"\"");
           processLine(sys.$slice(l2,2,null));
         } else {
-          charQuotesV[0] =sys.$checkExists(charQuotesV[0],sys.$checkNull( "\""));
-          rightV[0] +=sys.$checkExists(rightV[0],sys.$checkNull( "<span class='quote'>\""));
+          charQuotesV[0] =sys.$checkExists(charQuotesV[0], "\"");
+          rightV[0] +=sys.$checkExists(rightV[0], "<span class='quote'>\"");
           processLine(l2);
         }
       } else if (sys.$eq(rV[0] , 4)) { 
         processCode(sys.$slice(l,null,Pos[0]));
-        stateV[0] =sys.$checkExists(stateV[0],sys.$checkNull( stQ));
-        charQuotesV[0] =sys.$checkExists(charQuotesV[0],sys.$checkNull( "'"));
-        rightV[0] +=sys.$checkExists(rightV[0],sys.$checkNull( "<span class='quote'>'"));
+        stateV[0] =sys.$checkExists(stateV[0], stQ);
+        charQuotesV[0] =sys.$checkExists(charQuotesV[0], "'");
+        rightV[0] +=sys.$checkExists(rightV[0], "<span class='quote'>'");
         processLine(sys.$slice(l,Pos[0] + 1,null));
       } else {
         processCode(l);
@@ -301,7 +301,7 @@ export  async  function mk(wg, pack, path, anchor)   {sys.$params(arguments.leng
 
   process(codeOp[0]);
 
-  const barIx =sys.$checkNull( str.lastIndex(path, "/") + 1);
+  const barIx = str.lastIndex(path, "/") + 1;
   Q("@title").text(
     cts.appName + " - " + sys.$slice(path,barIx,null) + ".jkut"
   );
@@ -330,7 +330,7 @@ export  async  function mk(wg, pack, path, anchor)   {sys.$params(arguments.leng
     .adds(iter.map(iter.$range(0,30), function(i)  {sys.$params(arguments.length, 1);  return Q("p").html("&nbsp;");}))
   ;
 
-  const tgOp =sys.$checkNull( sys.$null((Q("#" + anchor).e)));
+  const tgOp = sys.$null((Q("#" + anchor).e));
   if (!sys.asBool(!sys.asBool(tgOp))) tgOp[0].scrollIntoView(true);
 };
 
@@ -355,7 +355,7 @@ export  async  function mk(wg, pack, path, anchor)   {sys.$params(arguments.leng
 
 
  function formatN(n)  {sys.$params(arguments.length, 1);
-  const r =sys.$checkNull( "" + n);
+  const r = "" + n;
    return iter.reduce(
     iter.$range(0, 4 - str.len(r)), r, function(seed, i)  {sys.$params(arguments.length, 2);  return "&nbsp;" + seed;}
   );

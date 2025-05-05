@@ -1,4 +1,4 @@
-import * as math from '../_js/math.js';import * as js from '../_js/js.js';import * as arr from '../_js/arr.js';import * as client from '../_js/client.js';import * as bytes from '../_js/bytes.js';import * as str from '../_js/str.js';import * as ui from '../_js/ui.js';import * as dic from '../_js/dic.js';import * as timer from '../_js/timer.js';import * as time from '../_js/time.js';import * as storage from '../_js/storage.js';import * as b64 from '../_js/b64.js';import * as sys from '../_js/sys.js';import * as iter from '../_js/iter.js';import * as domo from '../_js/domo.js';import * as cryp from '../_js/cryp.js';
+import * as arr from '../_js/arr.js';import * as bytes from '../_js/bytes.js';import * as storage from '../_js/storage.js';import * as sys from '../_js/sys.js';import * as client from '../_js/client.js';import * as b64 from '../_js/b64.js';import * as ui from '../_js/ui.js';import * as js from '../_js/js.js';import * as iter from '../_js/iter.js';import * as math from '../_js/math.js';import * as str from '../_js/str.js';import * as timer from '../_js/timer.js';import * as domo from '../_js/domo.js';import * as dic from '../_js/dic.js';import * as cryp from '../_js/cryp.js';import * as time from '../_js/time.js';
 
 
 
@@ -48,8 +48,8 @@ export  function getDate(dp)  {sys.$params(arguments.length, 1);  return dp[date
 
 
 export  function setDate(dp, newDate)  {sys.$params(arguments.length, 2);
-  dp[date] =sys.$checkExists(dp[date], [newDate]);
-  dp[dateView] =sys.$checkExists(dp[dateView],sys.$checkNull( time.mkDate(1, time.month(newDate), time.year(newDate))));
+  dp[date] = [newDate];
+  dp[dateView] =sys.$checkNull( time.mkDate(1, time.month(newDate), time.year(newDate)));
 };
 
 
@@ -92,14 +92,14 @@ export  function setDate(dp, newDate)  {sys.$params(arguments.length, 2);
   const Dday = [tday];
 
   if (!sys.asBool(!sys.asBool(dp[date]))) {
-    Dyear[0] =sys.$checkExists(Dyear[0],sys.$checkNull( time.year(dp[date][0])));
-    Dmonth[0] =sys.$checkExists(Dmonth[0],sys.$checkNull( time.month(dp[date][0])));
-    Dday[0] =sys.$checkExists(Dday[0],sys.$checkNull( time.day(dp[date][0])));
+    Dyear[0] =sys.$checkNull( time.year(dp[date][0]));
+    Dmonth[0] =sys.$checkNull( time.month(dp[date][0]));
+    Dday[0] =sys.$checkNull( time.day(dp[date][0]));
   }
 
   const ExtraRow = [false];
   iter.each(iter.$range(0,6), function(i)  {sys.$params(arguments.length, 1);
-    if (sys.$eq(i , 5) && sys.$eq(time.month(Date1[0]) , month)) ExtraRow[0] =sys.$checkExists(ExtraRow[0], true);
+    if (sys.$eq(i , 5) && sys.$eq(time.month(Date1[0]) , month)) ExtraRow[0] = true;
     iter.each(iter.$range(0,7), function(j)  {sys.$params(arguments.length, 1);
       const d =sys.$checkNull( dp[elDays][i][j].removeAll());
       const year1 =sys.$checkNull( time.year(Date1[0]));
@@ -122,9 +122,9 @@ export  function setDate(dp, newDate)  {sys.$params(arguments.length, 2);
       const ddate1 =sys.$checkNull( Date1[0]);
       d.html("<span class='day'>" + time.day(ddate1) + "</span>");
       d.att("id", math.toStr(ddate1));
-      Date1[0] =sys.$checkExists(Date1[0],sys.$checkNull( time.mkDate(
+      Date1[0] =sys.$checkNull( time.mkDate(
         time.day(Date1[0]) + 1, time.month(Date1[0]), time.year(Date1[0])
-      )));
+      ));
     });
   });
 
@@ -143,48 +143,48 @@ export  function setDate(dp, newDate)  {sys.$params(arguments.length, 2);
 
 
  function previousMonth(dp)  {sys.$params(arguments.length, 1);
-  dp[dateView] =sys.$checkExists(dp[dateView],sys.$checkNull( time.mkDate(
+  dp[dateView] =sys.$checkNull( time.mkDate(
     1, time.month(dp[dateView]) - 1, time.year(dp[dateView])
-  )));
+  ));
   load(dp);
 };
 
 
  function nextMonth(dp)  {sys.$params(arguments.length, 1);
-  dp[dateView] =sys.$checkExists(dp[dateView],sys.$checkNull( time.mkDate(
+  dp[dateView] =sys.$checkNull( time.mkDate(
     1, time.month(dp[dateView]) + 1, time.year(dp[dateView])
-  )));
+  ));
   load(dp);
 };
 
 
  function previousYear(dp)  {sys.$params(arguments.length, 1);
-  dp[dateView] =sys.$checkExists(dp[dateView],sys.$checkNull( time.mkDate(
+  dp[dateView] =sys.$checkNull( time.mkDate(
     1, time.month(dp[dateView]), time.year(dp[dateView]) - 1
-  )));
+  ));
   load(dp);
 };
 
 
  function nextYear(dp)  {sys.$params(arguments.length, 1);
-  dp[dateView] =sys.$checkExists(dp[dateView],sys.$checkNull( time.mkDate(
+  dp[dateView] =sys.$checkNull( time.mkDate(
     1, time.month(dp[dateView]), time.year(dp[dateView]) + 1
-  )));
+  ));
   load(dp);
 };
 
 
  function today(dp)  {sys.$params(arguments.length, 1);
   const today =sys.$checkNull( time.now());
-  dp[date][0] =sys.$checkExists(dp[date][0], today);
-  dp[dateView] =sys.$checkExists(dp[dateView],sys.$checkNull( time.mkDate(1, time.month(today), time.year(today))));
+  dp[date][0] = today;
+  dp[dateView] =sys.$checkNull( time.mkDate(1, time.month(today), time.year(today)));
   load(dp);
 };
 
 
 
  function none(dp)  {sys.$params(arguments.length, 1);
-  dp[date] =sys.$checkExists(dp[date], []);
+  dp[date] = [];
   load(dp);
   dp[fn]("");
 };
@@ -192,7 +192,7 @@ export  function setDate(dp, newDate)  {sys.$params(arguments.length, 2);
 
 
  function clickDay(dp, newDate)  {sys.$params(arguments.length, 2);
-  dp[date] =sys.$checkExists(dp[date], [newDate]);
+  dp[date] = [newDate];
   load(dp);
   dp[fn](time.toStr(newDate));
 };
@@ -222,11 +222,11 @@ export  function mkWg(dp)  {sys.$params(arguments.length, 1);
         .add(mkArrow(txarr2, farr2))))
   ;};
 
-  dp[elMonth] =sys.$checkExists(dp[elMonth],sys.$checkNull( Q("span")));
-  dp[elYear] =sys.$checkExists(dp[elYear],sys.$checkNull( Q("span")));
-  dp[elDays] =sys.$checkExists(dp[elDays], []);
+  dp[elMonth] =sys.$checkNull( Q("span"));
+  dp[elYear] =sys.$checkNull( Q("span"));
+  dp[elDays] = [];
 
-  dp[tr4] =sys.$checkExists(dp[tr4],sys.$checkNull( Q("tr")
+  dp[tr4] =sys.$checkNull( Q("tr")
     .add(Q("td")
       .att("colspan", 4)
       .klass("left")
@@ -239,9 +239,9 @@ export  function mkWg(dp)  {sys.$params(arguments.length, 1);
       .add(Q("span")
         .klass("link")
         .html(i18n(dp).none)
-        .on("click", function(e)  {sys.$params(arguments.length, 1); none(dp);})))));
+        .on("click", function(e)  {sys.$params(arguments.length, 1); none(dp);}))));
 
-  dp[tb] =sys.$checkExists(dp[tb],sys.$checkNull( Q("table")
+  dp[tb] =sys.$checkNull( Q("table")
     .att("hasTrEx", "false")
     .klass("dmDatePicker")
     .add(Q("tr")
@@ -283,18 +283,18 @@ export  function mkWg(dp)  {sys.$params(arguments.length, 1);
            return tr;
         })));
         const Tds = [];
-        dp[exTr] =sys.$checkExists(dp[exTr],sys.$checkNull( Q("tr")
+        dp[exTr] =sys.$checkNull( Q("tr")
           .adds(iter.map(iter.$range(0,7), function(i)  {sys.$params(arguments.length, 1);
             const td =sys.$checkNull( Q("td"));
             td.on("click", function(e)  {sys.$params(arguments.length, 1); clickDay(dp, math.fromStr(td.getAtt("id"))[0]);});
             arr.push(Tds,td);
              return td;
-          }))))
+          })))
         ;
         dp[elDays].push(Tds);
          return Rows;
       })())
-    .add(dp[tr4])));
+    .add(dp[tr4]));
   load(dp);
    return Q("div")
     .style(dp[floating] ? "position:absolute" : "position:relative")
@@ -314,22 +314,22 @@ export  function mkButton(dp, button)  {sys.$params(arguments.length, 2);
    function btAction(ev)  {sys.$params(arguments.length, 1);
     if (!sys.asBool(IsShow[0])) {
       span.add(mkWg(dp));
-      IsShow[0] =sys.$checkExists(IsShow[0], true);
+      IsShow[0] = true;
       return;
     }
     span.removeAll();
-    IsShow[0] =sys.$checkExists(IsShow[0], false);
+    IsShow[0] = false;
   };
   button.on("click", btAction);
 
   const previousFn =sys.$checkNull( dp[fn]);
-  dp[fn] =sys.$checkExists(dp[fn], function(s)  {sys.$params(arguments.length, 1);
+  dp[fn] = function(s)  {sys.$params(arguments.length, 1);
     previousFn(s);
     span.removeAll();
-    IsShow[0] =sys.$checkExists(IsShow[0], false);
-  });
+    IsShow[0] = false;
+  };
 
-  dp[floating] =sys.$checkExists(dp[floating], true);
+  dp[floating] = true;
    return Q("span")
     .add(button)
     .add(span)
@@ -353,11 +353,11 @@ export  function mkText(dp, textInput)  {sys.$params(arguments.length, 2);
    function btAction(ev)  {sys.$params(arguments.length, 1);
     if (!sys.asBool(IsShow[0])) {
       span.add(mkWg(dp));
-      IsShow[0] =sys.$checkExists(IsShow[0], true);
+      IsShow[0] = true;
       return;
     }
     span.removeAll();
-    IsShow[0] =sys.$checkExists(IsShow[0], false);
+    IsShow[0] = false;
   };
 
   const Date =sys.$checkNull( getDate(dp));
@@ -367,14 +367,14 @@ export  function mkText(dp, textInput)  {sys.$params(arguments.length, 2);
   textInput.on("keydown", function(e)  {sys.$params(arguments.length, 1);  e.preventDefault();;});
 
   const previousFn =sys.$checkNull( dp[fn]);
-  dp[fn] =sys.$checkExists(dp[fn], function(s)  {sys.$params(arguments.length, 1);
+  dp[fn] = function(s)  {sys.$params(arguments.length, 1);
     textInput.value(sys.$eq(s , "") ? "" : format(s));
     previousFn(s);
     span.removeAll();
-    IsShow[0] =sys.$checkExists(IsShow[0], false);
-  });
+    IsShow[0] = false;
+  };
 
-  dp[floating] =sys.$checkExists(dp[floating], true);
+  dp[floating] = true;
    return Q("span")
     .add(textInput)
     .add(span)

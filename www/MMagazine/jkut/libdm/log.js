@@ -1,4 +1,4 @@
-import * as math from '../_js/math.js';import * as js from '../_js/js.js';import * as arr from '../_js/arr.js';import * as client from '../_js/client.js';import * as bytes from '../_js/bytes.js';import * as str from '../_js/str.js';import * as ui from '../_js/ui.js';import * as dic from '../_js/dic.js';import * as timer from '../_js/timer.js';import * as time from '../_js/time.js';import * as storage from '../_js/storage.js';import * as b64 from '../_js/b64.js';import * as sys from '../_js/sys.js';import * as iter from '../_js/iter.js';import * as domo from '../_js/domo.js';import * as cryp from '../_js/cryp.js';
+import * as arr from '../_js/arr.js';import * as bytes from '../_js/bytes.js';import * as storage from '../_js/storage.js';import * as sys from '../_js/sys.js';import * as client from '../_js/client.js';import * as b64 from '../_js/b64.js';import * as ui from '../_js/ui.js';import * as js from '../_js/js.js';import * as iter from '../_js/iter.js';import * as math from '../_js/math.js';import * as str from '../_js/str.js';import * as timer from '../_js/timer.js';import * as domo from '../_js/domo.js';import * as dic from '../_js/dic.js';import * as cryp from '../_js/cryp.js';import * as time from '../_js/time.js';
 
 
 
@@ -81,34 +81,34 @@ const Q =sys.$checkNull( ui.q);
 
 
 export  async  function mk(wg, load, reset, tlt, minified, lineWidth, linesNumber)  {sys.$params(arguments.length, 7);
-  const Rows =sys.$checkNull( []);
+  const Rows = [];
   await load(function( Rs)  {sys.$params(arguments.length, 1); arr.each(Rs,function(LgRow)  {sys.$params(arguments.length, 1); arr.push(Rows,LgRow);});});
 
-  const Minified =sys.$checkNull( [minified]);
-  const Is2Days =sys.$checkNull( [false]);
-  const IsErrors =sys.$checkNull( [true]);
+  const Minified = [minified];
+  const Is2Days = [false];
+  const IsErrors = [true];
 
-  const tableFrame =sys.$checkNull( "background-color: rgb(240, 245, 250);" +
+  const tableFrame = "background-color: rgb(240, 245, 250);" +
     "border: 1px solid rgb(110,130,150);" +
     "font-family: sans;font-size: 14px;" +
-    "padding: 4px;border-radius: 4px;")
+    "padding: 4px;border-radius: 4px;"
   ;
 
-  const Show =sys.$checkNull( [[]]);
-  const View1 =sys.$checkNull( [[]]);
-  const View2 =sys.$checkNull( [[]]);
+  const Show = [[]];
+  const View1 = [[]];
+  const View2 = [[]];
 
   
 
   
    function on2Days()  {sys.$params(arguments.length, 0);
-    Is2Days[0] =sys.$checkExists(Is2Days[0],sys.$checkNull( true));
+    Is2Days[0] =sys.$checkExists(Is2Days[0], true);
     View1[0]();
   };
 
   
    function onAllD()  {sys.$params(arguments.length, 0);
-    Is2Days[0] =sys.$checkExists(Is2Days[0],sys.$checkNull( false));
+    Is2Days[0] =sys.$checkExists(Is2Days[0], false);
     View1[0]();
   };
 
@@ -126,13 +126,13 @@ export  async  function mk(wg, load, reset, tlt, minified, lineWidth, linesNumbe
 
   
    function onErrors()  {sys.$params(arguments.length, 0);
-    IsErrors[0] =sys.$checkExists(IsErrors[0],sys.$checkNull( true));
+    IsErrors[0] =sys.$checkExists(IsErrors[0], true);
     View1[0]();
   };
 
   
    function onAll()  {sys.$params(arguments.length, 0);
-    IsErrors[0] =sys.$checkExists(IsErrors[0],sys.$checkNull( false));
+    IsErrors[0] =sys.$checkExists(IsErrors[0], false);
     View1[0]();
   };
 
@@ -140,7 +140,7 @@ export  async  function mk(wg, load, reset, tlt, minified, lineWidth, linesNumbe
 
   
    function led()  {sys.$params(arguments.length, 0);
-    const warns =sys.$checkNull( sys.$neq(arr.size(Rows) , 0));
+    const warns = sys.$neq(arr.size(Rows) , 0);
     const errs =sys.$checkNull( arr.any(Rows,function( E)  {sys.$params(arguments.length, 1);  return E[logRow.isError];}));
      return Q("td")
       .style("text-align:center;width:20%")
@@ -154,7 +154,7 @@ export  async  function mk(wg, load, reset, tlt, minified, lineWidth, linesNumbe
           )
         .html("&nbsp;&nbsp;")
         .on("click", function(ev)  {sys.$params(arguments.length, 1);
-            Minified[0] =sys.$checkExists(Minified[0],sys.$checkNull( !sys.asBool(Minified[0])));
+            Minified[0] =sys.$checkExists(Minified[0], !sys.asBool(Minified[0]));
             Show[0]();
           }))
     ;
@@ -164,12 +164,12 @@ export  async  function mk(wg, load, reset, tlt, minified, lineWidth, linesNumbe
    function view1()  {sys.$params(arguments.length, 0);
     
      function mkOption(isSel, id, action)  {sys.$params(arguments.length, 3);
-      const frame =sys.$checkNull( "background-color: rgb(250, 250, 250);" +
+      const frame = "background-color: rgb(250, 250, 250);" +
         "border: 1px solid rgb(110,130,150);" +
-        "padding: 4px;border-radius: 4px;")
+        "padding: 4px;border-radius: 4px;"
       ;
-      const link =sys.$checkNull( "text-decoration: none;color: #000080;" +
-        "font-weight: normal;cursor:pointer;")
+      const link = "text-decoration: none;color: #000080;" +
+        "font-weight: normal;cursor:pointer;"
       ;
       const r =sys.$checkNull( isSel
         ? Q("span").style(frame)
@@ -237,7 +237,7 @@ export  async  function mk(wg, load, reset, tlt, minified, lineWidth, linesNumbe
           .add(Q("td").att("colspan", 3).add(area))))
     ;
   };
-  View1[0] =sys.$checkExists(View1[0],sys.$checkNull( view1));
+  View1[0] =sys.$checkExists(View1[0], view1);
 
   
    function view2()  {sys.$params(arguments.length, 0); wg
@@ -248,7 +248,7 @@ export  async  function mk(wg, load, reset, tlt, minified, lineWidth, linesNumbe
           .add(Q("tr")
             .add(led()))))
   ;};
-  View2[0] =sys.$checkExists(View2[0],sys.$checkNull( view2));
+  View2[0] =sys.$checkExists(View2[0], view2);
 
   Show[0] =sys.$checkExists(Show[0], function()  {sys.$params(arguments.length, 0); if (Minified[0]) view2(); else view1();});
 

@@ -1,4 +1,4 @@
-import * as math from '../../../_js/math.js';import * as js from '../../../_js/js.js';import * as arr from '../../../_js/arr.js';import * as client from '../../../_js/client.js';import * as bytes from '../../../_js/bytes.js';import * as str from '../../../_js/str.js';import * as ui from '../../../_js/ui.js';import * as dic from '../../../_js/dic.js';import * as timer from '../../../_js/timer.js';import * as time from '../../../_js/time.js';import * as storage from '../../../_js/storage.js';import * as b64 from '../../../_js/b64.js';import * as sys from '../../../_js/sys.js';import * as iter from '../../../_js/iter.js';import * as domo from '../../../_js/domo.js';import * as cryp from '../../../_js/cryp.js';
+import * as arr from '../../../_js/arr.js';import * as bytes from '../../../_js/bytes.js';import * as storage from '../../../_js/storage.js';import * as sys from '../../../_js/sys.js';import * as client from '../../../_js/client.js';import * as b64 from '../../../_js/b64.js';import * as ui from '../../../_js/ui.js';import * as js from '../../../_js/js.js';import * as iter from '../../../_js/iter.js';import * as math from '../../../_js/math.js';import * as str from '../../../_js/str.js';import * as timer from '../../../_js/timer.js';import * as domo from '../../../_js/domo.js';import * as dic from '../../../_js/dic.js';import * as cryp from '../../../_js/cryp.js';import * as time from '../../../_js/time.js';
 
 
 
@@ -29,7 +29,7 @@ export  async  function mk(wg)  {sys.$params(arguments.length, 1);
     source: "NicksPg",
     rq: "idata"
   });
-  global.dbKeyV[0] =sys.$checkExists(global.dbKeyV[0], dbKey);
+  global.dbKeyV[0] = dbKey;
 
   const mainNickV = [mainNick];
   const optionV = ["*v"];
@@ -47,12 +47,12 @@ export  async  function mk(wg)  {sys.$params(arguments.length, 1);
   
 
    function showVolume()  {sys.$params(arguments.length, 0);
-    optionV[0] =sys.$checkExists(optionV[0], "*v");
+    optionV[0] = "*v";
     showV[0]();
   };
 
    function showList()  {sys.$params(arguments.length, 0);
-    optionV[0] =sys.$checkExists(optionV[0], "*l");
+    optionV[0] = "*l";
     showV[0]();
   };
 
@@ -65,8 +65,8 @@ export  async  function mk(wg)  {sys.$params(arguments.length, 1);
       dbKey: global.dbKeyV[0],
       nick: nk
     });
-    global.dbKeyV[0] =sys.$checkExists(global.dbKeyV[0], dbKey);
-    mainNickV[0] =sys.$checkExists(mainNickV[0], nk);
+    global.dbKeyV[0] = dbKey;
+    mainNickV[0] = nk;
     showV[0]();
   };
 
@@ -84,7 +84,7 @@ export  async  function mk(wg)  {sys.$params(arguments.length, 1);
         nick: nk,
         value: !sys.asBool(c[co.isSelected])
       });
-      global.dbKeyV[0] =sys.$checkExists(global.dbKeyV[0], dbKey);
+      global.dbKeyV[0] = dbKey;
 
       co.setSelected(c,!sys.asBool(c[co.isSelected]));
       const selectedsSize =sys.$checkNull(
@@ -100,7 +100,7 @@ export  async  function mk(wg)  {sys.$params(arguments.length, 1);
   };
 
    function edit(nk)  {sys.$params(arguments.length, 1);
-    optionV[0] =sys.$checkExists(optionV[0], nk);
+    optionV[0] = nk;
     showV[0]();
   };
 
@@ -131,12 +131,12 @@ export  async  function mk(wg)  {sys.$params(arguments.length, 1);
         mainNick: mainNickV[0],
         nick: nk
       });
-      global.dbKeyV[0] =sys.$checkExists(global.dbKeyV[0], dbKey);
-      if (sys.$eq(result , "error")) withErrorsV[0] =sys.$checkExists(withErrorsV[0], true);
-      else if (sys.$eq(result , "warnings")) withWarningsV[0] =sys.$checkExists(withWarningsV[0], true);
+      global.dbKeyV[0] = dbKey;
+      if (sys.$eq(result , "error")) withErrorsV[0] = true;
+      else if (sys.$eq(result , "warnings")) withWarningsV[0] = true;
       download2(Nks);
     };
-    const Nicks =sys.$checkNull( arr.filter(
+     const Nicks =sys.$checkNull( arr.filter(
       arr.map(Cos,function( c)  {sys.$params(arguments.length, 1);  return c[co.nick];}),
       function(nk)  {sys.$params(arguments.length, 1);  return sys.$neq(nk , mainNickV[0]);}
     ));
@@ -171,8 +171,8 @@ export  async  function mk(wg)  {sys.$params(arguments.length, 1);
         rq: "test",
         nick: c[co.nick]
       });
-      withErrorsV[0] ||=sys.$checkExists(withErrorsV[0], withErrors);
-      withWarningsV[0] ||=sys.$checkExists(withWarningsV[0], withWarnings);
+      withErrorsV[0] ||= withErrors;
+      withWarningsV[0] ||= withWarnings;
       test2(Cs);
     };
     test2(arr.reverse(Cos));
@@ -260,7 +260,7 @@ export  async  function mk(wg)  {sys.$params(arguments.length, 1);
     ;
   };
 
-  showV[0] =sys.$checkExists(showV[0], function()  {sys.$params(arguments.length, 0);
+  showV[0] = function()  {sys.$params(arguments.length, 0);
     if (sys.$eq(mainNickV[0] , "")) {
       wg
         .removeAll()
@@ -275,7 +275,7 @@ export  async  function mk(wg)  {sys.$params(arguments.length, 1);
     }
 
     if (!sys.asBool(arr.any(Cos,function( c)  {sys.$params(arguments.length, 1);  return sys.$eq(c[co.nick] , optionV[0]);})) && sys.$neq(optionV[0] , "*l"))
-      optionV[0] =sys.$checkExists(optionV[0], "*v");
+      optionV[0] = "*v";
 
     const menuWg =sys.$checkNull( menu.mk(
       [ menu.mkEntry([], stats)],
@@ -299,14 +299,14 @@ export  async  function mk(wg)  {sys.$params(arguments.length, 1);
       .add(body)
       .add(msgWait)
     ;
-  });
+  };
 
   
-  showWaitV[0] =sys.$checkExists(showWaitV[0], function(nick)  {sys.$params(arguments.length, 1);
+  showWaitV[0] = function(nick)  {sys.$params(arguments.length, 1);
     msgWait.removeAll();
 
     if (sys.$neq(nick , "")) {
-      const box =sys.$checkNull( modalBox.mk(
+       const box =sys.$checkNull( modalBox.mk(
         Q("div")
           .add(Q("div")
             .style("text-align:center")
@@ -317,7 +317,7 @@ export  async  function mk(wg)  {sys.$params(arguments.length, 1);
       msgWait.add(modalBox.mkWg(box));
       modalBox.show(box,box);
     }
-  });
+  };
 
   showV[0]();
 };

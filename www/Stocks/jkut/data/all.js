@@ -1,4 +1,4 @@
-import * as math from '../_js/math.js';import * as js from '../_js/js.js';import * as arr from '../_js/arr.js';import * as client from '../_js/client.js';import * as bytes from '../_js/bytes.js';import * as str from '../_js/str.js';import * as ui from '../_js/ui.js';import * as dic from '../_js/dic.js';import * as timer from '../_js/timer.js';import * as time from '../_js/time.js';import * as storage from '../_js/storage.js';import * as b64 from '../_js/b64.js';import * as sys from '../_js/sys.js';import * as iter from '../_js/iter.js';import * as domo from '../_js/domo.js';import * as cryp from '../_js/cryp.js';
+import * as arr from '../_js/arr.js';import * as bytes from '../_js/bytes.js';import * as storage from '../_js/storage.js';import * as sys from '../_js/sys.js';import * as client from '../_js/client.js';import * as b64 from '../_js/b64.js';import * as ui from '../_js/ui.js';import * as js from '../_js/js.js';import * as iter from '../_js/iter.js';import * as math from '../_js/math.js';import * as str from '../_js/str.js';import * as timer from '../_js/timer.js';import * as domo from '../_js/domo.js';import * as dic from '../_js/dic.js';import * as cryp from '../_js/cryp.js';import * as time from '../_js/time.js';
 
 
 
@@ -15,24 +15,26 @@ const II =sys.$checkNull( i18n.tlt);
 
 
 
+
 export  async  function request()  {sys.$params(arguments.length, 0);
   const {dbKey, Data} = await  client.send({
     prg: cts.appName,
     source: "MainPg",
     rq: "read"
   });
-  global.dbKeyV[0] =sys.$checkExists(global.dbKeyV[0],sys.$checkNull( dbKey));
+  global.dbKeyV[0] =sys.$checkExists(global.dbKeyV[0], dbKey);
 
   
    const All =sys.$checkNull( fromJs(Data));
   const y =sys.$checkNull( lastYearId(All));
-  const currentYear =sys.$checkNull( "" + time.year(time.now()));
+  const currentYear = "" + time.year(time.now());
   if (sys.$neq(y , currentYear)) {
     dic.put(All,currentYear, year.mkEmpty());
      return new  Promise(function(resolve, reject)  {sys.$params(arguments.length, 2); resolve(All);});
   }
    return new  Promise(function(resolve, reject)  {sys.$params(arguments.length, 2); resolve(All);});
 };
+
 
 
 
@@ -45,7 +47,7 @@ export  async  function send(Data)  {sys.$params(arguments.length, 1);
     dbKey: global.dbKeyV[0],
     Data: toJs(Data)
   });
-  global.dbKeyV[0] =sys.$checkExists(global.dbKeyV[0],sys.$checkNull( dbKey));
+  global.dbKeyV[0] =sys.$checkExists(global.dbKeyV[0], dbKey);
 };
 
 
@@ -59,7 +61,7 @@ export  function lastYearId( Data)  {sys.$params(arguments.length, 1);  return a
 
 
 export  function yearIds( Data)  {sys.$params(arguments.length, 1);
-  const R =sys.$checkNull( arr.copy(dic.keys(Data)));
+   const R =sys.$checkNull( arr.copy(dic.keys(Data)));
   arr.sort(R,function(y1, y2)  {sys.$params(arguments.length, 2);  return y1 < y2;});
    return R;
 };
@@ -77,7 +79,7 @@ export  function duplicateNick(Data, nick)  {sys.$params(arguments.length, 2);
 
 
 export  function nicks( Data, yOp)  {sys.$params(arguments.length, 2);
-  const R =sys.$checkNull( []); 
+  const R = []; 
   for ( const [k, y]  of sys.$forObject2( Data)) {
     if (!sys.asBool(!sys.asBool(yOp)) && sys.$neq(yOp[0] , k)) continue;
     for (const  a  of sys.$forObject( year.anns(y))) {
@@ -96,7 +98,7 @@ export  function nicks( Data, yOp)  {sys.$params(arguments.length, 2);
 
 
 export  function form( Data, type, nick, yOp)  {sys.$params(arguments.length, 4);
-  const R =sys.$checkNull( []); 
+  const R = []; 
 
   for ( const [k, y]  of sys.$forObject2( Data)) {
     if (!sys.asBool(!sys.asBool(yOp)) && sys.$neq(yOp[0] , k)) continue;
@@ -105,13 +107,13 @@ export  function form( Data, type, nick, yOp)  {sys.$params(arguments.length, 4)
       if (sys.$neq(a[ann.nick] , nick)) continue;
       if (!sys.asBool(R)) { 
         const stocks =sys.$checkNull( a[ann.stocks]);
-        const priceV =sys.$checkNull( [a[ann.price]]);
-        const totalV =sys.$checkNull( [stocks * priceV[0]]);
-        const feesOp =sys.$checkNull( []);
+        const priceV = [a[ann.price]];
+        const totalV = [stocks * priceV[0]];
+        const feesOp = [];
         if (sys.$eq(type , cts.withFees)) {
           arr.push(feesOp, Math.abs(totalV[0] - a[ann.cash]));
           totalV[0] =sys.$checkExists(totalV[0],sys.$checkNull( a[ann.cash]));
-          priceV[0] =sys.$checkExists(priceV[0],sys.$checkNull( totalV[0] / stocks));
+          priceV[0] =sys.$checkExists(priceV[0], totalV[0] / stocks);
         }
 
         if (a[ann.isSell]) { 
@@ -137,13 +139,13 @@ export  function form( Data, type, nick, yOp)  {sys.$params(arguments.length, 4)
         if (!sys.asBool(yOp) && sys.$eq(time.day(a[ann.date]) , 1) && sys.$eq(time.month(a[ann.date]) , 1)) continue;
 
         const stocks =sys.$checkNull( a[ann.stocks]);
-        const priceV =sys.$checkNull( [a[ann.price]]);
-        const totalV =sys.$checkNull( [stocks * priceV[0]]);
-        const feesOp =sys.$checkNull( []);
+        const priceV = [a[ann.price]];
+        const totalV = [stocks * priceV[0]];
+        const feesOp = [];
         if (sys.$eq(type , cts.withFees)) {
           arr.push(feesOp, Math.abs(totalV[0] - a[ann.cash]));
           totalV[0] =sys.$checkExists(totalV[0],sys.$checkNull( a[ann.cash]));
-          priceV[0] =sys.$checkExists(priceV[0],sys.$checkNull( totalV[0] / stocks));
+          priceV[0] =sys.$checkExists(priceV[0], totalV[0] / stocks);
         }
 
         if (a[ann.isSell]) {
@@ -151,11 +153,11 @@ export  function form( Data, type, nick, yOp)  {sys.$params(arguments.length, 4)
           const previousStocks =sys.$checkNull( previousE[formRow.ts]);
           const previousPrice =sys.$checkNull( previousE[formRow.tp]);
           const previousTotal =sys.$checkNull( previousE[formRow.tt]);
-          const sellTotal =sys.$checkNull( stocks * previousPrice);
-          const finalStocks0 =sys.$checkNull( previousStocks - stocks);
+          const sellTotal = stocks * previousPrice;
+          const finalStocks0 = previousStocks - stocks;
           const finalStocks =sys.$checkNull( finalStocks0 < 0 ? 0 : finalStocks0);
 
-          const finalTotal =sys.$checkNull( previousTotal - sellTotal);
+          const finalTotal = previousTotal - sellTotal;
           const finalPrice =sys.$checkNull( finalStocks > 0 ? finalTotal / finalStocks : 0);
 
           const profits =sys.$checkNull( math.round(totalV[0] - sellTotal, 2));
@@ -172,9 +174,9 @@ export  function form( Data, type, nick, yOp)  {sys.$params(arguments.length, 4)
            const previousE =sys.$checkNull( arr.peek(R));
           const previousStocks =sys.$checkNull( previousE[formRow.ts]);
           const previousTotal =sys.$checkNull( previousE[formRow.tt]);
-          const finalStocks =sys.$checkNull( previousStocks + stocks);
-          const finalTotal =sys.$checkNull( previousTotal + totalV[0]);
-          const finalPrice =sys.$checkNull( finalTotal / finalStocks);
+          const finalStocks = previousStocks + stocks;
+          const finalTotal = previousTotal + totalV[0];
+          const finalPrice = finalTotal / finalStocks;
 
           arr.push(R,formRow.mk(
             time.toIso(a[ann.date]),
@@ -198,14 +200,15 @@ export  function form( Data, type, nick, yOp)  {sys.$params(arguments.length, 4)
 
 
 
+
 export  function set0101( Data, selYear)  {sys.$params(arguments.length, 2);
   const lastYear =sys.$checkNull( lastYearId(Data));
   if (lastYear > selYear) {
-    const msg =sys.$checkNull( selYear + " is not the last year");
+    const msg = selYear + " is not the last year";
      return new  Promise(function(resolve, reject)  {sys.$params(arguments.length, 2); resolve(msg);});
   }
 
-  const previousYear =sys.$checkNull( "" + math.fromStr(lastYear)[0] - 1);
+  const previousYear = "" + math.fromStr(lastYear)[0] - 1;
   const pYearOp =sys.$checkNull( dic.get(Data,previousYear));
   if (!sys.asBool(pYearOp)) {
     const msg =sys.$checkNull( i18n.fmt(II("There is no annotation of year %0"), [previousYear]));
@@ -215,7 +218,7 @@ export  function set0101( Data, selYear)  {sys.$params(arguments.length, 2);
 
   
   
-  const Invs =sys.$checkNull( {});
+  const Invs = {};
 
   for (const  a  of sys.$forObject( year.anns(pYear))) {
     const DOp =sys.$checkNull( dic.get(Invs,a[ann.nick]));
@@ -228,7 +231,7 @@ export  function set0101( Data, selYear)  {sys.$params(arguments.length, 2);
         ));
          return new  Promise(function(resolve, reject)  {sys.$params(arguments.length, 2); resolve(msg);});
       }
-       const D =sys.$checkNull( DOp[0]);
+      const D =sys.$checkNull( DOp[0]);
       if (D.stocks < a[ann.stocks]) {
         const msg =sys.$checkNull( i18n.fmt(
           II("Selling %0 stocks when there are %1\n%2"),
@@ -248,10 +251,10 @@ export  function set0101( Data, selYear)  {sys.$params(arguments.length, 2);
     }
     if (!sys.asBool(!sys.asBool(DOp))) {
        const D =sys.$checkNull( DOp[0]);
-      const stocks =sys.$checkNull( D.stocks + a[ann.stocks]);
-      D.price =sys.$checkExists(D.price,sys.$checkNull( (D.stocks * D.price + a[ann.stocks] * a[ann.price]) / stocks));
-      D.ucash =sys.$checkExists(D.ucash,sys.$checkNull( (D.stocks * D.ucash + a[ann.cash]) / stocks));
-      D.stocks =sys.$checkExists(D.stocks,sys.$checkNull( stocks));
+      const stocks = D.stocks + a[ann.stocks];
+      D.price =sys.$checkExists(D.price, (D.stocks * D.price + a[ann.stocks] * a[ann.price]) / stocks);
+      D.ucash =sys.$checkExists(D.ucash, (D.stocks * D.ucash + a[ann.cash]) / stocks);
+      D.stocks =sys.$checkExists(D.stocks, stocks);
     }
   }
 
@@ -260,10 +263,10 @@ export  function set0101( Data, selYear)  {sys.$params(arguments.length, 2);
     if (sys.$eq(time.day(a[ann.date]) , 1) && sys.$eq(time.month(a[ann.date]) , 1))
       year.remove(cYear,a[ann.id]);
 
-  const NkDs =sys.$checkNull( arr.filter(dic.toArr(Invs), function(NkD)  {sys.$params(arguments.length, 1);  return NkD[1].stocks > 0;}));
+   const NkDs =sys.$checkNull( arr.filter(dic.toArr(Invs), function(NkD)  {sys.$params(arguments.length, 1);  return NkD[1].stocks > 0;}));
   arr.sort(NkDs,function(NkD1, NkD2)  {sys.$params(arguments.length, 2);  return NkD1[0] < NkD2[0];});
   for (const NkD  of sys.$forObject( NkDs)) {
-     const D =sys.$checkNull( NkD[1]);
+    const D =sys.$checkNull( NkD[1]);
     year.add(cYear,[], ann.mk( 
       -1, false, time.fromStr(lastYear + "0101")[0], NkD[0],
       D.stocks, D.price, D.ucash * D.stocks
@@ -280,6 +283,7 @@ export  function toJs( Data)  {sys.$params(arguments.length, 1);  return arr.map
     dic.toArr(Data),
     function(Tp)  {sys.$params(arguments.length, 1);  return [Tp[0], year.toJs(Tp[1])];}
   );};
+
 
 
 

@@ -39,9 +39,9 @@ NF_01_WD=
 NF_02_LB=
 NF_02_CM=
 NF_02_WD=
-NF_03_LB=
-NF_03_CM=
-NF_03_WD=
+NF_03_LB=Geany Keywords
+NF_03_CM=kgeanyWords ./
+NF_03_WD=%p
 JkutFT_00_LB=Check
 JkutFT_00_CM=jkut -c jkut/main
 JkutFT_00_WD=%p
@@ -50,8 +50,10 @@ JkutFT_01_CM=jkut jkut/main www
 JkutFT_01_WD=%p
 
 [files]
-current_page=0
-FILE_NAME_0=0;Jkut;0;EUTF-8;0;1;0;%2Fdm%2FKtWeb%2Fprgs%2FKTemplate%2Fjkut%2Fmain.jkut;0;2
+current_page=2
+FILE_NAME_0=1176;Jkut;0;EUTF-8;0;1;0;%2Fdm%2FKtWeb%2Fprgs%2FKTemplate%2Fjkut%2Fmain.jkut;0;2
+FILE_NAME_1=170;Jkut;0;EUTF-8;0;1;0;%2Fdm%2FKtWeb%2Fprgs%2FKTemplate%2Fjkut%2Fwgs%2Fjkut%2FctsWg.jkut;0;2
+FILE_NAME_2=1875;Jkut;0;EUTF-8;0;1;0;%2Fdm%2FKtWeb%2Fprgs%2FKTemplate%2Fjkut%2Fwgs%2Fkut%2FctsWg.jkut;0;2
 
 [editor]
 line_wrapping=false
@@ -60,3 +62,12 @@ auto_continue_multiline=false
 
 [VTE]
 last_dir=/home/deme/.local/share/Trash/files
+
+[prjorg]
+source_patterns=*.c;*.C;*.cpp;*.cxx;*.c++;*.cc;*.m;
+header_patterns=*.h;*.H;*.hpp;*.hxx;*.h++;*.hh;
+ignored_dirs_patterns=.*;CVS;
+ignored_file_patterns=*.o;*.obj;*.a;*.lib;*.so;*.dll;*.lo;*.la;*.class;*.jar;*.pyc;*.mo;*.gmo;
+generate_tag_prefs=0
+show_empty_dirs=true
+external_dirs=

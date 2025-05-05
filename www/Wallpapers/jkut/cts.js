@@ -1,4 +1,4 @@
-import * as math from './_js/math.js';import * as js from './_js/js.js';import * as arr from './_js/arr.js';import * as client from './_js/client.js';import * as bytes from './_js/bytes.js';import * as str from './_js/str.js';import * as ui from './_js/ui.js';import * as dic from './_js/dic.js';import * as timer from './_js/timer.js';import * as time from './_js/time.js';import * as storage from './_js/storage.js';import * as b64 from './_js/b64.js';import * as sys from './_js/sys.js';import * as iter from './_js/iter.js';import * as domo from './_js/domo.js';import * as cryp from './_js/cryp.js';
+import * as arr from './_js/arr.js';import * as bytes from './_js/bytes.js';import * as storage from './_js/storage.js';import * as sys from './_js/sys.js';import * as client from './_js/client.js';import * as b64 from './_js/b64.js';import * as ui from './_js/ui.js';import * as js from './_js/js.js';import * as iter from './_js/iter.js';import * as math from './_js/math.js';import * as str from './_js/str.js';import * as timer from './_js/timer.js';import * as domo from './_js/domo.js';import * as dic from './_js/dic.js';import * as cryp from './_js/cryp.js';import * as time from './_js/time.js';
 
 
 
@@ -6,9 +6,12 @@ import * as math from './_js/math.js';import * as js from './_js/js.js';import *
 const Q =sys.$checkNull( ui.q);
 
 
-export const appName =sys.$checkNull( "Wallpapers");
 
-export const version =sys.$checkNull( "2024.05");
+export const appName = "Wallpapers";
+
+
+export const version = "2025.12";
+
 
 export const foot =sys.$checkNull( Q("table")
   .klass("main")
@@ -22,10 +25,14 @@ export const foot =sys.$checkNull( Q("table")
 ;
 
 
-export const minPictLevel =sys.$checkNull( 1);
 
-export const maxPictLevel =sys.$checkNull( 3);
+export const minPictLevel = 1;
 
-export const minSongLevel =sys.$checkNull( 1);
 
-export const maxSongLevel =sys.$checkNull( 3);
+export const maxPictLevel = 3;
+
+
+export const minSongLevel = 1;
+
+
+export const maxSongLevel = 3;

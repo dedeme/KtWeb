@@ -1,4 +1,4 @@
-import * as math from '../_js/math.js';import * as js from '../_js/js.js';import * as arr from '../_js/arr.js';import * as client from '../_js/client.js';import * as bytes from '../_js/bytes.js';import * as str from '../_js/str.js';import * as ui from '../_js/ui.js';import * as dic from '../_js/dic.js';import * as timer from '../_js/timer.js';import * as time from '../_js/time.js';import * as storage from '../_js/storage.js';import * as b64 from '../_js/b64.js';import * as sys from '../_js/sys.js';import * as iter from '../_js/iter.js';import * as domo from '../_js/domo.js';import * as cryp from '../_js/cryp.js';
+import * as arr from '../_js/arr.js';import * as bytes from '../_js/bytes.js';import * as storage from '../_js/storage.js';import * as sys from '../_js/sys.js';import * as client from '../_js/client.js';import * as b64 from '../_js/b64.js';import * as ui from '../_js/ui.js';import * as js from '../_js/js.js';import * as iter from '../_js/iter.js';import * as math from '../_js/math.js';import * as str from '../_js/str.js';import * as timer from '../_js/timer.js';import * as domo from '../_js/domo.js';import * as dic from '../_js/dic.js';import * as cryp from '../_js/cryp.js';import * as time from '../_js/time.js';
 
 
 
@@ -20,7 +20,7 @@ export  function mk(width, height, ratio, foreground, background)  {sys.$params(
 
 export  function withWidth(b, value)  {sys.$params(arguments.length, 2);
   const R =sys.$checkNull( arr.copy(b));
-  R[0] =sys.$checkExists(R[0],sys.$checkNull( value));
+  R[0] = value;
    return R;
 };
 
@@ -28,7 +28,7 @@ export  function withWidth(b, value)  {sys.$params(arguments.length, 2);
 
 export  function withHeight(b, value)  {sys.$params(arguments.length, 2);
   const R =sys.$checkNull( arr.copy(b));
-  R[1] =sys.$checkExists(R[1],sys.$checkNull( value));
+  R[1] = value;
    return R;
 };
 
@@ -36,7 +36,7 @@ export  function withHeight(b, value)  {sys.$params(arguments.length, 2);
 
 export  function withRatio(b, value)  {sys.$params(arguments.length, 2);
   const R =sys.$checkNull( arr.copy(b));
-  R[2] =sys.$checkExists(R[2],sys.$checkNull( value));
+  R[2] = value;
    return R;
 };
 
@@ -44,7 +44,7 @@ export  function withRatio(b, value)  {sys.$params(arguments.length, 2);
 
 export  function withForeground(b, value)  {sys.$params(arguments.length, 2);
   const R =sys.$checkNull( arr.copy(b));
-  R[3] =sys.$checkExists(R[3],sys.$checkNull( value));
+  R[3] = value;
    return R;
 };
 
@@ -52,7 +52,7 @@ export  function withForeground(b, value)  {sys.$params(arguments.length, 2);
 
 export  function withBackground(b, value)  {sys.$params(arguments.length, 2);
   const R =sys.$checkNull( arr.copy(b));
-  R[4] =sys.$checkExists(R[4],sys.$checkNull( value));
+  R[4] = value;
    return R;
 };
 

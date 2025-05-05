@@ -1,4 +1,4 @@
-import * as math from '../_js/math.js';import * as js from '../_js/js.js';import * as arr from '../_js/arr.js';import * as client from '../_js/client.js';import * as bytes from '../_js/bytes.js';import * as str from '../_js/str.js';import * as ui from '../_js/ui.js';import * as dic from '../_js/dic.js';import * as timer from '../_js/timer.js';import * as time from '../_js/time.js';import * as storage from '../_js/storage.js';import * as b64 from '../_js/b64.js';import * as sys from '../_js/sys.js';import * as iter from '../_js/iter.js';import * as domo from '../_js/domo.js';import * as cryp from '../_js/cryp.js';
+import * as arr from '../_js/arr.js';import * as bytes from '../_js/bytes.js';import * as storage from '../_js/storage.js';import * as sys from '../_js/sys.js';import * as client from '../_js/client.js';import * as b64 from '../_js/b64.js';import * as ui from '../_js/ui.js';import * as js from '../_js/js.js';import * as iter from '../_js/iter.js';import * as math from '../_js/math.js';import * as str from '../_js/str.js';import * as timer from '../_js/timer.js';import * as domo from '../_js/domo.js';import * as dic from '../_js/dic.js';import * as cryp from '../_js/cryp.js';import * as time from '../_js/time.js';
 
 
 
@@ -24,10 +24,10 @@ export  function mk(wg, fn)  {sys.$params(arguments.length, 2);
   const newPass =sys.$checkNull( ui.pass("newPass2").att("id", "newPass"));
   const newPass2 =sys.$checkNull( ui.pass("acceptBt").att("id", "newPass2"));
 
-  const captchaV =sys.$checkNull( [mkCaptcha()]);
-  const failedV =sys.$checkNull( [false]);
+  const captchaV = [mkCaptcha()];
+  const failedV = [false];
 
-  const showV =sys.$checkNull( [[]]);
+  const showV = [[]];
 
   
 
@@ -79,7 +79,7 @@ export  function mk(wg, fn)  {sys.$params(arguments.length, 2);
       ui.alert(II("Password successfully changed"));
       fn();
     } else {
-      failedV[0] =sys.$checkExists(failedV[0],sys.$checkNull( true));
+      failedV[0] =sys.$checkExists(failedV[0], true);
       captchaV[0].increment();
       captchaV[0] =sys.$checkExists(captchaV[0],sys.$checkNull( mkCaptcha()));
       showV[0]();
@@ -103,7 +103,7 @@ export  function mk(wg, fn)  {sys.$params(arguments.length, 2);
       .text(II("Accept")))
     ;
 
-    const Rows =sys.$checkNull( [
+    const Rows = [
       Q("tr")
         .add(Q("td")
           .style("padding: 10px 0px 0px 10px;text-align:right;")
@@ -137,7 +137,7 @@ export  function mk(wg, fn)  {sys.$params(arguments.length, 2);
             .text("  "))
           .add(Q("span")
             .add(acceptBt)))
-    ]);
+    ];
 
     if (failedV[0]) {
       arr.push(Rows,

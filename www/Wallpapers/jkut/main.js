@@ -1,4 +1,4 @@
-import * as math from './_js/math.js';import * as js from './_js/js.js';import * as arr from './_js/arr.js';import * as client from './_js/client.js';import * as bytes from './_js/bytes.js';import * as str from './_js/str.js';import * as ui from './_js/ui.js';import * as dic from './_js/dic.js';import * as timer from './_js/timer.js';import * as time from './_js/time.js';import * as storage from './_js/storage.js';import * as b64 from './_js/b64.js';import * as sys from './_js/sys.js';import * as iter from './_js/iter.js';import * as domo from './_js/domo.js';import * as cryp from './_js/cryp.js';
+import * as arr from './_js/arr.js';import * as bytes from './_js/bytes.js';import * as storage from './_js/storage.js';import * as sys from './_js/sys.js';import * as client from './_js/client.js';import * as b64 from './_js/b64.js';import * as ui from './_js/ui.js';import * as js from './_js/js.js';import * as iter from './_js/iter.js';import * as math from './_js/math.js';import * as str from './_js/str.js';import * as timer from './_js/timer.js';import * as domo from './_js/domo.js';import * as dic from './_js/dic.js';import * as cryp from './_js/cryp.js';import * as time from './_js/time.js';
 
 
 
@@ -11,15 +11,21 @@ import * as danceSelectorPg from  "./pgs/danceSelectorPg.js";
 import * as picturesPg from  "./pgs/picturesPg.js";
 import * as songsPg from  "./pgs/songsPg.js";
 import * as radioPg from  "./pgs/radioPg.js";
+import * as pinupsPg from  "./pgs/pinupsPg.js";
 import * as standByPg from  "./pgs/standByPg.js";
 import * as danceManagementPg from  "./pgs/danceManagementPg.js";
 import * as songsManagementPg from  "./pgs/songsManagementPg.js";
 import * as pictsManagementPg from  "./pgs/pictsManagementPg.js";
+import * as pinupsManagementPg from  "./pgs/pinupsManagementPg.js";
 import * as timesPg from  "./pgs/timesPg.js";
 import * as i18n from  "./i18n.js";
 
 const Q =sys.$checkNull( ui.q);
 const II =sys.$checkNull( i18n.tlt);
+
+
+
+
 
 
  async  function mk(wg)  {sys.$params(arguments.length, 1);
@@ -43,7 +49,7 @@ const II =sys.$checkNull( i18n.tlt);
     source: "MainPg",
     rq: "idata"
   });
-  global.dbKeyV[0] =sys.$checkExists(global.dbKeyV[0],sys.$checkNull( dbKey));
+  global.dbKeyV[0] = dbKey;
 
    async  function fastUpdate()  {sys.$params(arguments.length, 0);
      const {dbKey} = await  client.send({
@@ -52,19 +58,20 @@ const II =sys.$checkNull( i18n.tlt);
       rq: "update",
       dbKey: global.dbKeyV[0]
     });
-    global.dbKeyV[0] =sys.$checkExists(global.dbKeyV[0],sys.$checkNull( dbKey));
+    global.dbKeyV[0] = dbKey;
   };
   fastUpdate();
 
   const wallpapersBt =sys.$checkNull( Q("button").text(II("Wallpapers")));
+  const pinupsBt =sys.$checkNull( Q("button").text(II("Pinups")));
   const songsBt =sys.$checkNull( Q("button").text(II("Wallpapers with Music")));
   const radioBt =sys.$checkNull( Q("button").text(II("Wallpapers with Radio")));
   const shortDanceBt =sys.$checkNull( Q("button").text(II("Short Dance")));
   const longDanceBt =sys.$checkNull( Q("button").text(II("Long Dance")));
   const standByBt =sys.$checkNull( Q("button").text(II("Stand By")));
 
-  const allMenuV =sys.$checkNull( [false]);
-  const showV =sys.$checkNull( [[]]);
+  const allMenuV = [false];
+  const showV = [[]];
 
   
 
@@ -88,7 +95,7 @@ const II =sys.$checkNull( i18n.tlt);
 
   
    function showAllMenu()  {sys.$params(arguments.length, 0);
-    allMenuV[0] =sys.$checkExists(allMenuV[0],sys.$checkNull( true));
+    allMenuV[0] = true;
     showV[0]();
   };
 
@@ -103,6 +110,11 @@ const II =sys.$checkNull( i18n.tlt);
               .add(Q("button")
                 .text(II("Pictures Management"))
                 .on("click", function(e)  {sys.$params(arguments.length, 1); pictsManagementPg.mk(wg, reload);}))),
+          Q("tr")
+            .add(Q("td")
+              .add(Q("button")
+                .text(II("Pinup Management"))
+                .on("click", function(e)  {sys.$params(arguments.length, 1); pinupsManagementPg.mk(wg, reload);}))),
           Q("tr")
             .add(Q("td")
               .add(Q("button")
@@ -129,7 +141,7 @@ const II =sys.$checkNull( i18n.tlt);
   };
 
   
-  showV[0] =sys.$checkExists(showV[0], function()  {sys.$params(arguments.length, 0);
+  showV[0] = function()  {sys.$params(arguments.length, 0);
     wallpapersBt
       .on("keydown", function(e)  {sys.$params(arguments.length, 1); keyInButton(e, [], [songsBt]);})
       .on("click", function(e)  {sys.$params(arguments.length, 1); picturesPg.mk(wg, reload);})
@@ -139,11 +151,15 @@ const II =sys.$checkNull( i18n.tlt);
       .on("click", function(e)  {sys.$params(arguments.length, 1); songsPg.mk(wg, reload);})
     ;
     radioBt
-      .on("keydown", function(e)  {sys.$params(arguments.length, 1); keyInButton(e, [songsBt], [shortDanceBt]);})
+      .on("keydown", function(e)  {sys.$params(arguments.length, 1); keyInButton(e, [songsBt], [pinupsBt]);})
       .on("click", function(e)  {sys.$params(arguments.length, 1); radioPg.mk(wg, reload);})
     ;
+    pinupsBt
+      .on("keydown", function(e)  {sys.$params(arguments.length, 1); keyInButton(e, [radioBt], [shortDanceBt]);})
+      .on("click", function(e)  {sys.$params(arguments.length, 1); pinupsPg.mk(wg, reload);})
+    ;
     shortDanceBt
-      .on("keydown", function(e)  {sys.$params(arguments.length, 1); keyInButton(e, [songsBt], [longDanceBt]);})
+      .on("keydown", function(e)  {sys.$params(arguments.length, 1); keyInButton(e, [pinupsBt], [longDanceBt]);})
       .on("click", function(e)  {sys.$params(arguments.length, 1); danceSelectorPg.mk(wg, true, reload);})
     ;
     longDanceBt
@@ -176,6 +192,9 @@ const II =sys.$checkNull( i18n.tlt);
             .add(radioBt)))
         .add(Q("tr")
           .add(Q("td")
+            .add(pinupsBt)))
+        .add(Q("tr")
+          .add(Q("td")
             .add(shortDanceBt)))
         .add(Q("tr")
           .add(Q("td")
@@ -190,13 +209,13 @@ const II =sys.$checkNull( i18n.tlt);
     ;
 
     timer.delay(100, function()  {sys.$params(arguments.length, 0);
-      const mainButtonOp =sys.$checkNull( sys.$null((wallpapersBt)));
+      const mainButtonOp = sys.$null((wallpapersBt));
       if (!sys.asBool(!sys.asBool(mainButtonOp))) {
-        const eOp =sys.$checkNull( sys.$null((mainButtonOp[0].e)));
+        const eOp = sys.$null((mainButtonOp[0].e));
         if (!sys.asBool(!sys.asBool(eOp))) eOp[0].focus();
       }
     });
-  });
+  };
 
   showV[0]();
 };
@@ -204,6 +223,7 @@ const II =sys.$checkNull( i18n.tlt);
 
 
 const wg =sys.$checkNull( Q("div"));
+
 
 
 export  function load()  {sys.$params(arguments.length, 0);

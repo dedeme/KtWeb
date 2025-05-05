@@ -1,4 +1,4 @@
-import * as math from '../_js/math.js';import * as js from '../_js/js.js';import * as arr from '../_js/arr.js';import * as client from '../_js/client.js';import * as bytes from '../_js/bytes.js';import * as str from '../_js/str.js';import * as ui from '../_js/ui.js';import * as dic from '../_js/dic.js';import * as timer from '../_js/timer.js';import * as time from '../_js/time.js';import * as storage from '../_js/storage.js';import * as b64 from '../_js/b64.js';import * as sys from '../_js/sys.js';import * as iter from '../_js/iter.js';import * as domo from '../_js/domo.js';import * as cryp from '../_js/cryp.js';
+import * as arr from '../_js/arr.js';import * as bytes from '../_js/bytes.js';import * as storage from '../_js/storage.js';import * as sys from '../_js/sys.js';import * as client from '../_js/client.js';import * as b64 from '../_js/b64.js';import * as ui from '../_js/ui.js';import * as js from '../_js/js.js';import * as iter from '../_js/iter.js';import * as math from '../_js/math.js';import * as str from '../_js/str.js';import * as timer from '../_js/timer.js';import * as domo from '../_js/domo.js';import * as dic from '../_js/dic.js';import * as cryp from '../_js/cryp.js';import * as time from '../_js/time.js';
 
 
 
@@ -34,7 +34,7 @@ export  function mk(wg,  cf,  AllPaths)  {sys.$params(arguments.length, 3);
         : validateChar("=@/?", id))
     ;
      return sys.$eq(r , "")
-      ? arr.any(AllPaths, function(p)  {sys.$params(arguments.length, 1);  return sys.$eq(p.id , id);})
+      ? arr.any(AllPaths, function( p)  {sys.$params(arguments.length, 1);  return sys.$eq(p[dpath.id] , id);})
         ? i18n.fmt(II("Name '%0' is repeated"), [id])
         : ""
       : r
@@ -45,9 +45,9 @@ export  function mk(wg,  cf,  AllPaths)  {sys.$params(arguments.length, 3);
    function validatePath(path)  {sys.$params(arguments.length, 1);
     if (!sys.asBool(str.starts(path, "/")))
        return i18n.fmt(II("Path '%0' does not start with '/'"), [path]);
-    const Path =sys.$checkNull( [path]);
+    const Path = [path];
     while (str.len(Path[0]) > 1 && str.ends(Path[0], "/"))
-      Path[0] =sys.$checkExists(Path[0],sys.$checkNull( sys.$slice(Path[0],null, -1)));
+      Path[0] =sys.$checkExists(Path[0], sys.$slice(Path[0],null, -1));
      return sys.$eq(Path[0] , "/")
       ? II("Path is '/'")
       : sys.$eq(Path[0] , "")
@@ -70,9 +70,9 @@ export  function mk(wg,  cf,  AllPaths)  {sys.$params(arguments.length, 3);
       return;
     }
 
-    const pathV =sys.$checkNull( [path]);
+    const pathV = [path];
     while (str.len(pathV[0]) > 1 && str.ends(pathV[0], "/"))
-      pathV[0] =sys.$checkExists(pathV[0],sys.$checkNull( sys.$slice(pathV[0],null, -1)));
+      pathV[0] =sys.$checkExists(pathV[0], sys.$slice(pathV[0],null, -1));
 
     await client.send({
       prg: "KutDoc",
@@ -107,9 +107,9 @@ export  function mk(wg,  cf,  AllPaths)  {sys.$params(arguments.length, 3);
       return;
     }
 
-    const Path =sys.$checkNull( [path]);
+    const Path = [path];
     while (str.len(Path[0]) > 1 && str.ends(Path[0], "/"))
-      Path[0] =sys.$checkExists(Path[0],sys.$checkNull( sys.$slice(Path[0],null, -1)));
+      Path[0] =sys.$checkExists(Path[0], sys.$slice(Path[0],null, -1));
 
     await client.send({
       prg: "KutDoc",
@@ -291,7 +291,7 @@ export  function mk(wg,  cf,  AllPaths)  {sys.$params(arguments.length, 3);
                 const id =sys.$checkNull( entry[dpath.id]);
                 const path =sys.$checkNull( entry[dpath.path]);
                 const sel =sys.$checkNull( entry[dpath.isShown]);
-                const error =sys.$checkNull( !sys.asBool(entry[dpath.isValid]));
+                const error = !sys.asBool(entry[dpath.isValid]);
 
                  return Q("tr")
                   .add(Q("td")

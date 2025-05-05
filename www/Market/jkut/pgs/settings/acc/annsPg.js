@@ -1,4 +1,4 @@
-import * as math from '../../../_js/math.js';import * as js from '../../../_js/js.js';import * as arr from '../../../_js/arr.js';import * as client from '../../../_js/client.js';import * as bytes from '../../../_js/bytes.js';import * as str from '../../../_js/str.js';import * as ui from '../../../_js/ui.js';import * as dic from '../../../_js/dic.js';import * as timer from '../../../_js/timer.js';import * as time from '../../../_js/time.js';import * as storage from '../../../_js/storage.js';import * as b64 from '../../../_js/b64.js';import * as sys from '../../../_js/sys.js';import * as iter from '../../../_js/iter.js';import * as domo from '../../../_js/domo.js';import * as cryp from '../../../_js/cryp.js';
+import * as arr from '../../../_js/arr.js';import * as bytes from '../../../_js/bytes.js';import * as storage from '../../../_js/storage.js';import * as sys from '../../../_js/sys.js';import * as client from '../../../_js/client.js';import * as b64 from '../../../_js/b64.js';import * as ui from '../../../_js/ui.js';import * as js from '../../../_js/js.js';import * as iter from '../../../_js/iter.js';import * as math from '../../../_js/math.js';import * as str from '../../../_js/str.js';import * as timer from '../../../_js/timer.js';import * as domo from '../../../_js/domo.js';import * as dic from '../../../_js/dic.js';import * as cryp from '../../../_js/cryp.js';import * as time from '../../../_js/time.js';
 
 
 
@@ -52,7 +52,7 @@ export  async  function mk(wg, year0)  {sys.$params(arguments.length, 2);
     rq: "idata",
     year: year0
   });
-  global.dbKeyV[0] =sys.$checkExists(global.dbKeyV[0], dbKey);
+  global.dbKeyV[0] = dbKey;
 
   if (!sys.asBool(ok))
     msg.error(II("Some error was found.<br>See Log."), function(){sys.$params(arguments.length, 0);});
@@ -82,7 +82,7 @@ export  async  function mk(wg, year0)  {sys.$params(arguments.length, 2);
       rq: "new",
       annotation: ann.toJs(a)
     });
-    global.dbKeyV[0] =sys.$checkExists(global.dbKeyV[0], dbKey);
+    global.dbKeyV[0] = dbKey;
     mk(wg, year);
   };
 
@@ -103,7 +103,7 @@ export  async  function mk(wg, year0)  {sys.$params(arguments.length, 2);
         dbKey: global.dbKeyV[0],
         annId:annId
       });
-      global.dbKeyV[0] =sys.$checkExists(global.dbKeyV[0], dbKey);
+      global.dbKeyV[0] = dbKey;
       mk(wg, year);
     }
   };
@@ -127,7 +127,7 @@ el nuevo año ha comenzado.</p>
 <p><i>Todos los datos del actual ejercicio se perderán</i></p>
 <p>Antes del paso '1' se puede hacer una copia de los archivos que se van
 a eliminar, borrando los asientos de inicialización, y después del proceso
-pegar dichos archivos a los nuevos creados.</p>
+pegar los archivos restantes a los nuevos creados.</p>
 `, function(){sys.$params(arguments.length, 0);});};
 
   
@@ -195,9 +195,9 @@ pegar dichos archivos a los nuevos creados.</p>
     
      function f()  {sys.$params(arguments.length, 0);
       const R = [checkEmpty(II("Date"), v(dtf))];
-      if (sys.$eq(R[0] , "")) R[0] =sys.$checkExists(R[0],sys.$checkNull( checkEmpty(II("Nick"), v(nkf))));
-      if (sys.$eq(R[0] , "")) R[0] =sys.$checkExists(R[0],sys.$checkNull( checkInt(II("Stocks"), v(stf))));
-      if (sys.$eq(R[0] , "")) R[0] =sys.$checkExists(R[0],sys.$checkNull( checkFloat(II("Price"), v(prf))));
+      if (sys.$eq(R[0] , "")) R[0] =sys.$checkNull( checkEmpty(II("Nick"), v(nkf)));
+      if (sys.$eq(R[0] , "")) R[0] =sys.$checkNull( checkInt(II("Stocks"), v(stf)));
+      if (sys.$eq(R[0] , "")) R[0] =sys.$checkNull( checkFloat(II("Price"), v(prf)));
       if (sys.$eq(R[0] , ""))
         sendAnn(ann.mk(dt2s(v(dtf)), opr.mkSe(
           v(nkf), math.fromStr(v(stf))[0], math.fromIso(v(prf))[0]
@@ -231,9 +231,9 @@ pegar dichos archivos a los nuevos creados.</p>
     
      function f()  {sys.$params(arguments.length, 0);
       const R = [checkEmpty(II("Date"), v(dtf))];
-      if (sys.$eq(R[0] , "")) R[0] =sys.$checkExists(R[0],sys.$checkNull( checkEmpty(II("Nick"), v(nkf))));
-      if (sys.$eq(R[0] , "")) R[0] =sys.$checkExists(R[0],sys.$checkNull( checkInt(II("Stocks"), v(stf))));
-      if (sys.$eq(R[0] , "")) R[0] =sys.$checkExists(R[0],sys.$checkNull( checkFloat(II("Price"), v(prf))));
+      if (sys.$eq(R[0] , "")) R[0] =sys.$checkNull( checkEmpty(II("Nick"), v(nkf)));
+      if (sys.$eq(R[0] , "")) R[0] =sys.$checkNull( checkInt(II("Stocks"), v(stf)));
+      if (sys.$eq(R[0] , "")) R[0] =sys.$checkNull( checkFloat(II("Price"), v(prf)));
       if (sys.$eq(R[0] , ""))
         sendAnn(ann.mk(dt2s(v(dtf)), opr.mkBu(
           v(nkf), math.fromStr(v(stf))[0], math.fromIso(v(prf))[0]
@@ -265,7 +265,7 @@ pegar dichos archivos a los nuevos creados.</p>
     
      function f()  {sys.$params(arguments.length, 0);
       const R = [checkEmpty(II("Date"), v(dtf))];
-      if (sys.$eq(R[0] , "")) R[0] =sys.$checkExists(R[0],sys.$checkNull( checkFloat(II("Amount"), v(amf))));
+      if (sys.$eq(R[0] , "")) R[0] =sys.$checkNull( checkFloat(II("Amount"), v(amf)));
       if (sys.$eq(R[0] , ""))
         sendAnn(ann.mk(dt2s(v(dtf)), opr.mkIn(
           math.fromIso(v(amf))[0]
@@ -295,7 +295,7 @@ pegar dichos archivos a los nuevos creados.</p>
     
      function f()  {sys.$params(arguments.length, 0);
       const R = [checkEmpty(II("Date"), v(dtf))];
-      if (sys.$eq(R[0] , "")) R[0] =sys.$checkExists(R[0],sys.$checkNull( checkFloat(II("Amount"), v(amf))));
+      if (sys.$eq(R[0] , "")) R[0] =sys.$checkNull( checkFloat(II("Amount"), v(amf)));
       if (sys.$eq(R[0] , ""))
         sendAnn(ann.mk(dt2s(v(dtf)), opr.mkWi(
           math.fromIso(v(amf))[0]
@@ -326,8 +326,8 @@ pegar dichos archivos a los nuevos creados.</p>
     
      function f()  {sys.$params(arguments.length, 0);
       const R = [checkEmpty(II("Date"), v(dtf))];
-      if (sys.$eq(R[0] , "")) R[0] =sys.$checkExists(R[0],sys.$checkNull( checkFloat(II("Amount"), v(amf))));
-      if (sys.$eq(R[0] , "")) R[0] =sys.$checkExists(R[0],sys.$checkNull( checkEmpty(II("Description"), v(def))));
+      if (sys.$eq(R[0] , "")) R[0] =sys.$checkNull( checkFloat(II("Amount"), v(amf)));
+      if (sys.$eq(R[0] , "")) R[0] =sys.$checkNull( checkEmpty(II("Description"), v(def)));
       if (sys.$eq(R[0] , ""))
         sendAnn(ann.mk(dt2s(v(dtf)), opr.mkPr(
           math.fromIso(v(amf))[0], v(def)
@@ -359,8 +359,8 @@ pegar dichos archivos a los nuevos creados.</p>
     
      function f()  {sys.$params(arguments.length, 0);
       const R = [checkEmpty(II("Date"), v(dtf))];
-      if (sys.$eq(R[0] , "")) R[0] =sys.$checkExists(R[0],sys.$checkNull( checkFloat(II("Amount"), v(amf))));
-      if (sys.$eq(R[0] , "")) R[0] =sys.$checkExists(R[0],sys.$checkNull( checkEmpty(II("Description"), v(def))));
+      if (sys.$eq(R[0] , "")) R[0] =sys.$checkNull( checkFloat(II("Amount"), v(amf)));
+      if (sys.$eq(R[0] , "")) R[0] =sys.$checkNull( checkEmpty(II("Description"), v(def)));
       if (sys.$eq(R[0] , ""))
         sendAnn(ann.mk(dt2s(v(dtf)), opr.mkFe(
           math.fromIso(v(amf))[0], v(def)
@@ -392,8 +392,8 @@ pegar dichos archivos a los nuevos creados.</p>
     
      function f()  {sys.$params(arguments.length, 0);
       const R = [checkEmpty(II("Date"), v(dtf))];
-      if (sys.$eq(R[0] , "")) R[0] =sys.$checkExists(R[0],sys.$checkNull( checkFloat(II("Amount"), v(amf))));
-      if (sys.$eq(R[0] , "")) R[0] =sys.$checkExists(R[0],sys.$checkNull( checkEmpty(II("Diff. +"), v(def))));
+      if (sys.$eq(R[0] , "")) R[0] =sys.$checkNull( checkFloat(II("Amount"), v(amf)));
+      if (sys.$eq(R[0] , "")) R[0] =sys.$checkNull( checkEmpty(II("Diff. +"), v(def)));
       if (sys.$eq(R[0] , ""))
         sendAnn(ann.mk(dt2s(v(dtf)), opr.mkPd(
           math.fromIso(v(amf))[0], v(def)
@@ -425,8 +425,8 @@ pegar dichos archivos a los nuevos creados.</p>
     
      function f()  {sys.$params(arguments.length, 0);
       const R = [checkEmpty(II("Date"), v(dtf))];
-      if (sys.$eq(R[0] , "")) R[0] =sys.$checkExists(R[0],sys.$checkNull( checkFloat(II("Amount"), v(amf))));
-      if (sys.$eq(R[0] , "")) R[0] =sys.$checkExists(R[0],sys.$checkNull( checkEmpty(II("Description"), v(def))));
+      if (sys.$eq(R[0] , "")) R[0] =sys.$checkNull( checkFloat(II("Amount"), v(amf)));
+      if (sys.$eq(R[0] , "")) R[0] =sys.$checkNull( checkEmpty(II("Description"), v(def)));
       if (sys.$eq(R[0] , ""))
         sendAnn(ann.mk(dt2s(v(dtf)), opr.mkNd(
           math.fromIso(v(amf))[0], v(def)
@@ -448,7 +448,7 @@ pegar dichos archivos a los nuevos creados.</p>
   };
 
   
-  showSelectorV[0] =sys.$checkExists(showSelectorV[0], function()  {sys.$params(arguments.length, 0);
+  showSelectorV[0] = function()  {sys.$params(arguments.length, 0);
     
      function td()  {sys.$params(arguments.length, 0);  return Q("td").style("width:50%;");};
     
@@ -472,7 +472,7 @@ pegar dichos archivos a los nuevos creados.</p>
           .add(td().add(lk(II("Diff. +"), function(e)  {sys.$params(arguments.length, 1); diffP();})))
           .add(td().add(lk(II("Diff. -"), function(e)  {sys.$params(arguments.length, 1); diffN();})))))
     ;
-  });
+  };
 
   const Lopts = [];
   arr.eachIx(Years, function(y, i)  {sys.$params(arguments.length, 2);

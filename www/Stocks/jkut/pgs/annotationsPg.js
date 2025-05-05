@@ -1,4 +1,4 @@
-import * as math from '../_js/math.js';import * as js from '../_js/js.js';import * as arr from '../_js/arr.js';import * as client from '../_js/client.js';import * as bytes from '../_js/bytes.js';import * as str from '../_js/str.js';import * as ui from '../_js/ui.js';import * as dic from '../_js/dic.js';import * as timer from '../_js/timer.js';import * as time from '../_js/time.js';import * as storage from '../_js/storage.js';import * as b64 from '../_js/b64.js';import * as sys from '../_js/sys.js';import * as iter from '../_js/iter.js';import * as domo from '../_js/domo.js';import * as cryp from '../_js/cryp.js';
+import * as arr from '../_js/arr.js';import * as bytes from '../_js/bytes.js';import * as storage from '../_js/storage.js';import * as sys from '../_js/sys.js';import * as client from '../_js/client.js';import * as b64 from '../_js/b64.js';import * as ui from '../_js/ui.js';import * as js from '../_js/js.js';import * as iter from '../_js/iter.js';import * as math from '../_js/math.js';import * as str from '../_js/str.js';import * as timer from '../_js/timer.js';import * as domo from '../_js/domo.js';import * as dic from '../_js/dic.js';import * as cryp from '../_js/cryp.js';import * as time from '../_js/time.js';
 
 
 
@@ -26,7 +26,7 @@ export  async  function mk(wg, yOp)  {sys.$params(arguments.length, 2);
    const y =sys.$checkNull( AllData[selYear]);
    const [rp, rpOk] = year.getReport(y,cts.withFees);
 
-  const mkAnnsOp =sys.$checkNull( [[]]);
+  const mkAnnsOp = [[]];
 
   
 
@@ -118,7 +118,7 @@ export  async  function mk(wg, yOp)  {sys.$params(arguments.length, 2);
    function entries(td)  {sys.$params(arguments.length, 1);
     
      function entry( a)  {sys.$params(arguments.length, 1);
-      const is0101 =sys.$checkNull( sys.$eq(time.day(a[ann.date]) , 1) && sys.$eq(time.month(a[ann.date]) , 1));
+      const is0101 = sys.$eq(time.day(a[ann.date]) , 1) && sys.$eq(time.month(a[ann.date]) , 1);
        return Q("tr")
         .add(Q("td")
           .add(is0101
@@ -375,12 +375,12 @@ export  async  function mk(wg, yOp)  {sys.$params(arguments.length, 2);
       : "with")
     ;
 
-    const Lopts =sys.$checkNull( [
+    const Lopts = [
       menu.toption("with", II("With Fees"), function()  {sys.$params(arguments.length, 0); mkReports(td, cts.withFees);}),
       menu.separator(),
       menu.toption("without", II("Without Fees"),
         function()  {sys.$params(arguments.length, 0); mkReports(td, cts.withoutFees);})
-    ]);
+    ];
     const menuWg =sys.$checkNull( menu.mk(Lopts, [], sel));
 
     const body =sys.$checkNull( Q("div"));
@@ -483,11 +483,11 @@ export  async  function mk(wg, yOp)  {sys.$params(arguments.length, 2);
     ;
   };
 
-  const Lopts =sys.$checkNull( []);
-  const firstV =sys.$checkNull( [true]);
+  const Lopts = [];
+  const firstV = [true];
   for (const myear  of sys.$forObject( all.yearIds(AllData))) {
     if (firstV[0]) {
-      firstV[0] =sys.$checkExists(firstV[0],sys.$checkNull( false));
+      firstV[0] =sys.$checkExists(firstV[0], false);
     } else {
       arr.push(Lopts,menu.separator());
     }

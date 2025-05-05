@@ -1,4 +1,4 @@
-import * as math from '../_js/math.js';import * as js from '../_js/js.js';import * as arr from '../_js/arr.js';import * as client from '../_js/client.js';import * as bytes from '../_js/bytes.js';import * as str from '../_js/str.js';import * as ui from '../_js/ui.js';import * as dic from '../_js/dic.js';import * as timer from '../_js/timer.js';import * as time from '../_js/time.js';import * as storage from '../_js/storage.js';import * as b64 from '../_js/b64.js';import * as sys from '../_js/sys.js';import * as iter from '../_js/iter.js';import * as domo from '../_js/domo.js';import * as cryp from '../_js/cryp.js';
+import * as arr from '../_js/arr.js';import * as bytes from '../_js/bytes.js';import * as storage from '../_js/storage.js';import * as sys from '../_js/sys.js';import * as client from '../_js/client.js';import * as b64 from '../_js/b64.js';import * as ui from '../_js/ui.js';import * as js from '../_js/js.js';import * as iter from '../_js/iter.js';import * as math from '../_js/math.js';import * as str from '../_js/str.js';import * as timer from '../_js/timer.js';import * as domo from '../_js/domo.js';import * as dic from '../_js/dic.js';import * as cryp from '../_js/cryp.js';import * as time from '../_js/time.js';
 
 
 
@@ -20,10 +20,10 @@ const II =sys.$checkNull( i18n.tlt);
 export  function mk(wg, account)  {sys.$params(arguments.length, 2);
   const ac =sys.$checkNull( sys.$eq(acc.descriptionOf(account) , "") || str.len(account) > 3 ? "" : account);
   const acLen =sys.$checkNull( str.len(ac));
-  const modIdV =sys.$checkNull( [""]);
+  const modIdV = [""];
 
   const selectIdDiv =sys.$checkNull( Q("div"));
-  const selectIdV =sys.$checkNull( [[]]);
+  const selectIdV = [[]];
 
   const nameField =sys.$checkNull( ui.field("newBt")
     .att("id", "autofocus"))
@@ -52,7 +52,7 @@ export  function mk(wg, account)  {sys.$params(arguments.length, 2);
       ui.alert(II("Group is missing"));
       return;
     }
-    const id =sys.$checkNull( ac + selectIdV[0].getValue());
+    const id = ac + selectIdV[0].getValue();
 
     const error =sys.$checkNull( sys.$eq(modIdV[0] , "")
     ?(   
@@ -81,7 +81,7 @@ export  function mk(wg, account)  {sys.$params(arguments.length, 2);
 
   
    function modifyCancel()  {sys.$params(arguments.length, 0);
-    modIdV[0] =sys.$checkExists(modIdV[0],sys.$checkNull( ""));
+    modIdV[0] =sys.$checkExists(modIdV[0], "");
     modIdTd
       .removeAll()
       .att("colspan", "2");
@@ -96,13 +96,13 @@ export  function mk(wg, account)  {sys.$params(arguments.length, 2);
 
   
    function modifyStart(id, description, summary)  {sys.$params(arguments.length, 3);
-    modIdV[0] =sys.$checkExists(modIdV[0],sys.$checkNull( id));
+    modIdV[0] =sys.$checkExists(modIdV[0], id);
     modIdTd
       .removeAll()
       .att("colspan", "2")
       .add(ui.link(function(e)  {sys.$params(arguments.length, 1); modifyCancel();})
             .add(ui.img("cancel")));
-    const idKey =sys.$checkNull( sys.$slice(id,acLen,null));
+    const idKey = sys.$slice(id,acLen,null);
     selectIdV[0] =sys.$checkExists(selectIdV[0],sys.$checkNull( ui.select("enterId", acc.available(ac, idKey))));
     selectIdV[0].value(idKey);
     selectIdDiv
@@ -118,11 +118,11 @@ export  function mk(wg, account)  {sys.$params(arguments.length, 2);
     if (!sys.asBool(ui.confirm(i18n.fmt(II("Delete '%0'?"), [id + " - " + description])))) {
       return;
     }
-    const error =sys.$checkNull((   
+    const error =(   
       sys.$eq(acLen,1)? acc.subgroupDeletable(id):
       sys.$eq(acLen,2)? acc.accountDeletable(id):
        acc.subaccountDeletable(id)
-    ));
+    );
     if (sys.$neq(error , "")) {
       ui.alert(error);
       return;
@@ -146,10 +146,10 @@ export  function mk(wg, account)  {sys.$params(arguments.length, 2);
    function left() {sys.$params(arguments.length, 0);
     
      function mkBalance()  {sys.$params(arguments.length, 0);
-      const R =sys.$checkNull( []); 
+      const R = []; 
       const Groups =sys.$checkNull( balance.groups());
       for (const [gkey, gname]  of sys.$forObject2( Groups)) {
-        const Sub =sys.$checkNull( []); 
+        const Sub = []; 
         const Entries =sys.$checkNull( balance.entries());
         for (const [ekey, ename]  of sys.$forObject2( Entries)) {
           if (sys.$eq(balance.groupOf(ekey) , gkey)) {
@@ -173,10 +173,10 @@ export  function mk(wg, account)  {sys.$params(arguments.length, 2);
 
     
      function mkProfits()  {sys.$params(arguments.length, 0);
-      const R =sys.$checkNull( []); 
+      const R = []; 
       const Groups =sys.$checkNull( profits.groups());
       for (const [gkey, gname]  of sys.$forObject2( Groups)) {
-        const Sub =sys.$checkNull( []); 
+        const Sub = []; 
         const Entries =sys.$checkNull( profits.entries());
         for (const [ekey, ename]  of sys.$forObject2( Entries)) {
           if (sys.$eq(profits.groupOf(ekey) , gkey)) {
@@ -216,12 +216,12 @@ export  function mk(wg, account)  {sys.$params(arguments.length, 2);
 
   
    function right()  {sys.$params(arguments.length, 0);
-    const title =sys.$checkNull((   
+    const title =(   
       sys.$eq(str.len(ac),1)? II("Subgroups"):
       sys.$eq(str.len(ac),2)? II("Accounts"):
       sys.$eq(str.len(ac),3)? II("Subaccounts"):
        II("Groups")
-    ));
+    );
 
     
      function mkSubmenu()  {sys.$params(arguments.length, 0);
@@ -235,7 +235,7 @@ export  function mk(wg, account)  {sys.$params(arguments.length, 2);
           .text(" " + tx + " ")
       ;};
 
-      const Es =sys.$checkNull( [separator(), entry("*", ""), separator()]);
+      const Es = [separator(), entry("*", ""), separator()];
       
        function add(tx, lk)  {sys.$params(arguments.length, 2);
         arr.push(Es,entry(tx, lk));
@@ -259,15 +259,15 @@ export  function mk(wg, account)  {sys.$params(arguments.length, 2);
       selectIdV[0].disabled(true);
     }
 
-    const Rows =sys.$checkNull( []); 
-    const colsV =sys.$checkNull( [2]);
-    if (sys.$neq(ac , "")) colsV[0] +=sys.$checkExists(colsV[0],sys.$checkNull( 2));
-    if (sys.$eq(acLen , 2)) colsV[0] +=sys.$checkExists(colsV[0],sys.$checkNull( 1));
+    const Rows = []; 
+    const colsV = [2];
+    if (sys.$neq(ac , "")) colsV[0] +=sys.$checkExists(colsV[0], 2);
+    if (sys.$eq(acLen , 2)) colsV[0] +=sys.$checkExists(colsV[0], 1);
     const cols =sys.$checkNull( colsV[0]);
 
     
     if (sys.$neq(ac , "")) {
-      const Tds =sys.$checkNull( [
+      const Tds = [
         Q("td")
           .att("colspan", 2)
           .add(Q("button")
@@ -281,7 +281,7 @@ export  function mk(wg, account)  {sys.$params(arguments.length, 2);
           .add(selectIdDiv),
         Q("td")
           .add(nameField)
-      ]);
+      ];
       if (sys.$eq(acLen , 2)) arr.push(Tds,Q("td").add(groupField));
 
       arr.push(Rows,Q("tr").adds(Tds));
@@ -293,7 +293,7 @@ export  function mk(wg, account)  {sys.$params(arguments.length, 2);
     }
 
     
-    const Tds =sys.$checkNull( []); 
+    const Tds = []; 
     if (sys.$neq(ac , "")) {
       arr.push(Tds,modIdTd);
     }
@@ -315,7 +315,7 @@ export  function mk(wg, account)  {sys.$params(arguments.length, 2);
     
     const Sub =sys.$checkNull( acc.sub(ac));
     for ( const [k, v]  of sys.$forObject2( Sub)) {
-      const Tds =sys.$checkNull( []); 
+      const Tds = []; 
       if (sys.$neq(ac , "")) {
         if (
           sys.$eq(k , sys.$slice(cts.cash,null,2)) ||

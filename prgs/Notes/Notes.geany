@@ -58,7 +58,6 @@ KutFT_01_WD=%p
 [files]
 current_page=0
 FILE_NAME_0=0;Jkut;0;EUTF-8;0;1;0;%2Fdm%2FKtWeb%2Fprgs%2FNotes%2Fjkut%2Fmain.jkut;0;2
-FILE_NAME_1=0;Kut;0;EUTF-8;0;1;0;%2Fdm%2FKtWeb%2Fprgs%2FNotes%2Fkut%2Fmain.kut;0;2
 
 [editor]
 line_wrapping=false
@@ -67,3 +66,12 @@ auto_continue_multiline=false
 
 [VTE]
 last_dir=/home/deme/.local/share/Trash/files
+
+[prjorg]
+source_patterns=*.c;*.C;*.cpp;*.cxx;*.c++;*.cc;*.m;
+header_patterns=*.h;*.H;*.hpp;*.hxx;*.h++;*.hh;
+ignored_dirs_patterns=.*;CVS;
+ignored_file_patterns=*.o;*.obj;*.a;*.lib;*.so;*.dll;*.lo;*.la;*.class;*.jar;*.pyc;*.mo;*.gmo;
+generate_tag_prefs=0
+show_empty_dirs=true
+external_dirs=

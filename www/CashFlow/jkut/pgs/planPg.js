@@ -1,4 +1,4 @@
-import * as math from '../_js/math.js';import * as js from '../_js/js.js';import * as arr from '../_js/arr.js';import * as client from '../_js/client.js';import * as bytes from '../_js/bytes.js';import * as str from '../_js/str.js';import * as ui from '../_js/ui.js';import * as dic from '../_js/dic.js';import * as timer from '../_js/timer.js';import * as time from '../_js/time.js';import * as storage from '../_js/storage.js';import * as b64 from '../_js/b64.js';import * as sys from '../_js/sys.js';import * as iter from '../_js/iter.js';import * as domo from '../_js/domo.js';import * as cryp from '../_js/cryp.js';
+import * as arr from '../_js/arr.js';import * as bytes from '../_js/bytes.js';import * as storage from '../_js/storage.js';import * as sys from '../_js/sys.js';import * as client from '../_js/client.js';import * as b64 from '../_js/b64.js';import * as ui from '../_js/ui.js';import * as js from '../_js/js.js';import * as iter from '../_js/iter.js';import * as math from '../_js/math.js';import * as str from '../_js/str.js';import * as timer from '../_js/timer.js';import * as domo from '../_js/domo.js';import * as dic from '../_js/dic.js';import * as cryp from '../_js/cryp.js';import * as time from '../_js/time.js';
 
 
 
@@ -7,6 +7,8 @@ import * as global from  "../global.js";
 import * as cts from  "../cts.js";
 import * as plan from  "../data/plan.js";
 import * as planEntry from  "../data/planEntry.js";
+import * as budget from  "../data/budget.js";
+import * as budgetEntry from  "../data/budgetEntry.js";
 import * as diary from  "../data/diary.js";
 import * as diaryEntry from  "../data/diaryEntry.js";
 import * as i18n from  "../i18n.js";
@@ -20,6 +22,7 @@ const II =sys.$checkNull( i18n.tlt);
 
 export  async  function mk(wg, selectedYear)  {sys.$params(arguments.length, 2);
    const {Plan, 
+   Budget, 
    CDiary, 
   dbKey}
   = await  client.send({
@@ -45,7 +48,8 @@ export  async  function mk(wg, selectedYear)  {sys.$params(arguments.length, 2);
       rq: "updatePlan",
       dbKey: global.dbKeyV[0],
       year: selectedYear,
-      plan: Plan
+      plan: Plan,
+      budget: Budget
     });
     global.dbKeyV[0] =sys.$checkExists(global.dbKeyV[0], dbKey);
   };
@@ -59,6 +63,7 @@ export  async  function mk(wg, selectedYear)  {sys.$params(arguments.length, 2);
       dbKey: global.dbKeyV[0],
       year: selectedYear,
       plan: Plan,
+      budget: Budget,
       diary: Diary
     });
     global.dbKeyV[0] =sys.$checkExists(global.dbKeyV[0], dbKey);
@@ -78,6 +83,8 @@ export  async  function mk(wg, selectedYear)  {sys.$params(arguments.length, 2);
         ui.alert(r);
         return;
       }
+      budget.cleanAndComplete(Budget,Plan);
+
       await updateServerPlan();
       reload();
     } else {
@@ -87,7 +94,9 @@ export  async  function mk(wg, selectedYear)  {sys.$params(arguments.length, 2);
         ui.alert(r);
         return;
       }
+      budget.cleanAndComplete(Budget,Plan);
       diary.changeAcc(Diary,e[planEntry.id], entry[planEntry.id]);
+
       await updateServerPlanAndDiary();
       reload();
     }
@@ -102,6 +111,8 @@ export  async  function mk(wg, selectedYear)  {sys.$params(arguments.length, 2);
       ui.alert(r);
       return;
     }
+    budget.cleanAndComplete(Budget,Plan);
+
     await updateServerPlan();
     reload();
   };

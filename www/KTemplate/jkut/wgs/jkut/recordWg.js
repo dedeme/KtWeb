@@ -1,4 +1,4 @@
-import * as math from '../../_js/math.js';import * as js from '../../_js/js.js';import * as arr from '../../_js/arr.js';import * as client from '../../_js/client.js';import * as bytes from '../../_js/bytes.js';import * as str from '../../_js/str.js';import * as ui from '../../_js/ui.js';import * as dic from '../../_js/dic.js';import * as timer from '../../_js/timer.js';import * as time from '../../_js/time.js';import * as storage from '../../_js/storage.js';import * as b64 from '../../_js/b64.js';import * as sys from '../../_js/sys.js';import * as iter from '../../_js/iter.js';import * as domo from '../../_js/domo.js';import * as cryp from '../../_js/cryp.js';
+import * as arr from '../../_js/arr.js';import * as bytes from '../../_js/bytes.js';import * as storage from '../../_js/storage.js';import * as sys from '../../_js/sys.js';import * as client from '../../_js/client.js';import * as b64 from '../../_js/b64.js';import * as ui from '../../_js/ui.js';import * as js from '../../_js/js.js';import * as iter from '../../_js/iter.js';import * as math from '../../_js/math.js';import * as str from '../../_js/str.js';import * as timer from '../../_js/timer.js';import * as domo from '../../_js/domo.js';import * as dic from '../../_js/dic.js';import * as cryp from '../../_js/cryp.js';import * as time from '../../_js/time.js';
 
 
 
@@ -13,16 +13,17 @@ const II =sys.$checkNull( i18n.tlt);
 
 
 export  function mk(wg, textArea)  {sys.$params(arguments.length, 2);
-  const tx =sys.$checkNull( String.raw
+  const tx0 = String.raw
 `// Copyright {DATE} ºDeme
 // GNU General Public License - V3 <http://www.gnu.org/licenses/>
 
 /// {OVERVIEW}
 
-/// Constructor.{DOC}{TYPES}{CODE}{SETS}{TOJS}{FROMJS}
-`);
+/*/ Constructor.{DOC}{TYPES}{CODE}{SETS}{TOJS}{FROMJS}
+`;
+  const tx =sys.$checkNull( str.replace(tx0, "/*/", "///"));
 
-  const now =sys.$checkNull( time.now());
+   const now =sys.$checkNull( time.now());
   const month =sys.$checkNull( time.toDate(now).toLocaleString("en-US", { month: "short" }));
   const dateF =sys.$checkNull( ui.field("overviewTA")
     .value(""))
@@ -42,47 +43,47 @@ export  function mk(wg, textArea)  {sys.$params(arguments.length, 2);
   const fieldsDiv =sys.$checkNull( Q("div"));
 
   
-  const Fields =sys.$checkNull( []);
+  const Fields = [];
 
   
-  const buttonsUpdateV =sys.$checkNull( [[]]);
+  const buttonsUpdateV = [[]];
 
   
 
   
    function update()  {sys.$params(arguments.length, 0);
     if (sys.$eq(str.trim(dateF.getValue()) , ""))
-      dateF.value(time.format(now,"%D-" + month + "-%Y"));
+      dateF.value(time.fmt(now,"%D-" + month + "-%Y"));
     if (sys.$eq(str.trim(oNameF.getValue()) , "")) oNameF.value("mk");
     if (sys.$eq(str.trim(oTypeF.getValue()) , "")) oTypeF.value("myType");
-    const oType =sys.$checkNull( "<" + str.trim(oTypeF.getValue()) + ">");
+    const oType = "<" + str.trim(oTypeF.getValue()) + ">";
 
-    const maxV =sys.$checkNull( [0]);
+    const maxV = [0];
     for (const [i, F]  of sys.$forObject2( Fields)) {
       const {name, type} = F;
       if (sys.$eq(str.trim(name.getValue()) , "")) name.value("f" + i);
       if (sys.$eq(str.trim(type.getValue()) , "")) type.value("s");
       const len =sys.$checkNull( str.trim(name.getValue()).length);
-      maxV[0] =sys.$checkExists(maxV[0],sys.$checkNull( maxV[0] > len ? maxV[0] : len));
+      maxV[0] =sys.$checkNull( maxV[0] > len ? maxV[0] : len);
     }
-    const adjs =sys.$checkNull( sys.$slice("                                        ",null,maxV[0]));
+    const adjs = sys.$slice("                                        ",null,maxV[0]);
 
     
-    const Doc =sys.$checkNull( []);
+    const Doc = [];
     for (const F  of sys.$forObject( Fields))
       arr.push(Doc,
         "///   " + sys.$slice((str.trim(F.name.getValue()) + adjs),null,maxV[0]) + ":"
       );
     
-    const Types =sys.$checkNull( []);
+    const Types = [];
     for (const F  of sys.$forObject( Fields)) {
       const t =sys.$checkNull( str.trim(F.type.getValue()));
-      const isFn =sys.$checkNull( sys.$neq(str.index(t, "->") ,  -1));
+      const isFn = sys.$neq(str.index(t, "->") ,  -1);
       arr.push(Types,isFn ? "(" + t + ")" : t);
     }
 
     
-    const Pars =sys.$checkNull( []);
+    const Pars = [];
     for (const F  of sys.$forObject( Fields)) arr.push(Pars,str.trim(F.name.getValue()));
 
     const to =sys.$checkNull( arr.any(Types,function(t)  {sys.$params(arguments.length, 1);
@@ -122,13 +123,13 @@ export  function mk(wg, textArea)  {sys.$params(arguments.length, 2);
     ;
 
 
-    const Sets =sys.$checkNull( []);
+    const Sets = [];
     for (const F  of sys.$forObject( Fields)) {
       const {name, type, set} = F;
       if (set.isChecked()) {
         const n =sys.$checkNull( str.trim(name.getValue()));
         const t0 =sys.$checkNull( str.trim(type.getValue()));
-        const t =sys.$checkNull( sys.$neq(str.index(t0,"->") ,  -1) ? "(" + t0 + ")" : t0);
+        const t =sys.$checkNull( sys.$neq(t0.index("->") ,  -1) ? "(" + t0 + ")" : t0);
         arr.push(Sets,
           "\n\n/// \\" + oType + ", " + t + " -> ()\n" +
           "set" + str.toUpper(n[0]) + sys.$slice(n,1,null) + " = \\O, v -> O[" + n + "] = v;;"
@@ -137,8 +138,8 @@ export  function mk(wg, textArea)  {sys.$params(arguments.length, 2);
     }
     const sets =sys.$checkNull( arr.join(Sets,""));
 
-    textArea.text(str
-      .replace(tx,"{DATE}", str.trim(dateF.getValue()))
+    textArea.text(tx
+      .replace("{DATE}", str.trim(dateF.getValue()))
       .replace("{OVERVIEW}", oType + " data definition.")
       .replace("{DOC}", "\n" + arr.join(Doc,"\n"))
       .replace(
@@ -191,11 +192,11 @@ export  function mk(wg, textArea)  {sys.$params(arguments.length, 2);
    function remove() {sys.$params(arguments.length, 0);
     arr.pop(Fields);
      const F =sys.$checkNull( arr.peek(Fields));
-    const n =sys.$checkNull( arr.size(Fields) - 1);
-    F.type =sys.$checkExists(F.type,sys.$checkNull( ui.field("oName")
+    const n = arr.size(Fields) - 1;
+    F.type =sys.$checkNull( ui.field("oName")
       .att("id", "f" + n + "Type")
       .style("width:100px")
-      .value(F.type.getValue())));
+      .value(F.type.getValue()));
     buttonsUpdateV[0]();
     mkFields();
     update();
@@ -217,17 +218,17 @@ export  function mk(wg, textArea)  {sys.$params(arguments.length, 2);
         .checked(false)
     });
     if (n > 0)
-      Fields[n-1].type =sys.$checkExists(Fields[n-1].type,sys.$checkNull( ui.field("f" + n + "Name")
+      Fields[n-1].type =sys.$checkNull( ui.field("f" + n + "Name")
         .att("id", "f" + [n-1] + "Type")
         .style("width:100px")
-        .value(Fields[n-1].type.getValue())));
+        .value(Fields[n-1].type.getValue()));
     buttonsUpdateV[0]();
     mkFields();
     update();
   };
 
   
-  buttonsUpdateV[0] =sys.$checkExists(buttonsUpdateV[0], function() {sys.$params(arguments.length, 0);
+  buttonsUpdateV[0] = function() {sys.$params(arguments.length, 0);
     const n =sys.$checkNull( arr.size(Fields));
     buttonsDiv
       .removeAll()
@@ -244,7 +245,7 @@ export  function mk(wg, textArea)  {sys.$params(arguments.length, 2);
             .klass("link")
             .add(ui.img("add")))))
     ;
-  });
+  };
 
   
 

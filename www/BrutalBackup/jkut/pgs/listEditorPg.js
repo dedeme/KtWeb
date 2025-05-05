@@ -1,4 +1,4 @@
-import * as math from '../_js/math.js';import * as js from '../_js/js.js';import * as arr from '../_js/arr.js';import * as client from '../_js/client.js';import * as bytes from '../_js/bytes.js';import * as str from '../_js/str.js';import * as ui from '../_js/ui.js';import * as dic from '../_js/dic.js';import * as timer from '../_js/timer.js';import * as time from '../_js/time.js';import * as storage from '../_js/storage.js';import * as b64 from '../_js/b64.js';import * as sys from '../_js/sys.js';import * as iter from '../_js/iter.js';import * as domo from '../_js/domo.js';import * as cryp from '../_js/cryp.js';
+import * as arr from '../_js/arr.js';import * as bytes from '../_js/bytes.js';import * as storage from '../_js/storage.js';import * as sys from '../_js/sys.js';import * as client from '../_js/client.js';import * as b64 from '../_js/b64.js';import * as ui from '../_js/ui.js';import * as js from '../_js/js.js';import * as iter from '../_js/iter.js';import * as math from '../_js/math.js';import * as str from '../_js/str.js';import * as timer from '../_js/timer.js';import * as domo from '../_js/domo.js';import * as dic from '../_js/dic.js';import * as cryp from '../_js/cryp.js';import * as time from '../_js/time.js';
 
 
 
@@ -26,7 +26,7 @@ export  async  function mk(wg)  {sys.$params(arguments.length, 1);
   });
 
   const boxDiv =sys.$checkNull( Q("div"));
-  const box =sys.$checkNull( modalBox.mk(boxDiv, false));
+   const box =sys.$checkNull( modalBox.mk(boxDiv, false));
   const inId =sys.$checkNull( ui.field("inSource").att("id", "inId").style("width: 150px"));
   const inSource =sys.$checkNull( ui.field("inBackup").att("id", "inSource").style("width: 500px"));
   const inBackup =sys.$checkNull( ui.field("inId").att("id", "inBackup").style("width: 500px"));
@@ -36,14 +36,14 @@ export  async  function mk(wg)  {sys.$params(arguments.length, 1);
   
    async  function add()  {sys.$params(arguments.length, 0);
     const id =sys.$checkNull( str.trim(inId.getValue()));
-    const fromV =sys.$checkNull( [str.trim(inSource.getValue())]);
-    const toV =sys.$checkNull( [str.trim(inBackup.getValue())]);
-    while (str.len(fromV[0]) > 1 && str.ends(fromV[0], "/")) fromV[0] =sys.$checkExists(fromV[0],sys.$checkNull( sys.$slice(fromV[0],null, -1)));
-    while (str.len(toV[0]) > 1 && str.ends(toV[0], "/")) toV[0] =sys.$checkExists(toV[0],sys.$checkNull( sys.$slice(toV[0],null, -1)));
+    const fromV = [str.trim(inSource.getValue())];
+    const toV = [str.trim(inBackup.getValue())];
+    while (str.len(fromV[0]) > 1 && str.ends(fromV[0], "/")) fromV[0] =sys.$checkExists(fromV[0], sys.$slice(fromV[0],null, -1));
+    while (str.len(toV[0]) > 1 && str.ends(toV[0], "/")) toV[0] =sys.$checkExists(toV[0], sys.$slice(toV[0],null, -1));
     const from =sys.$checkNull( fromV[0]);
     const to =sys.$checkNull( toV[0]);
 
-    const err =sys.$checkNull( [""]);
+    const err = [""];
     if (sys.$eq(id , "")) err[0] =sys.$checkExists(err[0],sys.$checkNull( II("'Id' is missing")));
     else if (sys.$eq(from , "")) err[0] =sys.$checkExists(err[0],sys.$checkNull( II("'From' is missing")));
     else if (sys.$eq(to , "")) err[0] =sys.$checkExists(err[0],sys.$checkNull( II("'To' is missing")));
@@ -158,7 +158,7 @@ export  async  function mk(wg)  {sys.$params(arguments.length, 1);
         .add(inBackup))))
     ;
 
-  const trs =sys.$checkNull( !sys.asBool(!sys.asBool(List))
+   const Trs =sys.$checkNull( !sys.asBool(!sys.asBool(List))
     ? arr.map(List,function( e)  {sys.$params(arguments.length, 1);  return Q("tr")
         .add(Q("td")
           .klass("border")
@@ -241,7 +241,7 @@ export  async  function mk(wg)  {sys.$params(arguments.length, 1);
       .add(Q("tr")
         .add(Q("td")
           .add(Q("hr"))))
-      .adds(trs))
+      .adds(Trs))
     .add(modalBox.mkWg(box))
   ;
 

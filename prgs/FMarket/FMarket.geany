@@ -28,7 +28,7 @@ NF_00_CM=firefox "http://localhost:8008/FMarket"
 EX_00_LB=Language
 EX_00_CM=jkutI18n "es:en" jkut
 EX_00_WD=%p
-filetypes=Kut;Jkut;
+filetypes=Kut;Jkut;Nkut;
 EX_01_LB=
 EX_01_CM=
 EX_01_WD=
@@ -54,14 +54,19 @@ JkutFT_00_WD=%p
 JkutFT_01_LB=Run
 JkutFT_01_CM=jkut jkut/main www
 JkutFT_01_WD=%p
+NkutFT_00_LB=Check
+NkutFT_00_CM=nkut -c nkut/src/main
+NkutFT_00_WD=%p
+NkutFT_01_LB=Run
+NkutFT_01_CM=nkut nkut/src/main nkut/js;echo '{"type": "module"}'>nkut/js/package.json
+NkutFT_01_WD=%p
 
 [files]
-current_page=1
-FILE_NAME_0=265;Kut;0;EUTF-8;0;1;0;%2Fdm%2FKtWeb%2Fprgs%2FFMarket%2Fkut%2Fpgs%2FsummaryPg.kut;0;2
-FILE_NAME_1=2748;Kut;0;EUTF-8;0;1;0;%2Fdm%2FKtWeb%2Fprgs%2FFMarket%2Fkut%2Fdb.kut;0;2
-FILE_NAME_2=2172;Jkut;0;EUTF-8;0;1;0;%2Fdm%2FKtWeb%2Fprgs%2FFMarket%2Fjkut%2Fpgs%2FsummaryPg.jkut;0;2
-FILE_NAME_3=1006;Jkut;0;EUTF-8;0;1;0;%2Fdm%2FKtWeb%2Fprgs%2FFMarket%2Fjkut%2Fmain.jkut;0;2
-FILE_NAME_4=3475;Javascript;0;EUTF-8;0;1;0;%2Fdm%2FKtWeb%2Fprgs%2FFMarket%2Fwww%2Fjkut%2F_js%2Fui.js;0;2
+current_page=3
+FILE_NAME_0=1836;Jkut;0;EUTF-8;0;1;0;%2Fdm%2FKtWeb%2Fprgs%2FFMarket%2Fjkut%2Fmain.jkut;0;2
+FILE_NAME_1=0;Kut;0;EUTF-8;0;1;0;%2Fdm%2FKtWeb%2Fprgs%2FFMarket%2Fkut%2Fdb.kut;0;2
+FILE_NAME_2=0;Kut;0;EUTF-8;0;1;0;%2Fdm%2FKtWeb%2Fprgs%2FFMarket%2Fkut%2Fcts.kut;0;2
+FILE_NAME_3=1066;Kut;0;EUTF-8;0;1;0;%2Fdm%2FKtWeb%2Fprgs%2FFMarket%2Fkut%2Fdata%2FsimParams.kut;0;2
 
 [editor]
 line_wrapping=false

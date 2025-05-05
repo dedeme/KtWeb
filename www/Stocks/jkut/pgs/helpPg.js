@@ -1,4 +1,4 @@
-import * as math from '../_js/math.js';import * as js from '../_js/js.js';import * as arr from '../_js/arr.js';import * as client from '../_js/client.js';import * as bytes from '../_js/bytes.js';import * as str from '../_js/str.js';import * as ui from '../_js/ui.js';import * as dic from '../_js/dic.js';import * as timer from '../_js/timer.js';import * as time from '../_js/time.js';import * as storage from '../_js/storage.js';import * as b64 from '../_js/b64.js';import * as sys from '../_js/sys.js';import * as iter from '../_js/iter.js';import * as domo from '../_js/domo.js';import * as cryp from '../_js/cryp.js';
+import * as arr from '../_js/arr.js';import * as bytes from '../_js/bytes.js';import * as storage from '../_js/storage.js';import * as sys from '../_js/sys.js';import * as client from '../_js/client.js';import * as b64 from '../_js/b64.js';import * as ui from '../_js/ui.js';import * as js from '../_js/js.js';import * as iter from '../_js/iter.js';import * as math from '../_js/math.js';import * as str from '../_js/str.js';import * as timer from '../_js/timer.js';import * as domo from '../_js/domo.js';import * as dic from '../_js/dic.js';import * as cryp from '../_js/cryp.js';import * as time from '../_js/time.js';
 
 
 
@@ -10,7 +10,7 @@ const II =sys.$checkNull( i18n.tlt);
 
 
 export  async  function mk(wg) {sys.$params(arguments.length, 1);
-  const txEs =sys.$checkNull( String.raw
+  const txEs = String.raw
 `<h2>Cambio de ejercicio</h2>
 <p>El cambio de ejercicio se realiza automáticamente al apuntar una
 anotación en un año posterior al de la última.</p>
@@ -24,9 +24,9 @@ utilizadas en su elaboración.</p>
 día. Ello es debido a que las fichas de almacén se realizan con las
 anotaciones de todos los años, saltándose las correspondientes a los 1 de
 Enero, para evitar así duplicados.</p>
-`);
+`;
 
-  const txEn =sys.$checkNull( String.raw
+  const txEn = String.raw
 `<h2>Change of Year</h2>
 <p>The change of year is made automatically when an annotation of a
 new year is done.</p>
@@ -40,7 +40,7 @@ reports.</p>
 in such day, because stock forms use annotatations from all the years and
 skip that of the first of January, avoiding in this way to duplicate
 entries.</p>
-`);
+`;
 
   wg
     .removeAll()

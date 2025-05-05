@@ -1,4 +1,4 @@
-import * as math from '../_js/math.js';import * as js from '../_js/js.js';import * as arr from '../_js/arr.js';import * as client from '../_js/client.js';import * as bytes from '../_js/bytes.js';import * as str from '../_js/str.js';import * as ui from '../_js/ui.js';import * as dic from '../_js/dic.js';import * as timer from '../_js/timer.js';import * as time from '../_js/time.js';import * as storage from '../_js/storage.js';import * as b64 from '../_js/b64.js';import * as sys from '../_js/sys.js';import * as iter from '../_js/iter.js';import * as domo from '../_js/domo.js';import * as cryp from '../_js/cryp.js';
+import * as arr from '../_js/arr.js';import * as bytes from '../_js/bytes.js';import * as storage from '../_js/storage.js';import * as sys from '../_js/sys.js';import * as client from '../_js/client.js';import * as b64 from '../_js/b64.js';import * as ui from '../_js/ui.js';import * as js from '../_js/js.js';import * as iter from '../_js/iter.js';import * as math from '../_js/math.js';import * as str from '../_js/str.js';import * as timer from '../_js/timer.js';import * as domo from '../_js/domo.js';import * as dic from '../_js/dic.js';import * as cryp from '../_js/cryp.js';import * as time from '../_js/time.js';
 
 
 
@@ -45,13 +45,13 @@ export  async  function mk(wg)  {sys.$params(arguments.length, 1);
 
   
    function changeSource(source)  {sys.$params(arguments.length, 1);
-    sourceV[0] =sys.$checkExists(sourceV[0], source);
+    sourceV[0] = source;
     showV[0]();
   };
 
   
    function changeOrder(order)  {sys.$params(arguments.length, 1);
-    orderV[0] =sys.$checkExists(orderV[0], order);
+    orderV[0] = order;
     showV[0]();
   };
 
@@ -69,7 +69,7 @@ export  async  function mk(wg)  {sys.$params(arguments.length, 1);
           .html(html))
   ;};
 
-  showV[0] =sys.$checkExists(showV[0], function()  {sys.$params(arguments.length, 0);
+  showV[0] = function()  {sys.$params(arguments.length, 0);
     const isPercent =sys.$checkNull( percentChk.isChecked());
 
     const vmenuWg =sys.$checkNull( vmenu.mk(
@@ -214,7 +214,7 @@ export  async  function mk(wg)  {sys.$params(arguments.length, 1);
               .adds(Rows))
         )))
     ;
-  });
+  };
 
   showV[0]();
 };

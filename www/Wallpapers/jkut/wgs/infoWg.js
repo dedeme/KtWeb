@@ -1,4 +1,4 @@
-import * as math from '../_js/math.js';import * as js from '../_js/js.js';import * as arr from '../_js/arr.js';import * as client from '../_js/client.js';import * as bytes from '../_js/bytes.js';import * as str from '../_js/str.js';import * as ui from '../_js/ui.js';import * as dic from '../_js/dic.js';import * as timer from '../_js/timer.js';import * as time from '../_js/time.js';import * as storage from '../_js/storage.js';import * as b64 from '../_js/b64.js';import * as sys from '../_js/sys.js';import * as iter from '../_js/iter.js';import * as domo from '../_js/domo.js';import * as cryp from '../_js/cryp.js';
+import * as arr from '../_js/arr.js';import * as bytes from '../_js/bytes.js';import * as storage from '../_js/storage.js';import * as sys from '../_js/sys.js';import * as client from '../_js/client.js';import * as b64 from '../_js/b64.js';import * as ui from '../_js/ui.js';import * as js from '../_js/js.js';import * as iter from '../_js/iter.js';import * as math from '../_js/math.js';import * as str from '../_js/str.js';import * as timer from '../_js/timer.js';import * as domo from '../_js/domo.js';import * as dic from '../_js/dic.js';import * as cryp from '../_js/cryp.js';import * as time from '../_js/time.js';
 
 
 
@@ -11,6 +11,7 @@ import * as i18n from  "../i18n.js";
 
 const Q =sys.$checkNull( ui.q);
 const II =sys.$checkNull( i18n.tlt);
+
 
 
 
@@ -35,7 +36,7 @@ export  function mk(padding, continedWg)  {sys.$params(arguments.length, 2);
 
   
    function changeOpacity()  {sys.$params(arguments.length, 0);
-    const isHidden =sys.$checkNull( sys.$eq(wg.e.style.getPropertyValue("opacity") , "0"));
+    const isHidden = sys.$eq(wg.e.style.getPropertyValue("opacity") , "0");
     wg.setStyle("opacity", isHidden ? "1" : "0");
   };
 
@@ -49,7 +50,7 @@ export  function mk(padding, continedWg)  {sys.$params(arguments.length, 2);
 
 
 export  function pictureWg(group,  p)  {sys.$params(arguments.length, 2);
-  const levelV =sys.$checkNull( [p[pict.level]]);
+  const levelV = [p[pict.level]];
   const sightsWg =sys.$checkNull( Q("div")
     .style("cursor:pointer")
     .text(p[pict.sights] + " / " + levelV[0]))
@@ -60,8 +61,8 @@ export  function pictureWg(group,  p)  {sys.$params(arguments.length, 2);
     ev.preventDefault();
     ev.stopPropagation();
 
-    levelV[0] +=sys.$checkExists(levelV[0],sys.$checkNull( 1));
-    if (levelV[0] > cts.maxPictLevel) levelV[0] =sys.$checkExists(levelV[0],sys.$checkNull( cts.minPictLevel));
+    levelV[0] += 1;
+    if (levelV[0] > cts.maxPictLevel) levelV[0] =sys.$checkNull( cts.minPictLevel);
 
      const {dbKey} = await  client.send({
       prg: cts.appName,
@@ -72,7 +73,7 @@ export  function pictureWg(group,  p)  {sys.$params(arguments.length, 2);
       id: p[pict.id],
       level: levelV[0]
     });
-    global.dbKeyV[0] =sys.$checkExists(global.dbKeyV[0],sys.$checkNull( dbKey));
+    global.dbKeyV[0] = dbKey;
 
     sightsWg
       .text(p[pict.sights] + " / " + levelV[0]);
@@ -120,7 +121,7 @@ export  function pictureWg(group,  p)  {sys.$params(arguments.length, 2);
 
 
 export  function songWg(songGroup,  s, audio)  {sys.$params(arguments.length, 3);
-  const levelV =sys.$checkNull( [s[song.level]]);
+  const levelV = [s[song.level]];
   const nameWg =sys.$checkNull( Q("div")
     .text(s[song.id]))
   ;
@@ -138,8 +139,8 @@ export  function songWg(songGroup,  s, audio)  {sys.$params(arguments.length, 3)
     ev.preventDefault();
     ev.stopPropagation();
 
-    levelV[0] +=sys.$checkExists(levelV[0],sys.$checkNull( 1));
-    if (levelV[0] > cts.maxSongLevel) levelV[0] =sys.$checkExists(levelV[0],sys.$checkNull( cts.minSongLevel));
+    levelV[0] += 1;
+    if (levelV[0] > cts.maxSongLevel) levelV[0] =sys.$checkNull( cts.minSongLevel);
 
      const {dbKey} = await  client.send({
       prg: cts.appName,
@@ -150,7 +151,7 @@ export  function songWg(songGroup,  s, audio)  {sys.$params(arguments.length, 3)
       id: s[song.id],
       level: levelV[0]
     });
-    global.dbKeyV[0] =sys.$checkExists(global.dbKeyV[0],sys.$checkNull( dbKey));
+    global.dbKeyV[0] = dbKey;
 
     sightsWg
       .text(s[song.sights] + " / " + levelV[0]);
@@ -168,11 +169,11 @@ export  function songWg(songGroup,  s, audio)  {sys.$params(arguments.length, 3)
       rq: "changeRadio",
       dbKey: global.dbKeyV[0]
     });
-    global.dbKeyV[0] =sys.$checkExists(global.dbKeyV[0],sys.$checkNull( dbKey));
+    global.dbKeyV[0] = dbKey;
 
     nameWg
       .text(radioName);
-    audio.src =sys.$checkExists(audio.src,sys.$checkNull( radioUrl));
+    audio.src = radioUrl;
   };
 
   if (s[song.level] > 0) sightsWg.on("click", changeLevel);

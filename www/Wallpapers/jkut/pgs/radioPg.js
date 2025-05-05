@@ -1,4 +1,4 @@
-import * as math from '../_js/math.js';import * as js from '../_js/js.js';import * as arr from '../_js/arr.js';import * as client from '../_js/client.js';import * as bytes from '../_js/bytes.js';import * as str from '../_js/str.js';import * as ui from '../_js/ui.js';import * as dic from '../_js/dic.js';import * as timer from '../_js/timer.js';import * as time from '../_js/time.js';import * as storage from '../_js/storage.js';import * as b64 from '../_js/b64.js';import * as sys from '../_js/sys.js';import * as iter from '../_js/iter.js';import * as domo from '../_js/domo.js';import * as cryp from '../_js/cryp.js';
+import * as arr from '../_js/arr.js';import * as bytes from '../_js/bytes.js';import * as storage from '../_js/storage.js';import * as sys from '../_js/sys.js';import * as client from '../_js/client.js';import * as b64 from '../_js/b64.js';import * as ui from '../_js/ui.js';import * as js from '../_js/js.js';import * as iter from '../_js/iter.js';import * as math from '../_js/math.js';import * as str from '../_js/str.js';import * as timer from '../_js/timer.js';import * as domo from '../_js/domo.js';import * as dic from '../_js/dic.js';import * as cryp from '../_js/cryp.js';import * as time from '../_js/time.js';
 
 
 
@@ -24,37 +24,37 @@ export  async  function mk(wg, reload)  {sys.$params(arguments.length, 2);
     source: "RadioPg",
     rq: "idata"
   });
-  global.dbKeyV[0] =sys.$checkExists(global.dbKeyV[0],sys.$checkNull( dbKey));
+  global.dbKeyV[0] = dbKey;
 
-  const groupV =sys.$checkNull( [group]);
-  const pictV =sys.$checkNull( [picture]);
+  const groupV = [group];
+  const pictV = [picture];
 
 
   const pictTm =sys.$checkNull( timer.mk(media.picturesTime));
 
-   const Visuals =sys.$checkNull( media.visuals());
+  const Visuals =sys.$checkNull( media.visuals());
 
   const img =sys.$checkNull( Visuals.img
     .att("src", "img/fondosEscritorio/" + group + "/" + picture[pict.id]))
   ;
 
-   const Clocks =sys.$checkNull( clocksWg.mk(Visuals.tm));
+  const Clocks =sys.$checkNull( clocksWg.mk(Visuals.tm));
 
-  const audio =sys.$checkNull( new  Audio());
-  audio.src =sys.$checkExists(audio.src,sys.$checkNull( radioUrl));
-  audio.controls =sys.$checkExists(audio.controls,sys.$checkNull( true));
-  audio.volume =sys.$checkExists(audio.volume,sys.$checkNull( media.volume));
-  audio.autoplay =sys.$checkExists(audio.autoplay,sys.$checkNull( true));
+  const audio = new  Audio();
+  audio.src = radioUrl;
+  audio.controls = true;
+  audio.volume =sys.$checkNull( media.volume);
+  audio.autoplay = true;
 
 
-   const InfoPicture =sys.$checkNull( infoWg.mk( -485, infoWg.pictureWg(group, picture)));
-   const InfoSong =sys.$checkNull( infoWg.mk( 
+  const InfoPicture =sys.$checkNull( infoWg.mk( -485, infoWg.pictureWg(group, picture)));
+  const InfoSong =sys.$checkNull( infoWg.mk( 
     -480,
     infoWg.songWg("Radio", song.mk(0, 0, radioName, 0), audio)
   ));
-   const PictTime =sys.$checkNull( pictTimeWg.mk( -480));
+  const PictTime =sys.$checkNull( pictTimeWg.mk( -480));
 
-  const goBackCallsV =sys.$checkNull( [0]);
+  const goBackCallsV = [0];
 
   
 
@@ -66,7 +66,7 @@ export  async  function mk(wg, reload)  {sys.$params(arguments.length, 2);
     }
 
     timer.stop(pictTm);
-    goBackCallsV[0] +=sys.$checkExists(goBackCallsV[0],sys.$checkNull( 1));
+    goBackCallsV[0] += 1;
     media.fadeOut(false, audio, media.fadeOutSongEnd);
     timer.delay(math.toInt(media.fadeOutSongEnd), reload);
   };
@@ -134,10 +134,10 @@ export  async  function mk(wg, reload)  {sys.$params(arguments.length, 2);
       source: "RadioPg",
       rq: "pictData"
     });
-    global.dbKeyV[0] =sys.$checkExists(global.dbKeyV[0],sys.$checkNull( dbKey));
+    global.dbKeyV[0] = dbKey;
     if (sys.$neq(group , groupV[0]) || sys.$neq(picture[pict.id] , pictV[0][pict.id])) {
-      groupV[0] =sys.$checkExists(groupV[0],sys.$checkNull( group));
-      pictV[0] =sys.$checkExists(pictV[0],sys.$checkNull( picture));
+      groupV[0] = group;
+      pictV[0] = picture;
       media.changePict(div, img, InfoPicture, group, picture);
     }
   });

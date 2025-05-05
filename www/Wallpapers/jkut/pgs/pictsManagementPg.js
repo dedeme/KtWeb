@@ -1,4 +1,4 @@
-import * as math from '../_js/math.js';import * as js from '../_js/js.js';import * as arr from '../_js/arr.js';import * as client from '../_js/client.js';import * as bytes from '../_js/bytes.js';import * as str from '../_js/str.js';import * as ui from '../_js/ui.js';import * as dic from '../_js/dic.js';import * as timer from '../_js/timer.js';import * as time from '../_js/time.js';import * as storage from '../_js/storage.js';import * as b64 from '../_js/b64.js';import * as sys from '../_js/sys.js';import * as iter from '../_js/iter.js';import * as domo from '../_js/domo.js';import * as cryp from '../_js/cryp.js';
+import * as arr from '../_js/arr.js';import * as bytes from '../_js/bytes.js';import * as storage from '../_js/storage.js';import * as sys from '../_js/sys.js';import * as client from '../_js/client.js';import * as b64 from '../_js/b64.js';import * as ui from '../_js/ui.js';import * as js from '../_js/js.js';import * as iter from '../_js/iter.js';import * as math from '../_js/math.js';import * as str from '../_js/str.js';import * as timer from '../_js/timer.js';import * as domo from '../_js/domo.js';import * as dic from '../_js/dic.js';import * as cryp from '../_js/cryp.js';import * as time from '../_js/time.js';
 
 
 
@@ -13,10 +13,10 @@ const Q =sys.$checkNull( ui.q);
 const II =sys.$checkNull( i18n.tlt);
 
 
-const prows =sys.$checkNull( 4);
+const prows = 4;
 
 
-const pcols =sys.$checkNull( 5);
+const pcols = 5;
 
 
 export  async  function mk(wg, reload)  {sys.$params(arguments.length, 2);
@@ -27,14 +27,14 @@ export  async  function mk(wg, reload)  {sys.$params(arguments.length, 2);
     source: "PictsManagementPg",
     rq: "idata"
   });
-  global.dbKeyV[0] =sys.$checkExists(global.dbKeyV[0],sys.$checkNull( dbKey));
+  global.dbKeyV[0] = dbKey;
 
   arr.sort(Picts,function( p1,  p2)  {sys.$params(arguments.length, 2);
      return str.toUpper(p1[pict.id]) < str.toUpper(p2[pict.id]);}
   );
   const psize =sys.$checkNull( arr.size(Picts));
 
-  const ptds =sys.$checkNull( prows * pcols);
+  const ptds = prows * pcols;
   const maxPage =sys.$checkNull( math.toInt((arr.size(Picts) - 1) / ptds));
   const pg =sys.$checkNull( page > maxPage ? maxPage : page);
 
@@ -78,6 +78,55 @@ export  async  function mk(wg, reload)  {sys.$params(arguments.length, 2);
     mk(wg, reload);
   };
 
+  
+   async  function keyDown(ev)  {sys.$params(arguments.length, 1);
+    ev.preventDefault();
+    switch (ev.key) {
+      case "ArrowUp":{ {
+        await client.send({
+          prg: cts.appName,
+          source: "PictsManagementPg",
+          rq: "changePage",
+          where: "up",
+          dbKey: global.dbKeyV[0]
+        });
+        mk(wg, reload);
+      }break;}
+    case "ArrowDown":{ {
+        ev.preventDefault();
+        await client.send({
+          prg: cts.appName,
+          source: "PictsManagementPg",
+          rq: "changePage",
+          where: "down",
+          dbKey: global.dbKeyV[0]
+        });
+        mk(wg, reload);
+      }break;}
+      case "ArrowLeft":{ {
+        ev.preventDefault();
+        await client.send({
+          prg: cts.appName,
+          source: "PictsManagementPg",
+          rq: "changePage",
+          where: "left",
+          dbKey: global.dbKeyV[0]
+        });
+        mk(wg, reload);
+      }break;}
+      case "ArrowRight":{ {
+        ev.preventDefault();
+        await client.send({
+          prg: cts.appName,
+          source: "PictsManagementPg",
+          rq: "changePage",
+          where: "right",
+          dbKey: global.dbKeyV[0]
+        });
+        mk(wg, reload);
+      }break;}
+    }
+  };
 
   
 
@@ -97,7 +146,7 @@ export  async  function mk(wg, reload)  {sys.$params(arguments.length, 2);
 
   
    function tdPict( p)  {sys.$params(arguments.length, 1);
-    const Sels =sys.$checkNull( []); 
+    const Sels = []; 
     for (let i = cts.minPictLevel;i < cts.maxPictLevel + 1; ++i) {
       arr.push(Sels,Q("td")
         .add(Q("table")
@@ -119,6 +168,7 @@ export  async  function mk(wg, reload)  {sys.$params(arguments.length, 2);
       .add(ui.img("fondosEscritorio/" + group + "/" + p[pict.id])
         .klass("frame")
         .style("width:175px")
+        .att("title", p[pict.id])
         .on("click", function(e)  {sys.$params(arguments.length, 1); showPict(p[pict.id]);}))
       .add(Q("table")
         .att("align", "center")
@@ -129,8 +179,8 @@ export  async  function mk(wg, reload)  {sys.$params(arguments.length, 2);
 
   
    function rows()  {sys.$params(arguments.length, 0);
-    const R =sys.$checkNull( []); 
-    const npV =sys.$checkNull( [pg * pcols * prows]);
+    const R = []; 
+    const npV = [pg * pcols * prows];
     for (let row = 0;row < prows; ++row) {
       const tr =sys.$checkNull( Q("tr"));
       for (let col = 0;col < pcols; ++col) {
@@ -139,7 +189,7 @@ export  async  function mk(wg, reload)  {sys.$params(arguments.length, 2);
         } else {
           tr.add(Q("td"));
         }
-        npV[0] +=sys.$checkExists(npV[0],sys.$checkNull( 1));
+        npV[0] += 1;
       }
       arr.push(R,tr);
     }
@@ -148,12 +198,12 @@ export  async  function mk(wg, reload)  {sys.$params(arguments.length, 2);
 
   
    function pagesWg()  {sys.$params(arguments.length, 0);
-    const Trs =sys.$checkNull( []); 
-    const Tds =sys.$checkNull( []); 
+    const Trs = []; 
+    const Tds = []; 
     const max =sys.$checkNull( maxPage * ptds < psize ? maxPage + 1 : maxPage);
     for (let i = 0;i < max; ++i) {
-      const first =sys.$checkNull( i * ptds);
-      const last0 =sys.$checkNull( first + ptds - 1);
+      const first = i * ptds;
+      const last0 = first + ptds - 1;
       const last =sys.$checkNull( last0 >= psize ? psize - 1 : last0);
       for (let i = 0;i < 3; ++i) arr.push(Tds,[]);
       arr.push(Tds[0], Q("td")
@@ -173,6 +223,8 @@ export  async  function mk(wg, reload)  {sys.$params(arguments.length, 2);
     for (let i = 0;i < 3; ++i) arr.push(Trs,Q("tr").adds(Tds[i]));
      return Trs;
   };
+
+  window.document.onkeydown = keyDown;
 
   wg
     .removeAll()

@@ -59,8 +59,13 @@ NF_03_CM=kgeanyWords ./
 NF_03_WD=%p
 
 [files]
-current_page=0
-FILE_NAME_0=0;Kut;0;EUTF-8;0;1;0;%2Fdm%2FKtWeb%2Fprgs%2FMarket%2Fkut%2Fmain.kut;0;2
+current_page=5
+FILE_NAME_0=0;Jkut;0;EUTF-8;0;1;0;%2Fdm%2FKtWeb%2Fprgs%2FMarket%2Fjkut%2Fmain.jkut;0;2
+FILE_NAME_1=0;Jkut;0;EUTF-8;0;1;0;%2Fdm%2FKtWeb%2Fprgs%2FMarket%2Fjkut%2Fcts.jkut;0;2
+FILE_NAME_2=4378;Jkut;0;EUTF-8;0;1;0;%2Fdm%2FKtWeb%2Fprgs%2FMarket%2Fjkut%2Fpgs%2Facc%2FbalancePg.jkut;0;2
+FILE_NAME_3=5951;Kut;0;EUTF-8;0;1;0;%2Fdm%2FKtWeb%2Fprgs%2FMarket%2Fkut%2Fsch.kut;0;2
+FILE_NAME_4=20156;Kut;0;EUTF-8;0;1;0;%2Fdm%2FKtWeb%2Fprgs%2FMarket%2Fkut%2Fqspr.kut;0;2
+FILE_NAME_5=1142;Kut;0;EUTF-8;0;1;0;%2Fdm%2FKtWeb%2Fprgs%2FMarket%2Fkut%2Fmain.kut;0;2
 
 [editor]
 line_wrapping=false
@@ -69,3 +74,12 @@ auto_continue_multiline=false
 
 [VTE]
 last_dir=/home/deme/.local/share/Trash/files
+
+[prjorg]
+source_patterns=*.c;*.C;*.cpp;*.cxx;*.c++;*.cc;*.m;
+header_patterns=*.h;*.H;*.hpp;*.hxx;*.h++;*.hh;
+ignored_dirs_patterns=.*;CVS;
+ignored_file_patterns=*.o;*.obj;*.a;*.lib;*.so;*.dll;*.lo;*.la;*.class;*.jar;*.pyc;*.mo;*.gmo;
+generate_tag_prefs=0
+show_empty_dirs=true
+external_dirs=

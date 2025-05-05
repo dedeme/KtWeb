@@ -1,4 +1,4 @@
-import * as math from '../_js/math.js';import * as js from '../_js/js.js';import * as arr from '../_js/arr.js';import * as client from '../_js/client.js';import * as bytes from '../_js/bytes.js';import * as str from '../_js/str.js';import * as ui from '../_js/ui.js';import * as dic from '../_js/dic.js';import * as timer from '../_js/timer.js';import * as time from '../_js/time.js';import * as storage from '../_js/storage.js';import * as b64 from '../_js/b64.js';import * as sys from '../_js/sys.js';import * as iter from '../_js/iter.js';import * as domo from '../_js/domo.js';import * as cryp from '../_js/cryp.js';
+import * as arr from '../_js/arr.js';import * as bytes from '../_js/bytes.js';import * as storage from '../_js/storage.js';import * as sys from '../_js/sys.js';import * as client from '../_js/client.js';import * as b64 from '../_js/b64.js';import * as ui from '../_js/ui.js';import * as js from '../_js/js.js';import * as iter from '../_js/iter.js';import * as math from '../_js/math.js';import * as str from '../_js/str.js';import * as timer from '../_js/timer.js';import * as domo from '../_js/domo.js';import * as dic from '../_js/dic.js';import * as cryp from '../_js/cryp.js';import * as time from '../_js/time.js';
 
 
 
@@ -33,37 +33,37 @@ export  function mk()  {sys.$params(arguments.length, 0);  return mk0(
   );};
 
 
-export  function setChron(O, v)  {sys.$params(arguments.length, 2); O[isChron] =sys.$checkExists(O[isChron],sys.$checkNull( v));};
+export  function setChron(O, v)  {sys.$params(arguments.length, 2); O[isChron] =sys.$checkExists(O[isChron], v);};
 
 
-export  function setStart(O, v)  {sys.$params(arguments.length, 2); O[start] =sys.$checkExists(O[start],sys.$checkNull( v));};
+export  function setStart(O, v)  {sys.$params(arguments.length, 2); O[start] =sys.$checkExists(O[start], v);};
 
 
-export  function setWidth(O, v)  {sys.$params(arguments.length, 2); O[width] =sys.$checkExists(O[width],sys.$checkNull( v));};
+export  function setWidth(O, v)  {sys.$params(arguments.length, 2); O[width] =sys.$checkExists(O[width], v);};
 
 
-export  function setHeight(O, v)  {sys.$params(arguments.length, 2); O[height] =sys.$checkExists(O[height],sys.$checkNull( v));};
+export  function setHeight(O, v)  {sys.$params(arguments.length, 2); O[height] =sys.$checkExists(O[height], v);};
 
 
-export  function setBg(O, v)  {sys.$params(arguments.length, 2); O[bg] =sys.$checkExists(O[bg],sys.$checkNull( v));};
+export  function setBg(O, v)  {sys.$params(arguments.length, 2); O[bg] =sys.$checkExists(O[bg], v);};
 
 
-export  function setNumber(O, v)  {sys.$params(arguments.length, 2); O[number] =sys.$checkExists(O[number],sys.$checkNull( v));};
+export  function setNumber(O, v)  {sys.$params(arguments.length, 2); O[number] =sys.$checkExists(O[number], v);};
 
 
-export  function setAxis(O, v)  {sys.$params(arguments.length, 2); O[axis] =sys.$checkExists(O[axis],sys.$checkNull( v));};
+export  function setAxis(O, v)  {sys.$params(arguments.length, 2); O[axis] =sys.$checkExists(O[axis], v);};
 
 
-export  function setHhand(O, v)  {sys.$params(arguments.length, 2); O[hhand] =sys.$checkExists(O[hhand],sys.$checkNull( v));};
+export  function setHhand(O, v)  {sys.$params(arguments.length, 2); O[hhand] =sys.$checkExists(O[hhand], v);};
 
 
-export  function setMhand(O, v)  {sys.$params(arguments.length, 2); O[mhand] =sys.$checkExists(O[mhand],sys.$checkNull( v));};
+export  function setMhand(O, v)  {sys.$params(arguments.length, 2); O[mhand] =sys.$checkExists(O[mhand], v);};
 
 
-export  function setShand(O, v)  {sys.$params(arguments.length, 2); O[shand] =sys.$checkExists(O[shand],sys.$checkNull( v));};
+export  function setShand(O, v)  {sys.$params(arguments.length, 2); O[shand] =sys.$checkExists(O[shand], v);};
 
 
-export  function setFn(O, v)  {sys.$params(arguments.length, 2); O[fn] =sys.$checkExists(O[fn],sys.$checkNull( v));};
+export  function setFn(O, v)  {sys.$params(arguments.length, 2); O[fn] =sys.$checkExists(O[fn], v);};
 
 
 
@@ -74,9 +74,9 @@ export  function mkWg(c)  {sys.$params(arguments.length, 1);
   ;
   const el =sys.$checkNull( cv.e);
   const ctx =sys.$checkNull( el.getContext("2d"));
-  const radius0 =sys.$checkNull( el.height / 2);
+  const radius0 = el.height / 2;
   ctx.translate(radius0, radius0);
-  const radius =sys.$checkNull( radius0 * 0.90);
+  const radius = radius0 * 0.90;
 
   
    function drawBack()  {sys.$params(arguments.length, 0);
@@ -90,8 +90,8 @@ export  function mkWg(c)  {sys.$params(arguments.length, 1);
     grad.addColorStop(0, "#333");
     grad.addColorStop(0.5, "white");
     grad.addColorStop(1, "#333");
-    ctx.strokeStyle =sys.$checkExists(ctx.strokeStyle,sys.$checkNull( grad));
-    ctx.lineWidth =sys.$checkExists(ctx.lineWidth,sys.$checkNull( radius * 0.1));
+    ctx.strokeStyle =sys.$checkExists(ctx.strokeStyle, grad);
+    ctx.lineWidth =sys.$checkExists(ctx.lineWidth, radius * 0.1);
     ctx.stroke();
   };
 
@@ -106,11 +106,11 @@ export  function mkWg(c)  {sys.$params(arguments.length, 1);
   
    function drawNumbers()  {sys.$params(arguments.length, 0);
     ctx.fillStyle =sys.$checkExists(ctx.fillStyle,sys.$checkNull( c[number]));
-    ctx.font =sys.$checkExists(ctx.font,sys.$checkNull( radius * 0.16 + "px sans-serif"));
-    ctx.textBaseline =sys.$checkExists(ctx.textBaseline,sys.$checkNull( "middle"));
-    ctx.textAlign =sys.$checkExists(ctx.textAlign,sys.$checkNull( "center"));
+    ctx.font =sys.$checkExists(ctx.font, radius * 0.16 + "px sans-serif");
+    ctx.textBaseline =sys.$checkExists(ctx.textBaseline, "middle");
+    ctx.textAlign =sys.$checkExists(ctx.textAlign, "center");
     for (let num = 1;num < 13; ++num) {
-      const ang =sys.$checkNull( num * Math.PI / 6);
+      const ang = num * Math.PI / 6;
       ctx.rotate(ang);
       ctx.translate(0,  -radius * 0.82);
       ctx.rotate( -ang);
@@ -124,12 +124,12 @@ export  function mkWg(c)  {sys.$params(arguments.length, 1);
   
    function drawHand(pos, len, width, color)  {sys.$params(arguments.length, 4);
     ctx.beginPath();
-    ctx.lineWidth =sys.$checkExists(ctx.lineWidth,sys.$checkNull( width));
-    ctx.lineCap =sys.$checkExists(ctx.lineCap,sys.$checkNull( "round"));
+    ctx.lineWidth =sys.$checkExists(ctx.lineWidth, width);
+    ctx.lineCap =sys.$checkExists(ctx.lineCap, "round");
     ctx.moveTo(0, 0);
     ctx.rotate(pos);
     ctx.lineTo(0,  -len);
-    ctx.strokeStyle =sys.$checkExists(ctx.strokeStyle,sys.$checkNull( color));
+    ctx.strokeStyle =sys.$checkExists(ctx.strokeStyle, color);
     ctx.stroke();
     ctx.rotate( -pos);
   };
@@ -144,19 +144,19 @@ export  function mkWg(c)  {sys.$params(arguments.length, 1);
     
     c[fn](now);
 
-    const hour0 =sys.$checkNull( time.hour(now) % 12);
+    const hour0 = time.hour(now) % 12;
     const minute0 =sys.$checkNull( time.minute(now));
     const second0 =sys.$checkNull( time.second(now));
     
-    const hour =sys.$checkNull( (hour0 * Math.PI / 6) +
+    const hour = (hour0 * Math.PI / 6) +
       (minute0 * Math.PI / (6 * 60)) +
-      (second0 * Math.PI / (360 * 60)));
+      (second0 * Math.PI / (360 * 60));
     drawHand(hour, radius * 0.5, radius * 0.07, c[hhand]);
     
-    const minute =sys.$checkNull( (minute0 * Math.PI / 30) + (second0 * Math.PI / (30 * 60)));
+    const minute = (minute0 * Math.PI / 30) + (second0 * Math.PI / (30 * 60));
     drawHand(minute, radius * 0.8, radius * 0.07, c[mhand]);
     
-    const second =sys.$checkNull( second0 * Math.PI / 30);
+    const second = second0 * Math.PI / 30;
     drawHand(second, radius * 0.9, radius * 0.02, c[shand]);
   };
 

@@ -1,4 +1,4 @@
-import * as math from '../_js/math.js';import * as js from '../_js/js.js';import * as arr from '../_js/arr.js';import * as client from '../_js/client.js';import * as bytes from '../_js/bytes.js';import * as str from '../_js/str.js';import * as ui from '../_js/ui.js';import * as dic from '../_js/dic.js';import * as timer from '../_js/timer.js';import * as time from '../_js/time.js';import * as storage from '../_js/storage.js';import * as b64 from '../_js/b64.js';import * as sys from '../_js/sys.js';import * as iter from '../_js/iter.js';import * as domo from '../_js/domo.js';import * as cryp from '../_js/cryp.js';
+import * as arr from '../_js/arr.js';import * as bytes from '../_js/bytes.js';import * as storage from '../_js/storage.js';import * as sys from '../_js/sys.js';import * as client from '../_js/client.js';import * as b64 from '../_js/b64.js';import * as ui from '../_js/ui.js';import * as js from '../_js/js.js';import * as iter from '../_js/iter.js';import * as math from '../_js/math.js';import * as str from '../_js/str.js';import * as timer from '../_js/timer.js';import * as domo from '../_js/domo.js';import * as dic from '../_js/dic.js';import * as cryp from '../_js/cryp.js';import * as time from '../_js/time.js';
 
 
 
@@ -17,7 +17,7 @@ const II =sys.$checkNull( i18n.tlt);
 
 export  function mk(imgDiv,  im, onChange)  {sys.$params(arguments.length, 3);
   const adjOp =sys.$checkNull( im[image.adjOp]);
-  const stateV =sys.$checkNull( [!sys.asBool(adjOp) ?  -1 : adjOp[0][imgAdj.type]]);
+  const stateV = [!sys.asBool(adjOp) ?  -1 : adjOp[0][imgAdj.type]];
 
   
    function mkIn(id, nextId, value)  {sys.$params(arguments.length, 3);  return ui.changePoint(ui.field(nextId)
@@ -53,20 +53,20 @@ export  function mk(imgDiv,  im, onChange)  {sys.$params(arguments.length, 3);
 
   const editorDiv =sys.$checkNull( Q("div"));
 
-  const mkEditorV =sys.$checkNull( [[]]);
+  const mkEditorV = [[]];
 
   
 
   
    function setState(v)  {sys.$params(arguments.length, 1);
-    stateV[0] =sys.$checkExists(stateV[0],sys.$checkNull( v));
+    stateV[0] =sys.$checkExists(stateV[0], v);
     mkEditorV[0](editorDiv);
   };
 
   
    function restore(ev)  {sys.$params(arguments.length, 1);
     const adjOp =sys.$checkNull( im[image.adjOp]);
-    const stateV =sys.$checkNull( [!sys.asBool(adjOp) ?  -1 : adjOp[0][imgAdj.type]]);
+    const stateV = [!sys.asBool(adjOp) ?  -1 : adjOp[0][imgAdj.type]];
 
     startCut.value(sys.$eq(stateV[0] , imgAdj.cut) ? adjOp[0][imgAdj.Params][0] : 0);
     ratioBlur.value(sys.$eq(stateV[0] , imgAdj.background) ? adjOp[0][imgAdj.Params][1] : 50);
@@ -91,15 +91,15 @@ export  function mk(imgDiv,  im, onChange)  {sys.$params(arguments.length, 3);
         arr.push(rV, def);
         i.value("" + rV[0]);
       } else if (rV[0] > max) {
-        rV[0] =sys.$checkExists(rV[0],sys.$checkNull( max));
+        rV[0] =sys.$checkExists(rV[0], max);
         i.value("" + rV[0]);
       } else if (rV[0] < min) {
-        rV[0] =sys.$checkExists(rV[0],sys.$checkNull( min));
+        rV[0] =sys.$checkExists(rV[0], min);
         i.value("" + rV[0]);
       }
        return rV[0];
     };
-    const adjOp =sys.$checkNull((   
+    const adjOp =(   
       sys.$eq(stateV[0],imgAdj.cut)? [imgAdj.mk(stateV[0], [value(startCut, 0, 10000, 0)])]:
       sys.$eq(stateV[0],imgAdj.background)? [
           imgAdj.mk(
@@ -112,7 +112,7 @@ export  function mk(imgDiv,  im, onChange)  {sys.$params(arguments.length, 3);
         ]:
       sys.$eq(stateV[0],imgAdj.stretch)? [imgAdj.mk(stateV[0], [value(pixelsStretch, 1, 100, 10)])]:
        []
-    ));
+    );
 
     onChange(image.setAdjOp(im, adjOp));
     mkEditorV[0](editorDiv);

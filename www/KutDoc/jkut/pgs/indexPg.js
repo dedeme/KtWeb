@@ -1,4 +1,4 @@
-import * as math from '../_js/math.js';import * as js from '../_js/js.js';import * as arr from '../_js/arr.js';import * as client from '../_js/client.js';import * as bytes from '../_js/bytes.js';import * as str from '../_js/str.js';import * as ui from '../_js/ui.js';import * as dic from '../_js/dic.js';import * as timer from '../_js/timer.js';import * as time from '../_js/time.js';import * as storage from '../_js/storage.js';import * as b64 from '../_js/b64.js';import * as sys from '../_js/sys.js';import * as iter from '../_js/iter.js';import * as domo from '../_js/domo.js';import * as cryp from '../_js/cryp.js';
+import * as arr from '../_js/arr.js';import * as bytes from '../_js/bytes.js';import * as storage from '../_js/storage.js';import * as sys from '../_js/sys.js';import * as client from '../_js/client.js';import * as b64 from '../_js/b64.js';import * as ui from '../_js/ui.js';import * as js from '../_js/js.js';import * as iter from '../_js/iter.js';import * as math from '../_js/math.js';import * as str from '../_js/str.js';import * as timer from '../_js/timer.js';import * as domo from '../_js/domo.js';import * as dic from '../_js/dic.js';import * as cryp from '../_js/cryp.js';import * as time from '../_js/time.js';
 
 
 
@@ -27,11 +27,11 @@ export  async  function mk(wg, pack)  {sys.$params(arguments.length, 2);
   }
 
    const tree =sys.$checkNull( treeOp[0]);
-  const linkPrefix =sys.$checkNull( "?" + pack + "@");
+  const linkPrefix = "?" + pack + "@";
 
   Q("@title").text(cts.appName + " - " + pack);
 
-  const Trs =sys.$checkNull( []);
+  const Trs = [];
   add(Trs, tree[indexTree.Trees], "", 0, linkPrefix);
 
   wg
@@ -45,7 +45,7 @@ export  async  function mk(wg, pack)  {sys.$params(arguments.length, 2);
 };
 
 
- function add(Trs,  Trees, ppath, space, linkPrefix)  {sys.$params(arguments.length, 5);
+ function add( Trs,  Trees, ppath, space, linkPrefix)  {sys.$params(arguments.length, 5);
   const path =sys.$checkNull( sys.$neq(ppath , "") ? ppath + "/" : ppath);
 
   arr.sort(Trees,function( t1,  t2)  {sys.$params(arguments.length, 2);
@@ -60,7 +60,7 @@ export  async  function mk(wg, pack)  {sys.$params(arguments.length, 2);
   );
   for (const  t  of sys.$forObject( Trees)) {
     if (!sys.asBool(!sys.asBool(t[indexTree.docOp]))) {
-      Trs.push(Q("tr")
+      arr.push(Trs,Q("tr")
         .add(Q("td")
           .style('width:10px;padding-left:' + space + 'px')
           .html(str.fmt(
@@ -72,7 +72,7 @@ export  async  function mk(wg, pack)  {sys.$params(arguments.length, 2);
           .text(t[indexTree.docOp][0]))
       );
     } else {
-      Trs.push(Q("tr")
+      arr.push(Trs,Q("tr")
         .add(Q("td")
           .style('padding-left:' + space + 'px')
           .html('<b>' + t[indexTree.id] + '</b>'))

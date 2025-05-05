@@ -1,4 +1,4 @@
-import * as math from '../_js/math.js';import * as js from '../_js/js.js';import * as arr from '../_js/arr.js';import * as client from '../_js/client.js';import * as bytes from '../_js/bytes.js';import * as str from '../_js/str.js';import * as ui from '../_js/ui.js';import * as dic from '../_js/dic.js';import * as timer from '../_js/timer.js';import * as time from '../_js/time.js';import * as storage from '../_js/storage.js';import * as b64 from '../_js/b64.js';import * as sys from '../_js/sys.js';import * as iter from '../_js/iter.js';import * as domo from '../_js/domo.js';import * as cryp from '../_js/cryp.js';
+import * as arr from '../_js/arr.js';import * as bytes from '../_js/bytes.js';import * as storage from '../_js/storage.js';import * as sys from '../_js/sys.js';import * as client from '../_js/client.js';import * as b64 from '../_js/b64.js';import * as ui from '../_js/ui.js';import * as js from '../_js/js.js';import * as iter from '../_js/iter.js';import * as math from '../_js/math.js';import * as str from '../_js/str.js';import * as timer from '../_js/timer.js';import * as domo from '../_js/domo.js';import * as dic from '../_js/dic.js';import * as cryp from '../_js/cryp.js';import * as time from '../_js/time.js';
 
 
 
@@ -217,8 +217,8 @@ export  function mkData(Labels, SetValues, SetAtts)  {sys.$params(arguments.leng
         ") does not match number of attributes set (" + arr.size(SetAtts) + ")"
       ));
 
-    const UnarySets =sys.$checkNull( []);
-    const round =sys.$checkNull( 2);
+    const UnarySets = [];
+    const round = 2;
      function maxMinRound(mx, mn)  {sys.$params(arguments.length, 2);  return 0;};
      function drawGrid(l, i)  {sys.$params(arguments.length, 2);  return true;};
      function drawLabel(l, i)  {sys.$params(arguments.length, 2);  return true;};
@@ -232,14 +232,14 @@ export  function mkData(Labels, SetValues, SetAtts)  {sys.$params(arguments.leng
 
 
 export  function mkDataExample()  {sys.$params(arguments.length, 0);
-  const Labels =sys.$checkNull( ["Mon", "Tue", "Wen", "Thu", "Fri", "Sat", "Sun"]);
-  const setValues =sys.$checkNull( [
+  const Labels = ["Mon", "Tue", "Wen", "Thu", "Fri", "Sat", "Sun"];
+  const setValues = [
     arr.map([1, 2, 9.54, 10.2, 6.2,  -7, 7], function(e)  {sys.$params(arguments.length, 1);  return [e];}),
     arr.map([2,  -4,  -2.15,  -5.2, 7, 3, 4], function(e)  {sys.$params(arguments.length, 1);  return [e];})
-  ]);
-  const setAtts =sys.$checkNull( [mkLineExample(),mkLineExample()]);
-  setAtts[0].color =sys.$checkExists(setAtts[0].color,sys.$checkNull( "#000080"));
-  setAtts[1].color =sys.$checkExists(setAtts[1].color,sys.$checkNull( "#800000"));
+  ];
+  const setAtts = [mkLineExample(),mkLineExample()];
+  setAtts[0].color =sys.$checkExists(setAtts[0].color, "#000080");
+  setAtts[1].color =sys.$checkExists(setAtts[1].color, "#800000");
 
    return mkData(Labels, setValues, setAtts);
 };
@@ -373,7 +373,7 @@ export  function fromJs(A)  {sys.$params(arguments.length, 1);  return mk(
 
 export  function mkExample()  {sys.$params(arguments.length, 0);
   const inAtts =sys.$checkNull( mkAreaAttsExample());
-  inAtts.background =sys.$checkExists(inAtts.background,sys.$checkNull( "#fbfdff"));
+  inAtts.background =sys.$checkExists(inAtts.background, "#fbfdff");
    return mk(
     mkAreaExample(),
     mkPaddingExample(),
@@ -402,16 +402,16 @@ export  function mkWg(lC, data)  {sys.$params(arguments.length, 2);
     ;};
 
   
-  const HotLabels =sys.$checkNull( []);
+  const HotLabels = [];
   
-  const HotUnarySets =sys.$checkNull( []);
+  const HotUnarySets = [];
   
-  const HotSetValues =sys.$checkNull( []);
+  const HotSetValues = [];
 
   
-  const Max =sys.$checkNull( [[]]);
-  const Min =sys.$checkNull( [0.0]);
-  const Gap =sys.$checkNull( [0.0]);
+  const Max = [[]];
+  const Min = [0.0];
+  const Gap = [0.0];
 
   
 
@@ -437,25 +437,25 @@ export  function mkWg(lC, data)  {sys.$params(arguments.length, 2);
   }
   if (!sys.asBool(!sys.asBool(Max[0]))) {
     const round =sys.$checkNull( Math.pow(10, data.maxMinRound(Max[0][0], Min[0])));
-    Max[0][0] =sys.$checkExists(Max[0][0],sys.$checkNull( (Math.round(Max[0][0] / round) + 1) * round));
-    Min[0] =sys.$checkExists(Min[0],sys.$checkNull( (Math.round(Min[0] / round) - 1) * round));
-    Gap[0] =sys.$checkExists(Gap[0],sys.$checkNull( Max[0][0] - Min[0]));
+    Max[0][0] =sys.$checkExists(Max[0][0], (Math.round(Max[0][0] / round) + 1) * round);
+    Min[0] =sys.$checkExists(Min[0], (Math.round(Min[0] / round) - 1) * round);
+    Gap[0] =sys.$checkExists(Gap[0], Max[0][0] - Min[0]);
   }
 
   
 
-  const w =sys.$checkNull( lC.exArea.width -
+  const w = lC.exArea.width -
     lC.inPadding.left - lC.inPadding.right -
-    lC.chartPadding.left - lC.chartPadding.right)
+    lC.chartPadding.left - lC.chartPadding.right
   ;
-  const h =sys.$checkNull( lC.exArea.height -
+  const h = lC.exArea.height -
     lC.inPadding.top - lC.inPadding.bottom -
-    lC.chartPadding.top - lC.chartPadding.bottom)
+    lC.chartPadding.top - lC.chartPadding.bottom
   ;
-  const x0 =sys.$checkNull( lC.inPadding.left + lC.chartPadding.left);
-  const xEnd =sys.$checkNull( x0 + w);
-  const y0 =sys.$checkNull( lC.exArea.height - lC.inPadding.bottom - lC.chartPadding.bottom);
-  const yEnd =sys.$checkNull( y0 - h);
+  const x0 = lC.inPadding.left + lC.chartPadding.left;
+  const xEnd = x0 + w;
+  const y0 = lC.exArea.height - lC.inPadding.bottom - lC.chartPadding.bottom;
+  const yEnd = y0 - h;
 
   
 
@@ -504,8 +504,8 @@ export  function mkWg(lC, data)  {sys.$params(arguments.length, 2);
 
   const ilf =sys.$checkNull( lC.inPadding.left);
   const itop =sys.$checkNull( lC.inPadding.top);
-  const iw =sys.$checkNull( lC.exArea.width - lC.inPadding.left - lC.inPadding.right - 1);
-  const ih =sys.$checkNull( lC.exArea.height - lC.inPadding.top - lC.inPadding.bottom - 1);
+  const iw = lC.exArea.width - lC.inPadding.left - lC.inPadding.right - 1;
+  const ih = lC.exArea.height - lC.inPadding.top - lC.inPadding.bottom - 1;
 
   ctx.fillStyle =sys.$checkExists(ctx.fillStyle,sys.$checkNull( lC.inAtts.background));
   ctx.beginPath();
@@ -515,10 +515,10 @@ export  function mkWg(lC, data)  {sys.$params(arguments.length, 2);
   
 
   ctx.fillStyle =sys.$checkExists(ctx.fillStyle,sys.$checkNull( lC.xAxis.fontColor));
-  ctx.font =sys.$checkExists(ctx.font,sys.$checkNull( "" + lC.xAxis.fontSize + "px " +
+  ctx.font =sys.$checkExists(ctx.font, "" + lC.xAxis.fontSize + "px " +
     (lC.xAxis.isMonospace ? "monospace" : "sans") +
     (lC.xAxis.isItalic ? " italic" : "") +
-    (lC.xAxis.isBold ? " bold" : "")))
+    (lC.xAxis.isBold ? " bold" : ""))
   ;
   for (let i = 0;i < arr.size(data.Labels); ++i) {
     const l0 =sys.$checkNull( data.Labels[i]);
@@ -553,16 +553,16 @@ export  function mkWg(lC, data)  {sys.$params(arguments.length, 2);
   
 
   ctx.fillStyle =sys.$checkExists(ctx.fillStyle,sys.$checkNull( lC.yAxis.fontColor));
-  ctx.font =sys.$checkExists(ctx.font,sys.$checkNull( "" + lC.yAxis.fontSize + "px " +
+  ctx.font =sys.$checkExists(ctx.font, "" + lC.yAxis.fontSize + "px " +
     (lC.yAxis.isMonospace ? "monospace" : "sans") +
     (lC.yAxis.isItalic ? " italic" : "") +
-    (lC.yAxis.isBold ? " bold" : "")))
+    (lC.yAxis.isBold ? " bold" : ""))
   ;
 
   const parts =sys.$checkNull( lC.yAxis.parts < 1 ? 1 : lC.yAxis.parts);
   for (let i = 0;i < parts+1; ++i) {
-    const yVal =sys.$checkNull( Min[0] + i * Gap[0] / parts);
-    const y =sys.$checkNull( y0 - (yVal - Min[0]) * h / Gap[0]);
+    const yVal = Min[0] + i * Gap[0] / parts;
+    const y = y0 - (yVal - Min[0]) * h / Gap[0];
 
     const n =sys.$checkNull( decFmt(yVal));
     const ms =sys.$checkNull( ctx.measureText(n).width);
@@ -585,7 +585,7 @@ export  function mkWg(lC, data)  {sys.$params(arguments.length, 2);
 
   
   for (const Ul  of sys.$forObject( data.UnarySets)) {
-    const cy =sys.$checkNull( y0 - (Ul.value - Min[0]) * h / Gap[0]);
+    const cy = y0 - (Ul.value - Min[0]) * h / Gap[0];
     arr.push(HotUnarySets, corr(cy));
 
     ctx.setLineDash(Ul.line.dotted ? [4, 2] : []);
@@ -604,17 +604,17 @@ export  function mkWg(lC, data)  {sys.$params(arguments.length, 2);
       const S =sys.$checkNull( data.SetValues[i]);
       const sSize =sys.$checkNull( arr.size(S));
       
-      const HotSetRow =sys.$checkNull( []);
+      const HotSetRow = [];
 
-      const Cy0 =sys.$checkNull( [0]);
-      const IxStart =sys.$checkNull( [0]);
+      const Cy0 = [0];
+      const IxStart = [0];
       for (let j = 0;j < sSize; ++j) {
         const Sval =sys.$checkNull( S[j]);
         if (!sys.asBool(Sval)) {
           arr.push(HotSetRow, []);
           continue;
         }
-        IxStart[0] =sys.$checkExists(IxStart[0],sys.$checkNull( j + 1));
+        IxStart[0] =sys.$checkExists(IxStart[0], j + 1);
         Cy0[0] =sys.$checkExists(Cy0[0],sys.$checkNull( corr(y0 - (Sval[0] - Min[0]) * h / Gap[0])));
         arr.push(HotSetRow, [Cy0[0]]);
         break;
@@ -631,24 +631,24 @@ export  function mkWg(lC, data)  {sys.$params(arguments.length, 2);
           ctx.lineWidth / 2, 0, 2 * Math.PI
         );
       }
-      const J =sys.$checkNull( [IxStart[0]]);
+      const J = [IxStart[0]];
       while (J[0] < sSize) {
         if (!sys.asBool(!sys.asBool(S[J[0]]))) {
           const v =sys.$checkNull( S[J[0]][0]);
           const cy =sys.$checkNull( corr(y0 - (v - Min[0]) * h / Gap[0]));
           arr.push(HotSetRow, [cy]);
           ctx.lineTo(corr(x0 + J[0] * w / (sSize - 1)), cy);
-          J[0] +=sys.$checkExists(J[0],sys.$checkNull( 1));
+          J[0] +=sys.$checkExists(J[0], 1);
         } else {
           arr.push(HotSetRow, []);
-          J[0] +=sys.$checkExists(J[0],sys.$checkNull( 1));
+          J[0] +=sys.$checkExists(J[0], 1);
           while (J[0] < sSize) {
             if (!sys.asBool(!sys.asBool(S[J[0]]))) {
               const v =sys.$checkNull( S[J[0]][0]);
               const cy =sys.$checkNull( corr(y0 - (v - Min[0]) * h / Gap[0]));
               arr.push(HotSetRow, [cy]);
               ctx.moveTo(corr(x0 + J[0] * w / (sSize - 1)), cy);
-              J[0] +=sys.$checkExists(J[0],sys.$checkNull( 1));
+              J[0] +=sys.$checkExists(J[0], 1);
               if (J[0] >= sSize || !sys.asBool(S[J[0]])) {
                 ctx.arc(
                   corr(x0 + (J[0] - 1) * w / (sSize - 1)), cy,
@@ -658,7 +658,7 @@ export  function mkWg(lC, data)  {sys.$params(arguments.length, 2);
               break;
             } else {
               arr.push(HotSetRow, []);
-              J[0] +=sys.$checkExists(J[0],sys.$checkNull( 1));
+              J[0] +=sys.$checkExists(J[0], 1);
             }
           }
         }
@@ -689,20 +689,20 @@ export  function mkWg(lC, data)  {sys.$params(arguments.length, 2);
     
     
 
-    const UnarySetIx =sys.$checkNull( [ -1]);
-    const UnarySetDif =sys.$checkNull( [0]);
+    const UnarySetIx = [ -1];
+    const UnarySetDif = [0];
     for (let i = 0;i < arr.size(HotUnarySets); ++i) {
       const v =sys.$checkNull( HotUnarySets[i]);
       const dif =sys.$checkNull( Math.abs(v - cy));
       if (dif < 4 && (sys.$eq(UnarySetIx[0] ,  -1) || dif < UnarySetDif[0])) {
-        UnarySetIx[0] =sys.$checkExists(UnarySetIx[0],sys.$checkNull( i));
-        UnarySetDif[0] =sys.$checkExists(UnarySetDif[0],sys.$checkNull( dif));
+        UnarySetIx[0] =sys.$checkExists(UnarySetIx[0], i);
+        UnarySetDif[0] =sys.$checkExists(UnarySetDif[0], dif);
       }
     }
 
-    const SetIx =sys.$checkNull( [ -1]);
-    const SetValIx =sys.$checkNull( [ -1]);
-    const SetDif =sys.$checkNull( [0]);
+    const SetIx = [ -1];
+    const SetValIx = [ -1];
+    const SetDif = [0];
     for (let i = 0;i < arr.size(data.SetValues); ++i) {
       if (i < 0 || i > arr.size(HotSetValues)) continue;
       const HotSetValuesRow =sys.$checkNull( HotSetValues[i]);
@@ -712,26 +712,26 @@ export  function mkWg(lC, data)  {sys.$params(arguments.length, 2);
         const HotSet =sys.$checkNull( HotSetValuesRow[j]);
         if (!sys.asBool(HotSet)) continue;
 
-        const xdif =sys.$checkNull( HotLabels[j] - cx);
-        const ydif =sys.$checkNull( HotSet[0] - cy);
+        const xdif = HotLabels[j] - cx;
+        const ydif = HotSet[0] - cy;
         const dif =sys.$checkNull( Math.sqrt(xdif * xdif + ydif * ydif));
 
         if (dif < 4 && (sys.$eq(SetIx[0] ,  -1) || dif <= SetDif[0])) {
-          SetIx[0] =sys.$checkExists(SetIx[0],sys.$checkNull( i));
-          SetValIx[0] =sys.$checkExists(SetValIx[0],sys.$checkNull( j));
-          SetDif[0] =sys.$checkExists(SetDif[0],sys.$checkNull( dif));
+          SetIx[0] =sys.$checkExists(SetIx[0], i);
+          SetValIx[0] =sys.$checkExists(SetValIx[0], j);
+          SetDif[0] =sys.$checkExists(SetDif[0], dif);
         }
       }
     }
 
     if (sys.$neq(UnarySetIx[0] ,  -1) || sys.$neq(SetIx[0] ,  -1)) {
       const yfirst =sys.$checkNull( lC.yAxis.fontSize);
-      const ysecond =sys.$checkNull( yfirst * 2 + yfirst / 4);
-      const ysize =sys.$checkNull( yfirst * 2.75);
+      const ysecond = yfirst * 2 + yfirst / 4;
+      const ysize = yfirst * 2.75;
 
-      const Tx1 =sys.$checkNull( [""]);
-      const Tx2 =sys.$checkNull( [""]);
-      const Color =sys.$checkNull( [""]);
+      const Tx1 = [""];
+      const Tx2 = [""];
+      const Color = [""];
 
       if (sys.$neq(SetIx[0] ,  -1)) {
         Tx1[0] =sys.$checkExists(Tx1[0],sys.$checkNull( data.Labels[SetValIx[0]]));
@@ -744,21 +744,21 @@ export  function mkWg(lC, data)  {sys.$params(arguments.length, 2);
       }
 
       const ctx2 =sys.$checkNull( cv2.e.getContext("2d"));
-      ctx2.font =sys.$checkExists(ctx2.font,sys.$checkNull( "" + lC.yAxis.fontSize + "px " +
+      ctx2.font =sys.$checkExists(ctx2.font, "" + lC.yAxis.fontSize + "px " +
         (lC.yAxis.isMonospace ? "monospace" : "sans") +
         (lC.yAxis.isItalic ? " italic" : "") +
-        (lC.yAxis.isBold ? " bold" : "")))
+        (lC.yAxis.isBold ? " bold" : ""))
       ;
       const ms1 =sys.$checkNull( ctx2.measureText(Tx1[0]).width);
       const ms2 =sys.$checkNull( ctx2.measureText(Tx2[0]).width);
 
-      const Margin1 =sys.$checkNull( [4.0]);
-      const Margin2 =sys.$checkNull( [Math.abs(ms1 - ms2) / 2 + Margin1[0]]);
-      const Ms =sys.$checkNull( [ms1 + Margin1[0] * 2]);
+      const Margin1 = [4.0];
+      const Margin2 = [Math.abs(ms1 - ms2) / 2 + Margin1[0]];
+      const Ms = [ms1 + Margin1[0] * 2];
       if (ms2 > ms1) {
         Margin1[0] =sys.$checkExists(Margin1[0],sys.$checkNull( Margin2[0]));
-        Margin2[0] =sys.$checkExists(Margin2[0],sys.$checkNull( 4));
-        Ms[0] =sys.$checkExists(Ms[0],sys.$checkNull( ms2 + Margin2[0] * 2));
+        Margin2[0] =sys.$checkExists(Margin2[0], 4);
+        Ms[0] =sys.$checkExists(Ms[0], ms2 + Margin2[0] * 2);
       }
 
       if (lC.labels.show) {
@@ -774,10 +774,10 @@ export  function mkWg(lC, data)  {sys.$params(arguments.length, 2);
 
         const ctx3 =sys.$checkNull( cv2.e.getContext("2d"));
         ctx3.fillStyle =sys.$checkExists(ctx3.fillStyle,sys.$checkNull( Color[0]));
-        ctx3.font =sys.$checkExists(ctx3.font,sys.$checkNull( "" + lC.yAxis.fontSize + "px " +
+        ctx3.font =sys.$checkExists(ctx3.font, "" + lC.yAxis.fontSize + "px " +
           (lC.yAxis.isMonospace ? "monospace" : "sans") +
           (lC.yAxis.isItalic ? " italic" : "") +
-          (lC.yAxis.isBold ? " bold" : "")))
+          (lC.yAxis.isBold ? " bold" : ""))
         ;
         ctx3.fillText(Tx1[0], Margin1[0], yfirst);
         ctx3.fillText(Tx2[0], Margin2[0], ysecond);

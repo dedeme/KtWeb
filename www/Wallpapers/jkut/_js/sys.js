@@ -99,11 +99,6 @@ export function $null (v) {
   return [v];
 }
 
-export function $checkExists (left, right) {
-  if (left == null) throw new Error('Index out of range or key not found');
-  return right;
-}
-
 export function $checkNull (v) {
   if (typeof(v) === "number" && !Number.isFinite(v))
     throw new Error ('Bad Number ' + v);
@@ -124,7 +119,7 @@ export function asBool (e) {
 // \* -> ()
 export function assert (v) {
   $params(arguments.length, 1);
-  if (!asBool(v))
+  if (typeof(v) !== 'boolean' || !v)
     throw new Error('Assert failed');
 }
 
@@ -147,7 +142,7 @@ export function test (actual, expected) {
 // \* -> s
 export function toStr (v) {
   $params(arguments.length, 1);
-  if (v == null) return "<null>";
+  if (v == null) return '<null>';
   if (typeof(v) === 'object') return JSON.stringify(v);
   return v.toString();
 }

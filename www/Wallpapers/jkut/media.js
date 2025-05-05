@@ -1,4 +1,4 @@
-import * as math from './_js/math.js';import * as js from './_js/js.js';import * as arr from './_js/arr.js';import * as client from './_js/client.js';import * as bytes from './_js/bytes.js';import * as str from './_js/str.js';import * as ui from './_js/ui.js';import * as dic from './_js/dic.js';import * as timer from './_js/timer.js';import * as time from './_js/time.js';import * as storage from './_js/storage.js';import * as b64 from './_js/b64.js';import * as sys from './_js/sys.js';import * as iter from './_js/iter.js';import * as domo from './_js/domo.js';import * as cryp from './_js/cryp.js';
+import * as arr from './_js/arr.js';import * as bytes from './_js/bytes.js';import * as storage from './_js/storage.js';import * as sys from './_js/sys.js';import * as client from './_js/client.js';import * as b64 from './_js/b64.js';import * as ui from './_js/ui.js';import * as js from './_js/js.js';import * as iter from './_js/iter.js';import * as math from './_js/math.js';import * as str from './_js/str.js';import * as timer from './_js/timer.js';import * as domo from './_js/domo.js';import * as dic from './_js/dic.js';import * as cryp from './_js/cryp.js';import * as time from './_js/time.js';
 
 
 
@@ -20,35 +20,35 @@ export const screenWidth =sys.$checkNull( window.screen.width);
 export const screenHeight =sys.$checkNull( window.screen.height);
 
 
-export const picturesWidth =sys.$checkNull( 1920);
+export const picturesWidth = 1920;
 
 
-export const picturesHeight =sys.$checkNull( 1080);
+export const picturesHeight = 1080;
 
 
-export const picturesProportion =sys.$checkNull( 0.5625);
+export const picturesProportion = 0.5625;
 
 
-export const picturesTime =sys.$checkNull( 15000);
+export const picturesTime = 15000;
 
 
-export const volume =sys.$checkNull( 0.5);
+export const volume = 0.5;
 
 
-export const songsTime =sys.$checkNull( 5000);
+export const songsTime = 5000;
 
 
-export const fadeOutSongEnd =sys.$checkNull( 12000.0); 
+export const fadeOutSongEnd = 12000.0; 
 
 
-export const fadeOutDanceTime =sys.$checkNull( 300000.0); 
+export const fadeOutDanceTime = 300000.0; 
 
 
 
 
 
 export  function redimPicture()  {sys.$params(arguments.length, 0);
-  const prop =sys.$checkNull(  screenHeight / screenWidth);
+  const prop =  screenHeight / screenWidth;
   if (sys.$eq(screenWidth , picturesWidth) && sys.$eq(screenHeight , picturesWidth)) {
      return {
         w: picturesWidth,
@@ -125,7 +125,7 @@ export  function visuals()  {sys.$params(arguments.length, 0);
 
 
 export  function changePict(div, img, Info, group,  pic)  {sys.$params(arguments.length, 5);
-  const url =sys.$checkNull( "img/fondosEscritorio/" + group + "/" + pic[pict.id]);
+  const url = "img/fondosEscritorio/" + group + "/" + pic[pict.id];
   div
     .setStyle(
       "background-image",
@@ -147,20 +147,47 @@ export  function changePict(div, img, Info, group,  pic)  {sys.$params(arguments
 
 
 
+
+
+
+
+export  function changePinup(div, img, Info,  pic)  {sys.$params(arguments.length, 4);
+  const url = "img/pinups/" + pic[pict.id];
+  div
+    .setStyle(
+      "background-image",
+      "url('" + url + "')"
+    );
+  timer.delay(2000, function()  {sys.$params(arguments.length, 0);
+    img
+      .setStyle("opacity", "0")
+    ;
+    timer.delay(8000, function()  {sys.$params(arguments.length, 0);
+      Info.changeContent(infoWg.pictureWg("-", pic));
+      img
+        .att("src", url)
+        .setStyle("opacity", "1")
+      ;
+    });
+  });
+};
+
+
+
 export  function fadeOut(withSignal, audio, millis)  {sys.$params(arguments.length, 3);
-  const fadeSec =sys.$checkNull( millis / 1000);
-  const volV =sys.$checkNull( [audio.volume]);
-  if (withSignal) volV[0] /=sys.$checkExists(volV[0],sys.$checkNull( 3));
-  audio.volume =sys.$checkExists(audio.volume,sys.$checkNull( volV[0]));
-  const delta =sys.$checkNull( volV[0] / (fadeSec * 10));
+  const fadeSec = millis / 1000;
+  const volV = [audio.volume];
+  if (withSignal) volV[0] /= 3;
+  audio.volume =sys.$checkNull( volV[0]);
+  const delta = volV[0] / (fadeSec * 10);
   const tm2 =sys.$checkNull( timer.mk(100));
   timer.run(tm2, function()  {sys.$params(arguments.length, 0);
-    volV[0] -=sys.$checkExists(volV[0],sys.$checkNull( delta));
+    volV[0] -= delta;
     if (volV[0] <= 0) {
-      audio.volume =sys.$checkExists(audio.volume,sys.$checkNull( 0));
+      audio.volume = 0;
       timer.stop(tm2);
       return;
     }
-    audio.volume =sys.$checkExists(audio.volume,sys.$checkNull( volV[0]));
+    audio.volume =sys.$checkNull( volV[0]);
   });
 };

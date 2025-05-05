@@ -1,4 +1,4 @@
-import * as math from '../_js/math.js';import * as js from '../_js/js.js';import * as arr from '../_js/arr.js';import * as client from '../_js/client.js';import * as bytes from '../_js/bytes.js';import * as str from '../_js/str.js';import * as ui from '../_js/ui.js';import * as dic from '../_js/dic.js';import * as timer from '../_js/timer.js';import * as time from '../_js/time.js';import * as storage from '../_js/storage.js';import * as b64 from '../_js/b64.js';import * as sys from '../_js/sys.js';import * as iter from '../_js/iter.js';import * as domo from '../_js/domo.js';import * as cryp from '../_js/cryp.js';
+import * as arr from '../_js/arr.js';import * as bytes from '../_js/bytes.js';import * as storage from '../_js/storage.js';import * as sys from '../_js/sys.js';import * as client from '../_js/client.js';import * as b64 from '../_js/b64.js';import * as ui from '../_js/ui.js';import * as js from '../_js/js.js';import * as iter from '../_js/iter.js';import * as math from '../_js/math.js';import * as str from '../_js/str.js';import * as timer from '../_js/timer.js';import * as domo from '../_js/domo.js';import * as dic from '../_js/dic.js';import * as cryp from '../_js/cryp.js';import * as time from '../_js/time.js';
 
 
 
@@ -39,7 +39,7 @@ function mk0 (nxId,As,RpsRs) { sys.$params(arguments.length, 3); return [ nxId, 
 
   
 
-  const Pf =sys.$checkNull( {}); 
+  const Pf = {}; 
   for (const  a  of sys.$forObject( Anns)) {
       const id =sys.$checkNull( a[ann.nick]);
       if (a[ann.isSell]) {
@@ -51,7 +51,7 @@ function mk0 (nxId,As,RpsRs) { sys.$params(arguments.length, 3); return [ nxId, 
               II("%0\nStock for sale (%1) > Stocks in portfolio (%2)"),
               [ann.toStr(a), "" + a[ann.stocks], "" + s]
             ));
-          Pf[id] =sys.$checkExists(Pf[id],sys.$checkNull( s - a[ann.stocks]));
+          Pf[id] =sys.$checkExists(Pf[id], s - a[ann.stocks]);
         } else {
            return mkError(i18n.fmt(
             II("%0\nNick %1 is unknown"), [ann.toStr(a), a[ann.nick]]
@@ -60,7 +60,7 @@ function mk0 (nxId,As,RpsRs) { sys.$params(arguments.length, 3); return [ nxId, 
       } else {
         const sOp =sys.$checkNull( dic.get(Pf, id));
         if (!sys.asBool(sOp)) dic.put(Pf, id, a[ann.stocks]);
-        else Pf[id] =sys.$checkExists(Pf[id],sys.$checkNull( sOp[0] + a[ann.stocks]));
+        else Pf[id] =sys.$checkExists(Pf[id], sOp[0] + a[ann.stocks]);
       }
   }
 
@@ -72,7 +72,7 @@ function mk0 (nxId,As,RpsRs) { sys.$params(arguments.length, 3); return [ nxId, 
   const Profitss =sys.$checkNull( arr.fromIter(iter.map(iter.$range(0,2), function(i)  {sys.$params(arguments.length, 1);  return 0;})));
   const Summaries =sys.$checkNull( arr.fromIter(iter.map(iter.$range(0,2), function(i)  {sys.$params(arguments.length, 1);  return [];}))); 
   const Annss =sys.$checkNull( arr.fromIter(iter.map(iter.$range(0,2), function(i)  {sys.$params(arguments.length, 1);  return [];}))); 
-  const feesV =sys.$checkNull( [0]);
+  const feesV = [0];
 
   if (!sys.asBool(!sys.asBool(Anns))) {
     const Summs =sys.$checkNull( arr.fromIter(iter.map(iter.$range(0,2), function(i)  {sys.$params(arguments.length, 1);  return {};}))); 
@@ -83,14 +83,14 @@ function mk0 (nxId,As,RpsRs) { sys.$params(arguments.length, 3); return [ nxId, 
         if (!sys.asBool(SentryOp)) {
           if (!sys.asBool(a[ann.isSell])) {
             const stocks =sys.$checkNull( a[ann.stocks]);
-            const priceV =sys.$checkNull( [a[ann.price]]);
-            const totalV =sys.$checkNull( [stocks * priceV[0]]);
-            const afeesOp =sys.$checkNull( []);
+            const priceV = [a[ann.price]];
+            const totalV = [stocks * priceV[0]];
+            const afeesOp = [];
             if (sys.$eq(iRp , 0)) { 
               arr.push(afeesOp, a[ann.cash] - totalV[0]);
-              feesV[0] +=sys.$checkExists(feesV[0],sys.$checkNull( a[ann.cash] - totalV[0]));
+              feesV[0] +=sys.$checkExists(feesV[0], a[ann.cash] - totalV[0]);
               totalV[0] =sys.$checkExists(totalV[0],sys.$checkNull( a[ann.cash]));
-              priceV[0] =sys.$checkExists(priceV[0],sys.$checkNull( totalV[0] / stocks));
+              priceV[0] =sys.$checkExists(priceV[0], totalV[0] / stocks);
             }
             arr.push(Annss[iRp], rann.mk(
               a[ann.date], nick, stocks, priceV[0], totalV[0], [], afeesOp
@@ -106,28 +106,28 @@ function mk0 (nxId,As,RpsRs) { sys.$params(arguments.length, 3); return [ nxId, 
            const sentry =sys.$checkNull( SentryOp[0]);
           if (a[ann.isSell]) {
             const stocks =sys.$checkNull( a[ann.stocks]);
-            const priceV =sys.$checkNull( [a[ann.price]]);
-            const totalV =sys.$checkNull( [stocks * priceV[0]]);
-            const afeesOp =sys.$checkNull( []);
+            const priceV = [a[ann.price]];
+            const totalV = [stocks * priceV[0]];
+            const afeesOp = [];
             if (sys.$eq(iRp , 0)) { 
               arr.push(afeesOp, totalV[0] - a[ann.cash]);
-              feesV[0] +=sys.$checkExists(feesV[0],sys.$checkNull( totalV[0] - a[ann.cash]));
+              feesV[0] +=sys.$checkExists(feesV[0], totalV[0] - a[ann.cash]);
               totalV[0] =sys.$checkExists(totalV[0],sys.$checkNull( a[ann.cash]));
-              priceV[0] =sys.$checkExists(priceV[0],sys.$checkNull( totalV[0] / stocks));
+              priceV[0] =sys.$checkExists(priceV[0], totalV[0] / stocks);
             }
 
-            const newStocks =sys.$checkNull( sentry[rsumm.stocks] - stocks);
+            const newStocks = sentry[rsumm.stocks] - stocks;
             if (newStocks < 0)  return mkError(i18n.fmt(
                 II("%0\nStock for sale (%1) > Stocks in portfolio (%2)"),
                 [ann.toStr(a), "" + a[ann.stocks], "" + sentry[rsumm.stocks]]
               ));
 
             const scost =sys.$checkNull( math.round(stocks * sentry[rsumm.price], 2));
-            const newTotal =sys.$checkNull( sentry[rsumm.total] - scost);
+            const newTotal = sentry[rsumm.total] - scost;
             const newPrice =sys.$checkNull( sentry[rsumm.price]);
 
-            const profits =sys.$checkNull( totalV[0] - scost);
-            Profitss[iRp] +=sys.$checkExists(Profitss[iRp],sys.$checkNull( profits));
+            const profits = totalV[0] - scost;
+            Profitss[iRp] +=sys.$checkExists(Profitss[iRp], profits);
 
             if (sys.$eq(newStocks , 0)) dic.remove(Summs[iRp], nick);
             else Summs[iRp][nick] =sys.$checkExists(Summs[iRp][nick],sys.$checkNull( rsumm.mk(
@@ -139,22 +139,22 @@ function mk0 (nxId,As,RpsRs) { sys.$params(arguments.length, 3); return [ nxId, 
             ));
           } else {
             const stocks =sys.$checkNull( a[ann.stocks]);
-            const priceV =sys.$checkNull( [a[ann.price]]);
-            const totalV =sys.$checkNull( [stocks * priceV[0]]);
-            const afeesOp =sys.$checkNull( []);
+            const priceV = [a[ann.price]];
+            const totalV = [stocks * priceV[0]];
+            const afeesOp = [];
             if (sys.$eq(iRp , 0)) { 
               arr.push(afeesOp, a[ann.cash] - totalV[0]);
-              feesV[0] +=sys.$checkExists(feesV[0],sys.$checkNull( a[ann.cash] - totalV[0]));
+              feesV[0] +=sys.$checkExists(feesV[0], a[ann.cash] - totalV[0]);
               totalV[0] =sys.$checkExists(totalV[0],sys.$checkNull( a[ann.cash]));
-              priceV[0] =sys.$checkExists(priceV[0],sys.$checkNull( totalV[0] / stocks));
+              priceV[0] =sys.$checkExists(priceV[0], totalV[0] / stocks);
             }
             Annss[iRp].push(rann.mk(
               a[ann.date], nick, stocks, priceV[0], totalV[0], [], afeesOp
             ));
 
-            const newStocks =sys.$checkNull( sentry[rsumm.stocks] + stocks);
-            const newTotal =sys.$checkNull( stocks * priceV[0] + sentry[rsumm.stocks] * sentry[rsumm.price]);
-            const newPrice =sys.$checkNull( newTotal / newStocks);
+            const newStocks = sentry[rsumm.stocks] + stocks;
+            const newTotal = stocks * priceV[0] + sentry[rsumm.stocks] * sentry[rsumm.price];
+            const newPrice = newTotal / newStocks;
             Summs[iRp][nick] =sys.$checkExists(Summs[iRp][nick],sys.$checkNull( rsumm.mk(
               nick, newStocks, newPrice, newTotal
             )));
@@ -164,15 +164,15 @@ function mk0 (nxId,As,RpsRs) { sys.$params(arguments.length, 3); return [ nxId, 
     }
 
     for (let i = 0;i < 2; ++i) {
-      const Sm =sys.$checkNull( []); 
+      const Sm = []; 
       for (const V  of sys.$forObject( Summs[i])) arr.push(Sm,V);
-      Summaries[i] =sys.$checkExists(Summaries[i],sys.$checkNull( Sm));
+      Summaries[i] =sys.$checkExists(Summaries[i], Sm);
     }
   }
 
-  const Reports =sys.$checkNull( []); 
+  const Reports = []; 
   for (let i = 0;i < 2; ++i) {
-    const costV =sys.$checkNull( [0]);
+    const costV = [0];
     for (const  e  of sys.$forObject( Summaries[i])) costV[0] +=sys.$checkExists(costV[0],sys.$checkNull( e[rsumm.total]));
 
     Summaries[i].sort(function( e1,  e2)  {sys.$params(arguments.length, 2);  return e1[rsumm.nick] < e2[rsumm.nick];});
@@ -201,7 +201,7 @@ export  function anns(y)  {sys.$params(arguments.length, 1);  return y[As];};
 export  function add(y, oldAnnOp,  newAnn)  {sys.$params(arguments.length, 3);
   if (!sys.asBool(oldAnnOp)) {
     ann.setId(newAnn,y[nxId]);
-    y[nxId] +=sys.$checkExists(y[nxId],sys.$checkNull( 1));
+    y[nxId] +=sys.$checkExists(y[nxId], 1);
     arr.push(y[As], newAnn);
   } else {
      const oldAnn =sys.$checkNull( oldAnnOp[0]);
@@ -233,7 +233,7 @@ export  function getReport(y, type)  {sys.$params(arguments.length, 2);
 
 
 export  function treasury(y)  {sys.$params(arguments.length, 1);
-    const TRep =sys.$checkNull( {}); 
+    const TRep = {}; 
 
     const [Reports, ok] = y[RpsRs];
     if (ok) {
@@ -247,11 +247,11 @@ export  function treasury(y)  {sys.$params(arguments.length, 1);
           dic.put(TRep,nick, a);
         } else {
            const tAnn =sys.$checkNull( tAnnOp[0]);
-          const stocks =sys.$checkNull( tAnn[rann.stocks] + a[rann.stocks]);
-          const total =sys.$checkNull( tAnn[rann.total] + a[rann.total]);
-          const profits =sys.$checkNull( tAnn[rann.profitsOp][0] + a[rann.profitsOp][0]);
-          const fees =sys.$checkNull( tAnn[rann.feesOp][0] + a[rann.feesOp][0]);
-          const price =sys.$checkNull( total / stocks);
+          const stocks = tAnn[rann.stocks] + a[rann.stocks];
+          const total = tAnn[rann.total] + a[rann.total];
+          const profits = tAnn[rann.profitsOp][0] + a[rann.profitsOp][0];
+          const fees = tAnn[rann.feesOp][0] + a[rann.feesOp][0];
+          const price = total / stocks;
           dic.put(TRep,nick, rann.mk(
             a[rann.date], nick, stocks, price, total, [profits], [fees]
           ));
@@ -260,8 +260,8 @@ export  function treasury(y)  {sys.$params(arguments.length, 1);
     } else {
       ui.alert(Reports);
     }
-    const summaryV =sys.$checkNull( [0]);
-    const Entries =sys.$checkNull( []); 
+    const summaryV = [0];
+    const Entries = []; 
     for (const  a  of sys.$forObject( TRep)) {
       summaryV[0] +=sys.$checkExists(summaryV[0],sys.$checkNull( a[rann.profitsOp][0]));
       arr.push(Entries,a);

@@ -1,4 +1,4 @@
-import * as math from '../../_js/math.js';import * as js from '../../_js/js.js';import * as arr from '../../_js/arr.js';import * as client from '../../_js/client.js';import * as bytes from '../../_js/bytes.js';import * as str from '../../_js/str.js';import * as ui from '../../_js/ui.js';import * as dic from '../../_js/dic.js';import * as timer from '../../_js/timer.js';import * as time from '../../_js/time.js';import * as storage from '../../_js/storage.js';import * as b64 from '../../_js/b64.js';import * as sys from '../../_js/sys.js';import * as iter from '../../_js/iter.js';import * as domo from '../../_js/domo.js';import * as cryp from '../../_js/cryp.js';
+import * as arr from '../../_js/arr.js';import * as bytes from '../../_js/bytes.js';import * as storage from '../../_js/storage.js';import * as sys from '../../_js/sys.js';import * as client from '../../_js/client.js';import * as b64 from '../../_js/b64.js';import * as ui from '../../_js/ui.js';import * as js from '../../_js/js.js';import * as iter from '../../_js/iter.js';import * as math from '../../_js/math.js';import * as str from '../../_js/str.js';import * as timer from '../../_js/timer.js';import * as domo from '../../_js/domo.js';import * as dic from '../../_js/dic.js';import * as cryp from '../../_js/cryp.js';import * as time from '../../_js/time.js';
 
 
 
@@ -63,14 +63,18 @@ export  async  function mk(wg)  {sys.$params(arguments.length, 1);
    InvOperations, 
    Portfolio, 
    Closes, 
-   Rebuys} 
+   Rebuys, 
+   IbexCos} 
   = await  client.send({
     prg: cts.appName,
     module: "Acc",
     source: "TradingPg",
     rq: "idata"
   });
-  global.dbKeyV[0] =sys.$checkExists(global.dbKeyV[0], dbKey);
+  global.dbKeyV[0] = dbKey;
+   const IbexNicks =sys.$checkNull( dic.keys(IbexCos));
+  arr.sort(IbexNicks,function(nick1, nick2)  {sys.$params(arguments.length, 2);  return nick1 < nick2;});
+  arr.unshift(IbexNicks,"+");
 
   if (!sys.asBool(ok)) {
     msg.error(cts.failMsg, function(){sys.$params(arguments.length, 0);});
@@ -78,6 +82,9 @@ export  async  function mk(wg)  {sys.$params(arguments.length, 1);
   }
 
   const msgWait =sys.$checkNull( Q("div"));
+
+  const bibex =sys.$checkNull( ui.select("bibex", IbexNicks));
+  const biinv =sys.$checkNull( Q("div").klass("frame").style("text-align:right").text("0"));
   const bentry =sys.$checkNull( ui.field("pentry")
     .style("width:80px")
     .value(math.toIso(cts.bet, 0)));
@@ -86,21 +93,25 @@ export  async  function mk(wg)  {sys.$params(arguments.length, 1);
     .style("width:80px")
     .att("id", "pentry"));
   ui.changePoint(pentry);
-  const price2 =sys.$checkNull( Q("div").klass("frame").style("text-align:right"));
-  const result =sys.$checkNull( Q("div").klass("frame").style("text-align:right"));
-  const result2 =sys.$checkNull( Q("div").klass("frame").style("text-align:right"));
+  const btotal =sys.$checkNull( Q("div").klass("frame").style("text-align:right"));
+  const bportfolio =sys.$checkNull( Q("div").klass("frame").style("text-align:right"));
+  const bbuy =sys.$checkNull( Q("div").klass("frame").style("text-align:right"));
 
+  const sibex =sys.$checkNull( ui.select("sibex", IbexNicks));
+  const siinv =sys.$checkNull( Q("div").klass("frame").style("text-align:right").text("0"));
   const sentry =sys.$checkNull( ui.field("calcSellBt")
     .style("width:80px")
     .att("id", "sentry"));
   ui.changePoint(sentry);
-  const sprice2 =sys.$checkNull( Q("div").klass("frame").style("text-align:right"));
+  const sportfolio =sys.$checkNull( Q("div").klass("frame").style("text-align:right"));
+  const ssibex =sys.$checkNull( Q("div").klass("frame").style("text-align:right"));
+  const ssell =sys.$checkNull( Q("div").klass("frame").style("text-align:right"));
 
   
 
   
    async  function update()  {sys.$params(arguments.length, 0);
-    const box =sys.$checkNull( modalBox.mk(
+     const box =sys.$checkNull( modalBox.mk(
       Q("div")
         .add(Q("div")
           .style("text-align:center")
@@ -116,56 +127,120 @@ export  async  function mk(wg)  {sys.$params(arguments.length, 1);
       rq: "update",
       dbKey: global.dbKeyV[0]
     });
-    global.dbKeyV[0] =sys.$checkExists(global.dbKeyV[0], dbKey);
+    global.dbKeyV[0] = dbKey;
 
     modalBox.show(box, false);
     mk(wg);
   };
 
   
+   function changeBCo()  {sys.$params(arguments.length, 0);
+    const comp =sys.$checkNull( bibex.getValue());
+    if (sys.$eq(comp , "")) biinv.text("0");
+    else {
+      const vOp =sys.$checkNull( dic.get(IbexCos,comp));
+      biinv.text(math.toIso(!sys.asBool(vOp) ? 0 : vOp[0], 0));
+    }
+    pentry.value(0);
+    btotal.text("");
+    bportfolio.text("");
+    bbuy.text("");
+  };
+
+  
+   function changeSCo()  {sys.$params(arguments.length, 0);
+    const comp =sys.$checkNull( sibex.getValue());
+    if (sys.$eq(comp , "")) siinv.text("0");
+    else {
+      const vOp =sys.$checkNull( dic.get(IbexCos,comp));
+      siinv.text(math.toIso(!sys.asBool(vOp) ? 0 : vOp[0], 0));
+    }
+    sentry.value(0);
+    sportfolio.text("");
+    ssibex.text("");
+    ssell.text("");
+  };
+
+  
    function calculateBuy()  {sys.$params(arguments.length, 0);
+    const comp =sys.$checkNull( bibex.getValue());
+    const ixOp =sys.$checkNull( sys.$eq(comp , "")
+      ? []
+      : dic.get(IbexCos,comp))
+    ;
+    const ix =sys.$checkNull( !sys.asBool(ixOp) ? 0 : ixOp[0]);
+
     const bs =sys.$checkNull( bentry.getValue());
-    const ps =sys.$checkNull( pentry.getValue());
     const bOp =sys.$checkNull( math.fromIso(bs));
     if (!sys.asBool(bOp)) {
       ui.alert(i18n.fmt(II("'%0' is not a valid number."), [bs]));
       return;
     }
     const b =sys.$checkNull( bOp[0]);
-    const b2 = b + b - broker.buy(1, b);
 
+    const ps =sys.$checkNull( pentry.getValue());
     const pOp =sys.$checkNull( math.fromIso(ps));
     if (!sys.asBool(pOp)) {
       ui.alert(i18n.fmt(II("'%0' is not a valid number."), [ps]));
       return;
     }
     const p =sys.$checkNull( pOp[0]);
-    if (sys.$eq(p , 0)) {
-      ui.alert(II("Price is 0"));
+    if (p <= 0) {
+      ui.alert(II("Price is <Eq 0"));
       return;
     }
 
-    const rs =sys.$checkNull( math.toInt(b2 / p));
-    const p2 = p * 0.99;
-    const rs2 =sys.$checkNull( math.toInt(b2 / p2));
+    const pfOp =sys.$checkNull( dic.get(Portfolio,comp));
+    const pf =sys.$checkNull( !sys.asBool(pfOp) ? 0 : pfOp[0][0]);
 
-    price2.text(math.toIso(p2, 2));
-    result.text(math.toIso(rs, 0));
-    result2.text(math.toIso(rs2, 0));
+    const amount = ix + b - pf * p;
+    const am = amount - broker.buyFees(amount);
+
+    const rs =sys.$checkNull( math.toInt(am / p));
+
+    btotal.text(math.toIso(rs + pf, 0));
+    bportfolio.text(math.toIso(pf, 0));
+    bbuy.text(math.toIso(rs, 0));
   };
 
   
    function calculateSell()  {sys.$params(arguments.length, 0);
+    const comp =sys.$checkNull( sibex.getValue());
+    const ixOp =sys.$checkNull( sys.$eq(comp , "")
+      ? []
+      : dic.get(IbexCos,comp))
+    ;
+    const ix =sys.$checkNull( !sys.asBool(ixOp) ? 0 : ixOp[0]);
+
+    const pfOp =sys.$checkNull( dic.get(Portfolio,comp));
+    const pf =sys.$checkNull( !sys.asBool(pfOp) ? 0 : pfOp[0][0]);
+
     const ps =sys.$checkNull( sentry.getValue());
     const pOp =sys.$checkNull( math.fromIso(ps));
     if (!sys.asBool(pOp)) {
       ui.alert(i18n.fmt(II("'%0' is not a valid number."), [ps]));
       return;
     }
-    sprice2.text(math.toIso(pOp[0] * 1.01, 2));
+    const p =sys.$checkNull( pOp[0]);
+    if (p <= 0) {
+      ui.alert(II("Price is <Eq 0"));
+      return;
+    }
+
+    const ixSt =sys.$checkNull( math.toInt(ix / pOp[0]));
+
+    const rs0 = pf - ixSt;
+    const rs =sys.$checkNull( rs0 < 0 ? 0 : rs0);
+
+    sportfolio.text(math.toIso(pf, 0));
+    ssibex.text(math.toIso(ixSt, 0));
+    ssell.text(math.toIso(rs, 0));
   };
 
   
+
+  bibex.on("change", function(ev)  {sys.$params(arguments.length, 1); changeBCo();});
+  sibex.on("change", function(ev)  {sys.$params(arguments.length, 1); changeSCo();});
 
   
    function buyWg()  {sys.$params(arguments.length, 0);
@@ -181,6 +256,24 @@ export  async  function mk(wg)  {sys.$params(arguments.length, 1);
         .add(Q("td")
           .att("colspan", "2")
           .add(Q("hr"))))
+      .add(Q("tr")
+        .add(Q("td")
+          .style("text-align:right")
+          .add(Q("div")
+            .html("<b>" + II("Company") + ":</b>")))
+        .add(Q("td")
+          .add(bibex)))
+      .add(Q("tr")
+        .add(Q("td")
+          .att("colspan", "2")
+          .add(Q("hr"))))
+      .add(Q("tr")
+        .add(Q("td")
+          .style("text-align:right")
+          .add(Q("div")
+            .html("<b>" + "Ibex" + ":</b>")))
+        .add(Q("td")
+          .add(biinv)))
       .add(Q("tr")
         .add(Q("td")
           .style("text-align:right")
@@ -209,29 +302,35 @@ export  async  function mk(wg)  {sys.$params(arguments.length, 1);
           .add(Q("hr"))))
       .add(Q("tr")
         .add(Q("td")
-          .style("text-align:right")
+          .att("colspan", "2")
           .add(Q("div")
-            .html("<b>" + II("Stocks") + ":</b>")))
-        .add(Q("td")
-          .add(result)))
+            .klass("head")
+            .text(II("Stocks")))))
       .add(Q("tr")
         .add(Q("td")
-          .att("colspan", "2")
+          .style("text-align:right")
+          .add(Q("div")
+            .html("<b>" + II("Total") + ":</b>")))
+        .add(Q("td")
+          .add(btotal)))
+      .add(Q("tr")
+        .add(Q("td")
+          .style("text-align:right")
+          .add(Q("div")
+            .html("<b>" + II("Portfolio") + ":</b>")))
+        .add(Q("td")
+          .add(bportfolio)))
+      .add(Q("tr")
+        .add(Q("td"))
+        .add(Q("td")
           .add(Q("hr"))))
       .add(Q("tr")
         .add(Q("td")
-          .style("text-align:right;white-space:nowrap")
+          .style("text-align:right")
           .add(Q("div")
-            .html("<b>" + II("Price") + " + :</b>")))
+            .html("<b>" + II("Buy") + ":</b>")))
         .add(Q("td")
-          .add(price2)))
-      .add(Q("tr")
-        .add(Q("td")
-          .style("text-align:right;white-space:nowrap")
-          .add(Q("div")
-            .html("<b>" + II("Stocks") + " + :</b>")))
-        .add(Q("td")
-          .add(result2)))
+          .add(bbuy)))
   ;};
 
   
@@ -248,6 +347,24 @@ export  async  function mk(wg)  {sys.$params(arguments.length, 1);
         .add(Q("td")
           .att("colspan", "2")
           .add(Q("hr"))))
+      .add(Q("tr")
+        .add(Q("td")
+          .style("text-align:right")
+          .add(Q("div")
+            .html("<b>" + II("Company") + ":</b>")))
+        .add(Q("td")
+          .add(sibex)))
+      .add(Q("tr")
+        .add(Q("td")
+          .att("colspan", "2")
+          .add(Q("hr"))))
+      .add(Q("tr")
+        .add(Q("td")
+          .style("text-align:right")
+          .add(Q("div")
+            .html("<b>" + "Ibex" + ":</b>")))
+        .add(Q("td")
+          .add(siinv)))
       .add(Q("tr")
         .add(Q("td")
           .style("text-align:right")
@@ -269,11 +386,35 @@ export  async  function mk(wg)  {sys.$params(arguments.length, 1);
           .add(Q("hr"))))
       .add(Q("tr")
         .add(Q("td")
-          .style("text-align:right;white-space:nowrap")
+          .att("colspan", "2")
           .add(Q("div")
-            .html("<b>" + II("Price") + " + :</b>")))
+            .klass("head")
+            .text(II("Stocks")))))
+      .add(Q("tr")
         .add(Q("td")
-          .add(sprice2)))
+          .style("text-align:right")
+          .add(Q("div")
+            .html("<b>" + II("Portfolio") + ":</b>")))
+        .add(Q("td")
+          .add(sportfolio)))
+      .add(Q("tr")
+        .add(Q("td")
+          .style("text-align:right")
+          .add(Q("div")
+            .html("<b>" + II("Ibex") + ":</b>")))
+        .add(Q("td")
+          .add(ssibex)))
+      .add(Q("tr")
+        .add(Q("td"))
+        .add(Q("td")
+          .add(Q("hr"))))
+      .add(Q("tr")
+        .add(Q("td")
+          .style("text-align:right")
+          .add(Q("div")
+            .html("<b>" + II("Sell") + ":</b>")))
+        .add(Q("td")
+          .add(ssell)))
     ;};
 
    const RebuysArr =sys.$checkNull( dic.toArr(Rebuys));
@@ -301,10 +442,10 @@ export  async  function mk(wg)  {sys.$params(arguments.length, 1);
         ;
         if (sys.$neq(iV[0] % 3 , 2))
           trV[0].add(Q("td").klass("separator"));
-        iV[0] +=sys.$checkExists(iV[0], 1);
+        iV[0] += 1;
         if (sys.$eq(iV[0] % 3 , 0)) {
           arr.push(Trs,trV[0]);
-          trV[0] =sys.$checkExists(trV[0],sys.$checkNull( Q("tr")));
+          trV[0] =sys.$checkNull( Q("tr"));
         }
       }
       if (sys.$neq(iV[0] % 3 , 0)) arr.push(Trs,trV[0]);
@@ -335,7 +476,7 @@ export  async  function mk(wg)  {sys.$params(arguments.length, 1);
       ;}))
   ;
 
-  const SellOps =sys.$checkNull( arr.filter(InvOperations,function( o)  {sys.$params(arguments.length, 1);
+   const SellOps =sys.$checkNull( arr.filter(InvOperations,function( o)  {sys.$params(arguments.length, 1);
      return o[invOperation.stocks] > 0 && dic.hasKey(Portfolio, o[invOperation.nick]);}
   ));
   const SellTrs =sys.$checkNull( !sys.asBool(SellOps)
@@ -441,5 +582,4 @@ export  async  function mk(wg)  {sys.$params(arguments.length, 1);
           .style("vertical-align:top;width:5px")
           .add(sellWg()))))
   ;
-
 };

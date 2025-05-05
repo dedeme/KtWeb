@@ -1,4 +1,4 @@
-import * as math from '../_js/math.js';import * as js from '../_js/js.js';import * as arr from '../_js/arr.js';import * as client from '../_js/client.js';import * as bytes from '../_js/bytes.js';import * as str from '../_js/str.js';import * as ui from '../_js/ui.js';import * as dic from '../_js/dic.js';import * as timer from '../_js/timer.js';import * as time from '../_js/time.js';import * as storage from '../_js/storage.js';import * as b64 from '../_js/b64.js';import * as sys from '../_js/sys.js';import * as iter from '../_js/iter.js';import * as domo from '../_js/domo.js';import * as cryp from '../_js/cryp.js';
+import * as arr from '../_js/arr.js';import * as bytes from '../_js/bytes.js';import * as storage from '../_js/storage.js';import * as sys from '../_js/sys.js';import * as client from '../_js/client.js';import * as b64 from '../_js/b64.js';import * as ui from '../_js/ui.js';import * as js from '../_js/js.js';import * as iter from '../_js/iter.js';import * as math from '../_js/math.js';import * as str from '../_js/str.js';import * as timer from '../_js/timer.js';import * as domo from '../_js/domo.js';import * as dic from '../_js/dic.js';import * as cryp from '../_js/cryp.js';import * as time from '../_js/time.js';
 
 
 
@@ -13,9 +13,9 @@ import * as i18n from  "../i18n.js";
 const Q =sys.$checkNull( ui.q);
 const II =sys.$checkNull( i18n.tlt);
 
-const key =sys.$checkNull( "Stocks_forms_key");
-const bk0 =sys.$checkNull( "#c0c0c0");
-const bk1 =sys.$checkNull( "#f9f9ff");
+const key = "Stocks_forms_key";
+const bk0 = "#c0c0c0";
+const bk1 = "#f9f9ff";
 
 
 
@@ -31,7 +31,7 @@ export  async  function mk(wg)  {sys.$params(arguments.length, 1);
     : "with")
   ;
 
-  const Ylopts =sys.$checkNull( []);
+  const Ylopts = [];
   arr.push(Ylopts,menu.toption("all", II("All"), function()  {sys.$params(arguments.length, 0); show(wg, isel, All, []);}));
   for (const myear  of sys.$forObject( all.yearIds(All))) {
     arr.push(Ylopts,menu.separator());
@@ -42,13 +42,13 @@ export  async  function mk(wg)  {sys.$params(arguments.length, 1);
   const selYear =sys.$checkNull( !sys.asBool(yearOp) ? "all" : "" + yearOp[0]);
   const ymenuWg =sys.$checkNull( menu.mk(Ylopts, [], selYear));
 
-  const Lopts =sys.$checkNull( [
+  const Lopts = [
     menu.toption("with", II("With Fees"),
       function()  {sys.$params(arguments.length, 0); show(wg, cts.withFees, All, yearOp);}),
     menu.separator(),
     menu.toption("without", II("Without Fees"),
       function()  {sys.$params(arguments.length, 0); show(wg, cts.withoutFees, All, yearOp);})
-  ]);
+  ];
   const menuWg =sys.$checkNull( menu.mk(Lopts, [], sel));
 
    const Nicks =sys.$checkNull( all.nicks(All,yearOp));
@@ -87,11 +87,11 @@ export  async  function mk(wg)  {sys.$params(arguments.length, 1);
   }
 
   storage.put(key, nickSel);
-  const Lopts =sys.$checkNull( []);
-  const firstV =sys.$checkNull( [true]);
-  const eOp =sys.$checkNull( []); 
+  const Lopts = [];
+  const firstV = [true];
+  const eOp = []; 
   for (const nk  of sys.$forObject( Nicks)) {
-    if (firstV[0]) firstV[0] =sys.$checkExists(firstV[0],sys.$checkNull( false));
+    if (firstV[0]) firstV[0] =sys.$checkExists(firstV[0], false);
     else arr.push(Lopts,menu.separator());
 
     const e =sys.$checkNull( menu.toption(nk, nk, function()  {sys.$params(arguments.length, 0); showNicks(wg, isel, Nicks, nk, All, yearOp);}));
@@ -197,9 +197,9 @@ export  async  function mk(wg)  {sys.$params(arguments.length, 1);
 
 
  function mkRow( e)  {sys.$params(arguments.length, 1);
-  const bkb =sys.$checkNull( "#fff0e0");
-  const bks =sys.$checkNull( "#e0f0ff");
-  const bkt =sys.$checkNull( "#f0f0f0");
+  const bkb = "#fff0e0";
+  const bks = "#e0f0ff";
+  const bkt = "#f0f0f0";
    return Q("tr")
     .add(Q("td")
       .klass("number2")

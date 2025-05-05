@@ -1,4 +1,4 @@
-import * as math from '../../_js/math.js';import * as js from '../../_js/js.js';import * as arr from '../../_js/arr.js';import * as client from '../../_js/client.js';import * as bytes from '../../_js/bytes.js';import * as str from '../../_js/str.js';import * as ui from '../../_js/ui.js';import * as dic from '../../_js/dic.js';import * as timer from '../../_js/timer.js';import * as time from '../../_js/time.js';import * as storage from '../../_js/storage.js';import * as b64 from '../../_js/b64.js';import * as sys from '../../_js/sys.js';import * as iter from '../../_js/iter.js';import * as domo from '../../_js/domo.js';import * as cryp from '../../_js/cryp.js';
+import * as arr from '../../_js/arr.js';import * as bytes from '../../_js/bytes.js';import * as storage from '../../_js/storage.js';import * as sys from '../../_js/sys.js';import * as client from '../../_js/client.js';import * as b64 from '../../_js/b64.js';import * as ui from '../../_js/ui.js';import * as js from '../../_js/js.js';import * as iter from '../../_js/iter.js';import * as math from '../../_js/math.js';import * as str from '../../_js/str.js';import * as timer from '../../_js/timer.js';import * as domo from '../../_js/domo.js';import * as dic from '../../_js/dic.js';import * as cryp from '../../_js/cryp.js';import * as time from '../../_js/time.js';
 
 
 
@@ -11,6 +11,7 @@ import * as global from  "../../global.js";
 import * as dailyChart from  "../../data/chart/dailyChart.js";
 import * as dailyInvestorData from  "../../data/chart/dailyInvestorData.js";
 import * as dmenu from  "../../wgs/dmenu.js";
+import * as msg from  "../../wgs/msg.js";
 import * as i18n from  "../../i18n.js";
 import * as cosSummaryChart from  "../../pgs/daily/cosSummaryChart.js";
 import * as ixsSummaryChart from  "../../pgs/daily/ixsSummaryChart.js";
@@ -32,7 +33,8 @@ const II =sys.$checkNull( i18n.tlt);
 
 
 
-export  async  function mk2(wg, dbmenu, mSel, order, isReverse)  {sys.$params(arguments.length, 5);
+
+export  async  function mk2(wg, dbmenu, mSel, order, lorder, isReverse)  {sys.$params(arguments.length, 6);
   const {dbKey,
    CosData,  IxsData, 
    CosSel,  Rebuys, 
@@ -44,9 +46,10 @@ export  async  function mk2(wg, dbmenu, mSel, order, isReverse)  {sys.$params(ar
     source: "Daily",
     rq: "idata"
   });
-  global.dbKeyV[0] =sys.$checkExists(global.dbKeyV[0], dbKey);
+  global.dbKeyV[0] = dbKey;
 
   const orderV = [order];
+  const lorderV = [lorder];
   const isReverseV = [isReverse];
   const refDifV = [true];
 
@@ -89,11 +92,22 @@ export  async  function mk2(wg, dbmenu, mSel, order, isReverse)  {sys.$params(ar
         source: "Daily",
         rq: "reactivate"
       });
-      mk2(wg, dbmenu, mSel, orderV[0], isReverseV[0]);
+      mk2(wg, dbmenu, mSel, orderV[0], lorderV[0], isReverseV[0]);
     };
 
     
-     function newServer()  {sys.$params(arguments.length, 0); ui.alert(II("Currently this functions is deactivated"));};
+     function newServer()  {sys.$params(arguments.length, 0); msg.info(
+      "<p>" +
+      II("To change the current quotes server") +
+      ":</p><ul><li>" +
+      II("Change the field 'withCurrent' in the server files") +
+      ".</li><li>" +
+      II("Change the server identifier in 'net/readCurrent.kut'.") +
+      "</li></ul><p>" +
+      II("Server files are in 'data/qsv/svs'.") +
+      "</p>",
+      function()  {sys.$params(arguments.length, 0);}
+    );};
 
     
      function updateActivityWg(tic)  {sys.$params(arguments.length, 1);
@@ -118,12 +132,12 @@ export  async  function mk2(wg, dbmenu, mSel, order, isReverse)  {sys.$params(ar
         isSel:isSel
       });
 
-      mk2(wg, dbmenu, mSel, orderV[0], isReverseV[0]);
+      mk2(wg, dbmenu, mSel, orderV[0], lorderV[0], isReverseV[0]);
     };
 
     
      function changeRefType() {sys.$params(arguments.length, 0);
-      refDifV[0] =sys.$checkExists(refDifV[0], !sys.asBool(refDifV[0]));
+      refDifV[0] = !sys.asBool(refDifV[0]);
       showV[0]();
     };
 
@@ -135,8 +149,7 @@ export  async  function mk2(wg, dbmenu, mSel, order, isReverse)  {sys.$params(ar
      function separator()  {sys.$params(arguments.length, 0);  return Q("span").html("&nbsp;&nbsp;");};
 
     
-     function color(v)  {sys.$params(arguments.length, 1);
-       return "color:" + (v > 0 ? "#00aaff" : v < 0 ? "#ff8100" : "#a9a9a9")
+     function color(v)  {sys.$params(arguments.length, 1);  return "color:" + (v > 0 ? "#00aaff" : "#ff8100")
     ;};
 
     const nick =sys.$checkNull( d[dailyChart.nick]);
@@ -148,7 +161,6 @@ export  async  function mk2(wg, dbmenu, mSel, order, isReverse)  {sys.$params(ar
     const dailyProfits = iDt[dailyInvestorData.stocks] * (quote - (iDt[dailyInvestorData.isNew] ? iDt[dailyInvestorData.price] : close));
     const totalProfits = iDt[dailyInvestorData.stocks] * (quote - iDt[dailyInvestorData.price]);
     const isSel =sys.$checkNull( arr.any(CosSel,function(c)  {sys.$params(arguments.length, 1);  return sys.$eq(c , nick);}));
-    const isRebuy =sys.$checkNull( arr.any(Rebuys,function(r)  {sys.$params(arguments.length, 1);  return sys.$eq(r , nick);}));
     const dif = (quote - close) / close;
     const rdif =sys.$checkNull( close > ref ? ref / quote : quote / ref);
 
@@ -189,7 +201,7 @@ export  async  function mk2(wg, dbmenu, mSel, order, isReverse)  {sys.$params(ar
           .add(Q("span")
             .style("font-size:small;" + color(close > ref
                 ?  -1
-                : isRebuy ? 0 : 1
+                : 1
               ))
             .text(math.toIso(rdif * 100, 2) + "%")
           ))
@@ -215,17 +227,17 @@ export  async  function mk2(wg, dbmenu, mSel, order, isReverse)  {sys.$params(ar
     const todayValueV = [0];
      const Labels =sys.$checkNull( CosData[0][dailyChart.Hours]);
     const size =sys.$checkNull( arr.size(Labels));
-    const Values =sys.$checkNull( arr.mk(size, 0));
+     const Values =sys.$checkNull( arr.mk(size, 0));
     for (const  cD  of sys.$forObject( CosData)) {
       const cl =sys.$checkNull( cD[dailyChart.close]);
        const Quotes =sys.$checkNull( cD[dailyChart.Quotes]);
       const quote =sys.$checkNull( arr.peek(Quotes));
        const iDt =sys.$checkNull( cD[dailyChart.invData]);
       const stocks =sys.$checkNull( iDt[dailyInvestorData.stocks]);
-      yesterdayValueV[0] +=sys.$checkExists(yesterdayValueV[0], iDt[dailyInvestorData.stocks] * (iDt[dailyInvestorData.isNew] ? iDt[dailyInvestorData.price] : cl));
+      yesterdayValueV[0] += iDt[dailyInvestorData.stocks] * (iDt[dailyInvestorData.isNew] ? iDt[dailyInvestorData.price] : cl);
       const ttPrice = iDt[dailyInvestorData.stocks] * iDt[dailyInvestorData.price];
-      for (let i = 0;i < size; ++i) Values[i] +=sys.$checkExists(Values[i], stocks * Quotes[i] - ttPrice);
-      todayValueV[0] +=sys.$checkExists(todayValueV[0], stocks * quote);
+      for (let i = 0;i < size; ++i) Values[i] += stocks * Quotes[i] - ttPrice;
+      todayValueV[0] += stocks * quote;
     }
     const yesterdayValue =sys.$checkNull( yesterdayValueV[0]);
     const dailyProfits = todayValueV[0] - yesterdayValue;
@@ -249,14 +261,14 @@ export  async  function mk2(wg, dbmenu, mSel, order, isReverse)  {sys.$params(ar
         for (let j = 0;j < size; ++j) {
           if (sys.$eq(i , 3) && usaZeroesV[0]) {
             if (sys.$eq(Quotes[j] , Quotes[0])) {
-              Values[j] =sys.$checkExists(Values[j], []);
+              Values[j] = [];
               continue;
             }
-            usaZeroesV[0] =sys.$checkExists(usaZeroesV[0], false);
+            usaZeroesV[0] = false;
           }
-          Values[j] =sys.$checkExists(Values[j],sys.$checkNull( j < 3
+          Values[j] =sys.$checkNull( j < 3
             ? [0]
-            :[(MeRatios[j] - (Quotes[j] - yesterDay) / yesterDay)*100]))
+            :[(MeRatios[j] - (Quotes[j] - yesterDay) / yesterDay)*100])
           ;
         }
          return Values;
@@ -408,22 +420,22 @@ export  async  function mk2(wg, dbmenu, mSel, order, isReverse)  {sys.$params(ar
         .add(Q("td")
           .add(Q("span")
             .html(II("Order by") + ":&nbsp;&nbsp;&nbsp;"))
-          .add(ui.link(function(e)  {sys.$params(arguments.length, 1); orderV[0] =sys.$checkExists(orderV[0],sys.$checkNull( cts.chartOrderNick)); showV[0](); })
+          .add(ui.link(function(e)  {sys.$params(arguments.length, 1); orderV[0] =sys.$checkNull( cts.chartOrderNick); showV[0](); })
             .klass(sys.$eq(orderV[0] , cts.chartOrderNick) ? "link frame" : "link")
             .text(II("Nick")))
           .add(Q("span")
             .html("&nbsp;&nbsp;&nbsp;"))
-          .add(ui.link(function(e)  {sys.$params(arguments.length, 1); orderV[0] =sys.$checkExists(orderV[0],sys.$checkNull( cts.chartOrderDay)); showV[0](); })
+          .add(ui.link(function(e)  {sys.$params(arguments.length, 1); orderV[0] =sys.$checkNull( cts.chartOrderDay); showV[0](); })
             .klass(sys.$eq(orderV[0] , cts.chartOrderDay) ? "link frame" : "link")
             .text(II("Day")))
           .add(Q("span")
             .html("&nbsp;&nbsp;&nbsp;"))
-          .add(ui.link(function(e)  {sys.$params(arguments.length, 1); orderV[0] =sys.$checkExists(orderV[0],sys.$checkNull( cts.chartOrderSignal)); showV[0](); })
+          .add(ui.link(function(e)  {sys.$params(arguments.length, 1); orderV[0] =sys.$checkNull( cts.chartOrderSignal); showV[0](); })
             .klass(sys.$eq(orderV[0] , cts.chartOrderSignal) ? "link frame" : "link")
             .text(II("Signal")))
           .add(Q("span")
             .html("&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;"))
-          .add(ui.link(function(e)  {sys.$params(arguments.length, 1); isReverseV[0] =sys.$checkExists(isReverseV[0], !sys.asBool(isReverseV[0])); showV[0]();})
+          .add(ui.link(function(e)  {sys.$params(arguments.length, 1); isReverseV[0] = !sys.asBool(isReverseV[0]); showV[0]();})
             .klass(isReverseV[0] ? "link frame" : "link")
             .text(II("Reverse"))))))
     ;
@@ -461,6 +473,7 @@ export  async  function mk2(wg, dbmenu, mSel, order, isReverse)  {sys.$params(ar
                     ? isToSell ?  -1 : 1
                     : 0)
                   ;
+                  const chart =sys.$checkNull( coChart.mk(Labels, Values, isRebuy, withRef, ref));
                    return Q("td")
                     .add(Q("table")
                       .klass("main")
@@ -469,9 +482,7 @@ export  async  function mk2(wg, dbmenu, mSel, order, isReverse)  {sys.$params(ar
                         .add(Q("td")
                           .att("colspan", 2)
                           .add(Q("span")
-                            .add(coChart.mk(
-                                Labels, Values, isRebuy, withRef, ref
-                              ))))))
+                            .add(chart)))))
                   ;
                 }
               ));}
@@ -490,9 +501,9 @@ export  async  function mk2(wg, dbmenu, mSel, order, isReverse)  {sys.$params(ar
    function mkRefs()  {sys.$params(arguments.length, 0);
      const Labels =sys.$checkNull( CosData[0][dailyChart.Hours]);
     const size =sys.$checkNull( arr.size(Labels));
-    const InPfValues =sys.$checkNull( arr.mk(size, 0));
-    const FreeValues =sys.$checkNull( arr.mk(size, 0));
-    const SumValues =sys.$checkNull( arr.mk(size, 0));
+     const InPfValues =sys.$checkNull( arr.mk(size, 0));
+     const FreeValues =sys.$checkNull( arr.mk(size, 0));
+     const SumValues =sys.$checkNull( arr.mk(size, 0));
 
     const InPortfolio = []; 
     const Frees = []; 
@@ -504,18 +515,15 @@ export  async  function mk2(wg, dbmenu, mSel, order, isReverse)  {sys.$params(ar
 
       const Refs =sys.$checkNull( arr.mk(size, 0));
       for (const [i, q]  of sys.$forObject2( coD[dailyChart.Quotes]))
-        Refs[i] =sys.$checkExists(Refs[i],sys.$checkNull( stocks > 0
+        Refs[i] =sys.$checkNull( stocks > 0
             ? (q - ref) * stocks
-            : (ref - q) * (cts.bet / q)))
+            : (ref - q) * (cts.bet / q))
           ;
 
       const newCoD =sys.$checkNull( dailyChart.mk(nick, coD[dailyChart.close], coD[dailyChart.Hours], Refs, coD[dailyChart.invData]));
       if (stocks > 0)
         arr.push(InPortfolio,newCoD);
-      else if (
-        coD[dailyChart.close] < ref &&
-        !sys.asBool(arr.any(Rebuys,function(nk)  {sys.$params(arguments.length, 1);  return sys.$eq(nk , nick);}))
-      )
+      else if (coD[dailyChart.close] < ref)
         arr.push(Frees,newCoD);
     }
 
@@ -529,18 +537,18 @@ export  async  function mk2(wg, dbmenu, mSel, order, isReverse)  {sys.$params(ar
         const v2 =sys.$checkNull( arr.peek(coD2[dailyChart.Quotes]));
          return v1 < v2;
       });
-    const Frees2 =sys.$checkNull( arr.take(Frees, maxCos));
+     const Frees2 =sys.$checkNull( arr.take(Frees, maxCos));
 
     for (const  coD  of sys.$forObject( InPortfolio)) {
       for (const [i, q]  of sys.$forObject2( coD[dailyChart.Quotes])) {
-        SumValues[i] +=sys.$checkExists(SumValues[i], q);
-        InPfValues[i] +=sys.$checkExists(InPfValues[i], q);
+        SumValues[i] += q;
+        InPfValues[i] += q;
       }
     }
     for (const  coD  of sys.$forObject( Frees2)) {
       for (const [i, q]  of sys.$forObject2( coD[dailyChart.Quotes])) {
-        SumValues[i] +=sys.$checkExists(SumValues[i], q);
-        FreeValues[i] +=sys.$checkExists(FreeValues[i], q);
+        SumValues[i] += q;
+        FreeValues[i] += q;
       }
     }
 
@@ -553,9 +561,10 @@ export  async  function mk2(wg, dbmenu, mSel, order, isReverse)  {sys.$params(ar
        const coD =sys.$checkNull( inPortfolio ? InPortfolio[i] : Frees2[i]);
       const nick =sys.$checkNull( coD[dailyChart.nick]);
       const isSel =sys.$checkNull( arr.any(CosSel,function(c)  {sys.$params(arguments.length, 1);  return sys.$eq(c , nick);}));
+      const isRebuy =sys.$checkNull( arr.any(Rebuys,function(nk)  {sys.$params(arguments.length, 1);  return sys.$eq(nk , nick);}));
       const val =sys.$checkNull( math.toIso(arr.peek(coD[dailyChart.Quotes]), 2));
       const Values = [arr.map(coD[dailyChart.Quotes], function(q)  {sys.$params(arguments.length, 1);  return [q];})];
-      const chart =sys.$checkNull( refSmallChart.mk(Labels, Values, inPortfolio));
+      const chart =sys.$checkNull( refSmallChart.mk(Labels, Values, inPortfolio, isRebuy));
        return Q("td")
         .att("width", "16.7%")
         .add(Q("table")
@@ -667,7 +676,7 @@ export  async  function mk2(wg, dbmenu, mSel, order, isReverse)  {sys.$params(ar
                 .add(mkSmallTd(iV[0] + 1, false))
                 .add(mkSmallTd(iV[0] + 2, false))
               );
-              iV[0] +=sys.$checkExists(iV[0], 3);
+              iV[0] += 3;
             }
              return Trs;
           }())
@@ -676,7 +685,205 @@ export  async  function mk2(wg, dbmenu, mSel, order, isReverse)  {sys.$params(ar
   };
 
   
-  showV[0] =sys.$checkExists(showV[0], function()  {sys.$params(arguments.length, 0);
+
+  
+   function mkList()  {sys.$params(arguments.length, 0);
+    const detachAuxV = [function()  {sys.$params(arguments.length, 0);
+      Q("@body")
+        .removeAll()
+        .add(wg)
+      ;
+    }];
+    
+     function detach(e)  {sys.$params(arguments.length, 1);
+      detachAuxV[0]();
+      detachAuxV[0] = function()  {sys.$params(arguments.length, 0); window.location.replace("?daily&list");};
+    };
+    
+     function changeOrder(newOrder)  {sys.$params(arguments.length, 1);
+      lorderV[0] = newOrder;
+      mkList();
+    };
+    
+     function tick( v)  {sys.$params(arguments.length, 1);
+       return arr.size(v[dailyChart.Quotes]) > 1 ? sys.$slice(v[dailyChart.Quotes], -1,null)[0] - sys.$slice(v[dailyChart.Quotes], -2,null)[0] : 0;};
+    
+     function tickToImg(n)  {sys.$params(arguments.length, 1);  return ui.img(n > 0
+        ? "rk-up"
+        : n < 0
+          ? "rk-down"
+          : "rk-eq"
+      );};
+    
+     function inc( v)  {sys.$params(arguments.length, 1);
+       return (arr.peek(v[dailyChart.Quotes]) - v[dailyChart.close]) * 100 / v[dailyChart.close];};
+    
+     function ixDay( v)  {sys.$params(arguments.length, 1);  return arr.peek(v[dailyChart.Quotes]) - v[dailyChart.close];};
+    
+     function coDay( v)  {sys.$params(arguments.length, 1);
+       const inv =sys.$checkNull( v[dailyChart.invData]);
+       return (inv[dailyInvestorData.isNew]
+          ? arr.peek(v[dailyChart.Quotes]) - inv[dailyInvestorData.price]
+          : arr.peek(v[dailyChart.Quotes]) - v[dailyChart.close]
+        ) * inv[dailyInvestorData.stocks]
+      ;
+    };
+    
+     function pf( v)  {sys.$params(arguments.length, 1);
+       const inv =sys.$checkNull( v[dailyChart.invData]);
+       return (arr.peek(v[dailyChart.Quotes]) - inv[dailyInvestorData.price]) * inv[dailyInvestorData.stocks];
+    };
+    
+     function pfInc( v)  {sys.$params(arguments.length, 1);
+       const inv =sys.$checkNull( v[dailyChart.invData]);
+       return (arr.peek(v[dailyChart.Quotes]) - inv[dailyInvestorData.price]) * 100 / inv[dailyInvestorData.price];
+    };
+     function ref( v)  {sys.$params(arguments.length, 1);
+       const inv =sys.$checkNull( v[dailyChart.invData]);
+       return inv[dailyInvestorData.ref] / arr.peek(v[dailyChart.Quotes]) * 100;
+    };
+
+    
+     const CosData2 =sys.$checkNull( arr.filter(CosData,function( c)  {sys.$params(arguments.length, 1);
+         const inv =sys.$checkNull( c[dailyChart.invData]);
+         return inv[dailyInvestorData.stocks] > 0;
+      }));
+    switch (lorderV[0]) {
+      case cts.lTick:{ arr.sort(CosData2,function(c1, c2)  {sys.$params(arguments.length, 2);  return tick(c1) > tick(c2);});break;}
+      case cts.lNick:{ arr.sort(CosData2,
+          function( c1,  c2)  {sys.$params(arguments.length, 2);  return c1[dailyChart.nick] < c2[dailyChart.nick];}
+        );break;}
+      case cts.lDayPerc:{ arr.sort(CosData2,function(c1, c2)  {sys.$params(arguments.length, 2);  return inc(c1) > inc(c2);});break;}
+      case cts.lDay:{ arr.sort(CosData2,function(c1, c2)  {sys.$params(arguments.length, 2);  return coDay(c1) > coDay(c2);});break;}
+      case cts.lPf:{ arr.sort(CosData2,function(c1, c2)  {sys.$params(arguments.length, 2);  return pf(c1) > pf(c2);});break;}
+      case cts.lPfPerc:{ arr.sort(CosData2,function(c1, c2)  {sys.$params(arguments.length, 2);  return pfInc(c1) > pfInc(c2);});break;}
+      case cts.lRef:{ arr.sort(CosData2,function(c1, c2)  {sys.$params(arguments.length, 2);  return ref(c1) > ref(c2);});break;}
+    }
+    wg
+      .removeAll()
+      .add(Q("table")
+        .att("align", "center")
+        .klass("home")
+        .add(Q("tr")
+          .add(Q("td")
+            .add(sys.$eq(lorderV[0] , cts.lTick)
+                ? ui.led("#000010", 6)
+                : ui.link(function(e)  {sys.$params(arguments.length, 1); changeOrder(cts.lTick);})
+                    .add(ui.led("#ffffff", 6))
+              ))
+          .add(Q("td")
+            .klass("head")
+            .style(sys.$eq(lorderV[0] , cts.lNick) ? "font-weight:normal" : "")
+            .add(sys.$eq(lorderV[0] , cts.lNick)
+                ? Q("span").text(II("Nick"))
+                : ui.link(function(e)  {sys.$params(arguments.length, 1); changeOrder(cts.lNick);}).text(II("Nick"))
+              ))
+          .add(Q("td")
+            .klass("head")
+            .text(II("Quote")))
+          .add(Q("td")
+            .klass("head")
+            .style(sys.$eq(lorderV[0] , cts.lDayPerc) ? "font-weight:normal" : "")
+            .add(sys.$eq(lorderV[0] , cts.lDayPerc)
+                ? Q("span").text("Δ%")
+                : ui.link(function(e)  {sys.$params(arguments.length, 1); changeOrder(cts.lDayPerc);}).text("Δ%"))
+              )
+          .add(Q("td")
+            .klass("head")
+            .style(sys.$eq(lorderV[0] , cts.lDay) ? "font-weight:normal" : "")
+            .add(sys.$eq(lorderV[0] , cts.lDay)
+                ? Q("span").text(II("Day"))
+                : ui.link(function(e)  {sys.$params(arguments.length, 1); changeOrder(cts.lDay);}).text(II("Day")))
+              )
+          .add(Q("td")
+            .klass("head")
+            .style(sys.$eq(lorderV[0] , cts.lPf) ? "font-weight:normal" : "")
+            .add(sys.$eq(lorderV[0] , cts.lPf)
+                ? Q("span").text(II("Pf"))
+                : ui.link(function(e)  {sys.$params(arguments.length, 1); changeOrder(cts.lPf);}).text(II("Pf")))
+              )
+          .add(Q("td")
+            .klass("head")
+            .style(sys.$eq(lorderV[0] , cts.lPfPerc) ? "font-weight:normal" : "")
+            .add(sys.$eq(lorderV[0] , cts.lPfPerc)
+                ? Q("span").text("Δ%")
+                : ui.link(function(e)  {sys.$params(arguments.length, 1); changeOrder(cts.lPfPerc);}).text("Δ%"))
+              )
+          .add(Q("td")
+            .klass("head")
+            .style(sys.$eq(lorderV[0] , cts.lRef) ? "font-weight:normal" : "")
+            .add(sys.$eq(lorderV[0] , cts.lRef)
+                ? Q("span").text(II("Ref"))
+                : ui.link(function(e)  {sys.$params(arguments.length, 1); changeOrder(cts.lRef);}).text(II("Ref")))
+              )
+          )
+        .adds(arr.map(IxsData,function( i)  {sys.$params(arguments.length, 1);  return Q("tr")
+          .add(Q("td")
+            .add(tickToImg(tick(i))))
+          .add(Q("td")
+            .klass("nick")
+            .text((
+                sys.$eq(i[dailyChart.nick],cts.meNick)? "DEMEX":
+                sys.$eq(i[dailyChart.nick],cts.ibexNick)? "IBEX":
+                 "STOXX"
+              )))
+          .add(Q("td")
+            .klass("number2")
+            .text(math.toIso(arr.peek(i[dailyChart.Quotes]), 2)))
+          .add(Q("td")
+            .klass("number2")
+            .style("color:#"+ (inc(i) < 0 ? "900000" : "000090"))
+            .text(math.toIso(inc(i), 2)))
+          .add(Q("td")
+            .klass("number2")
+            .style("color:#"+ (ixDay(i) < 0 ? "900000" : "000090"))
+            .text(math.toIso(ixDay(i), 2)))
+          .add(Q("td")
+            .att("colspan", 3))
+          ;}))
+        .add(Q("tr")
+          .add(Q("td")
+            .add(ui.link(detach)
+              .add(ui.img("deme"))))
+          .add(Q("td")
+            .att("colspan", 7)
+            .add(Q("hr"))))
+        .adds(arr.map(CosData2,function( c)  {sys.$params(arguments.length, 1);  return Q("tr")
+          .add(Q("td")
+            .add(tickToImg(tick(c))))
+          .add(Q("td")
+            .klass("nick")
+            .text(c[dailyChart.nick]))
+          .add(Q("td")
+            .klass("number2")
+            .text(math.toIso(arr.peek(c[dailyChart.Quotes]), 4)))
+          .add(Q("td")
+            .klass("number2")
+            .style("color:#"+ (inc(c) < 0 ? "900000" : "000090"))
+            .text(math.toIso(inc(c), 2)))
+          .add(Q("td")
+            .klass("number2")
+            .style("color:#"+ (coDay(c) < 0 ? "900000" : "000090"))
+            .text(math.toIso(coDay(c), 2)))
+          .add(Q("td")
+            .klass("number2")
+            .style("color:#"+ (pf(c) < 0 ? "900000" : "000090"))
+            .text(math.toIso(pf(c), 2)))
+          .add(Q("td")
+            .klass("number2")
+            .style("color:#"+ (pfInc(c) < 0 ? "900000" : "000090"))
+            .text(math.toIso(pfInc(c), 2)))
+          .add(Q("td")
+            .klass("number2")
+            .style("color:#"+ (ref(c) > 100 ? "900000" : "000000"))
+            .text(math.toIso(ref(c), 2)))
+          ;}))
+      )
+    ;
+  };
+
+  
+  showV[0] = function()  {sys.$params(arguments.length, 0);
     const Lopts = [
       dmenu.mkHiddenButton(dbmenu),
       menu.separator2(),
@@ -690,7 +897,9 @@ export  async  function mk2(wg, dbmenu, mSel, order, isReverse)  {sys.$params(ar
       menu.separator(),
       menu.tlink("daily&sel", II("Selection")),
       menu.separator2(),
-      menu.tlink("daily&refs", II("References"))
+      menu.tlink("daily&difs", II("Differences")),
+      menu.separator2(),
+      menu.tlink("daily&list", II("List"))
     ];
 
     const Ropts = [
@@ -723,10 +932,11 @@ export  async  function mk2(wg, dbmenu, mSel, order, isReverse)  {sys.$params(ar
 
     switch (mSel) {
       case "portfolio": case "free": case "all": case "sel":{ mkCos();break;}
-      case "refs":{ mkRefs();break;}
+      case "difs":{ mkRefs();break;}
+      case "list":{ mkList();break;}
       default:{ mkSummary();}
     }
-  });
+  };
 
   showV[0]();
 
@@ -737,11 +947,11 @@ export  async  function mk2(wg, dbmenu, mSel, order, isReverse)  {sys.$params(ar
 
     if (sys.$eq(tic , 3)) {
       timer.stop(tm);
-      mk2(wg, dbmenu, mSel, orderV[0], isReverseV[0]);
+      mk2(wg, dbmenu, mSel, orderV[0], lorderV[0], isReverseV[0]);
        return 0;
     }
 
-    ticV[0] +=sys.$checkExists(ticV[0], 1);
+    ticV[0] += 1;
     if (sys.$eq(activity , cts.active)) {
       updateActivityWg(3 - tic);
     } else {
@@ -758,4 +968,8 @@ export  async  function mk2(wg, dbmenu, mSel, order, isReverse)  {sys.$params(ar
 
 
 export  async  function mk(wg, dbmenu, LcPath)  {sys.$params(arguments.length, 3);
-  mk2(wg, dbmenu, !sys.asBool(LcPath) ? "summary" : LcPath[0], cts.chartOrderSignal, false);};
+  mk2(
+    wg, dbmenu,
+    !sys.asBool(LcPath) ? "summary" : LcPath[0],
+    cts.chartOrderSignal, cts.lNick, false
+  );};

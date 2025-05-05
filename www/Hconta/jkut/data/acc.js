@@ -1,4 +1,4 @@
-import * as math from '../_js/math.js';import * as js from '../_js/js.js';import * as arr from '../_js/arr.js';import * as client from '../_js/client.js';import * as bytes from '../_js/bytes.js';import * as str from '../_js/str.js';import * as ui from '../_js/ui.js';import * as dic from '../_js/dic.js';import * as timer from '../_js/timer.js';import * as time from '../_js/time.js';import * as storage from '../_js/storage.js';import * as b64 from '../_js/b64.js';import * as sys from '../_js/sys.js';import * as iter from '../_js/iter.js';import * as domo from '../_js/domo.js';import * as cryp from '../_js/cryp.js';
+import * as arr from '../_js/arr.js';import * as bytes from '../_js/bytes.js';import * as storage from '../_js/storage.js';import * as sys from '../_js/sys.js';import * as client from '../_js/client.js';import * as b64 from '../_js/b64.js';import * as ui from '../_js/ui.js';import * as js from '../_js/js.js';import * as iter from '../_js/iter.js';import * as math from '../_js/math.js';import * as str from '../_js/str.js';import * as timer from '../_js/timer.js';import * as domo from '../_js/domo.js';import * as dic from '../_js/dic.js';import * as cryp from '../_js/cryp.js';import * as time from '../_js/time.js';
 
 
 
@@ -27,35 +27,35 @@ export  function groups()  {sys.$params(arguments.length, 0);  return {
 
 
 export  function subgroups()  {sys.$params(arguments.length, 0);  return SubgroupsV[0];};
-const SubgroupsV =sys.$checkNull( [dic.fromArr([
+const SubgroupsV = [dic.fromArr([
     [sys.$slice(cts.cash,0,2), "Tesorería"],
     [sys.$slice(cts.capital,0,2), "Capital"],
     [sys.$slice(cts.results,0,2), "Resultados pendientes de aplicación"]
-  ])]);
+  ])];
 
 
 
 
 export  function accounts()  {sys.$params(arguments.length, 0);  return AccountsV[0];};
-const AccountsV =sys.$checkNull( [dic.fromArr([
+const AccountsV = [dic.fromArr([
     [sys.$slice(cts.cash,0,3), accValue.mk("Bancos, cuentas de ahorro, euros", "BABVI")],
     [sys.$slice(cts.capital,0,3), accValue.mk("Capital", "BPAI")],
     [sys.$slice(cts.results,0,3), accValue.mk("Resultados del ejercicio", "BPAVII")]
-  ])]);
+  ])];
 
 
 
 export  function subaccounts()  {sys.$params(arguments.length, 0);  return SubaccountsV[0];};
-const SubaccountsV =sys.$checkNull( [dic.fromArr([
+const SubaccountsV = [dic.fromArr([
     [cts.cash, "CaixaBank. Cta."],
     [cts.capital, "Capital"],
     [cts.results, "Resultados del ejercicio"]
-  ])]);
+  ])];
 
 
 
 export  function diary()  {sys.$params(arguments.length, 0);  return DiaryV[0];};
-const DiaryV =sys.$checkNull( [[]]);
+const DiaryV = [[]];
 
 
 
@@ -84,12 +84,12 @@ export  function fromJs(A)  {sys.$params(arguments.length, 1);
   
    function mkAccValue(Kv)  {sys.$params(arguments.length, 1);  return [Kv[0], accValue.mk(Kv[1], "")];};
 
-  const it =sys.$checkNull((  
+  const it =(  
     sys.$eq(str.len(ac),0)? iter.map(dic.toIter(groups()), mkAccValue):
     sys.$eq(str.len(ac),1)? iter.map(dic.toIter(SubgroupsV[0]), mkAccValue):
     sys.$eq(str.len(ac),3)? iter.map(dic.toIter(SubaccountsV[0]), mkAccValue):
      dic.toIter(AccountsV[0])
-  ));
+  );
    return iter.filter(it, function(Kv)  {sys.$params(arguments.length, 1);  return str.starts(Kv[0], ac);});
 };
 
@@ -117,6 +117,7 @@ export  function subgroupAdd(id, description)  {sys.$params(arguments.length, 2)
   dic.put(SubgroupsV[0], id, description);
    return "";
 };
+
 
 
 
@@ -252,6 +253,7 @@ export  function subaccountDel(id)  {sys.$params(arguments.length, 1);  return d
 
 
 
+
 export  function subaccountMod(oldId, newId, description)  {sys.$params(arguments.length, 3);
    const Subs =sys.$checkNull( SubaccountsV[0]);
   if (sys.$eq(oldId , newId)) {
@@ -289,7 +291,7 @@ export  function subaccountMod(oldId, newId, description)  {sys.$params(argument
 
 export  function usedAccs(ac)  {sys.$params(arguments.length, 1);
   const len =sys.$checkNull( str.len(ac));
-  const R =sys.$checkNull( []); 
+  const R = []; 
   arr.eachIx(DiaryV[0], function( e, i)  {sys.$params(arguments.length, 2);
     if (
       arr.any(dic.toArr(e[diaryEntry.debits]), function(Kv)  {sys.$params(arguments.length, 1);  return sys.$eq(sys.$slice(Kv[0],null,len) , ac);}) ||
@@ -304,7 +306,7 @@ export  function usedAccs(ac)  {sys.$params(arguments.length, 1);
 
 
 export  function usedSubaccounts(subacc)  {sys.$params(arguments.length, 1);
-  const R =sys.$checkNull( []); 
+  const R = []; 
   arr.eachIx(DiaryV[0], function( e, i)  {sys.$params(arguments.length, 2);
     if (dic.hasKey(e[diaryEntry.debits], subacc) || dic.hasKey(e[diaryEntry.credits], subacc))
       arr.push(R,i);}
@@ -318,26 +320,26 @@ export  function usedSubaccounts(subacc)  {sys.$params(arguments.length, 1);
 
 export  function mostUsedSubaccounts(forCash)  {sys.$params(arguments.length, 1);
   const Diary =sys.$checkNull( DiaryV[0]);
-  const Subs =sys.$checkNull( {}); 
+  const Subs = {}; 
   if (forCash) for (const i  of sys.$forObject( usedSubaccounts(cts.cash))) {
      const e =sys.$checkNull( Diary[i]);
     for (const k  of sys.$forObject( dic.keys(e[diaryEntry.debits]))) {
       if (sys.$eq(k , cts.cash)) continue;
-      if (dic.hasKey(Subs, k)) Subs[k] +=sys.$checkExists(Subs[k],sys.$checkNull( 1));
+      if (dic.hasKey(Subs, k)) Subs[k] +=sys.$checkExists(Subs[k], 1);
       else dic.put(Subs, k, 1);
     }
     for (const k  of sys.$forObject( dic.keys(e[diaryEntry.credits]))) {
       if (sys.$eq(k , cts.cash)) continue;
-      if (dic.hasKey(Subs,k)) Subs[k] +=sys.$checkExists(Subs[k],sys.$checkNull( 1));
+      if (dic.hasKey(Subs,k)) Subs[k] +=sys.$checkExists(Subs[k], 1);
       else dic.put(Subs,k, 1);
     }
   } else for (const  e  of sys.$forObject( Diary)) {
     for (const k  of sys.$forObject( dic.keys(e[diaryEntry.debits]))) {
-      if (dic.hasKey(Subs,k)) Subs[k] +=sys.$checkExists(Subs[k],sys.$checkNull( 1));
+      if (dic.hasKey(Subs,k)) Subs[k] +=sys.$checkExists(Subs[k], 1);
       else dic.put(Subs,k, 1);
     }
     for (const k  of sys.$forObject( dic.keys(e[diaryEntry.credits]))) {
-      if (dic.hasKey(Subs,k)) Subs[k] +=sys.$checkExists(Subs[k],sys.$checkNull( 1));
+      if (dic.hasKey(Subs,k)) Subs[k] +=sys.$checkExists(Subs[k], 1);
       else dic.put(Subs,k, 1);
     }
   }
@@ -354,6 +356,7 @@ export  function mostUsedSubaccounts(forCash)  {sys.$params(arguments.length, 1)
 
 
 
+
 export  function descriptionOf(ac)  {sys.$params(arguments.length, 1);
   const lg =sys.$checkNull( str.len(ac));
   if (sys.$eq(lg , 3)) {
@@ -366,6 +369,7 @@ export  function descriptionOf(ac)  {sys.$params(arguments.length, 1);
      return dic.hasKey(D,ac) ? D[ac]: "";
   }
 };
+
 
 
 
@@ -393,7 +397,7 @@ export  function available(ac, extra)  {sys.$params(arguments.length, 2);
     ? iter.map(iter.$range(0,26), function(i)  {sys.$params(arguments.length, 1);  return i < 10 ? "0" + i : "" + i;})
     : iter.map(iter.$range(0,10), function(i)  {sys.$params(arguments.length, 1);  return "" + i;}))
   ;
-  const R =sys.$checkNull( arr.filter(arr.fromIter(it), function(id)  {sys.$params(arguments.length, 1);  return !sys.asBool(dic.hasKey(Subs,ac + id));}));
+   const R =sys.$checkNull( arr.filter(arr.fromIter(it), function(id)  {sys.$params(arguments.length, 1);  return !sys.asBool(dic.hasKey(Subs,ac + id));}));
   if (sys.$neq(extra , "")) arr.push(R,extra);
   arr.sort(R,function(i1, i2)  {sys.$params(arguments.length, 2);  return i1 < i2;});
    return R;
@@ -403,22 +407,22 @@ export  function available(ac, extra)  {sys.$params(arguments.length, 2);
 
 export  function addDiary( entry)  {sys.$params(arguments.length, 1);
   const date =sys.$checkNull( entry[diaryEntry.date]);
-  const R =sys.$checkNull( []); 
-  const ixV =sys.$checkNull( [0]);
-  const rIxV =sys.$checkNull( [ -1]);
+  const R = []; 
+  const ixV = [0];
+  const rIxV = [ -1];
   for (const  e  of sys.$forObject( DiaryV[0])) {
     if (sys.$eq(rIxV[0] ,  -1) && e[diaryEntry.date] > date) {
       arr.push(R,entry);
       rIxV[0] =sys.$checkExists(rIxV[0],sys.$checkNull( ixV[0]));
     }
     arr.push(R,e);
-    ixV[0] +=sys.$checkExists(ixV[0],sys.$checkNull( 1));
+    ixV[0] +=sys.$checkExists(ixV[0], 1);
   }
   if (sys.$eq(rIxV[0] ,  -1)) {
     arr.push(R,entry);
     rIxV[0] =sys.$checkExists(rIxV[0],sys.$checkNull( ixV[0]));
   }
-  DiaryV[0] =sys.$checkExists(DiaryV[0],sys.$checkNull( R));
+  DiaryV[0] =sys.$checkExists(DiaryV[0], R);
    return rIxV[0];
 };
 
@@ -426,15 +430,15 @@ export  function addDiary( entry)  {sys.$params(arguments.length, 1);
 
 
 export  function close(newYear)  {sys.$params(arguments.length, 1);
-  const Accs =sys.$checkNull( {}); 
+  const Accs = {}; 
   
    function add(ac , am)  {sys.$params(arguments.length, 2);
-    if (dic.hasKey(Accs,ac)) Accs[ac] +=sys.$checkExists(Accs[ac],sys.$checkNull( am));
+    if (dic.hasKey(Accs,ac)) Accs[ac] +=sys.$checkExists(Accs[ac], am);
     else dic.put(Accs,ac, am);}
   ;
 
    const Accounts =sys.$checkNull( AccountsV[0]);
-  const sumV =sys.$checkNull( [0]);
+  const sumV = [0];
   for (const  e  of sys.$forObject( DiaryV[0])) {
     arr.each(
       arr.filter(
@@ -443,7 +447,7 @@ export  function close(newYear)  {sys.$params(arguments.length, 1);
       ),
       function(Kv)  {sys.$params(arguments.length, 1);
         const v =sys.$checkNull( Kv[1]);
-        sumV[0] +=sys.$checkExists(sumV[0],sys.$checkNull( v));
+        sumV[0] +=sys.$checkExists(sumV[0], v);
         add(Kv[0], v);
       }
     );
@@ -453,15 +457,15 @@ export  function close(newYear)  {sys.$params(arguments.length, 1);
         function(Kv)  {sys.$params(arguments.length, 1);  return sys.$eq(Accounts[sys.$slice(Kv[0],0,3)][accValue.summary][0] , "B");}
       ),
       function(Kv)  {sys.$params(arguments.length, 1);
-        const v =sys.$checkNull(  -Kv[1]);
-        sumV[0] +=sys.$checkExists(sumV[0],sys.$checkNull( v));
+        const v =  -Kv[1];
+        sumV[0] +=sys.$checkExists(sumV[0], v);
         add(Kv[0], v);
       }
     );
   }
   add("10200",  -sumV[0]);
 
-  DiaryV[0] =sys.$checkExists(DiaryV[0],sys.$checkNull( [diaryEntry.mk(
+  DiaryV[0] =sys.$checkExists(DiaryV[0], [diaryEntry.mk(
     time.mkDate(1, 1, newYear),
     "Asiento de apertura",
     dic.fromArr(arr.filter(
@@ -475,5 +479,5 @@ export  function close(newYear)  {sys.$params(arguments.length, 1);
       ),
       function(Kv)  {sys.$params(arguments.length, 1);  return [Kv[0],  -Kv[1]];}
     ))
-   )]));
+   )]);
 };

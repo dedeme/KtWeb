@@ -1,4 +1,4 @@
-import * as math from '../../_js/math.js';import * as js from '../../_js/js.js';import * as arr from '../../_js/arr.js';import * as client from '../../_js/client.js';import * as bytes from '../../_js/bytes.js';import * as str from '../../_js/str.js';import * as ui from '../../_js/ui.js';import * as dic from '../../_js/dic.js';import * as timer from '../../_js/timer.js';import * as time from '../../_js/time.js';import * as storage from '../../_js/storage.js';import * as b64 from '../../_js/b64.js';import * as sys from '../../_js/sys.js';import * as iter from '../../_js/iter.js';import * as domo from '../../_js/domo.js';import * as cryp from '../../_js/cryp.js';
+import * as arr from '../../_js/arr.js';import * as bytes from '../../_js/bytes.js';import * as storage from '../../_js/storage.js';import * as sys from '../../_js/sys.js';import * as client from '../../_js/client.js';import * as b64 from '../../_js/b64.js';import * as ui from '../../_js/ui.js';import * as js from '../../_js/js.js';import * as iter from '../../_js/iter.js';import * as math from '../../_js/math.js';import * as str from '../../_js/str.js';import * as timer from '../../_js/timer.js';import * as domo from '../../_js/domo.js';import * as dic from '../../_js/dic.js';import * as cryp from '../../_js/cryp.js';import * as time from '../../_js/time.js';
 
 
 
@@ -62,7 +62,7 @@ export  function mk(wg)  {sys.$params(arguments.length, 1);
 
 
  async  function update(wg, msel)  {sys.$params(arguments.length, 2);
-  const box =sys.$checkNull( modalBox.mk(
+   const box =sys.$checkNull( modalBox.mk(
     Q("div")
       .add(Q("div")
         .style("text-align:center")
@@ -120,7 +120,7 @@ export  function mk(wg)  {sys.$params(arguments.length, 1);
   ;
 
   const viewer =sys.$checkNull( Q("textarea")
-    .att("cols", 70)
+    .att("cols", 75)
     .att("rows", 25)
     .att("disabled", true)
     .text(
@@ -181,24 +181,32 @@ export  function mk(wg)  {sys.$params(arguments.length, 1);
   const now =sys.$checkNull( time.now());
   const today =sys.$checkNull( time.toStr(now));
 
-   const Chart =sys.$checkNull( lineChart.mkExample());
-  Chart.exArea.width =sys.$checkExists(Chart.exArea.width, 600);
-  Chart.exArea.height =sys.$checkExists(Chart.exArea.height, 200);
-  Chart.exArea.atts.border.width =sys.$checkExists(Chart.exArea.atts.border.width, 0);
-  Chart.inPadding.top =sys.$checkExists(Chart.inPadding.top, 10);
-  Chart.inPadding.right =sys.$checkExists(Chart.inPadding.right, 10);
-  Chart.inPadding.bottom =sys.$checkExists(Chart.inPadding.bottom, 20);
-  Chart.inPadding.left =sys.$checkExists(Chart.inPadding.left, 85);
-  Chart.chartPadding.top =sys.$checkExists(Chart.chartPadding.top, 4);
-  Chart.chartPadding.right =sys.$checkExists(Chart.chartPadding.right, 2);
-  Chart.chartPadding.bottom =sys.$checkExists(Chart.chartPadding.bottom, 4);
-  Chart.chartPadding.left =sys.$checkExists(Chart.chartPadding.left, 2);
+  const Chart =sys.$checkNull( lineChart.mkExample());
+  Chart.exArea.width = 600;
+  Chart.exArea.height = 200;
+  Chart.exArea.atts.border.width = 0;
+  Chart.inPadding.top = 10;
+  Chart.inPadding.right = 10;
+  Chart.inPadding.bottom = 20;
+  Chart.inPadding.left = 85;
+  Chart.chartPadding.top = 4;
+  Chart.chartPadding.right = 2;
+  Chart.chartPadding.bottom = 4;
+  Chart.chartPadding.left = 2;
 
   
 
   const month = sys.$slice(today,null,6);
-   const E00s =sys.$checkNull( arr.dropWhile(Es,function( e)  {sys.$params(arguments.length, 1);  return sys.$slice(e[profitsEntry.date],null,6) <  month;}));
-   const E0s =sys.$checkNull( arr.size(E00s) > 1 ? E00s : sys.$slice(Es, -2,null));
+  const ixV = [ -1];
+
+  for ( const [i, e]  of sys.$forObject2( Es)) if (sys.$slice(e[profitsEntry.date],null,6) >=  month) {
+    ixV[0] = i;
+    break;
+  }
+   const E00s =sys.$checkNull( ixV[0] >= 0 ? sys.$slice(Es,ixV[0],null) : []);
+   const E0s =sys.$checkNull( arr.size(E00s) > 0 ? E00s : sys.$slice(Es, -1,null));
+  arr.unshift(E0s,ixV[0] <= 0 ? Es[0] : Es[ixV[0] - 1]);
+
    const ef0 =sys.$checkNull( E0s[0]);
    const el0 =sys.$checkNull( arr.peek(E0s));
   const total0 = el0[profitsEntry.total] - ef0[profitsEntry.total];
@@ -209,7 +217,7 @@ export  function mk(wg)  {sys.$params(arguments.length, 1);
       ? "#f2e9e9"
       : "#e9e9e9")
     ;
-  Chart.exArea.atts.background =sys.$checkExists(Chart.exArea.atts.background, back0);
+  Chart.exArea.atts.background = back0;
 
   const Lb0s = [];
   const Val0s = [[]];
@@ -220,17 +228,17 @@ export  function mk(wg)  {sys.$params(arguments.length, 1);
   const Att0s = [
     lineChart.mkLine(2, "#0041aa", false)
   ];
-   const Data0 =sys.$checkNull( lineChart.mkData(Lb0s, Val0s, Att0s));
-  Data0.round =sys.$checkExists(Data0.round, 0);
-  Data0.Labels =sys.$checkExists(Data0.Labels, Lb0s);
-  Data0.SetValues =sys.$checkExists(Data0.SetValues, [Val0s[0]]);
-  Data0.SetAtts =sys.$checkExists(Data0.SetAtts, Att0s);
-  Data0.drawGrid =sys.$checkExists(Data0.drawGrid, function(lb, i)  {sys.$params(arguments.length, 2);
+  const Data0 =sys.$checkNull( lineChart.mkData(Lb0s, Val0s, Att0s));
+  Data0.round = 0;
+  Data0.Labels = Lb0s;
+  Data0.SetValues = [Val0s[0]];
+  Data0.SetAtts = Att0s;
+  Data0.drawGrid = function(lb, i)  {sys.$params(arguments.length, 2);
     if (sys.$eq(i , 0))  return false;
      return sys.$eq(i % 3 , 0);
-  });
-  Data0.drawLabel =sys.$checkExists(Data0.drawLabel,sys.$checkNull( Data0.drawGrid));
-  Data0.mapLabel =sys.$checkExists(Data0.mapLabel, function(lb, i)  {sys.$params(arguments.length, 2);  return sys.$slice(lb,null,2);});
+  };
+  Data0.drawLabel =sys.$checkNull( Data0.drawGrid);
+  Data0.mapLabel = function(lb, i)  {sys.$params(arguments.length, 2);  return sys.$slice(lb,null,2);};
 
 
   const lastMonth =sys.$checkNull( Q("table")
@@ -245,21 +253,28 @@ export  function mk(wg)  {sys.$params(arguments.length, 1);
   
 
   const year = sys.$slice(today,null,4);
-  const E10s =sys.$checkNull( arr.dropWhile(Es,function( e)  {sys.$params(arguments.length, 1);  return sys.$slice(e[profitsEntry.date],null,4) <  year;}));
-   const E1s =sys.$checkNull( arr.size(E10s) > 1 ? E10s : sys.$slice(Es, -2,null));
+  ixV[0] =  -1;
+  for ( const [i, e]  of sys.$forObject2( Es)) if (sys.$slice(e[profitsEntry.date],null,4) >=  year) {
+    ixV[0] = i;
+    break;
+  }
+   const E10s =sys.$checkNull( ixV[0] >= 0 ? sys.$slice(Es,ixV[0],null) : []);
+   const E1s =sys.$checkNull( arr.size(E10s) > 0 ? E10s : sys.$slice(Es, -1,null));
+  arr.unshift(E1s,ixV[0] <= 0 ? Es[0] : Es[ixV[0] - 1]);
+
    const ef1 =sys.$checkNull( E1s[0]);
    const el1 =sys.$checkNull( arr.peek(E1s));
   const total1 = el1[profitsEntry.total] - ef1[profitsEntry.total];
 
-  Chart.chartPadding.top =sys.$checkExists(Chart.chartPadding.top, 2);
-  Chart.chartPadding.bottom =sys.$checkExists(Chart.chartPadding.bottom, 2);
+  Chart.chartPadding.top = 2;
+  Chart.chartPadding.bottom = 2;
   const back1 =sys.$checkNull( total1 > 0
     ? "#e9e9f2"
     : total1< 0
       ? "#f2e9e9"
       : "#e9e9e9")
     ;
-  Chart.exArea.atts.background =sys.$checkExists(Chart.exArea.atts.background, back1);
+  Chart.exArea.atts.background = back1;
 
   const Lb1s = [];
   const Val1s = [[]];
@@ -270,17 +285,17 @@ export  function mk(wg)  {sys.$params(arguments.length, 1);
   const Att1s = [
     lineChart.mkLine(1.5, "#0041aa", false)
   ];
-   const Data1 =sys.$checkNull( lineChart.mkData(Lb1s, Val1s, Att1s));
-  Data1.round =sys.$checkExists(Data1.round, 0);
-  Data1.Labels =sys.$checkExists(Data1.Labels, Lb1s);
-  Data1.SetValues =sys.$checkExists(Data1.SetValues, [Val1s[0]]);
-  Data1.SetAtts =sys.$checkExists(Data1.SetAtts, Att1s);
-  Data1.drawGrid =sys.$checkExists(Data1.drawGrid, function(lb, i)  {sys.$params(arguments.length, 2);
+  const Data1 =sys.$checkNull( lineChart.mkData(Lb1s, Val1s, Att1s));
+  Data1.round = 0;
+  Data1.Labels = Lb1s;
+  Data1.SetValues = [Val1s[0]];
+  Data1.SetAtts = Att1s;
+  Data1.drawGrid = function(lb, i)  {sys.$params(arguments.length, 2);
     if (sys.$eq(i , 0))  return false;
      return sys.$neq(sys.$slice(Lb1s[i - 1],3,5) , sys.$slice(lb,3,5)) ? true : false;
-  });
-  Data1.drawLabel =sys.$checkExists(Data1.drawLabel,sys.$checkNull( Data1.drawGrid));
-  Data1.mapLabel =sys.$checkExists(Data1.mapLabel, function(lb, i)  {sys.$params(arguments.length, 2);  return sys.$slice(lb,3,5);});
+  };
+  Data1.drawLabel =sys.$checkNull( Data1.drawGrid);
+  Data1.mapLabel = function(lb, i)  {sys.$params(arguments.length, 2);  return sys.$slice(lb,3,5);};
 
   const currentYear =sys.$checkNull( Q("table")
     .att("align", "center")
@@ -306,7 +321,7 @@ export  function mk(wg)  {sys.$params(arguments.length, 1);
       ? "#f2e9e9"
       : "#e9e9e9")
     ;
-  Chart.exArea.atts.background =sys.$checkExists(Chart.exArea.atts.background, back2);
+  Chart.exArea.atts.background = back2;
 
   const Lb2s = [];
   const Val2s = [[]];
@@ -317,17 +332,17 @@ export  function mk(wg)  {sys.$params(arguments.length, 1);
   const Att2s = [
     lineChart.mkLine(1.5, "#0041aa", false)
   ];
-   const Data2 =sys.$checkNull( lineChart.mkData(Lb2s, Val2s, Att2s));
-  Data2.round =sys.$checkExists(Data2.round, 0);
-  Data2.Labels =sys.$checkExists(Data2.Labels, Lb2s);
-  Data2.SetValues =sys.$checkExists(Data2.SetValues, [Val2s[0]]);
-  Data2.SetAtts =sys.$checkExists(Data2.SetAtts, Att2s);
-  Data2.drawGrid =sys.$checkExists(Data2.drawGrid, function(lb, i)  {sys.$params(arguments.length, 2);
+  const Data2 =sys.$checkNull( lineChart.mkData(Lb2s, Val2s, Att2s));
+  Data2.round = 0;
+  Data2.Labels = Lb2s;
+  Data2.SetValues = [Val2s[0]];
+  Data2.SetAtts = Att2s;
+  Data2.drawGrid = function(lb, i)  {sys.$params(arguments.length, 2);
     if (sys.$eq(i , 0))  return false;
      return sys.$neq(sys.$slice(Lb2s[i - 1],3,5) , sys.$slice(lb,3,5)) ? true : false;
-  });
-  Data2.drawLabel =sys.$checkExists(Data2.drawLabel,sys.$checkNull( Data2.drawGrid));
-  Data2.mapLabel =sys.$checkExists(Data2.mapLabel, function(lb, i)  {sys.$params(arguments.length, 2);  return sys.$slice(lb,3,5);});
+  };
+  Data2.drawLabel =sys.$checkNull( Data2.drawGrid);
+  Data2.mapLabel = function(lb, i)  {sys.$params(arguments.length, 2);  return sys.$slice(lb,3,5);};
 
   const lastYear =sys.$checkNull( Q("table")
     .att("align", "center")
@@ -351,7 +366,7 @@ export  function mk(wg)  {sys.$params(arguments.length, 1);
       ? "#f2e9e9"
       : "#e9e9e9")
     ;
-  Chart.exArea.atts.background =sys.$checkExists(Chart.exArea.atts.background, back3);
+  Chart.exArea.atts.background = back3;
 
   const Lb3s = [];
   const Val3s = [[]];
@@ -363,18 +378,18 @@ export  function mk(wg)  {sys.$params(arguments.length, 1);
     lineChart.mkLine(1.5, "#0041aa", false)
   ];
    const Data3 =sys.$checkNull( lineChart.mkData(Lb3s, Val3s, Att3s));
-  Data3.round =sys.$checkExists(Data3.round, 0);
-  Data3.Labels =sys.$checkExists(Data3.Labels, Lb3s);
-  Data3.SetValues =sys.$checkExists(Data3.SetValues, [Val3s[0]]);
-  Data3.SetAtts =sys.$checkExists(Data3.SetAtts, Att3s);
-  Data3.drawGrid =sys.$checkExists(Data3.drawGrid, function(lb, i)  {sys.$params(arguments.length, 2);
+  Data3.round = 0;
+  Data3.Labels = Lb3s;
+  Data3.SetValues = [Val3s[0]];
+  Data3.SetAtts = Att3s;
+  Data3.drawGrid = function(lb, i)  {sys.$params(arguments.length, 2);
     if (sys.$eq(i , 0))  return false;
      return sys.$neq(sys.$slice(Lb3s[i - 1],3,5) , sys.$slice(lb,3,5)) && sys.$neq(str.index("01 04 07 10", sys.$slice(lb,3,5)) ,  -1)
       ? true
       : false;
-  });
-  Data3.drawLabel =sys.$checkExists(Data3.drawLabel,sys.$checkNull( Data3.drawGrid));
-  Data3.mapLabel =sys.$checkExists(Data3.mapLabel, function(lb, i)  {sys.$params(arguments.length, 2);  return sys.$eq(sys.$slice(lb,3,5) , "01") ? sys.$slice(lb,6,null) : sys.$slice(lb,3,5);});
+  };
+  Data3.drawLabel =sys.$checkNull( Data3.drawGrid);
+  Data3.mapLabel = function(lb, i)  {sys.$params(arguments.length, 2);  return sys.$eq(sys.$slice(lb,3,5) , "01") ? sys.$slice(lb,6,null) : sys.$slice(lb,3,5);};
 
   const all =sys.$checkNull( Q("table")
     .att("align", "center")

@@ -1,4 +1,4 @@
-import * as math from './_js/math.js';import * as js from './_js/js.js';import * as arr from './_js/arr.js';import * as client from './_js/client.js';import * as bytes from './_js/bytes.js';import * as str from './_js/str.js';import * as ui from './_js/ui.js';import * as dic from './_js/dic.js';import * as timer from './_js/timer.js';import * as time from './_js/time.js';import * as storage from './_js/storage.js';import * as b64 from './_js/b64.js';import * as sys from './_js/sys.js';import * as iter from './_js/iter.js';import * as domo from './_js/domo.js';import * as cryp from './_js/cryp.js';
+import * as arr from './_js/arr.js';import * as bytes from './_js/bytes.js';import * as storage from './_js/storage.js';import * as sys from './_js/sys.js';import * as client from './_js/client.js';import * as b64 from './_js/b64.js';import * as ui from './_js/ui.js';import * as js from './_js/js.js';import * as iter from './_js/iter.js';import * as math from './_js/math.js';import * as str from './_js/str.js';import * as timer from './_js/timer.js';import * as domo from './_js/domo.js';import * as dic from './_js/dic.js';import * as cryp from './_js/cryp.js';import * as time from './_js/time.js';
 
 
 
@@ -21,12 +21,12 @@ export  async  function mk(wg, isTrash)  {sys.$params(arguments.length, 2);
     rq: "idata",
     isTrash:isTrash
   });
-  global.dbKeyV[0] =sys.$checkExists(global.dbKeyV[0],sys.$checkNull( dbKey));
+  global.dbKeyV[0] =sys.$checkExists(global.dbKeyV[0], dbKey);
 
-  const textV =sys.$checkNull( [text]); 
-  const selV =sys.$checkNull( [!sys.asBool(List) ? "" : List[0]]);
+  const textV = [text]; 
+  const selV = [!sys.asBool(List) ? "" : List[0]];
 
-  const tm =sys.$checkNull( timer.mk(1000));
+   const tm =sys.$checkNull( timer.mk(1000));
 
   const bodyEd =sys.$checkNull( Q("textarea")
     .att("cols", 100)
@@ -38,8 +38,8 @@ export  async  function mk(wg, isTrash)  {sys.$params(arguments.length, 2);
   const listDiv =sys.$checkNull( Q("div"));
   const titleDiv =sys.$checkNull( Q("div"));
 
-  const showV =sys.$checkNull( [[]]);
-  const show2V =sys.$checkNull( [[]]);
+  const showV = [[]];
+  const show2V = [[]];
 
   
 
@@ -66,7 +66,7 @@ export  async  function mk(wg, isTrash)  {sys.$params(arguments.length, 2);
       name:name,
       id:id
     });
-    global.dbKeyV[0] =sys.$checkExists(global.dbKeyV[0],sys.$checkNull( dbKey));
+    global.dbKeyV[0] =sys.$checkExists(global.dbKeyV[0], dbKey);
 
     const text2 =sys.$checkNull( window.encodeURIComponent(text));
 
@@ -121,10 +121,10 @@ export  async  function mk(wg, isTrash)  {sys.$params(arguments.length, 2);
       isTrash:isTrash,
       id: E.id
     });
-    global.dbKeyV[0] =sys.$checkExists(global.dbKeyV[0],sys.$checkNull( dbKey));
-    selV[0] =sys.$checkExists(selV[0],sys.$checkNull( E));
+    global.dbKeyV[0] =sys.$checkExists(global.dbKeyV[0], dbKey);
+    selV[0] =sys.$checkExists(selV[0], E);
     bodyEd.value(text);
-    textV[0] =sys.$checkExists(textV[0],sys.$checkNull( text));
+    textV[0] =sys.$checkExists(textV[0], text);
     showV[0]();
   };
 
@@ -142,11 +142,11 @@ export  async  function mk(wg, isTrash)  {sys.$params(arguments.length, 2);
         id: E.id,
         text:text
       });
-      global.dbKeyV[0] =sys.$checkExists(global.dbKeyV[0],sys.$checkNull( dbKey));
-      textV[0] =sys.$checkExists(textV[0],sys.$checkNull( text));
+      global.dbKeyV[0] =sys.$checkExists(global.dbKeyV[0], dbKey);
+      textV[0] =sys.$checkExists(textV[0], text);
 
       if (sys.$neq(name , E.name)) {
-        E.name =sys.$checkExists(E.name,sys.$checkNull( name));
+        E.name =sys.$checkExists(E.name, name);
         show2V[0]();
       }
     }

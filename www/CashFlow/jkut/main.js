@@ -1,4 +1,4 @@
-import * as math from './_js/math.js';import * as js from './_js/js.js';import * as arr from './_js/arr.js';import * as client from './_js/client.js';import * as bytes from './_js/bytes.js';import * as str from './_js/str.js';import * as ui from './_js/ui.js';import * as dic from './_js/dic.js';import * as timer from './_js/timer.js';import * as time from './_js/time.js';import * as storage from './_js/storage.js';import * as b64 from './_js/b64.js';import * as sys from './_js/sys.js';import * as iter from './_js/iter.js';import * as domo from './_js/domo.js';import * as cryp from './_js/cryp.js';
+import * as arr from './_js/arr.js';import * as bytes from './_js/bytes.js';import * as storage from './_js/storage.js';import * as sys from './_js/sys.js';import * as client from './_js/client.js';import * as b64 from './_js/b64.js';import * as ui from './_js/ui.js';import * as js from './_js/js.js';import * as iter from './_js/iter.js';import * as math from './_js/math.js';import * as str from './_js/str.js';import * as timer from './_js/timer.js';import * as domo from './_js/domo.js';import * as dic from './_js/dic.js';import * as cryp from './_js/cryp.js';import * as time from './_js/time.js';
 
 
 
@@ -35,10 +35,10 @@ const II =sys.$checkNull( i18n.tlt);
 
    const Url =sys.$checkNull( ui.url());
 
-  const now =sys.$checkNull( time.now());
+   const now =sys.$checkNull( time.now());
   const page =sys.$checkNull( arr.size(Url) > 0 ? Url[0] : "budget");
 
-  const currentYear =sys.$checkNull( time.format(now,"%Y"));
+  const currentYear =sys.$checkNull( time.fmt(now,"%Y"));
   const selectedYear =sys.$checkNull( Url[1]
     ? fns.validateYear(Url[1])
     : currentYear)
@@ -61,7 +61,7 @@ const II =sys.$checkNull( i18n.tlt);
 
 
   const selLink = page + "&" + selectedYear;
-   const myear =sys.$checkNull( menu.tlink("year&" + selectedYear, selectedYear));
+  const myear =sys.$checkNull( menu.tlink("year&" + selectedYear, selectedYear));
   if (sys.$neq(selectedYear , currentYear)) myear.wg.setStyle("color", "#800000");
   const Lopts = [
     myear,

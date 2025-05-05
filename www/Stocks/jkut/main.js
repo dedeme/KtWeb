@@ -1,4 +1,4 @@
-import * as math from './_js/math.js';import * as js from './_js/js.js';import * as arr from './_js/arr.js';import * as client from './_js/client.js';import * as bytes from './_js/bytes.js';import * as str from './_js/str.js';import * as ui from './_js/ui.js';import * as dic from './_js/dic.js';import * as timer from './_js/timer.js';import * as time from './_js/time.js';import * as storage from './_js/storage.js';import * as b64 from './_js/b64.js';import * as sys from './_js/sys.js';import * as iter from './_js/iter.js';import * as domo from './_js/domo.js';import * as cryp from './_js/cryp.js';
+import * as arr from './_js/arr.js';import * as bytes from './_js/bytes.js';import * as storage from './_js/storage.js';import * as sys from './_js/sys.js';import * as client from './_js/client.js';import * as b64 from './_js/b64.js';import * as ui from './_js/ui.js';import * as js from './_js/js.js';import * as iter from './_js/iter.js';import * as math from './_js/math.js';import * as str from './_js/str.js';import * as timer from './_js/timer.js';import * as domo from './_js/domo.js';import * as dic from './_js/dic.js';import * as cryp from './_js/cryp.js';import * as time from './_js/time.js';
 
 
 
@@ -35,14 +35,14 @@ const II =sys.$checkNull( i18n.tlt);
   const Url =sys.$checkNull( ui.url());
   const page =sys.$checkNull( !sys.asBool(Url) ? "annotations" : Url[0]);
 
-  const Lopts =sys.$checkNull( [
+  const Lopts = [
     menu.tlink("annotations", II("Annotations")),
     menu.separator(),
     menu.tlink("treasury", II("Treasury")),
     menu.separator(),
     menu.tlink("forms", II("Forms"))
-  ]);
-  const Ropts =sys.$checkNull( [menu.tlink("help", II("Close Year (Help)"))]);
+  ];
+  const Ropts = [menu.tlink("help", II("Close Year (Help)"))];
   const menuWg =sys.$checkNull( menu.mk(Lopts, Ropts, page));
 
   const body =sys.$checkNull( Q("div"));
@@ -63,6 +63,7 @@ const II =sys.$checkNull( i18n.tlt);
 
 
 const wg =sys.$checkNull( Q("div"));
+
 
 
 export  function load()  {sys.$params(arguments.length, 0);

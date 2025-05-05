@@ -1,4 +1,4 @@
-import * as math from '../_js/math.js';import * as js from '../_js/js.js';import * as arr from '../_js/arr.js';import * as client from '../_js/client.js';import * as bytes from '../_js/bytes.js';import * as str from '../_js/str.js';import * as ui from '../_js/ui.js';import * as dic from '../_js/dic.js';import * as timer from '../_js/timer.js';import * as time from '../_js/time.js';import * as storage from '../_js/storage.js';import * as b64 from '../_js/b64.js';import * as sys from '../_js/sys.js';import * as iter from '../_js/iter.js';import * as domo from '../_js/domo.js';import * as cryp from '../_js/cryp.js';
+import * as arr from '../_js/arr.js';import * as bytes from '../_js/bytes.js';import * as storage from '../_js/storage.js';import * as sys from '../_js/sys.js';import * as client from '../_js/client.js';import * as b64 from '../_js/b64.js';import * as ui from '../_js/ui.js';import * as js from '../_js/js.js';import * as iter from '../_js/iter.js';import * as math from '../_js/math.js';import * as str from '../_js/str.js';import * as timer from '../_js/timer.js';import * as domo from '../_js/domo.js';import * as dic from '../_js/dic.js';import * as cryp from '../_js/cryp.js';import * as time from '../_js/time.js';
 
 
 
@@ -29,26 +29,26 @@ export  function mk(dirName,  test, reload)  {sys.$params(arguments.length, 3);
   const dirIn =sys.$checkNull( Q("input").style("width: 200px"));
   const pathIn =sys.$checkNull( Q("input").style("width: 300px"));
 
-  const isGeditV =sys.$checkNull( [false]);
-  const isDirEditV =sys.$checkNull( [false]);
-  const isPathEditV =sys.$checkNull( [false]);
+  const isGeditV = [false];
+  const isDirEditV = [false];
+  const isPathEditV = [false];
 
-  const mkExecDivV =sys.$checkNull( [[]]);
-  const updateTrV =sys.$checkNull( [[]]);
+  const mkExecDivV = [[]];
+  const updateTrV = [[]];
 
   
 
   
    function geditOn(ev)  {sys.$params(arguments.length, 1);
-    isGeditV[0] =sys.$checkExists(isGeditV[0],sys.$checkNull( true));
+    isGeditV[0] =sys.$checkExists(isGeditV[0], true);
     updateTrV[0]();
   };
 
   
    function geditOff(ev)  {sys.$params(arguments.length, 1);
-    isGeditV[0] =sys.$checkExists(isGeditV[0],sys.$checkNull( false));
-    isDirEditV[0] =sys.$checkExists(isDirEditV[0],sys.$checkNull( false));
-    isPathEditV[0] =sys.$checkExists(isPathEditV[0],sys.$checkNull( false));
+    isGeditV[0] =sys.$checkExists(isGeditV[0], false);
+    isDirEditV[0] =sys.$checkExists(isDirEditV[0], false);
+    isPathEditV[0] =sys.$checkExists(isPathEditV[0], false);
     updateTrV[0]();
   };
 
@@ -118,13 +118,13 @@ export  function mk(dirName,  test, reload)  {sys.$params(arguments.length, 3);
 
   
    function dirEditOff(ev)  {sys.$params(arguments.length, 1);
-    isDirEditV[0] =sys.$checkExists(isDirEditV[0],sys.$checkNull( false));
+    isDirEditV[0] =sys.$checkExists(isDirEditV[0], false);
     updateTrV[0]();
   };
 
   
    function dirEditOn(ev)  {sys.$params(arguments.length, 1);
-    isDirEditV[0] =sys.$checkExists(isDirEditV[0],sys.$checkNull( true));
+    isDirEditV[0] =sys.$checkExists(isDirEditV[0], true);
     updateTrV[0]();
   };
 
@@ -190,19 +190,19 @@ export  function mk(dirName,  test, reload)  {sys.$params(arguments.length, 3);
 
   
    function pathEditOff(ev)  {sys.$params(arguments.length, 1);
-    isPathEditV[0] =sys.$checkExists(isPathEditV[0],sys.$checkNull( false));
+    isPathEditV[0] =sys.$checkExists(isPathEditV[0], false);
     updateTrV[0]();
   };
 
   
    function pathEditOn(ev)  {sys.$params(arguments.length, 1);
-    isPathEditV[0] =sys.$checkExists(isPathEditV[0],sys.$checkNull( true));
+    isPathEditV[0] =sys.$checkExists(isPathEditV[0], true);
     updateTrV[0]();
   };
 
    async  function changePath(ev)  {sys.$params(arguments.length, 1);
-    const newPathV =sys.$checkNull( [str.trim(pathIn.getValue())]);
-    while (str.ends(newPathV[0], "/")) newPathV[0] =sys.$checkExists(newPathV[0],sys.$checkNull( sys.$slice(newPathV[0],null, -1)));
+    const newPathV = [str.trim(pathIn.getValue())];
+    while (str.ends(newPathV[0], "/")) newPathV[0] =sys.$checkExists(newPathV[0], sys.$slice(newPathV[0],null, -1));
 
     if (test[testRs.withBackups]) {
       if (!sys.asBool(ui.confirm(

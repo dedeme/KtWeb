@@ -1,4 +1,4 @@
-import * as math from '../_js/math.js';import * as js from '../_js/js.js';import * as arr from '../_js/arr.js';import * as client from '../_js/client.js';import * as bytes from '../_js/bytes.js';import * as str from '../_js/str.js';import * as ui from '../_js/ui.js';import * as dic from '../_js/dic.js';import * as timer from '../_js/timer.js';import * as time from '../_js/time.js';import * as storage from '../_js/storage.js';import * as b64 from '../_js/b64.js';import * as sys from '../_js/sys.js';import * as iter from '../_js/iter.js';import * as domo from '../_js/domo.js';import * as cryp from '../_js/cryp.js';
+import * as arr from '../_js/arr.js';import * as bytes from '../_js/bytes.js';import * as storage from '../_js/storage.js';import * as sys from '../_js/sys.js';import * as client from '../_js/client.js';import * as b64 from '../_js/b64.js';import * as ui from '../_js/ui.js';import * as js from '../_js/js.js';import * as iter from '../_js/iter.js';import * as math from '../_js/math.js';import * as str from '../_js/str.js';import * as timer from '../_js/timer.js';import * as domo from '../_js/domo.js';import * as dic from '../_js/dic.js';import * as cryp from '../_js/cryp.js';import * as time from '../_js/time.js';
 
 
 
@@ -35,11 +35,11 @@ export  function mk(wg, account, ix)  {sys.$params(arguments.length, 3);
   const lastIx =sys.$checkNull( !sys.asBool(CashEntryIxs) ?  -1 : arr.peek(CashEntryIxs));
   const ixn =sys.$checkNull( math.isDigits(ix) ? math.toInt(math.fromStr(ix)[0]) : lastIx);
 
-  const ixFirstRowV =sys.$checkNull( [ixn > lastIx ? lastIx : ixn]);
+  const ixFirstRowV = [ixn > lastIx ? lastIx : ixn];
 
   const listDiv =sys.$checkNull( Q("div"));
 
-  const listV =sys.$checkNull( [[]]);
+  const listV = [[]];
 
   
 
@@ -70,7 +70,7 @@ export  function mk(wg, account, ix)  {sys.$params(arguments.length, 3);
 
   
    function dupClick(e)  {sys.$params(arguments.length, 1);
-    const i =sys.$checkNull( getEntriesIndex(ixFirstRowV[0]) + math.toInt(cts.tableLen / 2));
+    const i = getEntriesIndex(ixFirstRowV[0]) + math.toInt(cts.tableLen / 2);
     if(ixFirstRowV[0] >  -1) {
       ixFirstRowV[0] =sys.$checkExists(ixFirstRowV[0],sys.$checkNull( i < arr.size(CashEntryIxs)
         ? CashEntryIxs[i]
@@ -82,7 +82,7 @@ export  function mk(wg, account, ix)  {sys.$params(arguments.length, 3);
 
   
    function ddownClick(e)  {sys.$params(arguments.length, 1);
-    const i =sys.$checkNull( getEntriesIndex(ixFirstRowV[0]) - math.toInt(cts.tableLen / 2));
+    const i = getEntriesIndex(ixFirstRowV[0]) - math.toInt(cts.tableLen / 2);
     if (i > 0) {
       ixFirstRowV[0] =sys.$checkExists(ixFirstRowV[0],sys.$checkNull( CashEntryIxs[i]));
       listDiv.removeAll().add(listV[0]());
@@ -101,7 +101,7 @@ export  function mk(wg, account, ix)  {sys.$params(arguments.length, 3);
    function bottomClick(e)  {sys.$params(arguments.length, 1);
     if (ixFirstRowV[0] >  -1) {
       const size =sys.$checkNull( arr.size(CashEntryIxs));
-      const i0 =sys.$checkNull( [cts.tableLen - 1]);
+      const i0 = [cts.tableLen - 1];
       const i =sys.$checkNull( i0 >= size ? size - 1 : i0);
       ixFirstRowV[0] =sys.$checkExists(ixFirstRowV[0],sys.$checkNull( CashEntryIxs[i]));
       listDiv.removeAll().add(listV[0]());
@@ -113,10 +113,10 @@ export  function mk(wg, account, ix)  {sys.$params(arguments.length, 3);
     if (ixFirstRowV[0] >  -1) {
       const diary =sys.$checkNull( acc.diary());
       const size =sys.$checkNull( arr.size(CashEntryIxs));
-      const iV =sys.$checkNull( [0]);
+      const iV = [0];
       while (true) {
          const e =sys.$checkNull( diary[CashEntryIxs[iV[0]]]);
-        iV[0] +=sys.$checkExists(iV[0],sys.$checkNull( 1));
+        iV[0] +=sys.$checkExists(iV[0], 1);
         if (time.month(e[diaryEntry.date]) >= m || sys.$eq(iV[0] , size)) break;
       }
       ixFirstRowV[0] =sys.$checkExists(ixFirstRowV[0],sys.$checkNull( CashEntryIxs[iV[0] - 1]));
@@ -134,12 +134,12 @@ export  function mk(wg, account, ix)  {sys.$params(arguments.length, 3);
 
   
   listV[0] =sys.$checkExists(listV[0], function()  {sys.$params(arguments.length, 0);
-    const sumV =sys.$checkNull( [0]);
+    const sumV = [0];
      const Entries =sys.$checkNull( arr.map(CashEntryIxs,function(i)  {sys.$params(arguments.length, 1);
        const e =sys.$checkNull( acc.diary()[i]);
-      const amV =sys.$checkNull( [0]);
-      for (const [a, v]  of sys.$forObject2( e[diaryEntry.debits])) if (str.starts(a, ac)) amV[0] +=sys.$checkExists(amV[0],sys.$checkNull( v));
-      for (const [a, v]  of sys.$forObject2( e[diaryEntry.credits])) if (str.starts(a, ac)) amV[0] -=sys.$checkExists(amV[0],sys.$checkNull( v));
+      const amV = [0];
+      for (const [a, v]  of sys.$forObject2( e[diaryEntry.debits])) if (str.starts(a, ac)) amV[0] +=sys.$checkExists(amV[0], v);
+      for (const [a, v]  of sys.$forObject2( e[diaryEntry.credits])) if (str.starts(a, ac)) amV[0] -=sys.$checkExists(amV[0], v);
       sumV[0] +=sys.$checkExists(sumV[0],sys.$checkNull( amV[0]));
        return {
           ix: i,
@@ -157,11 +157,11 @@ export  function mk(wg, account, ix)  {sys.$params(arguments.length, 3);
     
      function tdl()  {sys.$params(arguments.length, 0);  return td().setStyle("text-align", "left");};
 
-    const cutV =sys.$checkNull( [0]);
+    const cutV = [0];
     for (let ix = 0;ix < arr.size(Entries); ++ix) {
-       const E =sys.$checkNull( Entries[ix]);
+      const E =sys.$checkNull( Entries[ix]);
       if (E.ix >= ixFirstRowV[0]) {
-        cutV[0] =sys.$checkExists(cutV[0],sys.$checkNull( ix + 1));
+        cutV[0] =sys.$checkExists(cutV[0], ix + 1);
         break;
       }
     }
@@ -173,7 +173,7 @@ export  function mk(wg, account, ix)  {sys.$params(arguments.length, 3);
             .add(tdr()
               .html(""+ (E.ix + 1)))
             .add(td()
-              .html(time.format(E.date, "%D/%M")))
+              .html(time.fmt(E.date, "%D/%M")))
             .add(tdl()
               .add(ui.link(function(ev)  {sys.$params(arguments.length, 1); goToDiary(E.ix);})
                 .klass("link")
@@ -242,7 +242,7 @@ export  function mk(wg, account, ix)  {sys.$params(arguments.length, 3);
           .text(" " + tx + " ")
         ;};
 
-      const Es =sys.$checkNull( [separator(), entry("*", "*"), separator()]);
+      const Es = [separator(), entry("*", "*"), separator()];
       
        function add(tx, lk)  {sys.$params(arguments.length, 2);
         arr.push(Es,entry(tx, lk));

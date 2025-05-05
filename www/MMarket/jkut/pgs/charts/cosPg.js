@@ -1,4 +1,4 @@
-import * as math from '../../_js/math.js';import * as js from '../../_js/js.js';import * as arr from '../../_js/arr.js';import * as client from '../../_js/client.js';import * as bytes from '../../_js/bytes.js';import * as str from '../../_js/str.js';import * as ui from '../../_js/ui.js';import * as dic from '../../_js/dic.js';import * as timer from '../../_js/timer.js';import * as time from '../../_js/time.js';import * as storage from '../../_js/storage.js';import * as b64 from '../../_js/b64.js';import * as sys from '../../_js/sys.js';import * as iter from '../../_js/iter.js';import * as domo from '../../_js/domo.js';import * as cryp from '../../_js/cryp.js';
+import * as arr from '../../_js/arr.js';import * as bytes from '../../_js/bytes.js';import * as storage from '../../_js/storage.js';import * as sys from '../../_js/sys.js';import * as client from '../../_js/client.js';import * as b64 from '../../_js/b64.js';import * as ui from '../../_js/ui.js';import * as js from '../../_js/js.js';import * as iter from '../../_js/iter.js';import * as math from '../../_js/math.js';import * as str from '../../_js/str.js';import * as timer from '../../_js/timer.js';import * as domo from '../../_js/domo.js';import * as dic from '../../_js/dic.js';import * as cryp from '../../_js/cryp.js';import * as time from '../../_js/time.js';
 
 
 
@@ -26,7 +26,7 @@ export  function mk(wg,  Dates,  Cos,  Closes,  rs)  {sys.$params(arguments.leng
 
 
   const modalDiv =sys.$checkNull( Q("div"));
-  const mBox =sys.$checkNull( modalBox.mk(modalDiv, true));
+   const mBox =sys.$checkNull( modalBox.mk(modalDiv, true));
   const clientResultsDiv =sys.$checkNull( Q("div"));
   const GrDivs = []; 
 
@@ -46,12 +46,12 @@ export  function mk(wg,  Dates,  Cos,  Closes,  rs)  {sys.$params(arguments.leng
 
   
    function showBigChart(co, Data)  {sys.$params(arguments.length, 2);
-     const Ch =sys.$checkNull( lineChart.mkExample());
-    Ch.exArea.width =sys.$checkExists(Ch.exArea.width, 800);
-    Ch.exArea.height =sys.$checkExists(Ch.exArea.height, 400);
-    Ch.exArea.atts.background =sys.$checkExists(Ch.exArea.atts.background, "#ffffff");
-    Ch.inAtts.background =sys.$checkExists(Ch.inAtts.background, "#e9e9e9");
-    Ch.labels.onPopup =sys.$checkExists(Ch.labels.onPopup, true);
+    const Ch =sys.$checkNull( lineChart.mkExample());
+    Ch.exArea.width = 800;
+    Ch.exArea.height = 400;
+    Ch.exArea.atts.background = "#ffffff";
+    Ch.inAtts.background = "#e9e9e9";
+    Ch.labels.onPopup = true;
 
     modalDiv
       .removeAll()
@@ -73,13 +73,13 @@ export  function mk(wg,  Dates,  Cos,  Closes,  rs)  {sys.$params(arguments.leng
       const co =sys.$checkNull( Cos[ico]);
       const div =sys.$checkNull( GrDivs[math.toInt(ico / 3)][ico % 3]);
 
-      const Refs =sys.$checkNull( arr.dropWhile(
+       const Refs =sys.$checkNull( arr.dropWhile(
         arr.map(rs[stRs.Refs], function(Row)  {sys.$params(arguments.length, 1);  return Row[ico];}),
         function(r)  {sys.$params(arguments.length, 1);  return r < 0;}
       ));
       const skip = arr.size(Closes) - arr.size(Refs);
       const Dts =sys.$checkNull( arr.drop(Dates, skip));
-      const Qs =sys.$checkNull( arr.map(arr.drop(Closes, skip), function(Row)  {sys.$params(arguments.length, 1);  return Row[ico];}));
+       const Qs =sys.$checkNull( arr.map(arr.drop(Closes, skip), function(Row)  {sys.$params(arguments.length, 1);  return Row[ico];}));
       const Labels =sys.$checkNull( arr.map(Dts, function(d)  {sys.$params(arguments.length, 1);  return sys.$slice(d,4,6);}));
       const profits =sys.$checkNull( rs[stRs.Profits][ico]);
       const sales =sys.$checkNull( arr.size(rs[stRs.Sales][ico]));
@@ -100,16 +100,16 @@ export  function mk(wg,  Dates,  Cos,  Closes,  rs)  {sys.$params(arguments.leng
            return r < q ? [r] : [];
         }
       )));
-      if (profits < 0) nlossesV[0] +=sys.$checkExists(nlossesV[0], 1);
-      ratiosSumV[0] +=sys.$checkExists(ratiosSumV[0], profits);
+      if (profits < 0) nlossesV[0] += 1;
+      ratiosSumV[0] += profits;
 
-       const Ch =sys.$checkNull( lineChart.mkExample());
-      Ch.exArea.width =sys.$checkExists(Ch.exArea.width, 300);
-      Ch.exArea.height =sys.$checkExists(Ch.exArea.height, 150);
-      Ch.exArea.atts.background =sys.$checkExists(Ch.exArea.atts.background, "#ffffff");
-      Ch.inAtts.background =sys.$checkExists(Ch.inAtts.background, "#e9e9e9");
+      const Ch =sys.$checkNull( lineChart.mkExample());
+      Ch.exArea.width = 300;
+      Ch.exArea.height = 150;
+      Ch.exArea.atts.background = "#ffffff";
+      Ch.inAtts.background = "#e9e9e9";
 
-       const Data =sys.$checkNull( lineChart.mkData(
+      const Data =sys.$checkNull( lineChart.mkData(
         Labels,
         [ RefsUp,
           RefsDown,
@@ -120,17 +120,17 @@ export  function mk(wg,  Dates,  Cos,  Closes,  rs)  {sys.$params(arguments.leng
         ]
       ));
 
-      Data.maxMinRound =sys.$checkExists(Data.maxMinRound, function(mx, mn)  {sys.$params(arguments.length, 2);  return mx > 10 ? 0 :  -1;});
+      Data.maxMinRound = function(mx, mn)  {sys.$params(arguments.length, 2);  return mx > 10 ? 0 :  -1;};
       const PrevLabel = [Labels[0]];
-      Data.drawLabel =sys.$checkExists(Data.drawLabel, function(l, i)  {sys.$params(arguments.length, 2);
+      Data.drawLabel = function(l, i)  {sys.$params(arguments.length, 2);
         if (sys.$eq(i , 0))  return false;
         if (sys.$neq(l , PrevLabel[0]) && (sys.$eq(l , "01") || sys.$eq(l , "05") || sys.$eq(l , "09"))) {
-          PrevLabel[0] =sys.$checkExists(PrevLabel[0], l);
+          PrevLabel[0] = l;
            return true;
         }
          return false;
-      });
-      Data.drawGrid =sys.$checkExists(Data.drawGrid, function(l, i)  {sys.$params(arguments.length, 2);  return false;});
+      };
+      Data.drawGrid = function(l, i)  {sys.$params(arguments.length, 2);  return false;};
 
       div
         .removeAll()

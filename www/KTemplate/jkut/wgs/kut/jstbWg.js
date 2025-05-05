@@ -1,4 +1,4 @@
-import * as math from '../../_js/math.js';import * as js from '../../_js/js.js';import * as arr from '../../_js/arr.js';import * as client from '../../_js/client.js';import * as bytes from '../../_js/bytes.js';import * as str from '../../_js/str.js';import * as ui from '../../_js/ui.js';import * as dic from '../../_js/dic.js';import * as timer from '../../_js/timer.js';import * as time from '../../_js/time.js';import * as storage from '../../_js/storage.js';import * as b64 from '../../_js/b64.js';import * as sys from '../../_js/sys.js';import * as iter from '../../_js/iter.js';import * as domo from '../../_js/domo.js';import * as cryp from '../../_js/cryp.js';
+import * as arr from '../../_js/arr.js';import * as bytes from '../../_js/bytes.js';import * as storage from '../../_js/storage.js';import * as sys from '../../_js/sys.js';import * as client from '../../_js/client.js';import * as b64 from '../../_js/b64.js';import * as ui from '../../_js/ui.js';import * as js from '../../_js/js.js';import * as iter from '../../_js/iter.js';import * as math from '../../_js/math.js';import * as str from '../../_js/str.js';import * as timer from '../../_js/timer.js';import * as domo from '../../_js/domo.js';import * as dic from '../../_js/dic.js';import * as cryp from '../../_js/cryp.js';import * as time from '../../_js/time.js';
 
 
 
@@ -10,7 +10,7 @@ const II =sys.$checkNull( i18n.tlt);
 
 
 export  function mk(wg, textArea)  {sys.$params(arguments.length, 2);
-  const tx =sys.$checkNull( String.raw
+  const tx0 = String.raw
 `// Copyright {DATE} ºDeme
 // GNU General Public License - V3 <http://www.gnu.org/licenses/>
 
@@ -19,22 +19,23 @@ export  function mk(wg, textArea)  {sys.$params(arguments.length, 2);
 import "cts";
 import "data/{OBJECT}";
 
-fpath = path.cat([cts.dataPath, "{OBJECT}.tb"]);
+:file fpath = file.cat([cts.dataPath, "{OBJECT}.tb"]);
 
 /// Initializes table.
 /// \ -> ()
 {INIT}
 
-/// Reads table.
-/// \ -> {TYPE}
+/*/ Reads table.
+/*/ \ -> {TYPE}
 {READ}
 {READJS}
-/// Writes table.
-/// \{TYPE} -> ()
+/*/ Writes table.
+/*/ \{TYPE} -> ()
 {WRITE}{WRITEJS}
-`);
+`;
+  const tx =sys.$checkNull( str.replace(tx0, "/*/", "///"));
 
-  const now =sys.$checkNull( time.now());
+   const now =sys.$checkNull( time.now());
   const month =sys.$checkNull( time.toDate(now).toLocaleString("en-US", { month: "short" }));
   const dateF =sys.$checkNull( ui.field("objectF")
     .att("id", "dateF")
@@ -76,7 +77,7 @@ fpath = path.cat([cts.dataPath, "{OBJECT}.tb"]);
   
    function update()  {sys.$params(arguments.length, 0);
     if (sys.$eq(str.trim(dateF.getValue()) , ""))
-      dateF.value(time.format(now,"%D-" + month + "-%Y"));
+      dateF.value(time.fmt(now,"%D-" + month + "-%Y"));
     if (sys.$eq(str.trim(objectF.getValue()) , ""))
       objectF.value("myObject");
 
@@ -84,13 +85,13 @@ fpath = path.cat([cts.dataPath, "{OBJECT}.tb"]);
     const type =sys.$checkNull( arrayCh.isChecked() ? "[<" + obj + ">.]" : "<" + obj + ">");
 
     const init =sys.$checkNull( arrayCh.isChecked()
-      ? "init = \\ -> if (!file.exists(fpath)) write([]);;"
-      : "init = \\ -> if (!file.exists(fpath)) write(" +
+      ? "init = \\ -> if (!fpath.exists()) write([]);;"
+      : "init = \\ -> if (!fpath.exists()) write(" +
         obj + ".newDefault());;")
     ;
 
-    const read1 =sys.$checkNull( "read = \\ -> return ");
-    const read2 =sys.$checkNull( "js.r(file.read(fpath))");
+    const read1 = "read = \\ -> return ";
+    const read2 = "js.r(fpath.read())";
     const read =sys.$checkNull( fromCh.isChecked()
       ? arrayCh.isChecked()
         ? read1 + "arr.map(" + read2 + ", " + obj + ".fromJs);;"
@@ -103,14 +104,14 @@ fpath = path.cat([cts.dataPath, "{OBJECT}.tb"]);
 `
 /// Reads table as JSON string.
 /// \ -> s
-readJs = \ -> return file.read(fpath);;
+readJs = \ -> return fpath.read();;
 `
       : "")
     ;
 
     const par =sys.$checkNull( arrayCh.isChecked() ? "tb" : "o");
-    const write1 =sys.$checkNull( "write = \\" + par + " -> file.write(fpath, js.w(");
-    const write2 =sys.$checkNull( "));;");
+    const write1 = "write = \\" + par + " -> fpath.write(js.w(";
+    const write2 = "));;";
     const write =sys.$checkNull( toCh.isChecked()
       ? arrayCh.isChecked()
         ? write1 + "arr.map(tb, " + obj + ".toJs)" + write2
@@ -124,13 +125,13 @@ readJs = \ -> return file.read(fpath);;
 
 /// Writes table as JSON string.
 /// \s -> ()
-writeJs = \s -> file.write(fpath, s);;
+writeJs = \s -> fpath.write(s);;
 `
       : "")
     ;
 
-    textArea.text(str
-      .replace(tx,"{DATE}", str.trim(dateF.getValue()))
+    textArea.text(tx
+      .replace("{DATE}", str.trim(dateF.getValue()))
       .replaceAll("{OBJECT}", obj)
       .replaceAll("{TYPE}", type)
       .replace("{INIT}", init)

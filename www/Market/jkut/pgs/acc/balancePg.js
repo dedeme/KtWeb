@@ -1,4 +1,4 @@
-import * as math from '../../_js/math.js';import * as js from '../../_js/js.js';import * as arr from '../../_js/arr.js';import * as client from '../../_js/client.js';import * as bytes from '../../_js/bytes.js';import * as str from '../../_js/str.js';import * as ui from '../../_js/ui.js';import * as dic from '../../_js/dic.js';import * as timer from '../../_js/timer.js';import * as time from '../../_js/time.js';import * as storage from '../../_js/storage.js';import * as b64 from '../../_js/b64.js';import * as sys from '../../_js/sys.js';import * as iter from '../../_js/iter.js';import * as domo from '../../_js/domo.js';import * as cryp from '../../_js/cryp.js';
+import * as arr from '../../_js/arr.js';import * as bytes from '../../_js/bytes.js';import * as storage from '../../_js/storage.js';import * as sys from '../../_js/sys.js';import * as client from '../../_js/client.js';import * as b64 from '../../_js/b64.js';import * as ui from '../../_js/ui.js';import * as js from '../../_js/js.js';import * as iter from '../../_js/iter.js';import * as math from '../../_js/math.js';import * as str from '../../_js/str.js';import * as timer from '../../_js/timer.js';import * as domo from '../../_js/domo.js';import * as dic from '../../_js/dic.js';import * as cryp from '../../_js/cryp.js';import * as time from '../../_js/time.js';
 
 
 
@@ -62,14 +62,14 @@ export  async  function mk(wg)  {sys.$params(arguments.length, 1);
 
   
    function setOrder(order)  {sys.$params(arguments.length, 1);
-    orderV[0] =sys.$checkExists(orderV[0], order);
+    orderV[0] = order;
     showV[0]();
   };
 
   
 
   
-  showV[0] =sys.$checkExists(showV[0], function()  {sys.$params(arguments.length, 0);
+  showV[0] = function()  {sys.$params(arguments.length, 0);
      const D = {
       currentProfits: 0,
       accountProfits: 0,
@@ -91,13 +91,13 @@ export  async  function mk(wg)  {sys.$params(arguments.length, 1);
      const P = Portfolio;
      const J = Jails;
 
-    D.equity -=sys.$checkExists(D.equity,sys.$checkNull( L[ldg.equity]));
-    D.sales -=sys.$checkExists(D.sales,sys.$checkNull( L[ldg.sales]));
-    D.fees -=sys.$checkExists(D.fees,sys.$checkNull( L[ldg.fees]));
-    D.profits -=sys.$checkExists(D.profits,sys.$checkNull( L[ldg.profits]));
-    D.differences -=sys.$checkExists(D.differences,sys.$checkNull( L[ldg.differences]));
-    D.accountStocks +=sys.$checkExists(D.accountStocks,sys.$checkNull( L[ldg.stocks]));
-    D.cash +=sys.$checkExists(D.cash,sys.$checkNull( L[ldg.cash]));
+    D.equity -=sys.$checkNull( L[ldg.equity]);
+    D.sales -=sys.$checkNull( L[ldg.sales]);
+    D.fees -=sys.$checkNull( L[ldg.fees]);
+    D.profits -=sys.$checkNull( L[ldg.profits]);
+    D.differences -=sys.$checkNull( L[ldg.differences]);
+    D.accountStocks +=sys.$checkNull( L[ldg.stocks]);
+    D.cash +=sys.$checkNull( L[ldg.cash]);
 
     for (const [nk, SP]  of sys.$forObject2( P)) {
       const stocks =sys.$checkNull( SP[0]);
@@ -163,20 +163,21 @@ export  async  function mk(wg)  {sys.$params(arguments.length, 1);
       );
     });
 
-    D.accountProfits =sys.$checkExists(D.accountProfits, D.cash + D.accountStocks - D.equity);
-    D.currentStocks =sys.$checkExists(D.currentStocks,sys.$checkNull( arr.reduce(Rs,0, function(r, Tp)  {sys.$params(arguments.length, 2);  return r + Tp[1].value;})));
-    D.profitsStocks =sys.$checkExists(D.profitsStocks,sys.$checkNull( arr.reduce(Rs,0, function(r, Tp)  {sys.$params(arguments.length, 2);  return r + Tp[1].profits;})));
-    D.currentProfits =sys.$checkExists(D.currentProfits, D.accountProfits + D.profitsStocks);
-    D.withdraw =sys.$checkExists(D.withdraw,sys.$checkNull( function()  {sys.$params(arguments.length, 0);
+    D.accountProfits = D.cash + D.accountStocks - D.equity;
+    D.currentStocks =sys.$checkNull( arr.reduce(Rs,0, function(r, Tp)  {sys.$params(arguments.length, 2);  return r + Tp[1].value;}));
+    D.profitsStocks =sys.$checkNull( arr.reduce(Rs,0, function(r, Tp)  {sys.$params(arguments.length, 2);  return r + Tp[1].profits;}));
+    D.currentProfits = D.accountProfits + D.profitsStocks;
+    D.withdraw =sys.$checkNull( function()  {sys.$params(arguments.length, 0);
         const assets = D.equity + D.currentProfits;
         if (assets > cts.initialCapital + cts.bet + cts.bet) {
+          const securAmount = cts.minToBet - cts.bet;
           const dif = assets - cts.initialCapital - cts.bet;
-          if (D.cash > dif + 1000)  return dif;
-          if (D.cash > cts.bet + 1000)
-             return math.toInt((D.cash - 1000) / cts.bet) * cts.bet;
+          if (D.cash > dif + securAmount)  return dif;
+          if (D.cash > securAmount)
+             return math.toInt((D.cash - cts.minToBet) / cts.bet) * cts.bet;
         }
          return 0;
-      }()));
+      }());
 
     wg
       .removeAll()
@@ -391,7 +392,7 @@ export  async  function mk(wg)  {sys.$params(arguments.length, 1);
           .add(Q("td"))
         ))
     ;
-  });
+  };
 
   showV[0]();
 
